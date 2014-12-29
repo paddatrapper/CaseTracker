@@ -45,7 +45,7 @@ New developers are welcome. The process to follow when contributing is:
 1. Create an issue for the feature you are adding or bug you are fixing.
 1. Create a branch:
 
-    git checkout -b <branch-name>
+    `git checkout -b <branch-name>`
 
 1. CaseTracker follows [Test Driven Development](en.wikipedia.org/wiki/Test-driven_development),
    so ensure that all pull requests include test cases for all elements of the
@@ -60,5 +60,5 @@ Coding Style
 
 * Indents are four spaces.
 * Spaces, not tabs.
-* Everything else follows [Google Java Style]().
+* Everything else follows [Google Java Style](https://google-styleguide.googlecode.com/svn/trunk/javaguide.html).
 * If there are any grey areas create an issue for it and it can be discussed.
