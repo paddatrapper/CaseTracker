@@ -1,0 +1,12 @@
+# Build directory
+target/
+
+# Class files
+*.class
+*.jar
+
+# Include resources
+!client/src/main/resources/*.jar
+!client/src/test/resources/*.jar
+!server/src/main/resources/*.jar
+!server/src/test/resources/*.jar
