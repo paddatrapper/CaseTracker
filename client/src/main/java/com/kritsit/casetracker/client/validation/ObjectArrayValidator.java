@@ -1,8 +1,8 @@
 package com.kritsit.casetracker.client.validation;
 
-class ArrayValidator<T> implements IArrayValidator<T> {
+class ObjectArrayValidator<T> implements IArrayValidator<T> {
 
-    public ArrayValidator() {}
+    public ObjectArrayValidator() {}
 
     public boolean contains(Object obj, T[] array) {
         if (array == null || obj == null) {
@@ -27,7 +27,6 @@ class ArrayValidator<T> implements IArrayValidator<T> {
     }
 
     public boolean isNull(T[] obj) {
-       return false; 
-
+        return obj == null;
     }
 }

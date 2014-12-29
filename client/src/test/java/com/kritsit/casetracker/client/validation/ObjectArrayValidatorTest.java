@@ -4,19 +4,19 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class ArrayValidatorTest extends TestCase {
+public class ObjectArrayValidatorTest extends TestCase {
     IArrayValidator validator;
 
-    public ArrayValidatorTest(String name) {
+    public ObjectArrayValidatorTest(String name) {
         super(name);
     }
 
     public static Test suite() {
-        return new TestSuite(ArrayValidatorTest.class);
+        return new TestSuite(ObjectArrayValidatorTest.class);
     }
 
     public void setUp() {
-        validator = new ArrayValidator<String>();
+        validator = new ObjectArrayValidator<String>();
     }
 
     public void testContains() {
@@ -32,5 +32,13 @@ public class ArrayValidatorTest extends TestCase {
 
         assertFalse(validator.isEmpty(array));
         assertTrue(validator.isEmpty(emptyArray));
+    }
+
+    public void testIsNull() {
+        String[] array = {"Bob", "Mitchell"};
+        String[] nullArray = null;
+
+        assertFalse(validator.isNull(array));
+        assertTrue(validator.isNull(nullArray));
     }
 }
