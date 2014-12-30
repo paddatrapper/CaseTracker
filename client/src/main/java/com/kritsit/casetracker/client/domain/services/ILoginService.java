@@ -1,5 +1,5 @@
 package com.kritsit.casetracker.client.domain.services;
 
 public interface ILoginService {
-    String getUsername();
+    boolean login(String name, char[] password);
 }

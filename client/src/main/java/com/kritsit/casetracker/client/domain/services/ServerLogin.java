@@ -1,14 +1,16 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import java.util.Arrays;
+
 public class ServerLogin implements ILoginService {
     private IConnectionService connection;
-    private String username;
 
     public ServerLogin(IConnectionService connection) {
         this.connection = connection;
     }
 
-    public String getUsername() {
-        return username;
+    public boolean login(String username, char[] password) {
+        Arrays.fill(password, '0');
+        return false;
     }
 }
