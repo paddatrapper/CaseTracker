@@ -16,4 +16,10 @@ public class Domain {
     public static IConnectionService getConnection() {
         return connection;
     }
+
+    public static void resetServerConnection() {
+        if (connection instanceof ServerConnection) {
+            connection = null;
+        }
+    }
 }
