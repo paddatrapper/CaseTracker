@@ -23,7 +23,7 @@ public class ServerConnection implements IConnectionService {
     }
     
     public boolean open(String host, int port) throws InputInvalidException {
-        if (port > 0 || port < 65535) {
+        if (port < 0 || port > 65535) {
             throw new InputInvalidException("Port must be in range");
         }
         try {
