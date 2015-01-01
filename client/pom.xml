@@ -6,7 +6,7 @@
   <packaging>jar</packaging>
   <version>0.1a-SNAPSHOT</version>
   <name>CaseTracker Client</name>
-  <url>http://kritsit.ddns.net/CaseTracker/client/</url>
+  <url>http://kritsit.ddns.net/casetracker/client/</url>
   <description>
     The client side of the CaseTracker application. CaseTracker is a case 
     tracking system for the South African NSPCA
