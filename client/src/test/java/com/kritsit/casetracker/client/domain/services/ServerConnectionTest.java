@@ -35,7 +35,7 @@ public class ServerConnectionTest extends TestCase {
 
     public void testConnection() {
         try {
-            assertTrue(connection.open("localhost", 1244));
+            assertFalse(connection.open("localhost", 1244));
         } catch (InputInvalidException ex) {
             ex.printStackTrace();
             assertTrue(false);
