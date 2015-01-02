@@ -1,0 +1,23 @@
+<project>
+  <bannerLeft>
+    <name>CaseTracker Client</name>
+  </bannerLeft>
+
+  <publishDate position="right"/>
+  <version position="right"/>
+
+  <body>
+    <menu name="CaseTracker">
+      <item name="Client" href="kritsit.ddns.net/casetracker/client/project-info.html" />
+      <item name="Server" href="kritsit.ddns.net/casetracker/server/project-info.html" />
+    </menu>
+    
+    <menu name="Development">
+      <item name="Issues" href="https://github.com/paddatrapper/CaseTracker/issues/" />
+
+      <item name="Code Coverage" href="jacoco/index.html" />
+    </menu>
+
+    <menu ref="reports" />
+  </body>
+</project>
