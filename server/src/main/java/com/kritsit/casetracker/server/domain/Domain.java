@@ -13,7 +13,7 @@ public class Domain {
         return persistence;
     }
 
-    public static void resetPersistence() {
+    public static void resetPersistenceService() {
         persistence = null;
     }
 }

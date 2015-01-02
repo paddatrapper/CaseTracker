@@ -37,6 +37,6 @@ public class SocketListenerTest extends TestCase {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        Domain.resetPersistence();
+        Domain.resetPersistenceService();
     }
 }
