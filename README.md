@@ -34,6 +34,9 @@ To generate the documentation:
 
     mvn site
 
+The project documentation can be viewed on the CaseTracker [client website](http://kritsit.ddns.net/casetracker/client/project-info.html)
+and [sever website](http://kritsit.ddns.net/casetracker/server/project-info.html);
+
 More details can be found on the [Maven website](maven.apache.org).
 
 Development
