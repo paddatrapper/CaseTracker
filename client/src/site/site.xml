@@ -8,8 +8,8 @@
 
   <body>
     <menu name="CaseTracker">
-      <item name="Client" href="kritsit.ddns.net/casetracker/client/project-info.html" />
-      <item name="Server" href="kritsit.ddns.net/casetracker/server/project-info.html" />
+      <item name="Client" href="project-info.html" />
+      <item name="Server" href="../server/project-info.html" />
     </menu>
     
     <menu name="Development">
