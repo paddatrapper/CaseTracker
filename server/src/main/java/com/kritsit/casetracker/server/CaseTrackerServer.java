@@ -4,6 +4,7 @@ public class CaseTrackerServer {
     private static final String VERSION = "0.1a";
 
     public CaseTrackerServer(int port) {
+        
     }
 
     public static void main(String[] args) {
