@@ -22,6 +22,14 @@ public class DomainTest extends TestCase {
         assertTrue(persistence.equals(Domain.getPersistenceService()));
     }
 
+    public void testDbSettings() {
+        assertTrue("kritsit.ddns.net".equals(Domain.getDbHostName()));
+        assertTrue(3306 == Domain.getDbPort());
+        assertTrue("CaseTracker".equals(Domain.getDbSchema()));
+        assertTrue("CaseTracker".equals(Domain.getDbUsername()));
+        assertTrue("casetracker".equals(Domain.getDbPassword()));
+    }
+
     public void tearDown() {
         Domain.resetPersistenceService();
     }
