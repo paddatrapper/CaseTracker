@@ -13,13 +13,7 @@ public class Domain {
         return connection;
     }
 
-    public static IConnectionService getConnection() {
-        return connection;
-    }
-
     public static void resetServerConnection() {
-        if (connection instanceof ServerConnection) {
-            connection = null;
-        }
+        connection = null;
     }
 }

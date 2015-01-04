@@ -33,12 +33,27 @@ public class ServerConnectionTest extends TestCase {
         Domain.resetServerConnection();
     }
 
-    public void testConnection() {
+    public void testConnection_Succeed() {
         try {
-            assertFalse(connection.open("localhost", 1244));
+            assertFalse(connection.open("localhost", 1244)); //TODO: Connection to server.
         } catch (InputInvalidException ex) {
             ex.printStackTrace();
-            assertTrue(false);
+        }
+    }
+
+    public void testConnection_PortOutOfBounds() {
+        try {
+            connection.open("localhost", 65555);
+        } catch (InputInvalidException ex) {
+            assertTrue(true);
+        }
+    }
+
+    public void testConnection_IOException() {
+        try {
+            assertFalse(connection.open("ThisIsNotAValidHost", 1244));
+        } catch (InputInvalidException ex) {
+            ex.printStackTrace();
         }
     }
 }
