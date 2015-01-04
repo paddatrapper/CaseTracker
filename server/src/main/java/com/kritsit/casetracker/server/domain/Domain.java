@@ -16,4 +16,24 @@ public class Domain {
     public static void resetPersistenceService() {
         persistence = null;
     }
+
+    public static String getDbHostName() {
+        return "kritsit.ddns.net";
+    }
+
+    public static int getDbPort() {
+        return 3306;
+    }
+
+    public static String getDbSchema() {
+        return "CaseTracker";
+    }
+
+    public static String getDbUsername() {
+        return "CaseTracker";
+    }
+
+    public static String getDbPassword() {
+        return "casetracker";
+    }
 }
