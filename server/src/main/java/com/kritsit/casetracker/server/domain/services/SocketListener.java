@@ -1,7 +1,6 @@
 package com.kritsit.casetracker.server.domain.services;
 
 import com.kritsit.casetracker.server.domain.Domain;
-import com.kritsit.casetracker.server.domain.InputInvalidException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,10 +16,10 @@ public class SocketListener implements IListeningService {
         listening = false;
     }
 
-    public void listen(int port) throws InputInvalidException, IOException {
+    public void listen(int port) throws IllegalArgumentException, IOException {
         listening = true;
         if (port < 1 || port > 65535) {
-            throw new InputInvalidException("Port number not in range");
+            throw new IllegalArgumentException("Port number not in range");
         }
         serverSocket = new ServerSocket(port);
         persistence = Domain.getPersistenceService();
