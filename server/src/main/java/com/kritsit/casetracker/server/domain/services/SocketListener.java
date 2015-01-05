@@ -17,13 +17,13 @@ public class SocketListener implements IListeningService {
     }
 
     public void listen(int port) throws IllegalArgumentException, IOException {
-        listening = true;
         if (port < 1 || port > 65535) {
             throw new IllegalArgumentException("Port number not in range");
         }
         serverSocket = new ServerSocket(port);
         persistence = Domain.getPersistenceService();
         //if (persistence.isOpen()) {
+            listening = true;
             while (listening) {
                 socket = serverSocket.accept();
                 ClientConnectionThread connection = new ClientConnectionThread(socket);
@@ -39,8 +39,8 @@ public class SocketListener implements IListeningService {
 
     public void stop() throws IOException {
         try {
-            serverSocket.close();
             listening = false;
+            serverSocket.close();
         } catch (NullPointerException ex) {}
     }
 }

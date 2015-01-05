@@ -27,8 +27,16 @@ public class SocketListenerTest extends TestCase {
         assertTrue(listener instanceof IListeningService);
     }
 
-    public void testListen() {
+    public void testIsListen() {
         assertFalse(listener.isListening());
+    }
+
+    public void testListen_IllegalArgumentException() {
+        try {
+            listener.listen(65540);
+        } catch (IllegalArgumentException ex) {
+            assertTrue("Port number not in range".equals(ex.getMessage()));
+        }
     }
 
     public void tearDown() {
