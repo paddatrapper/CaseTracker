@@ -23,11 +23,14 @@ public class SocketListener implements IListeningService {
         }
         serverSocket = new ServerSocket(port);
         persistence = Domain.getPersistenceService();
-        if (persistence.isOpen()) {
+        //if (persistence.isOpen()) {
             while (listening) {
                 socket = serverSocket.accept();
+                ClientConnectionThread connection = new ClientConnectionThread(socket);
+                Thread t = new Thread(connection);
+                t.start();
             }
-        }
+        //}
     }
 
     public boolean isListening() {

@@ -7,9 +7,11 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 public class ServerConnectionTest extends TestCase {
     IConnectionService connection;
+    Process server;
 
     public ServerConnectionTest(String name) {
         super(name);
@@ -21,19 +23,15 @@ public class ServerConnectionTest extends TestCase {
 
     public void setUp() {
         connection = Domain.getServerConnection();
-    }
-
-    public void tearDown() {
         try {
-            connection.close(0);
+            server = Runtime.getRuntime().exec("java -jar ../server/target/server-0.1a-SNAPSHOT.jar");
         } catch (IOException ex) {
             ex.printStackTrace();
-        } catch (NullPointerException ex) {}
-        Domain.resetServerConnection();
+        }
     }
 
     public void testConnection_Succeed() {
-        assertFalse(connection.open("localhost", 1244)); //TODO: Connection to server.
+        assertTrue(connection.open("localhost", 1244));
     }
 
     public void testConnection_PortOutOfBounds() {
@@ -44,7 +42,21 @@ public class ServerConnectionTest extends TestCase {
         }
     }
 
-    public void testConnection_IOException() {
-        assertFalse(connection.open("ThisIsNotAValidHost", 1244));
+    public void testConnection_UnknownHostException() {
+        try {
+            connection.open("ThisIsNotAValidHost", 1244);
+        } catch (IllegalArgumentException ex) {
+            assertTrue("Host not found".equals(ex.getMessage()));
+        }
+    }
+
+    public void tearDown() {
+        try {
+            connection.close(0);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (NullPointerException ex) {}
+        Domain.resetServerConnection();
+        server.destroy();
     }
 }

@@ -32,6 +32,8 @@ public class ServerConnection implements IConnectionService {
             dataOut = new DataOutputStream(connectionSocket.getOutputStream());
             out.println("connect##::##" + getHostName());
             return true;
+        } catch (UnknownHostException ex) {
+            throw new IllegalArgumentException("Host not found");
         } catch (IOException ex) {
             return false;
         }
@@ -42,7 +44,7 @@ public class ServerConnection implements IConnectionService {
             InetAddress address = InetAddress.getLocalHost();
             return address.getHostName();
         } catch (UnknownHostException ex) {
-            return "Unknown Host";
+            return "Unknown host";
         }
     }
 

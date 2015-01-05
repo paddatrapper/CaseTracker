@@ -16,7 +16,7 @@ public class CaseTrackerServerTest extends TestCase {
     }
 
     public void setUp() {
-        server = new CaseTrackerServer(1244);
+        server = new CaseTrackerServer();
     }
 
     public void testCreation() {
@@ -26,5 +26,9 @@ public class CaseTrackerServerTest extends TestCase {
     public void testVersion() {
         String version = CaseTrackerServer.getVersion();
         assertTrue("0.1a".equals(version));
+    }
+
+    public void tearDown() {
+        server.close();
     }
 }

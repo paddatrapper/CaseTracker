@@ -29,6 +29,20 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
     }
 
     public void run() {
+        try {
+            String input, output;
+            while ((input = in.readLine()) != null) {
+                String[] data = input.split("##::##");
+                switch (data[0]) {
+                    case "connect": {
+                        setConnectedClient(data[1]);
+                        break;
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void setConnectedClient(String connectedClient) {
@@ -40,10 +54,14 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
     }
 
     public void close() throws IOException {
-        in.close();
-        out.close();
-        dataIn.close();
-        dataOut.close();
-        socket.close();
+        try {
+            in.close();
+            out.close();
+            dataIn.close();
+            dataOut.close();
+            socket.close();
+        } catch (NullPointerException ex) {
+            System.err.println("Socket is null");
+        }
     }
 }

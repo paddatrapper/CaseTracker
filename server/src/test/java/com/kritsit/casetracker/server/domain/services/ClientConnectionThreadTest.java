@@ -47,6 +47,8 @@ public class ClientConnectionThreadTest extends TestCase {
             listener.close();
         } catch (IOException ex) {
             ex.printStackTrace();
+        } catch (NullPointerException ex) {
+            System.err.println("Connection thread or listener is null");
         }
     }
 }
