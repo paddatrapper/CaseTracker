@@ -1,7 +1,5 @@
 package com.kritsit.casetracker.client.domain.services;
 
-import com.kritsit.casetracker.client.domain.InputInvalidException;
-
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -22,9 +20,9 @@ public class ServerConnection implements IConnectionService {
     public ServerConnection() {
     }
     
-    public boolean open(String host, int port) throws InputInvalidException {
+    public boolean open(String host, int port) throws IllegalArgumentException {
         if (port < 0 || port > 65535) {
-            throw new InputInvalidException("Port must be in range");
+            throw new IllegalArgumentException("Port must be in range");
         }
         try {
             connectionSocket = new Socket(host, port);

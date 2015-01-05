@@ -1,7 +1,6 @@
 package com.kritsit.casetracker.client.domain.services;
 
 import com.kritsit.casetracker.client.domain.Domain;
-import com.kritsit.casetracker.client.domain.InputInvalidException;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -34,26 +33,18 @@ public class ServerConnectionTest extends TestCase {
     }
 
     public void testConnection_Succeed() {
-        try {
-            assertFalse(connection.open("localhost", 1244)); //TODO: Connection to server.
-        } catch (InputInvalidException ex) {
-            ex.printStackTrace();
-        }
+        assertFalse(connection.open("localhost", 1244)); //TODO: Connection to server.
     }
 
     public void testConnection_PortOutOfBounds() {
         try {
             connection.open("localhost", 65555);
-        } catch (InputInvalidException ex) {
-            assertTrue(true);
+        } catch (IllegalArgumentException ex) {
+            assertTrue("Port must be in range".equals(ex.getMessage()));
         }
     }
 
     public void testConnection_IOException() {
-        try {
-            assertFalse(connection.open("ThisIsNotAValidHost", 1244));
-        } catch (InputInvalidException ex) {
-            ex.printStackTrace();
-        }
+        assertFalse(connection.open("ThisIsNotAValidHost", 1244));
     }
 }
