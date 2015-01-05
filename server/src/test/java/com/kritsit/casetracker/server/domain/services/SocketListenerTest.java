@@ -36,6 +36,8 @@ public class SocketListenerTest extends TestCase {
             listener.listen(65540);
         } catch (IllegalArgumentException ex) {
             assertTrue("Port number not in range".equals(ex.getMessage()));
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 

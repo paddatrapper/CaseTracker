@@ -23,7 +23,7 @@ public class DatabasePersistence implements IPersistenceService {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql//" + host + ":" + schema, username, password);
+            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + schema, username, password);
             connected = true;
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();

@@ -25,8 +25,8 @@ public class DatabasePersistenceTest extends TestCase {
 
     public void testOpen() {
         assertFalse(db.isOpen());
-        //db.open();
-        //assertTrue(db.isOpen());
+        db.open();
+        assertTrue(db.isOpen());
     }
 
     public void tearDown() {
