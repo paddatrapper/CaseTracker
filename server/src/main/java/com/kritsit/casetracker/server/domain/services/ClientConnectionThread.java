@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class ClientConnectionThread implements Runnable, IClientConnectionService {
     private Socket socket = null;
@@ -40,6 +41,16 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         setConnectedClient(data[1]);
                         break;
                     }
+                    case "login": {
+                        Map<String, String> response = login(data[1], Integer.parseInt(data[2]));
+                        output = "";
+                        for (Map.Entry me : response.entrySet()) {
+                            output += me.getKey() + "##//##" + me.getValue() + "##::##";
+                        }
+                        output.substring(0, output.length() - 6);
+                        out.println(output);
+                        break;
+                    }
                 }
             }
         } catch (IOException ex) {
@@ -48,6 +59,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
     }
 
     public void setConnectedClient(String connectedClient) {
+        System.out.println(connectedClient + " has connected");
         this.connectedClient = connectedClient;
     }
 
@@ -83,5 +95,6 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
         } catch (NullPointerException ex) {
             System.err.println("Socket is null");
         }
+        System.out.println(connectedClient + " has disconnected");
     }
 }

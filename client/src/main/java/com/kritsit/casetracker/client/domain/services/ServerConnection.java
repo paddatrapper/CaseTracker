@@ -35,6 +35,7 @@ public class ServerConnection implements IConnectionService {
         } catch (UnknownHostException ex) {
             throw new IllegalArgumentException("Host not found");
         } catch (IOException ex) {
+            ex.printStackTrace();
             return false;
         }
     }
@@ -57,6 +58,13 @@ public class ServerConnection implements IConnectionService {
     }
 
     public boolean login(String username, int hash) {
-        return false;
+        try {
+            out.println("login##::##" + username + "##::##" + hash);
+            String reply = in.readLine();
+            return "authenticated".equals(reply.split("##::##")[0]);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 }

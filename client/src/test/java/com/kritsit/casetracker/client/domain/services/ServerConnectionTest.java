@@ -50,6 +50,10 @@ public class ServerConnectionTest extends TestCase {
         }
     }
 
+    public void testLogin_Authenticated() {
+        assertTrue(connection.login("inspector", "inspector".hashCode()));
+    }
+
     public void tearDown() {
         try {
             connection.close(0);
