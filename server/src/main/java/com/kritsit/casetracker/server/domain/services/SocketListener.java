@@ -22,7 +22,8 @@ public class SocketListener implements IListeningService {
         }
         serverSocket = new ServerSocket(port);
         persistence = Domain.getPersistenceService();
-        //if (persistence.isOpen()) {
+        persistence.open();
+        if (persistence.isOpen()) {
             listening = true;
             while (listening) {
                 socket = serverSocket.accept();
@@ -30,7 +31,7 @@ public class SocketListener implements IListeningService {
                 Thread t = new Thread(connection);
                 t.start();
             }
-        //}
+        }
     }
 
     public boolean isListening() {

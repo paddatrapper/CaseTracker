@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClientConnectionThread implements Runnable, IClientConnectionService {
     private Socket socket = null;
@@ -51,6 +53,24 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
 
     public String getConnectedClient() {
         return connectedClient;
+    }
+
+    public Map<String, String> login(String username, int passwordHash) {
+        long passwordSaltedHash = persistence.getPasswordSaltedHash(username);
+        long salt = persistence.getSalt(username);
+        long testPasswordSaltedHash = salt + passwordHash;
+        Map<String, String> response = new HashMap<>();
+        if (passwordSaltedHash == -1 || testPasswordSaltedHash != passwordSaltedHash) {
+            response.put("status", "authentication failed");
+        } else {
+            response.put("status", "authenticated");
+        }
+        response.put("username", username);
+        Map<String, String> details = persistence.getUserDetails(username);
+        if (details != null) {
+            response.putAll(details);
+        }
+        return response;
     }
 
     public void close() throws IOException {
