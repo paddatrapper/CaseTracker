@@ -24,7 +24,7 @@ public class ServerConnectionTest extends TestCase {
     public void setUp() {
         connection = Domain.getServerConnection();
         try {
-            server = Runtime.getRuntime().exec("java -jar ../server/target/server-0.1a-SNAPSHOT.jar");
+            server = Runtime.getRuntime().exec("java -jar ../server/target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

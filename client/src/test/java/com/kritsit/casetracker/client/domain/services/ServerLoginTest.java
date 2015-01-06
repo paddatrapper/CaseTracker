@@ -27,8 +27,8 @@ public class ServerLoginTest extends TestCase {
     }
 
     public void testLoginAttempt_Failed() {
-        char[] password = {'m', 'y', ' ', 'w', 'r', 'o', 'n', 'g', ' ', 'p', 'a', 's', 's'};
-        String username = "test";
+        char[] password = {'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
+        String username = "inspector";
         boolean succeeded = loginService.login(username, password);
         assertFalse(succeeded);
     }
