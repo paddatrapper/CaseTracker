@@ -6,7 +6,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 
 public class ServerConnectionTest extends TestCase {
@@ -24,14 +26,12 @@ public class ServerConnectionTest extends TestCase {
     public void setUp() {
         connection = Domain.getServerConnection();
         try {
-            server = Runtime.getRuntime().exec("java -jar ../server/target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar");
+            ProcessBuilder pb = new ProcessBuilder("java", "-jar", "../server/target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar");
+            pb.redirectErrorStream(true);
+            server = pb.start();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public void testConnection_Succeed() {
-        assertTrue(connection.open("localhost", 1244));
     }
 
     public void testConnection_PortOutOfBounds() {
@@ -50,17 +50,42 @@ public class ServerConnectionTest extends TestCase {
         }
     }
 
-    public void testLogin_Authenticated() {
+    public void testConnection_Succeed() {
+        BufferedReader br = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        try {
+            String input = "";
+            while ((input = br.readLine()) != null) {
+                break;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        assertTrue(connection.open("localhost", 1244));
+    }
+
+    public void testLogin_Correct() {
+        BufferedReader br = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        try {
+            String input = "";
+            while ((input = br.readLine()) != null) {
+                break;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        connection.open("localhost", 1244);
         assertTrue(connection.login("inspector", "inspector".hashCode()));
     }
 
     public void tearDown() {
-        try {
-            connection.close(0);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (NullPointerException ex) {}
-        Domain.resetServerConnection();
+        if (connection.isOpen()) {
+            try {
+                connection.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
         server.destroy();
+        Domain.resetServerConnection();
     }
 }

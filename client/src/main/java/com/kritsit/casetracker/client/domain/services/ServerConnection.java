@@ -16,8 +16,10 @@ public class ServerConnection implements IConnectionService {
     private PrintWriter out;
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
+    private boolean open;
 
     public ServerConnection() {
+        open = false;
     }
     
     public boolean open(String host, int port) throws IllegalArgumentException {
@@ -31,13 +33,14 @@ public class ServerConnection implements IConnectionService {
             dataIn = new DataInputStream(connectionSocket.getInputStream());
             dataOut = new DataOutputStream(connectionSocket.getOutputStream());
             out.println("connect##::##" + getHostName());
-            return true;
+            out.flush();
+            open = true;
         } catch (UnknownHostException ex) {
             throw new IllegalArgumentException("Host not found");
         } catch (IOException ex) {
             ex.printStackTrace();
-            return false;
         }
+        return open;
     }
 
     private String getHostName() {
@@ -49,19 +52,27 @@ public class ServerConnection implements IConnectionService {
         }
     }
 
-    public void close(int status) throws IOException {
-        out.println("closing##::##" + status);
-        in.close();
-        out.close();
-        dataIn.close();
-        dataOut.close();
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void close() throws IOException {
+        if (open) {
+            out.println("close");
+            out.flush();
+            in.close();
+            out.close();
+            dataIn.close();
+            dataOut.close();
+        }
     }
 
     public boolean login(String username, int hash) {
         try {
             out.println("login##::##" + username + "##::##" + hash);
+            out.flush();
             String reply = in.readLine();
-            return "authenticated".equals(reply.split("##::##")[0]);
+            return Boolean.parseBoolean(reply);
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
