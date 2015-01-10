@@ -39,17 +39,19 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                 switch (data[0]) {
                     case "connect": {
                         setConnectedClient(data[1]);
+                        System.out.println(connectedClient + " has connected");
                         break;
                     }
                     case "login": {
-                        Map<String, String> response = login(data[1], Integer.parseInt(data[2]));
-                        output = "";
-                        for (Map.Entry me : response.entrySet()) {
-                            output += me.getKey() + "##//##" + me.getValue() + "##::##";
-                        }
-                        output.substring(0, output.length() - 6);
-                        out.println(output);
+                        String response = login(data[1], Integer.parseInt(data[2]));
+                        out.println(response);
+                        out.flush();
                         break;
+                    }
+                    case "close": {
+                        close();
+                        System.out.println(connectedClient + " has disconnected");
+                        return;
                     }
                 }
             }
@@ -59,7 +61,6 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
     }
 
     public void setConnectedClient(String connectedClient) {
-        System.out.println(connectedClient + " has connected");
         this.connectedClient = connectedClient;
     }
 
@@ -67,22 +68,24 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
         return connectedClient;
     }
 
-    public Map<String, String> login(String username, int passwordHash) {
+    public String login(String username, int passwordHash) {
         long passwordSaltedHash = persistence.getPasswordSaltedHash(username);
         long salt = persistence.getSalt(username);
         long testPasswordSaltedHash = salt + passwordHash;
-        Map<String, String> response = new HashMap<>();
+        //Map<String, String> response = new HashMap<>();
         if (passwordSaltedHash == -1 || testPasswordSaltedHash != passwordSaltedHash) {
-            response.put("status", "authentication failed");
+            //response.put("status", "authentication failed");
+            return "false";
         } else {
-            response.put("status", "authenticated");
+            return "true";
+           // response.put("status", "authenticated");
         }
-        response.put("username", username);
-        Map<String, String> details = persistence.getUserDetails(username);
-        if (details != null) {
-            response.putAll(details);
-        }
-        return response;
+       // response.put("username", username);
+        //Map<String, String> details = persistence.getUserDetails(username);
+        //if (details != null) {
+         //   response.putAll(details);
+        //}
+        //return response;
     }
 
     public void close() throws IOException {
@@ -95,6 +98,5 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
         } catch (NullPointerException ex) {
             System.err.println("Socket is null");
         }
-        System.out.println(connectedClient + " has disconnected");
     }
 }

@@ -34,36 +34,38 @@ public class ClientConnectionThreadTest extends TestCase {
             ex.printStackTrace();
         }
         Domain.getPersistenceService().open();
+        connectionThread.setConnectedClient("testClient");
     }
 
     public void testCreation() {
         assertTrue(connectionThread instanceof IClientConnectionService);
     }
 
-    public void testConnect() {
-        connectionThread.setConnectedClient("testClient");
+    public void testGetConnectedClient() {
         assertTrue("testClient".equals(connectionThread.getConnectedClient()));
     }
 
     public void testLogin_Correct() {
         String username = "inspector";
         String password = "inspector";
-        Map<String, String> response = connectionThread.login(username, password.hashCode());
-        assertTrue("authenticated".equals(response.get("status")));
-        assertTrue("inspector".equals(response.get("username")));
-        assertTrue("inspector".equals(response.get("firstName")));
-        assertTrue("inspector".equals(response.get("lastName")));
-        assertTrue("1".equals(response.get("permissions")));
-        assertTrue("Inspectorate".equals(response.get("department")));
-        assertTrue("Manager".equals(response.get("position")));
+        String response = connectionThread.login(username, password.hashCode());
+        assertTrue(Boolean.parseBoolean(response));
+        //assertTrue("authenticated".equals(response.get("status")));
+        //assertTrue("inspector".equals(response.get("username")));
+        //assertTrue("inspector".equals(response.get("firstName")));
+        //assertTrue("inspector".equals(response.get("lastName")));
+        //assertTrue("1".equals(response.get("permissions")));
+        //assertTrue("Inspectorate".equals(response.get("department")));
+        //assertTrue("Manager".equals(response.get("position")));
     }
 
     public void testLogin_IncorrectUsername() {
         String username = "incorrectUser";
         String password = "testPassword";
-        Map<String, String> response = connectionThread.login(username, password.hashCode());
-        assertTrue("authentication failed".equals(response.get("status")));
-        assertTrue("incorrectUser".equals(response.get("username")));
+        String response = connectionThread.login(username, password.hashCode());
+        assertFalse(Boolean.parseBoolean(response));
+        //assertTrue("authentication failed".equals(response.get("status")));
+        //assertTrue("incorrectUser".equals(response.get("username")));
     }
 
     public void tearDown() {

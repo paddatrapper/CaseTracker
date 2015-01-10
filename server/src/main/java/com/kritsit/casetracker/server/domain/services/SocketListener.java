@@ -25,6 +25,7 @@ public class SocketListener implements IListeningService {
         persistence.open();
         if (persistence.isOpen()) {
             listening = true;
+            System.out.println("Listening");
             while (listening) {
                 socket = serverSocket.accept();
                 ClientConnectionThread connection = new ClientConnectionThread(socket);
