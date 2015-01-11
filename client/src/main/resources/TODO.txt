@@ -1,0 +1,18 @@
+Editor:
+Useful reports
+Tooltips with applicable laws.
+
+Liason Unit:
+Cases only relating to SPCA.
+New DB Schema
+Client list cases only re SPCAs
+Permissions - Classified.
+
+Projects:
+Add inspector specific projects.
+General projects relating to all
+
+Self update from server?
+Help file
+
+OCTOBER BETA DUE.
