@@ -1,6 +1,7 @@
 package com.kritsit.casetracker.client.domain.services;
 
 import com.kritsit.casetracker.client.domain.datastructures.Staff;
+import com.kritsit.casetracker.client.domain.datastructures.Permission;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -18,9 +19,9 @@ public class EditorTest extends TestCase {
     }
 
     public void setUp() {
-        IPersistenceService persistence = new ServerConnection();
-        Staff user = new Staff("inspector");
-        editor = new Editor(user, persistence);
+        IConnectionService connection = new ServerConnection();
+        Staff user = new Staff("inspector", "inspector", "inspector", "Inspectorate", "manager", Permission.EDITOR);
+        editor = new Editor(user, connection);
     }
 
     public void testCreation() {
