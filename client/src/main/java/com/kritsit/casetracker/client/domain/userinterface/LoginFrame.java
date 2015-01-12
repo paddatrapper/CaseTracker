@@ -1,5 +1,10 @@
 package com.kritsit.casetracker.client.domain.userinterface;
 
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -7,11 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.RowSpec;
 
 public class LoginFrame {
 
@@ -25,16 +25,10 @@ public class LoginFrame {
 	private JButton btnCancel;
 	private JLabel lblImage;
 
-	/**
-	 * Create the application.
-	 */
 	public LoginFrame() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frmCaseTrackerLogin = new JDialog();
 		frmCaseTrackerLogin.setTitle("CaseTracker - Login");
@@ -83,5 +77,4 @@ public class LoginFrame {
 		btnCancel = new JButton("Cancel");
 		panel.add(btnCancel);
 	}
-
 }
