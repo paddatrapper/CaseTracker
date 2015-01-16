@@ -16,10 +16,10 @@ public class ObjectArrayValidatorTest extends TestCase {
     }
 
     public void setUp() {
-        validator = new ObjectArrayValidator<String>();
     }
 
     public void testContains() {
+        validator = new ObjectArrayValidator<String>();
         String[] array = {"Bob", "Mitchell", "Boet", "Cat", "Dog"};
         assertTrue(validator.contains("Boet", array));
         assertFalse(validator.contains("John", array));

@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ServerLoginTest extends TestCase {
     IConnectionService connection;
     ILoginService loginService;
-    Process server;
+    //Process server;
 
     public ServerLoginTest(String name) {
         super(name);
@@ -24,18 +24,18 @@ public class ServerLoginTest extends TestCase {
     }
 
     public void setUp() {
-        try {
-            ProcessBuilder pb = new ProcessBuilder("java", "-jar", "../server/target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar");
-            pb.redirectErrorStream(true);
-            server = pb.start();
-            BufferedReader br = new BufferedReader(new InputStreamReader(server.getInputStream()));
-            String input = "";
-            while ((input = br.readLine()) != null) {
-                break;
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        //try {
+        //    ProcessBuilder pb = new ProcessBuilder("java", "-jar", "../server/target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar");
+        //    pb.redirectErrorStream(true);
+        //    server = pb.start();
+        //    BufferedReader br = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        //    String input = "";
+        //    while ((input = br.readLine()) != null) {
+        //        break;
+        //    }
+        //} catch (IOException ex) {
+        //    ex.printStackTrace();
+        //}
         connection = Domain.getServerConnection();
         loginService = new ServerLogin(connection);
     }
@@ -83,7 +83,7 @@ public class ServerLoginTest extends TestCase {
                 ex.printStackTrace();
             }
         }
-        server.destroy();
+ //       server.destroy();
         Domain.resetServerConnection();
     }
 }
