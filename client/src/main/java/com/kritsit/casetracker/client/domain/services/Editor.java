@@ -10,4 +10,11 @@ public class Editor implements IEditorService {
         this.user = user;
         this.connection = connection;
     }
+
+    public void showUI() {
+    }
+
+    public Staff getUser() {
+        return user;
+    }
 }

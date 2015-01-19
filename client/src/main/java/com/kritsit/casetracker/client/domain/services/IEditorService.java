@@ -1,5 +1,8 @@
 package com.kritsit.casetracker.client.domain.services;
 
-public interface IEditorService {
+import com.kritsit.casetracker.client.domain.datastructures.Staff;
 
+public interface IEditorService {
+    void showUI();
+    Staff getUser();
 }
