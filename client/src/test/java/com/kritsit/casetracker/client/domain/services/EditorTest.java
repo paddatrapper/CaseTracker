@@ -9,6 +9,7 @@ import junit.framework.TestSuite;
 
 public class EditorTest extends TestCase {
     IEditorService editor;
+    Staff user;
 
     public EditorTest(String name) {
         super(name);
@@ -20,11 +21,12 @@ public class EditorTest extends TestCase {
 
     public void setUp() {
         IConnectionService connection = new ServerConnection();
-        Staff user = new Staff("inspector", "inspector", "inspector", "Inspectorate", "manager", Permission.EDITOR);
+        user = new Staff("inspector", "inspector", "inspector", "Inspectorate", "manager", Permission.EDITOR);
         editor = new Editor(user, connection);
     }
 
     public void testCreation() {
         assertTrue(editor instanceof IEditorService);
+        assertTrue(user.equals(editor.getUser()));
     }
 }
