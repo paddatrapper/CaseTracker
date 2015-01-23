@@ -1,6 +1,8 @@
 package com.kritsit.casetracker.client.domain.datastructures;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class Incident {
     private String address;
@@ -19,5 +21,74 @@ public class Incident {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Date getFollowUpDate() {
+        return followUpDate;
+    }
+
+    public boolean isFollowedUp() {
+        return followedUp;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setFollowUpDate(Date followUpDate) throws IllegalArgumentException {
+        if (followUpDate.before(date)) {
+            throw new IllegalArgumentException("Follow up date is before incident date");
+        }
+        this.followUpDate = followUpDate;
+    }
+
+    public void setFollowedUp(boolean followedUp) {
+        this.followedUp = followedUp;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Incident other = (Incident) obj;
+        if (!Objects.equals(this.address, other.address)) {
+            return false;
+        }
+        if (!Objects.equals(this.region, other.region)) {
+            return false;
+        }
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String result = "Incident: ";
+        result += address + " ";
+        result += "(" + df.format(date) + ")";
+        return result;
     }
 }
