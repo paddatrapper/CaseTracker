@@ -70,25 +70,25 @@ public class Staff {
         if (obj == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        Staff staffObj = (Staff) obj;
-        if (!getUsername().equals(staffObj.getUsername())) {
+        Staff other = (Staff) obj;
+        if (!getUsername().equals(other.getUsername())) {
             return false;
         }
-        if (!getFirstName().equals(staffObj.getFirstName())) {
+        if (!getFirstName().equals(other.getFirstName())) {
             return false;
         }
-        if (!getLastName().equals(staffObj.getLastName())) {
+        if (!getLastName().equals(other.getLastName())) {
             return false;
         }
-        if (!getDepartment().equals(staffObj.getDepartment())) {
+        if (!getDepartment().equals(other.getDepartment())) {
             return false;
         }
-        if (!getPosition().equals(staffObj.getPosition())) {
+        if (!getPosition().equals(other.getPosition())) {
             return false;
         }
-        return getPermission() == staffObj.getPermission();
+        return getPermission() == other.getPermission();
     }
 }
