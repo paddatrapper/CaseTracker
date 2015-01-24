@@ -54,4 +54,9 @@ public class StaffTest extends TestCase {
         Staff user = new Staff("anotherUsername", "firstName", "lastName", "department", "position", Permission.EDITOR);
         assertFalse(user.equals(staff));
     }
+
+    public void testEquals_Null() {
+        Staff user = null;
+        assertFalse(staff.equals(user));
+    }
 }

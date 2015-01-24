@@ -70,7 +70,7 @@ public class Staff {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Staff)) {
+        if (getClass() != object.getClass()) {
             return false;
         }
         Staff staffObj = (Staff) obj;
