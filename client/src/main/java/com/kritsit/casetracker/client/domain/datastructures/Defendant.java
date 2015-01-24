@@ -2,27 +2,14 @@ package com.kritsit.casetracker.client.domain.datastructures;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class Defendant {
-    private String id;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String telephoneNumber;
-    private String emailAddress;
-    //private List<Vehicle> vehicles;
+public class Defendant extends Person{
     private boolean secondOffence;
+    //private List<Vehicle> vehicles;
 
     public Defendant(String id, String firstName, String lastName, String address, String telephoneNumber, String emailAddress, boolean secondOffence) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.telephoneNumber = telephoneNumber;
-        this.emailAddress = emailAddress;
+        super(id, firstName, lastName, address, telephoneNumber, emailAddress);
         this.secondOffence = secondOffence;
-
     //    vehicles = new ArrayList<>();
     }
 /*
@@ -40,34 +27,6 @@ public class Defendant {
     */
 
     // Accessor methods:
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return firstName + " " + lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getTelephoneNumber() {
-        return telephoneNumber;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
     /*
     public List<Vehicle> getVehicle() {
         return vehicle;
@@ -79,30 +38,6 @@ public class Defendant {
     }
 
     // Mutator methods:
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
     /*
     public void setVehicles(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
@@ -115,18 +50,9 @@ public class Defendant {
 
     @Override
     public String toString() {
-        return getName();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Defendant other = (Defendant) obj;
-        return Objects.equals(this.id, other.id);
+        String result = "Defendant: ";
+        result += getName() + " ";
+        result += "(" + getId() + ")";
+        return result;
     }
 }

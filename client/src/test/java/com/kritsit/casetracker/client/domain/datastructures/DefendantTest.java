@@ -20,13 +20,15 @@ public class DefendantTest extends TestCase {
     }
 
     public void testAccessors() {
-        assertTrue("0002225094081".equals(defendant.getId()));
-        assertTrue("John".equals(defendant.getFirstName()));
-        assertTrue("Smith".equals(defendant.getLastName()));
-        assertTrue("20 Church Road, Cape Town".equals(defendant.getAddress()));
-        assertTrue("0211234567".equals(defendant.getTelephoneNumber()));
-        assertTrue("email@address.com".equals(defendant.getEmailAddress()));
         assertFalse(defendant.isSecondOffence());
-        assertTrue("John Smith".equals(defendant.getName()));
+    }
+
+    public void testMutators() {
+        defendant.setSecondOffence(true);
+        assertTrue(defendant.isSecondOffence());
+    }
+
+    public void testToString() {
+        assertTrue("Defendant: John Smith (0002225094081)".equals(defendant.toString()));
     }
 }
