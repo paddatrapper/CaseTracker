@@ -10,3 +10,7 @@ target/
 !client/src/test/resources/*.jar
 !server/src/main/resources/*.jar
 !server/src/test/resources/*.jar
+
+# Backup Files
+*~
+*.BAK
