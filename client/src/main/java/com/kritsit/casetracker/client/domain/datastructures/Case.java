@@ -24,7 +24,7 @@ public class Case {
     private Date returnDate;
     private String caseType;
 
-    public Case(String caseNumber, String caseName, String description, String animalsInvolved, Staff investigatingOfficer, Incident incident, Defendant defendant, Person complainant, Date nextCourtDate, List<Evidence> evidence, boolean returnVisit, Date returnDate, String caseType) {
+    public Case(String caseNumber, String caseName, String description, String animalsInvolved, Staff investigatingOfficer, Incident incident, Defendant defendant, Person complainant, Date nextCourtDate, List<Evidence> evidence, boolean returnVisit, Date returnDate, String caseType, String outcome) {
         this.caseNumber = caseNumber;
         this.caseName = caseName;
         this.description = description;
@@ -38,6 +38,7 @@ public class Case {
         this.returnVisit = returnVisit;
         this.returnDate = returnDate;
         this.caseType = caseType;
+        this.outcome = outcome;
     }
 
     public void addEvidence(Evidence evidence) {
@@ -49,15 +50,15 @@ public class Case {
         return animalsInvolved;
     }
 
-    public String getCaseName() {
+    public String getName() {
         return caseName;
     }
 
-    public String getCaseNumber() {
+    public String getNumber() {
         return caseNumber;
     }
 
-    public String getCaseType() {
+    public String getType() {
         return caseType;
     }
 
@@ -106,15 +107,15 @@ public class Case {
         this.animalsInvolved = animalsInvolved;
     }
 
-    public void setCaseName(String name) {
+    public void setName(String name) {
         this.caseName = name;
     }
 
-    public void setCaseNumber(String caseNumber) {
+    public void setNumber(String caseNumber) {
         this.caseNumber = caseNumber;
     }
 
-    public void setCaseType(String caseType) {
+    public void setType(String caseType) {
         this.caseType = caseType;
     }
 
