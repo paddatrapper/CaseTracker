@@ -1,6 +1,6 @@
 CaseTracker
 ===========
-[](!https://travis-ci.org/paddatrapper/CaseTracker.svg?branch=master)
+![](https://travis-ci.org/paddatrapper/CaseTracker.svg?branch=master)
 
 CaseTracker is a software system designed to help manage cases opened by the
 National Society for the Prevention of Cruelty to Animals (NSPCA) in South 
