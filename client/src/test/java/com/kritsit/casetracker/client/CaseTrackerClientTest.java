@@ -21,7 +21,7 @@ public class CaseTrackerClientTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(client instanceof CaseTrackerClient);
+        assertTrue(client.getClass() == CaseTrackerClient.class);
     }
 
     public void testGetVersion() {

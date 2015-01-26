@@ -32,7 +32,7 @@ public class IncidentTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(incident instanceof Incident);
+        assertTrue(incident.getClass() == Incident.class);
     }
 
     public void testAccessors() {

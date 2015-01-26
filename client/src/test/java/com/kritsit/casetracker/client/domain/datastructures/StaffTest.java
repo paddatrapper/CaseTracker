@@ -20,7 +20,7 @@ public class StaffTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(staff instanceof Staff);
+        assertTrue(staff.getClass() == Staff.class);
     }
 
     public void testAccessors() {
