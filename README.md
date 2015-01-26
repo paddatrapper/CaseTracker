@@ -1,5 +1,6 @@
 CaseTracker
 ===========
+[](!https://travis-ci.org/paddatrapper/CaseTracker.svg?branch=master)
 
 CaseTracker is a software system designed to help manage cases opened by the
 National Society for the Prevention of Cruelty to Animals (NSPCA) in South 
@@ -35,9 +36,7 @@ To generate the documentation:
     mvn site
 
 The project documentation can be viewed on the CaseTracker [client website](http://kritsit.ddns.net/casetracker/client/project-info.html)
-and [sever website](http://kritsit.ddns.net/casetracker/server/project-info.html);
-
-More details can be found on the [Maven website](maven.apache.org).
+and [sever website](http://kritsit.ddns.net/casetracker/server/project-info.html).
 
 Development
 -----------
