@@ -71,6 +71,20 @@ public class IncidentTest extends TestCase {
         assertTrue(incident.isFollowedUp());
     }
 
+    public void testGetFollowUpDate() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        Date incidentDate;
+        Date followUpDate;
+        try {
+            incidentDate = df.parse("2015-01-10");
+            followUpDate = df.parse("2015-01-17");
+            incident.setDate(incidentDate);
+            assertTrue(followUpDate.equals(incident.getDefaultFollowUpDate()));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void testEquals_Null() {
         assertFalse(incident.equals(null));
     }

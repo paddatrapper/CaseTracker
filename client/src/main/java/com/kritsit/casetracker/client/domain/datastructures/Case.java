@@ -1,10 +1,8 @@
 package com.kritsit.casetracker.client.domain.datastructures;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -159,13 +157,6 @@ public class Case {
         this.evidence = evidence;
     }
 
-    private Date getFollowUpDate(Date incidentDate) {
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(incidentDate);
-        cal.add(GregorianCalendar.DATE, 7);
-        return cal.getTime();
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -180,6 +171,9 @@ public class Case {
     
     @Override
     public String toString() {
-        return caseNumber;
+        String result = "Case: ";
+        result += caseNumber + " ";
+        result += "(" + caseName + ")";
+        return result;
     }
 }

@@ -2,6 +2,7 @@ package com.kritsit.casetracker.client.domain.datastructures;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 public class Incident {
@@ -60,6 +61,13 @@ public class Incident {
 
     public void setFollowedUp(boolean followedUp) {
         this.followedUp = followedUp;
+    }
+
+    public Date getDefaultFollowUpDate() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.add(GregorianCalendar.DATE, 7);
+        return cal.getTime();
     }
 
     @Override
