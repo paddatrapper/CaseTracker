@@ -52,10 +52,7 @@ public class Incident {
         this.date = date;
     }
 
-    public void setFollowUpDate(Date followUpDate) throws IllegalArgumentException {
-        if (followUpDate.before(date)) {
-            throw new IllegalArgumentException("Follow up date is before incident date");
-        }
+    public void setFollowUpDate(Date followUpDate) {
         this.followUpDate = followUpDate;
     }
 

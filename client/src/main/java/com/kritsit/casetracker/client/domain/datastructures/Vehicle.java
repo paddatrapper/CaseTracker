@@ -8,13 +8,6 @@ public class Vehicle {
     private String colour;
     private boolean isTrailer;
 
-    public Vehicle() {
-        this.registration = null;
-        this.make = null;
-        this.colour = null;
-        this.isTrailer = false;
-    }
-
     public Vehicle(String registration, String make, String colour, boolean isTrailer) {
         this.registration = registration;
         this.make = make;

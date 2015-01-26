@@ -18,10 +18,8 @@ public class Defendant extends Person{
     }
 
     public void addVehicles(Vehicle[] vehicle) {
-        if (vehicle != null) {
-            for (Vehicle v : vehicle) {
-                addVehicle(v);
-            }
+        for (Vehicle v : vehicle) {
+            addVehicle(v);
         }
     }
 

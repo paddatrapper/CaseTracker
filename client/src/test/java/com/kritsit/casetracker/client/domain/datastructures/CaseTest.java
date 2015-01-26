@@ -103,6 +103,8 @@ public class CaseTest extends TestCase {
         evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
         testCase.setEvidence(evidence);
         assertTrue(evidence.equals(testCase.getEvidence()));
+        testCase.setReturnVisit(true);
+        assertTrue(testCase.isReturnVisit());
     }
 
     public void testToString() {
