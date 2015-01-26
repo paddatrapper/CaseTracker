@@ -1,4 +1,7 @@
 #!/bin/bash
-set -ev
+#
+# Runs tests on the server
+#
+set -e
 cd ./server
 mvn test
