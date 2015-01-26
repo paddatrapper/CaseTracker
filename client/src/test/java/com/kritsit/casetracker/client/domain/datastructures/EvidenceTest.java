@@ -24,10 +24,11 @@ public class EvidenceTest extends TestCase {
     }
 
     public void testAccessors() {
-        assertTrue("Test file".equals(evidence.getDescription()));
         File serverFile = new File("test.file");
-        assertTrue(serverFile.getAbsolutePath().equals(evidence.getServerFileLocation()));
         File localFile = new File("local.file");
+
+        assertTrue("Test file".equals(evidence.getDescription()));
+        assertTrue(serverFile.getAbsolutePath().equals(evidence.getServerFileLocation()));
         assertTrue(localFile.equals(evidence.getLocalFile()));
         assertTrue(localFile.getAbsolutePath().equals(evidence.getLocalFileLocation()));
         assertTrue(evidence.getImage() == null);
@@ -35,14 +36,15 @@ public class EvidenceTest extends TestCase {
 
     public void testMutators() {
         evidence.setDescription("Another description");
-        assertTrue("Another description".equals(evidence.getDescription()));
         File serverFile = new File("server.file");
         evidence.setServerFile(serverFile);
-        assertTrue(serverFile.getAbsolutePath().equals(evidence.getServerFileLocation()));
         File localFile = new File("test.file");
         evidence.setLocalFile(localFile);
-        assertTrue(localFile.equals(evidence.getLocalFile()));
         evidence.setImage(null);
+
+        assertTrue(localFile.equals(evidence.getLocalFile()));
+        assertTrue(serverFile.getAbsolutePath().equals(evidence.getServerFileLocation()));
+        assertTrue("Another description".equals(evidence.getDescription()));
         assertTrue(evidence.getImage() == null);
     }
 

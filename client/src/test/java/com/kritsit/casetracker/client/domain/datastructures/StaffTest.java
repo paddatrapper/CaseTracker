@@ -58,31 +58,37 @@ public class StaffTest extends TestCase {
 
     public void testEquals_Username() {
         Staff user = new Staff("anotherUsername", "firstName", "lastName", "department", "position", Permission.EDITOR);
+
         assertFalse(user.equals(staff));
     }
 
     public void testEquals_FirstName() {
         Staff user = new Staff("testUsername", "anotherName", "lastName", "department", "position", Permission.EDITOR);
+
         assertFalse(user.equals(staff));
     }
 
     public void testEquals_LastName() {
         Staff user = new Staff("testUsername", "firstName", "anotherName", "department", "position", Permission.EDITOR);
+
         assertFalse(user.equals(staff));
     }
 
     public void testEquals_Department() {
         Staff user = new Staff("testUsername", "firstName", "lastName", "anotherDepartment", "position", Permission.EDITOR);
+
         assertFalse(user.equals(staff));
     }
 
     public void testEquals_Position() {
         Staff user = new Staff("testUsername", "firstName", "lastName", "department", "anotherPosition", Permission.EDITOR);
+
         assertFalse(user.equals(staff));
     }
 
     public void testEquals() {
         Staff user = new Staff("testUsername", "firstName", "lastName", "department", "position", Permission.EDITOR);
+
         assertTrue(user.equals(staff));
     }
 }

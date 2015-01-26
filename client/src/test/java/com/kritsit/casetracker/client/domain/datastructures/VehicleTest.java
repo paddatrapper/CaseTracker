@@ -28,12 +28,13 @@ public class VehicleTest extends TestCase {
 
     public void testMutators() {
         vehicle.setRegistration("CAW12345");
-        assertTrue("CAW12345".equals(vehicle.getRegistration()));
         vehicle.setMake("Toyota");
-        assertTrue("Toyota".equals(vehicle.getMake()));
         vehicle.setColour("Red");
-        assertTrue("Red".equals(vehicle.getColour()));
         vehicle.setTrailer(true);
+
+        assertTrue("CAW12345".equals(vehicle.getRegistration()));
+        assertTrue("Toyota".equals(vehicle.getMake()));
+        assertTrue("Red".equals(vehicle.getColour()));
         assertTrue(vehicle.isTrailer());
     }
 
@@ -51,21 +52,25 @@ public class VehicleTest extends TestCase {
 
     public void testEquals_Registration() {
         Vehicle v = new Vehicle("CAW56789", "Nissan", "White", false);
+
         assertFalse(vehicle.equals(v));
     }
 
     public void testEquals_Make() {
         Vehicle v = new Vehicle("CA456789", "Toyota", "White", false);
+
         assertFalse(vehicle.equals(v));
     }
 
     public void testEquals_Colour() {
         Vehicle v = new Vehicle("CA456789", "Nissan", "Blue", false);
+
         assertFalse(vehicle.equals(v));
     }
 
     public void testEquals() {
         Vehicle v = new Vehicle("CA456789", "Nissan", "White", false);
+
         assertTrue(vehicle.equals(v));
     }
 }

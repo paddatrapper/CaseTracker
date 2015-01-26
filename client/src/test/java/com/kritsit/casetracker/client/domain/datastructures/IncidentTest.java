@@ -36,53 +36,54 @@ public class IncidentTest extends TestCase {
     }
 
     public void testAccessors() {
-        assertTrue("100 Long Street, Cape Town".equals(incident.getAddress()));
-        assertTrue("Western Cape".equals(incident.getRegion()));
         SimpleDateFormat df  = new SimpleDateFormat("yyy-MM-dd");
+        Date date = new Date();
+        Date followUpDate = new Date();
         try {
-            Date date = df.parse("2015-01-19");
-            Date followUpDate = df.parse("2015-02-19");
-            assertTrue(date.equals(incident.getDate()));
-            assertTrue(followUpDate.equals(incident.getFollowUpDate()));
+            date = df.parse("2015-01-19");
+            followUpDate = df.parse("2015-02-19");
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+
+        assertTrue("100 Long Street, Cape Town".equals(incident.getAddress()));
+        assertTrue("Western Cape".equals(incident.getRegion()));
+        assertTrue(date.equals(incident.getDate()));
+        assertTrue(followUpDate.equals(incident.getFollowUpDate()));
         assertFalse(incident.isFollowedUp());
     }
 
     public void testMutators() {
         Date followUpDate = new Date();
-        incident.setAddress("20 Aderly Street, Cape Town");
-        assertTrue("20 Aderly Street, Cape Town".equals(incident.getAddress()));
-        incident.setRegion("Eastern Cape");
-        assertTrue("Eastern Cape".equals(incident.getRegion()));
         Date date = new Date();
+
+        incident.setAddress("20 Aderly Street, Cape Town");
+        incident.setRegion("Eastern Cape");
         incident.setDate(date);
-        assertTrue(date.equals(incident.getDate()));
-        try {
-            incident.setFollowUpDate(followUpDate);
-        } catch (IllegalArgumentException ex) {
-            assertTrue("Follow up date is before incident date".equals(ex.getMessage()));
-        }
-        followUpDate = new Date();
         incident.setFollowUpDate(followUpDate);
-        assertTrue(followUpDate.equals(incident.getFollowUpDate()));
         incident.setFollowedUp(true);
+
+        assertTrue("20 Aderly Street, Cape Town".equals(incident.getAddress()));
+        assertTrue("Eastern Cape".equals(incident.getRegion()));
+        assertTrue(date.equals(incident.getDate()));
+        assertTrue(followUpDate.equals(incident.getFollowUpDate()));
         assertTrue(incident.isFollowedUp());
     }
 
     public void testGetFollowUpDate() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        Date incidentDate;
-        Date followUpDate;
+        Date date = new Date();
+        Date followUpDate = new Date();
         try {
-            incidentDate = df.parse("2015-01-10");
+            date = df.parse("2015-01-10");
             followUpDate = df.parse("2015-01-17");
-            incident.setDate(incidentDate);
-            assertTrue(followUpDate.equals(incident.getDefaultFollowUpDate()));
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+        
+        incident.setDate(date);
+
+        assertTrue(followUpDate.equals(incident.getDefaultFollowUpDate()));
     }
 
     public void testEquals_Null() {
@@ -90,60 +91,52 @@ public class IncidentTest extends TestCase {
     }
 
     public void testEquals_Class() {
-        Date d = new Date();
-        assertFalse(incident.equals(d));
+        Date date = new Date();
+        assertFalse(incident.equals(date));
     }
 
     public void testEquals_Address() {
-        SimpleDateFormat df  = new SimpleDateFormat("yyy-MM-dd");
-        try {
-            Date date = df.parse("2015-01-19");
-            Date followUpDate = df.parse("2015-02-19");
-            Incident i = new Incident("20 Aderly Street, Cape Town", "Western Cape", date, followUpDate, false);
-            assertFalse(incident.equals(i));
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        Date date = new Date();
+        Date followUpDate = new Date();
+        Incident i = new Incident("20 Aderly Street, Cape Town", "Western Cape", date, followUpDate, false);
+        
+        assertFalse(incident.equals(i));
     }
 
     public void testEquals_Region() {
-        SimpleDateFormat df  = new SimpleDateFormat("yyy-MM-dd");
-        try {
-            Date date = df.parse("2015-01-19");
-            Date followUpDate = df.parse("2015-02-19");
-            Incident i = new Incident("100 Long Street, Cape Town", "Eastern Cape", date, followUpDate, false);
-            assertFalse(incident.equals(i));
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        Date date = new Date();
+        Date followUpDate = new Date();
+        Incident i = new Incident("100 Long Street, Cape Town", "Eastern Cape", date, followUpDate, false);
+
+        assertFalse(incident.equals(i));
     }
 
     public void testEquals_Date() {
-        SimpleDateFormat df  = new SimpleDateFormat("yyy-MM-dd");
-        try {
-            Date date = df.parse("2014-01-19");
-            Date followUpDate = df.parse("2015-02-19");
-            Incident i = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
-            assertFalse(incident.equals(i));
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        Date date = new Date();
+        Date followUpDate = new Date();
+        Incident i = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
+
+        assertFalse(incident.equals(i));
     }
 
     public void testEquals() {
         SimpleDateFormat df  = new SimpleDateFormat("yyy-MM-dd");
+        Date date = new Date();
+        Date followUpDate = new Date();
         try {
-            Date date = df.parse("2015-01-19");
-            Date followUpDate = df.parse("2015-02-19");
-            Incident i = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
-            assertTrue(incident.equals(i));
+            date = df.parse("2015-01-19");
+            followUpDate = df.parse("2015-02-19");
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
+        Incident i = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
+        
+        assertTrue(incident.equals(i));
     }
 
     public void testToString() {
         String incidentString = "Incident: 100 Long Street, Cape Town (2015-01-19)";
+
         assertTrue(incidentString.equals(incident.toString()));
     }
 }

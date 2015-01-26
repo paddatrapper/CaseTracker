@@ -42,25 +42,27 @@ public class CaseTest extends TestCase {
     public void testAddEvidence() {
         Evidence e = new Evidence("Second piece of evidence", new File("second.file"), new File("third.file"));
         testCase.addEvidence(e);
+
         assertTrue(e.equals(testCase.getEvidence().get(1)));
     }
 
     public void testAccessors() {
+        Person complainant = new Person("000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Incident incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, date, false);
+        List<Evidence> evidence = new ArrayList<>();
+        evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
+        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", null); 
+        Defendant defendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
+
         assertTrue("3 dogs".equals(testCase.getAnimalsInvolved()));
         assertTrue("1234/15".equals(testCase.getNumber()));
         assertTrue("SPCA vs Defendant".equals(testCase.getName()));
-        Person complainant = new Person("000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
         assertTrue(complainant.equals(testCase.getComplainant()));
         assertTrue("3 dogs kept locked up".equals(testCase.getDescription()));
-        Incident incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, date, false);
         assertTrue(incident.equals(testCase.getIncident()));
-        List<Evidence> evidence = new ArrayList<>();
-        evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
         assertTrue(evidence.equals(testCase.getEvidence()));
-        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", null); 
         assertTrue(investigatingOfficer.equals(testCase.getInvestigatingOfficer()));
         assertTrue(date.equals(testCase.getNextCourtDate()));
-        Defendant defendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
         assertTrue(defendant.equals(testCase.getDefendant()));
         assertFalse(testCase.isReturnVisit());
         assertTrue(null == testCase.getReturnDate());
@@ -69,41 +71,42 @@ public class CaseTest extends TestCase {
     }
 
     public void testMutators() {
-        testCase.setAnimalsInvolved("1 cat");
-        assertTrue("1 cat".equals(testCase.getAnimalsInvolved()));
-        testCase.setNumber("112/15");
-        assertTrue("112/15".equals(testCase.getNumber()));
-        testCase.setName("SPCA vs someone else");
-        assertTrue("SPCA vs someone else".equals(testCase.getName()));
-        testCase.setType("Dog fighting");
-        assertTrue("Dog fighting".equals(testCase.getType()));
         Person complainant = new Person("000222507645", "Sam", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
-        testCase.setComplainant(complainant);
-        assertTrue(complainant.equals(testCase.getComplainant()));
-        testCase.setDescription("A dog fight");
-        assertTrue("A dog fight".equals(testCase.getDescription()));
         Incident incident = new Incident("100 Long Street, Cape Town", "Eastern Cape", date, date, false);
-        testCase.setIncident(incident);
-        assertTrue(incident.equals(testCase.getIncident()));
         Staff investigatingOfficer = new Staff("user", "Another", "User", "Inspectorate", "Manager", null); 
-        testCase.setInvestigatingOfficer(investigatingOfficer);
-        assertTrue(investigatingOfficer.equals(testCase.getInvestigatingOfficer()));
-        Date d = new Date();
-        testCase.setNextCourtDate(d);
-        assertTrue(d.equals(testCase.getNextCourtDate()));
+        Date date = new Date();
         Defendant defendant = new Defendant("0002225094573", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", true);
-        testCase.setDefendant(defendant);
-        assertTrue(defendant.equals(testCase.getDefendant()));
-        d = new Date();
-        testCase.setReturnDate(d);
-        assertTrue(d.equals(testCase.getReturnDate()));
-        testCase.setRuling("Not guilty");
-        assertTrue("Not guilty".equals(testCase.getRuling()));
         List<Evidence> evidence = new ArrayList<>();
         evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
+
+        testCase.setAnimalsInvolved("1 cat");
+        testCase.setNumber("112/15");
+        testCase.setName("SPCA vs someone else");
+        testCase.setType("Dog fighting");
+        testCase.setComplainant(complainant);
+        testCase.setDescription("A dog fight");
+        testCase.setIncident(incident);
+        testCase.setInvestigatingOfficer(investigatingOfficer);
+        testCase.setNextCourtDate(date);
+        testCase.setDefendant(defendant);
+        testCase.setReturnDate(date);
+        testCase.setRuling("Not guilty");
         testCase.setEvidence(evidence);
-        assertTrue(evidence.equals(testCase.getEvidence()));
         testCase.setReturnVisit(true);
+
+        assertTrue("1 cat".equals(testCase.getAnimalsInvolved()));
+        assertTrue("112/15".equals(testCase.getNumber()));
+        assertTrue("SPCA vs someone else".equals(testCase.getName()));
+        assertTrue("Dog fighting".equals(testCase.getType()));
+        assertTrue(complainant.equals(testCase.getComplainant()));
+        assertTrue("A dog fight".equals(testCase.getDescription()));
+        assertTrue(incident.equals(testCase.getIncident()));
+        assertTrue(investigatingOfficer.equals(testCase.getInvestigatingOfficer()));
+        assertTrue(date.equals(testCase.getNextCourtDate()));
+        assertTrue(defendant.equals(testCase.getDefendant()));
+        assertTrue(date.equals(testCase.getReturnDate()));
+        assertTrue("Not guilty".equals(testCase.getRuling()));
+        assertTrue(evidence.equals(testCase.getEvidence()));
         assertTrue(testCase.isReturnVisit());
     }
 
@@ -129,6 +132,7 @@ public class CaseTest extends TestCase {
         List<Evidence> evidence = new ArrayList<>();
         evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
         Case c = new Case("1234/15", "SPCA vs Defendant", "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, defendant, complainant, date, evidence, false, null, "Malnutrition", "R4500 fine");
+
         assertTrue(testCase.equals(c));
     }
 }
