@@ -68,6 +68,11 @@ public class VehicleTest extends TestCase {
         assertFalse(vehicle.equals(v));
     }
 
+    public void testEquals_Trailer() {
+        Vehicle v = new Vehicle("CA456789", "Nissan", "White", true);
+
+        assertFalse(vehicle.equals(v));
+    }
     public void testEquals() {
         Vehicle v = new Vehicle("CA456789", "Nissan", "White", false);
 
