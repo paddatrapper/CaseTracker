@@ -26,7 +26,7 @@ public class EditorTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(editor.getClass() == IEditorService.class);
+        assertTrue(editor instanceof IEditorService);
         assertTrue(user.equals(editor.getUser()));
     }
 }

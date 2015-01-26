@@ -28,7 +28,7 @@ public class ServerLoginTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(loginService.getClass() == ILoginService.class);
+        assertTrue(loginService instanceof ILoginService);
     }
 
     public void testLoginAttempt_ConnectionClosed() {
