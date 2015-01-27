@@ -43,7 +43,8 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         break;
                     }
                     case "login": {
-                        String response = login(data[1], Integer.parseInt(data[2]));
+                        ILoginService loginServer = new LoginService(persistence);
+                        boolean response = loginServer.login(data[1], Integer.parseInt(data[2]));
                         out.println(response);
                         out.flush();
                         break;
@@ -66,26 +67,6 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
 
     public String getConnectedClient() {
         return connectedClient;
-    }
-
-    public String login(String username, int passwordHash) {
-        long passwordSaltedHash = persistence.getPasswordSaltedHash(username);
-        long salt = persistence.getSalt(username);
-        long testPasswordSaltedHash = salt + passwordHash;
-        //Map<String, String> response = new HashMap<>();
-        if (passwordSaltedHash == -1 || testPasswordSaltedHash != passwordSaltedHash) {
-            //response.put("status", "authentication failed");
-            return "false";
-        } else {
-            return "true";
-           // response.put("status", "authenticated");
-        }
-       // response.put("username", username);
-        //Map<String, String> details = persistence.getUserDetails(username);
-        //if (details != null) {
-         //   response.putAll(details);
-        //}
-        //return response;
     }
 
     public void close() throws IOException {
