@@ -1,4 +1,4 @@
-package com.kritsit.casetracker.client.domain.datastructures;
+package com.kritsit.casetracker.client.domain.model;
 
 import java.util.Objects;
 

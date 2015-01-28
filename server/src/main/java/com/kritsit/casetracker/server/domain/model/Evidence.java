@@ -1,4 +1,4 @@
-package com.kritsit.casetracker.client.domain.datastructures;
+package com.kritsit.casetracker.server.domain.model;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
