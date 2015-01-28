@@ -43,8 +43,8 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         break;
                     }
                     case "login": {
-                        ILoginService loginServer = new LoginService(persistence);
-                        boolean response = loginServer.login(data[1], Integer.parseInt(data[2]));
+                        ILoginService login = new Login(persistence);
+                        boolean response = login.login(data[1], Integer.parseInt(data[2]));
                         out.println(response);
                         out.flush();
                         break;

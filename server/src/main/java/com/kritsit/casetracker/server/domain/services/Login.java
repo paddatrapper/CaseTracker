@@ -2,10 +2,10 @@ package com.kritsit.casetracker.server.domain.services;
 
 import java.util.Arrays;
 
-public class LoginService implements ILoginService {
+public class Login implements ILoginService {
     private IPersistenceService persistence;
 
-    public LoginService(IPersistenceService persistence) {
+    public Login(IPersistenceService persistence) {
         this.persistence = persistence;
     }
 
