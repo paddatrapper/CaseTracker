@@ -1,4 +1,4 @@
-package com.kritsit.casetracker.client.domain.model;
+package com.kritsit.casetracker.client.domain.datastructures;
 
 public enum Permission {
     ADMIN,

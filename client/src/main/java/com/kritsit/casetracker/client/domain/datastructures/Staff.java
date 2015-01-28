@@ -1,4 +1,4 @@
-package com.kritsit.casetracker.server.domain.model;
+package com.kritsit.casetracker.client.domain.datastructures;
 
 public class Staff {
     private String username;

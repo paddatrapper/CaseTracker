@@ -1,4 +1,4 @@
-package com.kritsit.casetracker.server.domain.model;
+package com.kritsit.casetracker.client.domain.datastructures;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
