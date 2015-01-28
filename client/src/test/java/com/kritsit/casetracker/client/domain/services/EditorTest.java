@@ -1,7 +1,7 @@
 package com.kritsit.casetracker.client.domain.services;
 
-import com.kritsit.casetracker.client.domain.model.Staff;
-import com.kritsit.casetracker.client.domain.model.Permission;
+import com.kritsit.casetracker.client.domain.models.Staff;
+import com.kritsit.casetracker.client.domain.models.Permission;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
