@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.server.domain.services;
 
+import com.kritsit.casetracker.server.datalayer.IPersistenceService;
 import com.kritsit.casetracker.server.domain.Domain;
 
 import java.io.IOException;

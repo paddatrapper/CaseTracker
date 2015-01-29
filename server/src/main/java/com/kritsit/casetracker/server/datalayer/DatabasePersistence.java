@@ -1,4 +1,4 @@
-package com.kritsit.casetracker.server.domain.services;
+package com.kritsit.casetracker.server.datalayer;
 
 import com.kritsit.casetracker.server.domain.Domain;
 
@@ -53,38 +53,9 @@ public class DatabasePersistence implements IPersistenceService {
         }
         return query;
     }
-
-    public long getPasswordSaltedHash(String username) {
-        String sql = "SELECT passwordHash FROM staff WHERE username=\'" 
-            + username + "\';";
-        ResultSet rs = get(sql);
-        if (isEmpty(rs)) {
-            return -1;
-        }
-        try {
-            return rs.getLong("passwordHash");
-        } catch (SQLException ex) {
-            return -1;
-        }
-    }
-
-    public long getSalt(String username) {
-        String sql = "SELECT salt FROM staff WHERE username=\'" + username + "\';";
-        ResultSet rs = get(sql);
-        if (isEmpty(rs)) {
-            return -1;
-        }
-        try {
-            return rs.getLong("salt");
-        } catch (SQLException ex) {
-            return -1;
-        }
-    }
-
-    public Map<String, String> getUserDetails(String username) {
-        String sql = "SELECT firstName, lastName, department, position, permissions FROM staff "
-            + "WHERE username = \'" + username + "\';";
-        ResultSet rs = get(sql);
+    
+    public Map<String, String> executeQuery(String sql){
+    	ResultSet rs = get(sql);
         if (isEmpty(rs)) {
             return null;
         }
@@ -101,6 +72,8 @@ public class DatabasePersistence implements IPersistenceService {
             return null;
         }
     }
+
+
 
     private boolean isEmpty(ResultSet rs) {
         try {

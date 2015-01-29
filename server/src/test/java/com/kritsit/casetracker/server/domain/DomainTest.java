@@ -1,6 +1,6 @@
 package com.kritsit.casetracker.server.domain;
 
-import com.kritsit.casetracker.server.domain.services.IPersistenceService;
+import com.kritsit.casetracker.server.datalayer.IPersistenceService;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

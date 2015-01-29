@@ -1,7 +1,7 @@
 package com.kritsit.casetracker.server.domain;
 
-import com.kritsit.casetracker.server.domain.services.DatabasePersistence;
-import com.kritsit.casetracker.server.domain.services.IPersistenceService;
+import com.kritsit.casetracker.server.datalayer.DatabasePersistence;
+import com.kritsit.casetracker.server.datalayer.IPersistenceService;
 
 public class Domain {
     private static IPersistenceService persistence;

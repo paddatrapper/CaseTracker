@@ -1,14 +1,15 @@
 package com.kritsit.casetracker.server.domain.services;
 
+import com.kritsit.casetracker.server.datalayer.IPersistenceService;
+import com.kritsit.casetracker.server.datalayer.IUserRepository;
+import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
+import com.kritsit.casetracker.server.datalayer.UserRepository;
 import com.kritsit.casetracker.server.domain.Domain;
+import com.kritsit.casetracker.server.domain.model.Staff;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
 
 public class LoginTest extends TestCase {
     IPersistenceService persistence;
@@ -24,33 +25,33 @@ public class LoginTest extends TestCase {
 
     public void setUp() {
         persistence = Domain.getPersistenceService();
-        persistence.open();
-        login = new Login(persistence);
+        IUserRepository repo = new UserRepository(persistence);
+        login = new Login(repo);
     }
 
     public void testCreation() {
         assertTrue(login instanceof ILoginService);
     }
 
-    public void testLoginAttempt_IncorrectUser() {
+    public void testLoginAttempt_IncorrectUser() throws RowToModelParseException {
         int password = "inspector".hashCode();
         String username = "wrongInspector";
-        boolean succeeded = login.login(username, password);
-        assertFalse(succeeded);
+        Staff succeeded = login.login(username, password);
+        assertTrue(succeeded == null);
     }
 
-    public void testLoginAttempt_IncorrectPassword() {
+    public void testLoginAttempt_IncorrectPassword() throws RowToModelParseException {
         int password = "wrong inspector".hashCode();
         String username = "inspector";
-        boolean succeeded = login.login(username, password);
-        assertFalse(succeeded);
+        Staff succeeded = login.login(username, password);
+        assertFalse(succeeded != null);
     }
 
-    public void testLoginAttempt_Succeeded() {
+    public void testLoginAttempt_Succeeded() throws RowToModelParseException {
         int password = "inspector".hashCode();
         String username = "inspector";
-        boolean succeeded = login.login(username, password);
-        assertTrue(succeeded);
+        Staff succeeded = login.login(username, password);
+        assertTrue(succeeded.getUsername() == "inspector");
     }
 
     public void tearDown() {

@@ -1,6 +1,12 @@
 package com.kritsit.casetracker.server.domain.services;
 
+import com.kritsit.casetracker.server.datalayer.IPersistenceService;
+import com.kritsit.casetracker.server.datalayer.IUserRepository;
+import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
+import com.kritsit.casetracker.server.datalayer.UserRepository;
 import com.kritsit.casetracker.server.domain.Domain;
+import com.kritsit.casetracker.server.domain.Response;
+import com.kritsit.casetracker.server.domain.model.Staff;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -9,9 +15,6 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class ClientConnectionThread implements Runnable, IClientConnectionService {
     private Socket socket = null;
@@ -43,9 +46,16 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         break;
                     }
                     case "login": {
-                        ILoginService login = new Login(persistence);
-                        boolean response = login.login(data[1], Integer.parseInt(data[2]));
-                        out.println(response);
+                    	//These constructions will be handled by the DI container
+                    	IUserRepository repository = new UserRepository(persistence);
+                        ILoginService login = new Login(repository);
+
+                        Staff user = login.login(data[1], Integer.parseInt(data[2]));
+                        
+                        //This probably needs to be demanded to a factory method
+                        Response dto = new Response("OK", user);
+                        
+                        out.println(dto);
                         out.flush();
                         break;
                     }
@@ -56,8 +66,11 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     }
                 }
             }
-        } catch (IOException ex) {
+        } catch (IOException | RowToModelParseException ex) {
             ex.printStackTrace();
+            //Either deal with exception generically here or specifically in each call
+            Response dto = new Response(ex.getMessage(), null);
+            out.println(dto);
         }
     }
 

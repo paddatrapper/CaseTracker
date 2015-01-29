@@ -1,5 +1,8 @@
 package com.kritsit.casetracker.server.domain.services;
 
+import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
+import com.kritsit.casetracker.server.domain.model.Staff;
+
 public interface ILoginService {
-    boolean login(String name, int passwordHash);
+    Staff login(String name, int passwordHash) throws RowToModelParseException;
 }
