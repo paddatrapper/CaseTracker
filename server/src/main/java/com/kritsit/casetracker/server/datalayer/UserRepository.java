@@ -9,6 +9,11 @@ public class UserRepository implements IUserRepository {
 	
 	private final IPersistenceService db;
 	
+	public UserRepository(){
+		//Just until we have mockin \ DI
+		this.db = new DatabasePersistence();
+	}
+	
 	public UserRepository(IPersistenceService db){
 		this.db = db;
 	}
