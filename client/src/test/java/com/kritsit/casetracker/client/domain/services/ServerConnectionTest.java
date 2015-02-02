@@ -18,11 +18,11 @@ public class ServerConnectionTest {// extends TestCase {
     public ServerConnectionTest(String name) {
         //super(name);
     }
-
+/*
     public static Test suite() {
         return new TestSuite(ServerConnectionTest.class);
     }
-
+*/
     public void setUp() {
         connection = Domain.getServerConnection();
         //try {

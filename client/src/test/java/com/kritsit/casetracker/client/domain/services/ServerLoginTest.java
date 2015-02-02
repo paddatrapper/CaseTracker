@@ -17,11 +17,11 @@ public class ServerLoginTest { //extends TestCase {
     public ServerLoginTest(String name) {
         //super(name);
     }
-
+/*
     public static Test suite() {
         return new TestSuite(ServerLoginTest.class);
     }
-
+*/
     public void setUp() {
         connection = Domain.getServerConnection();
         loginService = new ServerLogin(connection);
