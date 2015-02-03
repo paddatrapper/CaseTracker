@@ -6,6 +6,7 @@ import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
 import com.kritsit.casetracker.server.datalayer.UserRepository;
 import com.kritsit.casetracker.server.domain.Domain;
 import com.kritsit.casetracker.server.domain.Response;
+import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.server.domain.model.Staff;
 
 import java.io.BufferedReader;
@@ -53,7 +54,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         Staff user = login.login(data[1], Integer.parseInt(data[2]));
                         
                         //This probably needs to be demanded to a factory method
-                        Response dto = new Response("OK", user);
+                        Response dto = new Response(200, user);
                         
                         out.println(dto);
                         out.flush();
@@ -66,10 +67,15 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     }
                 }
             }
-        } catch (IOException | RowToModelParseException ex) {
+        } 
+        catch (AuthenticationException ex){
+        	Response dto = new Response(401, null);
+        	out.println(dto);
+        }
+        catch (IOException | RowToModelParseException ex) {
             ex.printStackTrace();
             //Either deal with exception generically here or specifically in each call
-            Response dto = new Response(ex.getMessage(), null);
+            Response dto = new Response(500, null);
             out.println(dto);
         }
     }

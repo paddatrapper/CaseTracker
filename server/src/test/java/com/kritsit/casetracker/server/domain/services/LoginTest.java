@@ -5,6 +5,7 @@ import com.kritsit.casetracker.server.datalayer.IUserRepository;
 import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
 import com.kritsit.casetracker.server.datalayer.UserRepository;
 import com.kritsit.casetracker.server.domain.Domain;
+import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.server.domain.model.Staff;
 
 import junit.framework.Test;
@@ -33,30 +34,32 @@ public class LoginTest extends TestCase {
         assertTrue(login instanceof ILoginService);
     }
 
-    /*
-     * Failing? DB down? rewrite when we start working with mockin
-     * 
-    public void testLoginAttempt_IncorrectUser() throws RowToModelParseException {
-        int password = "inspector".hashCode();
-        String username = "wrongInspector";
-        Staff succeeded = login.login(username, password);
-        assertTrue(succeeded == null);
+    public void testLoginAttempt_IncorrectUser() {
+    	try {
+		    int password = "inspector".hashCode();
+		    String username = "wrongInspector";
+		    Staff succeeded = login.login(username, password);
+    	}
+    	catch(RowToModelParseException | AuthenticationException e){}
     }
 
-    public void testLoginAttempt_IncorrectPassword() throws RowToModelParseException {
-        int password = "wrong inspector".hashCode();
-        String username = "inspector";
-        Staff succeeded = login.login(username, password);
-        assertFalse(succeeded != null);
+    public void testLoginAttempt_IncorrectPassword() {
+    	try {
+	        int password = "wrong inspector".hashCode();
+	        String username = "inspector";
+	        Staff succeeded = login.login(username, password);
+	        fail("Exception was not thrown");
+        }
+    	catch(RowToModelParseException | AuthenticationException e){}
     }
 
-    public void testLoginAttempt_Succeeded() throws RowToModelParseException {
+    public void testLoginAttempt_Succeeded() throws RowToModelParseException, AuthenticationException {
         int password = "inspector".hashCode();
         String username = "inspector";
         Staff succeeded = login.login(username, password);
-        assertTrue(succeeded.getUsername() == "inspector");
+        assertTrue(succeeded != null);
     }
-*/
+    
     public void tearDown() {
         persistence.close();
         Domain.resetPersistenceService();

@@ -2,6 +2,7 @@ package com.kritsit.casetracker.server.domain.services;
 
 import com.kritsit.casetracker.server.datalayer.IUserRepository;
 import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
+import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.server.domain.model.Staff;
 
 public class Login implements ILoginService {
@@ -11,14 +12,14 @@ public class Login implements ILoginService {
         this.repository = repository;
     }
 
-    public Staff login(String username, int passwordHash) throws RowToModelParseException {
+    public Staff login(String username, int passwordHash) throws RowToModelParseException, AuthenticationException {
         long passwordSaltedHash = repository.getPasswordSaltedHash(username);
         long salt = repository.getSalt(username);
         long testPasswordSaltedHash = salt + passwordHash;
         boolean isAuthenticated = !(passwordSaltedHash == -1 || testPasswordSaltedHash != passwordSaltedHash);
         
         if(!isAuthenticated){
-        	//throw custom exception?
+        	throw new AuthenticationException();
         }
         
         return repository.getUserDetails(username);

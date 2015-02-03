@@ -42,45 +42,36 @@ public class DatabasePersistence implements IPersistenceService {
         return connected;
     }
 
-    private ResultSet get(String sql) {
+    private ResultSet get(String sql) throws SQLException {
         ResultSet query = null;
-        try {
-            Statement statement = connection.createStatement(ResultSet.CONCUR_READ_ONLY, 
-                                                             ResultSet.TYPE_FORWARD_ONLY);
-            query = statement.executeQuery(sql);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        Statement statement = connection.createStatement(ResultSet.CONCUR_READ_ONLY, 
+                                                         ResultSet.TYPE_FORWARD_ONLY);
+        query = statement.executeQuery(sql);
         return query;
     }
     
-    public Map<String, String> executeQuery(String sql){
-    	ResultSet rs = get(sql);
-        if (isEmpty(rs)) {
-            return null;
-        }
-        Map<String, String> details = new HashMap<>();
-        try {
-            ResultSetMetaData meta = rs.getMetaData();
-            for (int i = 1; i <= meta.getColumnCount(); i++) {
-                String column = meta.getColumnName(i);
-                details.put(column, rs.getString(column));
-            }
-            return details;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
+    public Map<String, String> executeQuery(String sql) throws SQLException{
+    	try {
+			open();
+	    	ResultSet rs = get(sql);
+	        if (isEmpty(rs)) {
+	            return null;
+	        }
+	        Map<String, String> details = new HashMap<>();
+	        ResultSetMetaData meta = rs.getMetaData();
+	        for (int i = 1; i <= meta.getColumnCount(); i++) {
+	            String column = meta.getColumnName(i);
+	            details.put(column, rs.getString(column));
+	        }
+	        return details;
+    	}
+    	finally{
+    		close();
+    	}
     }
 
-
-
-    private boolean isEmpty(ResultSet rs) {
-        try {
-            return rs == null || !rs.first();
-        } catch (SQLException ex) {
-            return true;
-        }
+    private boolean isEmpty(ResultSet rs) throws SQLException {
+       return rs == null || !rs.first();
     }
 
     public void close() {

@@ -11,18 +11,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 
-public class ServerConnectionTest {// extends TestCase {
+public class ServerConnectionTest extends TestCase {
     IConnectionService connection;
-    //Process server;
+    Process server;
 
     public ServerConnectionTest(String name) {
-        //super(name);
+        super(name);
     }
-/*
+
     public static Test suite() {
         return new TestSuite(ServerConnectionTest.class);
     }
-*/
+
     public void setUp() {
         connection = Domain.getServerConnection();
         //try {
@@ -33,7 +33,7 @@ public class ServerConnectionTest {// extends TestCase {
         //    ex.printStackTrace();
         //}
     }
-/*
+
     public void testConnection_PortOutOfBounds() {
         try {
             connection.open("localhost", 65555);
@@ -88,5 +88,4 @@ public class ServerConnectionTest {// extends TestCase {
  //       server.destroy();
         Domain.resetServerConnection();
     }
-    */
 }

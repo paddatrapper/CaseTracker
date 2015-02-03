@@ -2,16 +2,16 @@ package com.kritsit.casetracker.server.domain;
 
 public class Response {
 	
-	private String message;
+	private int statusCode;
 	private Object body;
 	
-	public Response(String message, Object body){
-		this.message = message;
+	public Response(int statusCode, Object body){
+		this.statusCode = statusCode;
 		this.body = body;
 	}
 	
-	public String getMessage(){
-		return message;
+	public int getMessage(){
+		return statusCode;
 	}
 	
 	public Object getBody(){
