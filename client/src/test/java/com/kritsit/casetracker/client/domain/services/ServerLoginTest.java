@@ -1,5 +1,7 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import static org.mockito.Mockito.*;
+
 import com.kritsit.casetracker.client.domain.Domain;
 
 import junit.framework.Test;
@@ -23,7 +25,7 @@ public class ServerLoginTest extends TestCase {
     }
 
     public void setUp() {
-        connection = Domain.getServerConnection();
+        connection = mock(IConnectionService.class);
         loginService = new ServerLogin(connection);
     }
 
@@ -34,43 +36,57 @@ public class ServerLoginTest extends TestCase {
     public void testLoginAttempt_ConnectionClosed() {
         char[] password = {'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
         String username = "inspector";
+        when(connection.isOpen()).thenReturn(false);
+
         boolean result = loginService.login(username, password);
+
         assertFalse(result);
+        verify(connection).isOpen();
     }
 
     public void testLoginAttempt_IncorrectUser() {
-        connection.open("localhost", 1244);
         char[] password = {'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
         String username = "wrongInspector";
+        String sPass = new String(password);
+        when(connection.isOpen()).thenReturn(true);
+        when(connection.login(username, sPass.hashCode())).thenReturn(false);
+
         boolean succeeded = loginService.login(username, password);
+
         assertFalse(succeeded);
+        verify(connection).isOpen();
+        verify(connection).login(username, sPass.hashCode());
     }
 
     public void testLoginAttempt_IncorrectPassword() {
-        connection.open("localhost", 1244);
         char[] password = {'w', 'r', 'o', 'n', 'g', ' ', 'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
         String username = "inspector";
+        String sPass = new String(password);
+        when(connection.isOpen()).thenReturn(true);
+        when(connection.login(username, sPass.hashCode())).thenReturn(false);
+
         boolean succeeded = loginService.login(username, password);
+
         assertFalse(succeeded);
+        verify(connection).isOpen();
+        verify(connection).login(username, sPass.hashCode());
     }
 
     public void testLoginAttempt_Succeeded() {
-        connection.open("localhost", 1244);
         char[] password = {'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
         String username = "inspector";
+        String sPass = new String(password);
+        when(connection.isOpen()).thenReturn(true);
+        when(connection.login(username, sPass.hashCode())).thenReturn(true);
+
         boolean succeeded = loginService.login(username, password);
+
         assertTrue(succeeded);
+        verify(connection).isOpen();
+        verify(connection).login(username, sPass.hashCode());
     }
 
     public void tearDown() {
-        if (connection.isOpen()) {
-            try {
-                connection.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        Domain.resetServerConnection();
     }
 
 }

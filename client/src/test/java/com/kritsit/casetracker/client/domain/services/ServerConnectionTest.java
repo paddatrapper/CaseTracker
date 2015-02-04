@@ -25,13 +25,6 @@ public class ServerConnectionTest extends TestCase {
 
     public void setUp() {
         connection = Domain.getServerConnection();
-        //try {
-        //    ProcessBuilder pb = new ProcessBuilder("java", "-jar", "../server/target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar");
-        //    pb.redirectErrorStream(true);
-        //    server = pb.start();
-        //} catch (IOException ex) {
-        //    ex.printStackTrace();
-        //}
     }
 
     public void testConnection_PortOutOfBounds() {
@@ -51,28 +44,10 @@ public class ServerConnectionTest extends TestCase {
     }
 
     public void testConnection_Succeed() {
-    //    BufferedReader br = new BufferedReader(new InputStreamReader(server.getInputStream()));
-    //    try {
-    //        String input = "";
-    //        while ((input = br.readLine()) != null) {
-    //            break;
-    //        }
-    //    } catch (IOException ex) {
-    //        ex.printStackTrace();
-    //    }
         assertTrue(connection.open("localhost", 1244));
     }
 
     public void testLogin_Correct() {
-  //      BufferedReader br = new BufferedReader(new InputStreamReader(server.getInputStream()));
-  //      try {
-  //          String input = "";
-  //          while ((input = br.readLine()) != null) {
-  //              break;
-  //          }
-  //      } catch (IOException ex) {
-  //          ex.printStackTrace();
-  //      }
         connection.open("localhost", 1244);
         assertTrue(connection.login("inspector", "inspector".hashCode()));
     }
@@ -85,7 +60,6 @@ public class ServerConnectionTest extends TestCase {
                 ex.printStackTrace();
             }
         }
- //       server.destroy();
         Domain.resetServerConnection();
     }
 }
