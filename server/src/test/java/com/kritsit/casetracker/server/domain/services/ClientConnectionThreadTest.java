@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
+import static org.mockito.Mockito.*;
 
 public class ClientConnectionThreadTest extends TestCase {
     IClientConnectionService connectionThread;
@@ -27,13 +28,12 @@ public class ClientConnectionThreadTest extends TestCase {
     public void setUp() {
         try {
             listener = new ServerSocket(1244);
-            InetAddress localHost = InetAddress.getLocalHost();
-            Socket connection = new Socket(localHost, 1244);
+            Socket connection = mock(Socket.class);
             connectionThread = new ClientConnectionThread(listener.accept());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        Domain.getPersistenceService().open();
+        //Domain.getPersistenceService().open();
         connectionThread.setConnectedClient("testClient");
     }
 
@@ -54,7 +54,7 @@ public class ClientConnectionThreadTest extends TestCase {
         } catch (NullPointerException ex) {
             System.err.println("Connection thread or listener is null");
         }
-        Domain.getPersistenceService().close();
-        Domain.resetPersistenceService();
+        //Domain.getPersistenceService().close();
+        //Domain.resetPersistenceService();
     }
 }

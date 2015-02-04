@@ -9,28 +9,27 @@ import com.kritsit.casetracker.server.domain.Response;
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.server.domain.model.Staff;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientConnectionThread implements Runnable, IClientConnectionService {
     private Socket socket = null;
     private final IPersistenceService persistence;
     private String connectedClient;
-    private BufferedReader in;
-    private PrintWriter out;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
 
     public ClientConnectionThread(Socket socket) throws IOException {
         this.socket = socket;
         persistence = Domain.getPersistenceService();
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new ObjectInputStream(socket.getInputStream());
+        out = new ObjectOutputStream(socket.getOutputStream());
         dataIn = new DataInputStream(socket.getInputStream());
         dataOut = new DataOutputStream(socket.getOutputStream());
     }
@@ -56,7 +55,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         //This probably needs to be demanded to a factory method
                         Response dto = new Response(200, user);
                         
-                        out.println(dto);
+                        out.writeObject(dto);
                         out.flush();
                         break;
                     }
@@ -70,13 +69,23 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
         } 
         catch (AuthenticationException ex){
         	Response dto = new Response(401, null);
-        	out.println(dto);
+        	try {
+				out.writeObject(dto);
+			} catch (IOException e) {
+				//Anything more interesting to do?
+				e.printStackTrace();
+			}
         }
         catch (IOException | RowToModelParseException ex) {
             ex.printStackTrace();
             //Either deal with exception generically here or specifically in each call
             Response dto = new Response(500, null);
-            out.println(dto);
+            try {
+				out.writeObject(dto);
+			} catch (IOException e) {
+				//Anything more interesting to do?
+				e.printStackTrace();
+			}
         }
     }
 

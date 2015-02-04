@@ -12,8 +12,8 @@ import java.net.UnknownHostException;
 
 public class ServerConnection implements IConnectionService {
     private Socket connectionSocket;
-    private BufferedReader in;
-    private PrintWriter out;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
     private boolean open;
@@ -28,8 +28,8 @@ public class ServerConnection implements IConnectionService {
         }
         try {
             connectionSocket = new Socket(host, port);
-            in = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-            out = new PrintWriter(connectionSocket.getOutputStream());
+            in = new ObjectInputStream(connectionSocket.getInputStream());
+            out = new ObjectOutputStream(connectionSocket.getOutputStream());
             dataIn = new DataInputStream(connectionSocket.getInputStream());
             dataOut = new DataOutputStream(connectionSocket.getOutputStream());
             out.println("connect##::##" + getHostName());
@@ -71,8 +71,8 @@ public class ServerConnection implements IConnectionService {
         try {
             out.println("login##::##" + username + "##::##" + hash);
             out.flush();
-            String reply = in.readLine();
-            return Boolean.parseBoolean(reply);
+            Response reply = (Response) in.readLine();
+            return reply.getStatusCode() == 200
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;

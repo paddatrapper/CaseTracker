@@ -1,4 +1,4 @@
-package com.kritsit.casetracker.server.domain;
+package src.main.java.com.kritsit.casetracker.client.domain;
 
 import java.io.Serializable;
 
@@ -19,4 +19,5 @@ public class Response implements Serializable {
 	public Object getBody(){
 		return body;
 	}
+
 }

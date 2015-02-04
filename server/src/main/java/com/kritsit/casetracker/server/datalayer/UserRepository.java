@@ -2,6 +2,7 @@ package com.kritsit.casetracker.server.datalayer;
 
 import java.util.Map;
 
+import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.server.domain.model.Permission;
 import com.kritsit.casetracker.server.domain.model.Staff;
 
@@ -23,6 +24,11 @@ public class UserRepository implements IUserRepository {
 	        String sql = "SELECT passwordHash FROM staff WHERE username=\'" 
 	            + username + "\';";
 	        Map<String, String> rs = db.executeQuery(sql);
+	        
+	        if(rs == null) {
+	        	throw new AuthenticationException();
+	        }
+	        
 	        return Long.parseLong(rs.get("passwordHash"));
     	}
     	catch(Exception e){
@@ -35,6 +41,11 @@ public class UserRepository implements IUserRepository {
     	try {
 	        String sql = "SELECT salt FROM staff WHERE username=\'" + username + "\';";
 	        Map<String, String> rs = db.executeQuery(sql);
+	        
+	        if(rs == null) {
+	        	throw new AuthenticationException();
+	        }
+	        
 	        return Long.parseLong(rs.get("salt"));
     	}
     	catch(Exception e){
