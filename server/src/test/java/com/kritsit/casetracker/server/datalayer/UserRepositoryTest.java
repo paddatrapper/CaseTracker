@@ -1,6 +1,6 @@
 package com.kritsit.casetracker.server.datalayer;
 
-import com.kritsit.casetracker.server.domain.model.Staff;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

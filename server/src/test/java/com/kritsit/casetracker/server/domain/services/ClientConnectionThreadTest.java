@@ -26,13 +26,13 @@ public class ClientConnectionThreadTest extends TestCase {
     }
 
     public void setUp() {
-        try {
-            listener = new ServerSocket(1244);
+        //try {
+            //listener = new ServerSocket(1244);
             Socket connection = mock(Socket.class);
-            connectionThread = new ClientConnectionThread(listener.accept());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+            connectionThread = new ClientConnectionThread(connection);
+        //} catch (IOException ex) {
+            //ex.printStackTrace();
+        //}
         //Domain.getPersistenceService().open();
         connectionThread.setConnectedClient("testClient");
     }
@@ -48,7 +48,7 @@ public class ClientConnectionThreadTest extends TestCase {
     public void tearDown() {
         try {
             connectionThread.close();
-            listener.close();
+           // listener.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (NullPointerException ex) {

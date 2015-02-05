@@ -5,9 +5,9 @@ import com.kritsit.casetracker.server.datalayer.IUserRepository;
 import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
 import com.kritsit.casetracker.server.datalayer.UserRepository;
 import com.kritsit.casetracker.server.domain.Domain;
-import com.kritsit.casetracker.server.domain.Response;
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
-import com.kritsit.casetracker.server.domain.model.Staff;
+import com.kritsit.casetracker.shared.domain.Response;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,26 +18,26 @@ import java.net.Socket;
 
 public class ClientConnectionThread implements Runnable, IClientConnectionService {
     private Socket socket = null;
-    private final IPersistenceService persistence;
+    private IPersistenceService persistence;
     private String connectedClient;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
 
-    public ClientConnectionThread(Socket socket) throws IOException {
+    public ClientConnectionThread(Socket socket) {
         this.socket = socket;
-        persistence = Domain.getPersistenceService();
-        in = new ObjectInputStream(socket.getInputStream());
-        out = new ObjectOutputStream(socket.getOutputStream());
-        dataIn = new DataInputStream(socket.getInputStream());
-        dataOut = new DataOutputStream(socket.getOutputStream());
     }
 
     public void run() {
         try {
+            persistence = Domain.getPersistenceService();
+            in = new ObjectInputStream(socket.getInputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
+            dataIn = new DataInputStream(socket.getInputStream());
+            dataOut = new DataOutputStream(socket.getOutputStream());
             String input, output;
-            while ((input = in.readLine()) != null) {
+            while ((input = (String) in.readObject()) != null) {
                 String[] data = input.split("##::##");
                 switch (data[0]) {
                     case "connect": {
@@ -76,7 +76,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
 				e.printStackTrace();
 			}
         }
-        catch (IOException | RowToModelParseException ex) {
+        catch (IOException | RowToModelParseException | ClassNotFoundException ex) {
             ex.printStackTrace();
             //Either deal with exception generically here or specifically in each call
             Response dto = new Response(500, null);

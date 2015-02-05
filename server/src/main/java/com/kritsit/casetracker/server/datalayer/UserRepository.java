@@ -3,8 +3,8 @@ package com.kritsit.casetracker.server.datalayer;
 import java.util.Map;
 
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
-import com.kritsit.casetracker.server.domain.model.Permission;
-import com.kritsit.casetracker.server.domain.model.Staff;
+import com.kritsit.casetracker.shared.domain.model.Permission;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 public class UserRepository implements IUserRepository {
 	

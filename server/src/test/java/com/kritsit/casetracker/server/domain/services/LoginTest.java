@@ -6,7 +6,7 @@ import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
 import com.kritsit.casetracker.server.datalayer.UserRepository;
 import com.kritsit.casetracker.server.domain.Domain;
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
-import com.kritsit.casetracker.server.domain.model.Staff;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
