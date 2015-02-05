@@ -1,6 +1,6 @@
 package com.kritsit.casetracker.client.domain.services;
 
-import com.kritsit.casetracker.client.domain.model.Staff;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 public class Editor implements IEditorService {
     Staff user;

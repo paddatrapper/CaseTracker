@@ -1,11 +1,13 @@
 package com.kritsit.casetracker.client.domain.services;
 
-import java.io.BufferedReader;
+import com.kritsit.casetracker.shared.domain.Response;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -14,8 +16,8 @@ public class ServerConnection implements IConnectionService {
     private Socket connectionSocket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private DataInputStream dataIn;
-    private DataOutputStream dataOut;
+    //private DataInputStream dataIn;
+    //private DataOutputStream dataOut;
     private boolean open;
 
     public ServerConnection() {
@@ -28,11 +30,11 @@ public class ServerConnection implements IConnectionService {
         }
         try {
             connectionSocket = new Socket(host, port);
-            in = new ObjectInputStream(connectionSocket.getInputStream());
             out = new ObjectOutputStream(connectionSocket.getOutputStream());
-            dataIn = new DataInputStream(connectionSocket.getInputStream());
-            dataOut = new DataOutputStream(connectionSocket.getOutputStream());
-            out.println("connect##::##" + getHostName());
+            in = new ObjectInputStream(connectionSocket.getInputStream());
+            //dataIn = new DataInputStream(connectionSocket.getInputStream());
+            //dataOut = new DataOutputStream(connectionSocket.getOutputStream());
+            out.writeObject("connect##::##" + getHostName());
             out.flush();
             open = true;
         } catch (UnknownHostException ex) {
@@ -58,22 +60,22 @@ public class ServerConnection implements IConnectionService {
 
     public void close() throws IOException {
         if (open) {
-            out.println("close");
+            out.writeObject("close");
             out.flush();
             in.close();
             out.close();
-            dataIn.close();
-            dataOut.close();
+            //dataIn.close();
+            //dataOut.close();
         }
     }
 
     public boolean login(String username, int hash) {
         try {
-            out.println("login##::##" + username + "##::##" + hash);
+            out.writeObject("login##::##" + username + "##::##" + hash);
             out.flush();
-            Response reply = (Response) in.readLine();
-            return reply.getStatusCode() == 200
-        } catch (IOException ex) {
+            Response reply = (Response) in.readObject();
+            return reply.getMessage() == 200;
+        } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return false;
         }
