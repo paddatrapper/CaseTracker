@@ -1,5 +1,7 @@
 package com.kritsit.casetracker.server.domain.services;
 
+import static org.mockito.Mockito.*;
+
 import com.kritsit.casetracker.server.datalayer.IPersistenceService;
 import com.kritsit.casetracker.server.datalayer.IUserRepository;
 import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
@@ -13,7 +15,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 public class LoginTest extends TestCase {
-    IPersistenceService persistence;
+    IUserRepository repo;
     ILoginService login;
 
     public LoginTest(String name) {
@@ -24,9 +26,14 @@ public class LoginTest extends TestCase {
         return new TestSuite(LoginTest.class);
     }
 
-    public void setUp() {
-        persistence = Domain.getPersistenceService();
-        IUserRepository repo = new UserRepository(persistence);
+    public void setUp() throws RowToModelParseException {
+        repo = mock(IUserRepository.class);
+        when(repo.getPasswordSaltedHash("inspector")).thenReturn(-5922475058343094375L);
+        when(repo.getSalt("inspector")).thenReturn(-5922475058261058398L);
+        when(repo.getPasswordSaltedHash("wrongInspector")).thenReturn(-1L);
+        when(repo.getSalt("wrongInspector")).thenReturn(-1L);
+        Staff inspector = mock(Staff.class);
+        when(repo.getUserDetails("inspector")).thenReturn(inspector);
         login = new Login(repo);
     }
 
@@ -34,23 +41,28 @@ public class LoginTest extends TestCase {
         assertTrue(login instanceof ILoginService);
     }
 
-    public void testLoginAttempt_IncorrectUser() {
+    public void testLoginAttempt_IncorrectUser() throws RowToModelParseException {
     	try {
 		    int password = "inspector".hashCode();
 		    String username = "wrongInspector";
 		    Staff succeeded = login.login(username, password);
-    	}
-    	catch(RowToModelParseException | AuthenticationException e){}
+	        fail("Exception was not thrown");
+        } catch(AuthenticationException e){
+            verify(repo).getPasswordSaltedHash("wrongInspector");
+            verify(repo).getSalt("wrongInspector");
+        } 
     }
 
-    public void testLoginAttempt_IncorrectPassword() {
+    public void testLoginAttempt_IncorrectPassword() throws RowToModelParseException {
     	try {
 	        int password = "wrong inspector".hashCode();
 	        String username = "inspector";
 	        Staff succeeded = login.login(username, password);
 	        fail("Exception was not thrown");
-        }
-    	catch(RowToModelParseException | AuthenticationException e){}
+        } catch(AuthenticationException e){
+            verify(repo).getPasswordSaltedHash("inspector");
+            verify(repo).getSalt("inspector");
+        } 
     }
 
     public void testLoginAttempt_Succeeded() throws RowToModelParseException, AuthenticationException {
@@ -58,10 +70,7 @@ public class LoginTest extends TestCase {
         String username = "inspector";
         Staff succeeded = login.login(username, password);
         assertTrue(succeeded != null);
-    }
-    
-    public void tearDown() {
-        persistence.close();
-        Domain.resetPersistenceService();
+        verify(repo).getPasswordSaltedHash("inspector");
+        verify(repo).getSalt("inspector");
     }
 }
