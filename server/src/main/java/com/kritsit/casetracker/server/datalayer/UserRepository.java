@@ -10,11 +10,6 @@ public class UserRepository implements IUserRepository {
 	
 	private final IPersistenceService db;
 	
-	public UserRepository(){
-		//Just until we have mockin \ DI
-		this.db = new DatabasePersistence();
-	}
-	
 	public UserRepository(IPersistenceService db){
 		this.db = db;
 	}
@@ -33,6 +28,7 @@ public class UserRepository implements IUserRepository {
     	}
     	catch(Exception e){
     		//LOG
+            e.printStackTrace();
     		throw new RowToModelParseException("Error retrieving password hash from database for username: " + username);
     	}
     }
@@ -50,6 +46,7 @@ public class UserRepository implements IUserRepository {
     	}
     	catch(Exception e){
     		//LOG
+            e.printStackTrace();
     		throw new RowToModelParseException("Error retrieving salt from database for username: " + username);
     	}
     }
@@ -57,7 +54,7 @@ public class UserRepository implements IUserRepository {
 	public Staff getUserDetails(String username) throws RowToModelParseException {
 		try {
 	        String sql = "SELECT firstName, lastName, department, position, permissions FROM staff "
-	            + "WHERE username = \'" + username + "\';";
+	            + "WHERE username=\'" + username + "\';";
 	        Map<String, String> details = db.executeQuery(sql);
 	        
 	        Permission permission = Permission.values()[Integer.parseInt(details.get("permissions"))];
