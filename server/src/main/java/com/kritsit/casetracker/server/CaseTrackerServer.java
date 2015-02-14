@@ -3,10 +3,14 @@ package com.kritsit.casetracker.server;
 import com.kritsit.casetracker.server.domain.services.IListeningService;
 import com.kritsit.casetracker.server.domain.services.SocketListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 public class CaseTrackerServer {
     private static final String VERSION = "0.1a";
+    private static final Logger logger = LoggerFactory.getLogger(CaseTrackerServer.class);
     private IListeningService listener;
 
     public CaseTrackerServer() {
@@ -15,9 +19,11 @@ public class CaseTrackerServer {
 
     public static void main(String[] args) {
         if (args.length == 0) {
+            logger.debug("Starting server with default preferences");
             CaseTrackerServer server = new CaseTrackerServer();
             server.listen(1244);
         } else if ("-v".equals(args[0]) || "--version".equals(args[0])) {
+            logger.debug("Printing version information");
             System.out.println("Version: " + getVersion());
             System.exit(0);
         } else {
@@ -27,7 +33,7 @@ public class CaseTrackerServer {
                 CaseTrackerServer server = new CaseTrackerServer();
                 server.listen(port);
             } catch (NumberFormatException ex) {
-                System.err.println("Arguments incorrect. Port is required.");
+                logger.error("Arguments invalid. Port is required");
                 System.exit(1);
             }
         }

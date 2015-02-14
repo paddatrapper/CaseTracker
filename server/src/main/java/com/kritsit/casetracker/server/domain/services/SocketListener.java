@@ -3,11 +3,15 @@ package com.kritsit.casetracker.server.domain.services;
 import com.kritsit.casetracker.server.datalayer.IPersistenceService;
 import com.kritsit.casetracker.server.domain.Domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class SocketListener implements IListeningService {
+    private final Logger logger = LoggerFactory.getLogger(SocketListener.class);
     private boolean listening;
     private ServerSocket serverSocket;
     private Socket socket;
@@ -26,7 +30,7 @@ public class SocketListener implements IListeningService {
         persistence.open();
         if (persistence.isOpen()) {
             listening = true;
-            System.out.println("Listening");
+            logger.info("Listening for connections");
             while (listening) {
                 socket = serverSocket.accept();
                 ClientConnectionThread connection = new ClientConnectionThread(socket);
@@ -42,8 +46,11 @@ public class SocketListener implements IListeningService {
 
     public void stop() throws IOException {
         try {
+            logger.info("Closing connection");
             listening = false;
             serverSocket.close();
-        } catch (NullPointerException ex) {}
+        } catch (NullPointerException ex) {
+            logger.debug("Connection is null");
+        }
     }
 }

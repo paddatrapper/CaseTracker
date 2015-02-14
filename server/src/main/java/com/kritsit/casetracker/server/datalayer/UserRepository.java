@@ -6,8 +6,11 @@ import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UserRepository implements IUserRepository {
-	
+    private final Logger logger = LoggerFactory.getLogger(UserRepository.class);	
 	private final IPersistenceService db;
 	
 	public UserRepository(IPersistenceService db){
@@ -16,43 +19,45 @@ public class UserRepository implements IUserRepository {
 	
     public long getPasswordSaltedHash(String username) throws RowToModelParseException {
     	try {
+            logger.info("Fetching password salted hash for {}", username);
 	        String sql = "SELECT passwordHash FROM staff WHERE username=\'" 
 	            + username + "\';";
 	        Map<String, String> rs = db.executeQuery(sql);
 	        
 	        if(rs == null) {
+                logger.debug("{} does not exist", username);
 	        	throw new AuthenticationException();
-	        }
-	        
+	        } 
 	        return Long.parseLong(rs.get("passwordHash"));
     	}
     	catch(Exception e){
-    		//LOG
-            e.printStackTrace();
-    		throw new RowToModelParseException("Error retrieving password hash from database for username: " + username);
+    		logger.error("Error retrieving password salted hash for {}", username, e);
+    		throw new RowToModelParseException("Error retrieving password salted hash from database for username: " + username);
     	}
     }
 
     public long getSalt(String username) throws RowToModelParseException {
     	try {
+            logger.info("Fetching salt for {}", username);
 	        String sql = "SELECT salt FROM staff WHERE username=\'" + username + "\';";
 	        Map<String, String> rs = db.executeQuery(sql);
 	        
 	        if(rs == null) {
+                logger.debug("{} does not exist", username);
 	        	throw new AuthenticationException();
 	        }
 	        
 	        return Long.parseLong(rs.get("salt"));
     	}
     	catch(Exception e){
-    		//LOG
-            e.printStackTrace();
+    		logger.error("Error retrieving salt for {}", username, e);
     		throw new RowToModelParseException("Error retrieving salt from database for username: " + username);
     	}
     }
 	
 	public Staff getUserDetails(String username) throws RowToModelParseException {
 		try {
+            logger.info("Fetching details for {}", username);
 	        String sql = "SELECT firstName, lastName, department, position, permissions FROM staff "
 	            + "WHERE username=\'" + username + "\';";
 	        Map<String, String> details = db.executeQuery(sql);
@@ -63,7 +68,7 @@ public class UserRepository implements IUserRepository {
 	        			     details.get("department"), details.get("position"), permission);
 		}
 		catch(Exception e){
-			//Need to log the internal exception (e.Message)
+    		logger.error("Error retrieving details for {}", username, e);
 			throw new RowToModelParseException("Error retrieving user details from database for username: " + username);
 		}
     }

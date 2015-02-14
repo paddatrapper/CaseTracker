@@ -9,6 +9,9 @@ import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.shared.domain.Response;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientConnectionThread implements Runnable, IClientConnectionService {
+    private final Logger logger = LoggerFactory.getLogger(ClientConnectionThread.class);
     private Socket socket = null;
     private IPersistenceService persistence;
     private String connectedClient;
@@ -31,6 +35,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
 
     public void run() {
         try {
+            logger.debug("Connection thread started");
             persistence = Domain.getPersistenceService();
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -42,10 +47,11 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                 switch (data[0]) {
                     case "connect": {
                         setConnectedClient(data[1]);
-                        System.out.println(connectedClient + " has connected");
+                        logger.info("{} has connected", connectedClient);
                         break;
                     }
                     case "login": {
+                        logger.debug("Login requested");
                     	//These constructions will be handled by the DI container
                     	IUserRepository repository = new UserRepository(persistence);
                         ILoginService login = new Login(repository);
@@ -54,14 +60,14 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         
                         //This probably needs to be demanded to a factory method
                         Response dto = new Response(200, user);
-                        
+                         
                         out.writeObject(dto);
                         out.flush();
                         break;
                     }
                     case "close": {
                         close();
-                        System.out.println(connectedClient + " has disconnected");
+                        logger.info("{} has disconnected", connectedClient);
                         return;
                     }
                 }
@@ -72,19 +78,17 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
         	try {
 				out.writeObject(dto);
 			} catch (IOException e) {
-				//Anything more interesting to do?
-				e.printStackTrace();
+                logger.error("Unable to write to client", e);
 			}
         }
         catch (IOException | RowToModelParseException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+            logger.error("An error occured", ex);
             //Either deal with exception generically here or specifically in each call
             Response dto = new Response(500, null);
             try {
 				out.writeObject(dto);
 			} catch (IOException e) {
-				//Anything more interesting to do?
-				e.printStackTrace();
+                logger.error("Unable to write to client", e);
 			}
         }
     }
@@ -99,13 +103,14 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
 
     public void close() throws IOException {
         try {
+            logger.info("Closing connection");
             in.close();
             out.close();
             dataIn.close();
             dataOut.close();
             socket.close();
         } catch (NullPointerException ex) {
-            System.err.println("Socket is null");
+            logger.error("Socket is not connected");
         }
     }
 }

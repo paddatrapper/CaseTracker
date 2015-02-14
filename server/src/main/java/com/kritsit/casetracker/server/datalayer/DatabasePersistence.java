@@ -2,6 +2,9 @@ package com.kritsit.casetracker.server.datalayer;
 
 import com.kritsit.casetracker.server.domain.Domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DatabasePersistence implements IPersistenceService {
+    private final Logger logger = LoggerFactory.getLogger(DatabasePersistence.class);
     private boolean connected;
     private Connection connection;
 
@@ -20,6 +24,7 @@ public class DatabasePersistence implements IPersistenceService {
     }
 
     public boolean open() {
+        logger.debug("Retrieving database connection details");
         String host = Domain.getDbHostName();
         int port = Domain.getDbPort();
         String schema = Domain.getDbSchema();
@@ -27,12 +32,14 @@ public class DatabasePersistence implements IPersistenceService {
         String password = Domain.getDbPassword();
 
         try {
+            logger.info("Opening database connection: {}@{}:{}/{}", username, host, port, schema);
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + host 
                     + ":" + port + "/" + schema, username, password);
             connected = true;
+            logger.debug("Connected to database");
         } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+            logger.error("Unable to open database connection: {}", ex);
             connected = false;
         }
         return connected;
@@ -43,6 +50,7 @@ public class DatabasePersistence implements IPersistenceService {
     }
 
     private ResultSet get(String sql) throws SQLException {
+        logger.info("Executing request {}", sql);
         ResultSet query = null;
         Statement statement = connection.createStatement(ResultSet.CONCUR_READ_ONLY, 
                                                          ResultSet.TYPE_FORWARD_ONLY);
@@ -55,8 +63,10 @@ public class DatabasePersistence implements IPersistenceService {
 			open();
 	    	ResultSet rs = get(sql);
 	        if (isEmpty(rs)) {
+                logger.debug("ResultSet empty");
 	            return null;
 	        }
+            logger.debug("Creating map of ResultSet");
 	        Map<String, String> details = new HashMap<>();
 	        ResultSetMetaData meta = rs.getMetaData();
 	        for (int i = 1; i <= meta.getColumnCount(); i++) {
@@ -75,11 +85,14 @@ public class DatabasePersistence implements IPersistenceService {
     }
 
     public void close() {
+        logger.info("Closing connection to database");
         try {
             connection.close();
             connected = false;
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (NullPointerException ex) {}
+            logger.error("Unable to close connection: {}", ex);
+        } catch (NullPointerException ex) {
+            logger.debug("Connection already closed");
+        }
     }
 }
