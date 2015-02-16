@@ -2,7 +2,9 @@
 #
 # Starts the server and then tests the client
 #
-#set -e
+if [ '$1' == '-e' ]; then
+	set -e
+fi
 
 cd ./server
 mvn package
