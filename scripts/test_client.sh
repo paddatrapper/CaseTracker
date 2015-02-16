@@ -2,7 +2,7 @@
 #
 # Starts the server and then tests the client
 #
-set -e
+#set -e
 
 cd ./server
 mvn package
