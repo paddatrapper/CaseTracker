@@ -19,8 +19,8 @@ public class ResponseTest extends TestCase {
         response = new Response(200, "This is a message");
     }
 
-    public void testGetMessage() {
-        assertTrue(200 == response.getMessage());
+    public void testGetStatus() {
+        assertTrue(200 == response.getStatus());
     }
 
     public void testGetBody() {

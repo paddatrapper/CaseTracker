@@ -12,7 +12,7 @@ public class Domain {
 
     public static IPersistenceService getPersistenceService() {
         if (persistence == null) {
-            logger.info("Creating new persistence object");
+            logger.info("Creating new persistence connection");
             persistence = new DatabasePersistence();
         }
         return persistence;

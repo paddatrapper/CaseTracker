@@ -12,7 +12,7 @@ public class Response implements Serializable {
 		this.body = body;
 	}
 	
-	public int getMessage(){
+	public int getStatus(){
 		return statusCode;
 	}
 	
