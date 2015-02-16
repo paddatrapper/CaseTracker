@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import com.kritsit.casetracker.shared.domain.Request;
 import com.kritsit.casetracker.shared.domain.Response;
 
 import org.slf4j.Logger;
@@ -36,7 +37,8 @@ public class ServerConnection implements IConnectionService {
             connectionSocket = new Socket(host, port);
             out = new ObjectOutputStream(connectionSocket.getOutputStream());
             in = new ObjectInputStream(connectionSocket.getInputStream());
-            out.writeObject("connect##::##" + getHostName());
+            Request request = new Request("connect", getHostName());
+            out.writeObject(request);
             out.flush();
             open = true;
             logger.debug("Connected to server");
@@ -66,7 +68,8 @@ public class ServerConnection implements IConnectionService {
     public void close() throws IOException {
         if (open) {
             logger.debug("Closing connection with server");
-            out.writeObject("close");
+            Request request = new Request("close");
+            out.writeObject(request);
             out.flush();
             in.close();
             out.close();
@@ -75,7 +78,8 @@ public class ServerConnection implements IConnectionService {
 
     public boolean login(String username, int hash) {
         try {
-            out.writeObject("login##::##" + username + "##::##" + hash);
+            Request request = new Request("login", new String[]{username, String.valueOf(hash)});
+            out.writeObject(request);
             out.flush();
             Response reply = (Response) in.readObject();
             return reply.getStatus() == 200;

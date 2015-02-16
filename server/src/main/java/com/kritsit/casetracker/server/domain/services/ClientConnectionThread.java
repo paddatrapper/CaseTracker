@@ -6,6 +6,7 @@ import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
 import com.kritsit.casetracker.server.datalayer.UserRepository;
 import com.kritsit.casetracker.server.domain.Domain;
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
+import com.kritsit.casetracker.shared.domain.Request;
 import com.kritsit.casetracker.shared.domain.Response;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
@@ -26,8 +27,6 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
     private String connectedClient;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private DataInputStream dataIn;
-    private DataOutputStream dataOut;
 
     public ClientConnectionThread(Socket socket) {
         this.socket = socket;
@@ -39,14 +38,11 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
             persistence = Domain.getPersistenceService();
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            dataIn = new DataInputStream(socket.getInputStream());
-            dataOut = new DataOutputStream(socket.getOutputStream());
-            String input, output;
-            while ((input = (String) in.readObject()) != null) {
-                String[] data = input.split("##::##");
-                switch (data[0]) {
+            Request request;
+            while ((request = (Request) in.readObject()) != null) {
+                switch (request.getCommand()) {
                     case "connect": {
-                        setConnectedClient(data[1]);
+                        setConnectedClient(request.getArguments()[0]);
                         logger.info("{} has connected", connectedClient);
                         break;
                     }
@@ -56,7 +52,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     	IUserRepository repository = new UserRepository(persistence);
                         ILoginService login = new Login(repository);
 
-                        Staff user = login.login(data[1], Integer.parseInt(data[2]));
+                        Staff user = login.login(request.getArguments()[0], Integer.parseInt(request.getArguments()[1]));
                         
                         //This probably needs to be demanded to a factory method
                         Response dto = new Response(200, user);
@@ -106,8 +102,6 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
             logger.info("Closing connection");
             in.close();
             out.close();
-            dataIn.close();
-            dataOut.close();
             socket.close();
         } catch (NullPointerException ex) {
             logger.error("Socket is not connected");
