@@ -2,14 +2,28 @@
 #
 # Updates the site documentation on http://kritsit.ddns.net/CaseTracker/
 #
-set -e
 
 # Create updated site documentation
 cd ./server
 mvn clean package site
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+	exit $STATUS
+fi
+
+java -jar ./target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar &
+JavaPID=$!
 
 cd ../client
 mvn clean package site
+STATUS=$?
+
+kill -9 $JavaPID
+
+if [ $STATUS -ne 0 ]; then
+	exit $STATUS
+fi
 
 cd ..
 
