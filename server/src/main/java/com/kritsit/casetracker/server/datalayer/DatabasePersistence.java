@@ -11,7 +11,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DatabasePersistence implements IPersistenceService {
@@ -58,7 +60,7 @@ public class DatabasePersistence implements IPersistenceService {
         return query;
     }
     
-    public Map<String, String> executeQuery(String sql) throws SQLException{
+    public List<Map<String, String>> executeQuery(String sql) throws SQLException{
     	try {
 			open();
 	    	ResultSet rs = get(sql);
@@ -66,13 +68,18 @@ public class DatabasePersistence implements IPersistenceService {
                 logger.debug("ResultSet empty");
 	            return null;
 	        }
-            logger.debug("Creating map of ResultSet");
-	        Map<String, String> details = new HashMap<>();
-	        ResultSetMetaData meta = rs.getMetaData();
-	        for (int i = 1; i <= meta.getColumnCount(); i++) {
-	            String column = meta.getColumnName(i);
-	            details.put(column, rs.getString(column));
-	        }
+            List details = new ArrayList<>();
+            rs.beforeFirst();
+            while (rs.next()) {
+                logger.debug("Creating map of ResultSet row");
+                Map<String, String> rowDetails = new HashMap<>();
+                ResultSetMetaData meta = rs.getMetaData();
+                for (int i = 1; i <= meta.getColumnCount(); i++) {
+                    String column = meta.getColumnName(i);
+                    rowDetails.put(column, rs.getString(column));
+                }
+                details.add(rowDetails);
+            }
 	        return details;
     	}
     	finally{

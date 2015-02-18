@@ -8,7 +8,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserRepositoryTest extends TestCase {
@@ -33,7 +35,9 @@ public class UserRepositoryTest extends TestCase {
         details.put("department", "Inspectorate");
         details.put("position", "inspector");
         details.put("permissions", "1");
-	    when(db.executeQuery(sql)).thenReturn(details);	
+        List<Map<String, String>> result = new ArrayList<>();
+        result.add(details);
+	    when(db.executeQuery(sql)).thenReturn(result);	
 
         Staff response = repo.getUserDetails(username);
 
@@ -50,7 +54,9 @@ public class UserRepositoryTest extends TestCase {
 		UserRepository repo = new UserRepository(db);
         Map<String, String> details = new HashMap<>();
         details.put("salt", expectedSalt + "");
-	    when(db.executeQuery(sql)).thenReturn(details);	
+        List<Map<String, String>> result = new ArrayList<>();
+        result.add(details);
+	    when(db.executeQuery(sql)).thenReturn(result);	
 
 		long actualSalt = repo.getSalt(username);
 		
@@ -68,7 +74,9 @@ public class UserRepositoryTest extends TestCase {
 		UserRepository repo = new UserRepository(db);
         Map<String, String> details = new HashMap<>();
         details.put("passwordHash", expectedPasswordSaltedHash + "");
-	    when(db.executeQuery(sql)).thenReturn(details);	
+        List<Map<String, String>> result = new ArrayList<>();
+        result.add(details);
+	    when(db.executeQuery(sql)).thenReturn(result);	
 
         long passwordSaltedHash = repo.getPasswordSaltedHash(username);
         

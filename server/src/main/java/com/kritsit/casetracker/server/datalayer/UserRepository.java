@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.server.datalayer;
 
+import java.util.List;
 import java.util.Map;
 
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
@@ -22,13 +23,13 @@ public class UserRepository implements IUserRepository {
             logger.info("Fetching password salted hash for {}", username);
 	        String sql = "SELECT passwordHash FROM staff WHERE username=\'" 
 	            + username + "\';";
-	        Map<String, String> rs = db.executeQuery(sql);
+	        List<Map<String, String>> rs = db.executeQuery(sql);
 	        
-	        if(rs == null) {
+	        if(rs == null || rs.size() == 0) {
                 logger.debug("{} does not exist", username);
 	        	throw new AuthenticationException();
 	        } 
-	        return Long.parseLong(rs.get("passwordHash"));
+	        return Long.parseLong(rs.get(0).get("passwordHash"));
     	}
     	catch(Exception e){
     		logger.error("Error retrieving password salted hash for {}", username, e);
@@ -40,14 +41,14 @@ public class UserRepository implements IUserRepository {
     	try {
             logger.info("Fetching salt for {}", username);
 	        String sql = "SELECT salt FROM staff WHERE username=\'" + username + "\';";
-	        Map<String, String> rs = db.executeQuery(sql);
+	        List<Map<String, String>> rs = db.executeQuery(sql);
 	        
-	        if(rs == null) {
+	        if(rs == null || rs.size() == 0) {
                 logger.debug("{} does not exist", username);
 	        	throw new AuthenticationException();
 	        }
 	        
-	        return Long.parseLong(rs.get("salt"));
+	        return Long.parseLong(rs.get(0).get("salt"));
     	}
     	catch(Exception e){
     		logger.error("Error retrieving salt for {}", username, e);
@@ -60,8 +61,9 @@ public class UserRepository implements IUserRepository {
             logger.info("Fetching details for {}", username);
 	        String sql = "SELECT firstName, lastName, department, position, permissions FROM staff "
 	            + "WHERE username=\'" + username + "\';";
-	        Map<String, String> details = db.executeQuery(sql);
-	        
+	        List<Map<String, String>> rs = db.executeQuery(sql);
+	        Map<String, String> details = rs.get(0);
+
 	        Permission permission = Permission.values()[Integer.parseInt(details.get("permissions"))];
 	        
 	        return new Staff(username, details.get("firstName"), details.get("lastName"), 
