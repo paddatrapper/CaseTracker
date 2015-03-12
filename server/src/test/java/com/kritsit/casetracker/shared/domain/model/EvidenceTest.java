@@ -21,6 +21,8 @@ public class EvidenceTest extends TestCase {
         File serverFile = new File("test.file");
         File localFile = new File("local.file");
         evidence = new Evidence("Test file", serverFile, localFile);
+        Evidence e = new Evidence("Test file", serverFile);
+        assertTrue(e.getLocalFile() == null);
     }
 
     public void testAccessors() {

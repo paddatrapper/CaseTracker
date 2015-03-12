@@ -17,6 +17,10 @@ public class Evidence {
         this.image = null;
     }
 
+    public Evidence(String description, File serverFile) {
+        this(description, serverFile, null);
+    }
+
     // Accessor methods:
     public String getDescription() {
         return description;
