@@ -37,7 +37,7 @@ public class VehicleRepositoryTest extends TestCase {
         vehicleList.add(vehicle);
     }
     
-    public void testGetVehicles() throws SQLException, RowToModelParseException{
+    public void testGetVehicles() throws SQLException, RowToModelParseException {
         String id = "9802245849032";
         String sql = "SELECT vehicles.*, defendants.id FROM vehicle INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + id + "';";
         IPersistenceService db = mock(IPersistenceService.class);
