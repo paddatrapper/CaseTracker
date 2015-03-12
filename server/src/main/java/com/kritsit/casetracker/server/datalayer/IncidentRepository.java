@@ -27,7 +27,7 @@ public class IncidentRepository implements IIncidentRepository {
             List<Map<String, String>> rs = db.executeQuery(sql);
 
             if(rs == null || rs.size() == 0) {
-                logger.info("No incident found for case {}", caseNumber);
+                logger.debug("No incident found for case {}", caseNumber);
                 return null;
             }
             String region = rs.get(0).get("region");
