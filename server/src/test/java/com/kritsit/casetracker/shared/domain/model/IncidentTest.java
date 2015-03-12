@@ -33,6 +33,8 @@ public class IncidentTest extends TestCase {
 
     public void testCreation() {
         assertTrue(incident.getClass() == Incident.class);
+        Incident i = new Incident(-25.0001, 10.11, "Western Cape", new Date(), new Date(), false);
+        assertTrue(i.getClass() == Incident.class);
     }
 
     public void testAccessors() {
@@ -57,12 +59,16 @@ public class IncidentTest extends TestCase {
         Date followUpDate = new Date();
         Date date = new Date();
 
+        incident.setLongitude(-25.993);
+        incident.setLatitude(10.26653);
         incident.setAddress("20 Aderly Street, Cape Town");
         incident.setRegion("Eastern Cape");
         incident.setDate(date);
         incident.setFollowUpDate(followUpDate);
         incident.setFollowedUp(true);
 
+        assertTrue(-25.993 == incident.getLongitude());
+        assertTrue(10.26653 == incident.getLatitude());
         assertTrue("20 Aderly Street, Cape Town".equals(incident.getAddress()));
         assertTrue("Eastern Cape".equals(incident.getRegion()));
         assertTrue(date.equals(incident.getDate()));

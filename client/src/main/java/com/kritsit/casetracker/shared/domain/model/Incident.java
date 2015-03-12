@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class Incident {
     private String address;
+    private double longitude;
+    private double latitude;
     private String region;
     private Date date;
     private Date followUpDate;
@@ -18,6 +20,23 @@ public class Incident {
         this.date = date;
         this.followUpDate = followUpDate;
         this.followedUp = followedUp;
+    }
+
+    public Incident(double longitude, double latitude, String region, Date date, Date followUpDate, boolean followedUp) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.region = region;
+        this.date = date;
+        this.followUpDate = followUpDate;
+        this.followedUp = followedUp;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     public String getAddress() {
@@ -38,6 +57,14 @@ public class Incident {
 
     public boolean isFollowedUp() {
         return followedUp;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     public void setAddress(String address) {
