@@ -57,6 +57,19 @@ public class DefendantTest extends TestCase {
         assertTrue(vehicles.equals(defendant.getVehicles()));
     }
 
+    public void testEquals_Null() {
+        assertFalse(defendant.equals(null));
+    }
+
+    public void testEquals_Class() {
+        assertFalse(defendant.equals("testDefendant"));
+    }
+
+    public void testEquals() {
+        Defendant testDefendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
+        assertTrue(defendant.equals(testDefendant));
+    }
+
     public void testToString() {
         assertTrue("Defendant: John Smith (0002225094081)".equals(defendant.toString()));
     }

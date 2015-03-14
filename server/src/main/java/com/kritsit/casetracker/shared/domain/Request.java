@@ -3,6 +3,7 @@ package com.kritsit.casetracker.shared.domain;
 import java.io.Serializable;
 
 public class Request implements Serializable {
+    private static final long serialVersionUID = 10L;
     private String command;
     private String[] arguments;
 

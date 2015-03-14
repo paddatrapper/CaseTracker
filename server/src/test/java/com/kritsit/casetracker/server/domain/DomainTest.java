@@ -18,7 +18,6 @@ public class DomainTest extends TestCase {
     public void testPersistenceCreation() {
         IPersistenceService persistence = Domain.getPersistenceService();
 
-        assertTrue(persistence instanceof IPersistenceService);
         assertTrue(persistence.equals(Domain.getPersistenceService()));
     }
 

@@ -50,12 +50,9 @@ public class Vehicle {
     }
 
     @Override
-    public String toString() {
-        String result = "Vehicle: ";
-        result += colour + " ";
-        result += make + " ";
-        result += "(" + registration + ")";
-        return result;
+    public int hashCode() {
+        Boolean t = Boolean.valueOf(isTrailer);
+        return ((registration + make + colour).hashCode() + t.hashCode()) / 3;
     }
 
     @Override
@@ -66,16 +63,15 @@ public class Vehicle {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Vehicle other = (Vehicle) obj;
-        if (!Objects.equals(this.registration, other.registration)) {
-            return false;
-        }
-        if (!Objects.equals(this.make, other.make)) {
-            return false;
-        }
-        if (!Objects.equals(this.colour, other.colour)) {
-            return false;
-        }
-        return this.isTrailer == other.isTrailer;
+        return obj.hashCode() == hashCode();
+    }
+
+    @Override
+    public String toString() {
+        String result = "Vehicle: ";
+        result += colour + " ";
+        result += make + " ";
+        result += "(" + registration + ")";
+        return result;
     }
 }

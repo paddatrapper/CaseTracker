@@ -45,6 +45,8 @@ public class IncidentRepository implements IIncidentRepository {
                 Incident i = new Incident(address, region, date, followUpDate, isFollowedUp);
                 return i;
             }
+        } catch(RuntimeException e){
+            throw e;
         } catch(Exception e){
             logger.error("Error retrieving incident for {}", caseNumber, e);
             throw new RowToModelParseException("Error retrieving incident from database for case number: " + caseNumber);

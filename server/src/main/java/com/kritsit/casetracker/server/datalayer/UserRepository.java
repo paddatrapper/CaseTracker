@@ -30,8 +30,9 @@ public class UserRepository implements IUserRepository {
 	        	throw new AuthenticationException();
 	        } 
 	        return Long.parseLong(rs.get(0).get("passwordHash"));
-    	}
-    	catch(Exception e){
+        } catch(RuntimeException e){
+            throw e;
+    	} catch(Exception e){
     		logger.error("Error retrieving password salted hash for {}", username, e);
     		throw new RowToModelParseException("Error retrieving password salted hash from database for username: " + username);
     	}
@@ -49,8 +50,9 @@ public class UserRepository implements IUserRepository {
 	        }
 	        
 	        return Long.parseLong(rs.get(0).get("salt"));
-    	}
-    	catch(Exception e){
+        } catch(RuntimeException e){
+            throw e;
+    	} catch(Exception e){
     		logger.error("Error retrieving salt for {}", username, e);
     		throw new RowToModelParseException("Error retrieving salt from database for username: " + username);
     	}
@@ -74,6 +76,8 @@ public class UserRepository implements IUserRepository {
 	        
 	        return new Staff(username, details.get("firstName"), details.get("lastName"), 
 	        			     details.get("department"), details.get("position"), permission);
+        } catch(RuntimeException e){
+            throw e;
 		} catch(Exception e){
     		logger.error("Error retrieving details for {}", username, e);
 			throw new RowToModelParseException("Error retrieving user details from database for username: " + username);

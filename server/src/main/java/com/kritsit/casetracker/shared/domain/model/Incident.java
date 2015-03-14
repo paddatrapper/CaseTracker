@@ -95,6 +95,12 @@ public class Incident {
     }
 
     @Override
+    public int hashCode() {
+        Boolean fu = Boolean.valueOf(followedUp);
+        return ((address + region).hashCode() + date.hashCode() + followUpDate.hashCode() + fu.hashCode()) / 3;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -102,19 +108,9 @@ public class Incident {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Incident other = (Incident) obj;
-        if (!Objects.equals(this.address, other.address)) {
-            return false;
-        }
-        if (!Objects.equals(this.region, other.region)) {
-            return false;
-        }
-        if (!Objects.equals(this.date, other.date)) {
-            return false;
-        }
-        return true;
+        return obj.hashCode() == hashCode();
     }
-
+    
     @Override
     public String toString() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

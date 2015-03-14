@@ -43,15 +43,15 @@ public class CaseTrackerServer {
         return VERSION;
     }
 
-    private void listen(int port) {
+    private void listen(int port) throws RuntimeException {
         try {
             listener.listen(port);
         } catch (IOException ex) {
-            ex.printStackTrace();
-            System.exit(2);
+            logger.error("Unable to listen on port {}", port, ex);
+            throw new RuntimeException("Unable to listen for connections on port " + port);
         } catch (IllegalArgumentException ex) {
-            System.err.println(ex.getMessage());
-            System.exit(1);
+            logger.error("Port {} not valid", port, ex);
+            throw new RuntimeException("Port " + port + " not valid");
         }
     }
 

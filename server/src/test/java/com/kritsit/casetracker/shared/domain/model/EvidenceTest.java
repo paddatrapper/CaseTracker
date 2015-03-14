@@ -64,13 +64,6 @@ public class EvidenceTest extends TestCase {
         assertFalse(evidence.equals("test"));
     }
 
-    public void testEquals_Description() {
-        File serverFile = new File("test.file");
-        File localFile = new File("local.file");
-        Evidence e = new Evidence("wrong description", serverFile, localFile);
-        assertFalse(evidence.equals(e));
-    }
-
     public void testEquals() {
         File serverFile = new File("test.file");
         File localFile = new File("local.file");

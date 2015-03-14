@@ -52,12 +52,17 @@ public class DatabasePersistence implements IPersistenceService {
     }
 
     private ResultSet get(String sql) throws SQLException {
-        logger.info("Executing request {}", sql);
-        ResultSet query = null;
-        Statement statement = connection.createStatement(ResultSet.CONCUR_READ_ONLY, 
-                                                         ResultSet.TYPE_FORWARD_ONLY);
-        query = statement.executeQuery(sql);
-        return query;
+        Statement statement = null;
+        try {
+            logger.info("Executing request {}", sql);
+            ResultSet query = null;
+            statement = connection.createStatement(ResultSet.CONCUR_READ_ONLY, 
+                                                             ResultSet.TYPE_FORWARD_ONLY);
+            query = statement.executeQuery(sql);
+            return query;
+        } finally {
+            statement.close();
+        }
     }
     
     public List<Map<String, String>> executeQuery(String sql) throws SQLException{
