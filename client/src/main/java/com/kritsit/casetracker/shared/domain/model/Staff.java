@@ -3,6 +3,7 @@ package com.kritsit.casetracker.shared.domain.model;
 import java.io.Serializable;
 
 public class Staff implements Serializable {
+    private static final long serialVersionUID = 10L;
     private String username;
     private String firstName;
     private String lastName;
@@ -29,6 +30,10 @@ public class Staff implements Serializable {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getName() {
+        return firstName + " " + lastName;
     }
 
     public String getDepartment() {
@@ -66,7 +71,12 @@ public class Staff implements Serializable {
     public void setPermission(Permission permission) {
         this.permission = permission;
     }
-    
+
+    @Override
+    public int hashCode() {
+        return ((username + firstName + lastName + department + position).hashCode() + permission.hashCode()) / 3;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -75,22 +85,14 @@ public class Staff implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Staff other = (Staff) obj;
-        if (!getUsername().equals(other.getUsername())) {
-            return false;
-        }
-        if (!getFirstName().equals(other.getFirstName())) {
-            return false;
-        }
-        if (!getLastName().equals(other.getLastName())) {
-            return false;
-        }
-        if (!getDepartment().equals(other.getDepartment())) {
-            return false;
-        }
-        if (!getPosition().equals(other.getPosition())) {
-            return false;
-        }
-        return getPermission() == other.getPermission();
+        return obj.hashCode() == hashCode();
+    }
+    
+    @Override
+    public String toString() {
+        String result = "Staff: ";
+        result += username + " ";
+        result += "(" + getName() + ")";
+        return result;
     }
 }

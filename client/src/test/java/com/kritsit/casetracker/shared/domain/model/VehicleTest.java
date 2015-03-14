@@ -50,29 +50,6 @@ public class VehicleTest extends TestCase {
         assertFalse(vehicle.equals("testVehicle"));
     }
 
-    public void testEquals_Registration() {
-        Vehicle v = new Vehicle("CAW56789", "Nissan", "White", false);
-
-        assertFalse(vehicle.equals(v));
-    }
-
-    public void testEquals_Make() {
-        Vehicle v = new Vehicle("CA456789", "Toyota", "White", false);
-
-        assertFalse(vehicle.equals(v));
-    }
-
-    public void testEquals_Colour() {
-        Vehicle v = new Vehicle("CA456789", "Nissan", "Blue", false);
-
-        assertFalse(vehicle.equals(v));
-    }
-
-    public void testEquals_Trailer() {
-        Vehicle v = new Vehicle("CA456789", "Nissan", "White", true);
-
-        assertFalse(vehicle.equals(v));
-    }
     public void testEquals() {
         Vehicle v = new Vehicle("CA456789", "Nissan", "White", false);
 

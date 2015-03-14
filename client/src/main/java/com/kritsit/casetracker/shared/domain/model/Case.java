@@ -158,6 +158,11 @@ public class Case {
     }
 
     @Override
+    public int hashCode() {
+        return ((caseNumber + caseName + description + animalsInvolved + outcome + caseType).hashCode() + investigatingOfficer.hashCode() + incident.hashCode() + defendant.hashCode() + complainant.hashCode()) / 3;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -165,8 +170,7 @@ public class Case {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Case other = (Case) obj;
-        return Objects.equals(this.caseNumber, other.caseNumber);
+        return obj.hashCode() == hashCode();
     }
     
     @Override

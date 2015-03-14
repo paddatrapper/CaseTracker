@@ -17,6 +17,10 @@ public class Evidence {
         this.image = null;
     }
 
+    public Evidence(String description, File serverFile) {
+        this(description, serverFile, null);
+    }
+
     // Accessor methods:
     public String getDescription() {
         return description;
@@ -56,11 +60,8 @@ public class Evidence {
     }
 
     @Override
-    public String toString() {
-        String result = "Evidence: ";
-        result += description + " ";
-        result += "(" + getServerFileLocation() + ")";
-        return result;
+    public int hashCode() {
+        return (description.hashCode() + serverFile.hashCode()) / 3;
     }
 
     @Override
@@ -71,10 +72,14 @@ public class Evidence {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Evidence other = (Evidence) obj;
-        if (!Objects.equals(this.description, other.description)) {
-            return false;
-        }
-        return Objects.equals(this.serverFile, other.serverFile);
+        return obj.hashCode() == hashCode();
+    }
+    
+    @Override
+    public String toString() {
+        String result = "Evidence: ";
+        result += description + " ";
+        result += "(" + getServerFileLocation() + ")";
+        return result;
     }
 }

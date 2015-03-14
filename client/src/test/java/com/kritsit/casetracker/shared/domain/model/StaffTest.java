@@ -27,6 +27,7 @@ public class StaffTest extends TestCase {
         assertTrue("testUsername".equals(staff.getUsername()));
         assertTrue("firstName".equals(staff.getFirstName()));
         assertTrue("lastName".equals(staff.getLastName()));
+        assertTrue("firstName lastName".equals(staff.getName()));
         assertTrue("department".equals(staff.getDepartment()));
         assertTrue("position".equals(staff.getPosition()));
         assertTrue(Permission.EDITOR == staff.getPermission());
@@ -56,45 +57,14 @@ public class StaffTest extends TestCase {
         assertFalse(staff.equals("user"));
     }
 
-    public void testEquals_Username() {
-        Staff user = new Staff("anotherUsername", "firstName", "lastName", "department", "position", Permission.EDITOR);
-
-        assertFalse(user.equals(staff));
-    }
-
-    public void testEquals_FirstName() {
-        Staff user = new Staff("testUsername", "anotherName", "lastName", "department", "position", Permission.EDITOR);
-
-        assertFalse(user.equals(staff));
-    }
-
-    public void testEquals_LastName() {
-        Staff user = new Staff("testUsername", "firstName", "anotherName", "department", "position", Permission.EDITOR);
-
-        assertFalse(user.equals(staff));
-    }
-
-    public void testEquals_Department() {
-        Staff user = new Staff("testUsername", "firstName", "lastName", "anotherDepartment", "position", Permission.EDITOR);
-
-        assertFalse(user.equals(staff));
-    }
-
-    public void testEquals_Position() {
-        Staff user = new Staff("testUsername", "firstName", "lastName", "department", "anotherPosition", Permission.EDITOR);
-
-        assertFalse(user.equals(staff));
-    }
-
-    public void testEquals_Permission() {
-        Staff user = new Staff("testUsername", "firstName", "lastName", "department", "position", Permission.VIEWER);
-
-        assertFalse(user.equals(staff));
-    }
-
     public void testEquals() {
         Staff user = new Staff("testUsername", "firstName", "lastName", "department", "position", Permission.EDITOR);
 
         assertTrue(user.equals(staff));
+    }
+
+    public void testToString() {
+        String expected = "Staff: testUsername (firstName lastName)";
+        assertTrue(expected.equals(staff.toString()));
     }
 }

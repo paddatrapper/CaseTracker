@@ -21,6 +21,8 @@ public class EvidenceTest extends TestCase {
         File serverFile = new File("test.file");
         File localFile = new File("local.file");
         evidence = new Evidence("Test file", serverFile, localFile);
+        Evidence e = new Evidence("Test file", serverFile);
+        assertTrue(e.getLocalFile() == null);
     }
 
     public void testAccessors() {
@@ -60,13 +62,6 @@ public class EvidenceTest extends TestCase {
     
     public void testEquals_Class() {
         assertFalse(evidence.equals("test"));
-    }
-
-    public void testEquals_Description() {
-        File serverFile = new File("test.file");
-        File localFile = new File("local.file");
-        Evidence e = new Evidence("wrong description", serverFile, localFile);
-        assertFalse(evidence.equals(e));
     }
 
     public void testEquals() {

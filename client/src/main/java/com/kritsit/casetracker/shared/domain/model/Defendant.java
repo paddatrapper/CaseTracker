@@ -42,6 +42,23 @@ public class Defendant extends Person{
     }
 
     @Override
+    public int hashCode() {
+        Boolean so = Boolean.valueOf(secondOffence);
+        return super.hashCode() + (so.hashCode() / 3);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        return obj.hashCode() == hashCode();
+    }
+    
+    @Override
     public String toString() {
         String result = "Defendant: ";
         result += getName() + " ";

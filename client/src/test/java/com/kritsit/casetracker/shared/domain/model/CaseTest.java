@@ -28,7 +28,7 @@ public class CaseTest extends TestCase {
         Incident incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, date, false);
         Defendant defendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
         Person complainant = new Person("000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
-        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", null); 
+        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", Permission.EDITOR); 
         List<Evidence> evidence = new ArrayList<>();
         evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
         testCase = new Case("1234/15", "SPCA vs Defendant", "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, defendant, complainant, date, evidence, false, null, "Malnutrition", "R4500 fine");
@@ -51,7 +51,7 @@ public class CaseTest extends TestCase {
         Incident incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, date, false);
         List<Evidence> evidence = new ArrayList<>();
         evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
-        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", null); 
+        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", Permission.EDITOR); 
         Defendant defendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
 
         assertTrue("3 dogs".equals(testCase.getAnimalsInvolved()));
@@ -73,7 +73,7 @@ public class CaseTest extends TestCase {
     public void testMutators() {
         Person complainant = new Person("000222507645", "Sam", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
         Incident incident = new Incident("100 Long Street, Cape Town", "Eastern Cape", date, date, false);
-        Staff investigatingOfficer = new Staff("user", "Another", "User", "Inspectorate", "Manager", null); 
+        Staff investigatingOfficer = new Staff("user", "Another", "User", "Inspectorate", "Manager", Permission.EDITOR); 
         Date date = new Date();
         Defendant defendant = new Defendant("0002225094573", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", true);
         List<Evidence> evidence = new ArrayList<>();
@@ -128,7 +128,7 @@ public class CaseTest extends TestCase {
         Incident incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, date, false);
         Defendant defendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
         Person complainant = new Person("000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
-        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", null); 
+        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", Permission.EDITOR); 
         List<Evidence> evidence = new ArrayList<>();
         evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
         Case c = new Case("1234/15", "SPCA vs Defendant", "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, defendant, complainant, date, evidence, false, null, "Malnutrition", "R4500 fine");

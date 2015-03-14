@@ -74,11 +74,8 @@ public class Person {
     }
 
     @Override
-    public String toString() {
-        String result = "Person: ";
-        result += getName() + " ";
-        result += "(" + id + ")";
-        return result;
+    public int hashCode() {
+        return (id + firstName + lastName + address + telephoneNumber + emailAddress).hashCode() / 3;
     }
 
     @Override
@@ -89,7 +86,14 @@ public class Person {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Person other = (Person) obj;
-        return Objects.equals(this.id, other.id);
+        return obj.hashCode() == hashCode();
+    }
+    
+    @Override
+    public String toString() {
+        String result = "Person: ";
+        result += getName() + " ";
+        result += "(" + id + ")";
+        return result;
     }
 }

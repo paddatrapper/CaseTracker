@@ -4,6 +4,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.Arrays;
+
 public class RequestTest extends TestCase {
     public RequestTest(String name) {
         super(name);
@@ -41,6 +43,6 @@ public class RequestTest extends TestCase {
         String command = "login";
         Request request = new Request(command, arguments);
 
-        assertTrue(arguments.equals(request.getArguments()));
+        assertTrue(Arrays.equals(arguments, request.getArguments()));
     }
 }
