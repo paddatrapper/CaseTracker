@@ -19,15 +19,15 @@ public class EvidenceRepository implements IEvidenceRepository {
 		this.db = db;
 	}
 	
-    public List<Evidence> getEvidence(Case c) throws RowToModelParseException {
+    public List<Evidence> getEvidence(String caseNumber) throws RowToModelParseException {
 		try {
-            logger.info("Fetching evidence for case {}", c.getNumber());
+            logger.info("Fetching evidence for case {}", caseNumber);
 	        String sql = "SELECT description, fileLocation FROM evidence INNER JOIN(cases) "
-	            + "WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + c.getNumber() + "\';";
+	            + "WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + caseNumber + "\';";
 	        List<Map<String, String>> rs = db.executeQuery(sql);
             
             if (rs == null || rs.size() == 0) {
-                logger.debug("No evidence found for case {}", c.getNumber());
+                logger.debug("No evidence found for case {}", caseNumber);
                 return null;
             }
             
@@ -42,8 +42,8 @@ public class EvidenceRepository implements IEvidenceRepository {
             return evidenceList;
 		}
 		catch(Exception e){
-    		logger.error("Error retrieving evidence for case {}", c.getNumber(), e);
-			throw new RowToModelParseException("Error retrieving evidence from database for case: " + c.getNumber());
+    		logger.error("Error retrieving evidence for case {}", caseNumber, e);
+			throw new RowToModelParseException("Error retrieving evidence from database for case: " + caseNumber);
 		}
     }
 }

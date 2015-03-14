@@ -40,14 +40,11 @@ public class EvidenceRepositoryTest extends TestCase {
         String sql = "SELECT description, fileLocation FROM evidence INNER JOIN(cases) WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + caseNumber + "\';";
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql)).thenReturn(evidenceList);
-        Case c = mock(Case.class);
-        when(c.getNumber()).thenReturn(caseNumber);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
 
-        List<Evidence> evidence = evidenceRepo.getEvidence(c);
+        List<Evidence> evidence = evidenceRepo.getEvidence(caseNumber);
 
         assertTrue(evidence != null);
-        verify(c, atLeast(2)).getNumber();
         verify(db).executeQuery(sql);
     }
 
@@ -55,14 +52,11 @@ public class EvidenceRepositoryTest extends TestCase {
         String caseNumber = "1";
         String sql = "SELECT description, fileLocation FROM evidence INNER JOIN(cases) WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + caseNumber + "\';";
         IPersistenceService db = mock(IPersistenceService.class);
-        Case c = mock(Case.class);
-        when(c.getNumber()).thenReturn(caseNumber);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
 
-        List<Evidence> evidence = evidenceRepo.getEvidence(c);
+        List<Evidence> evidence = evidenceRepo.getEvidence(caseNumber);
 
         assertTrue(evidence == null);
-        verify(c, atLeast(2)).getNumber();
         verify(db).executeQuery(sql);
     }
 
@@ -71,14 +65,11 @@ public class EvidenceRepositoryTest extends TestCase {
         String sql = "SELECT description, fileLocation FROM evidence INNER JOIN(cases) WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + caseNumber + "\';";
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql)).thenReturn(new ArrayList<Map<String, String>>());
-        Case c = mock(Case.class);
-        when(c.getNumber()).thenReturn(caseNumber);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
 
-        List<Evidence> evidence = evidenceRepo.getEvidence(c);
+        List<Evidence> evidence = evidenceRepo.getEvidence(caseNumber);
 
         assertTrue(evidence == null);
-        verify(c, atLeast(2)).getNumber();
         verify(db).executeQuery(sql);
     }
 }
