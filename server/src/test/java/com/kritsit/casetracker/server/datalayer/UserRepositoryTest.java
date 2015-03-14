@@ -83,4 +83,36 @@ public class UserRepositoryTest extends TestCase {
         assertTrue(expectedPasswordSaltedHash == passwordSaltedHash);
 	    verify(db).executeQuery(sql);
     }
+
+	public void testGetInvestigatingOfficer() throws Exception {
+        String caseNumber = "1";
+        String username = "inspector";
+        String investigatingOfficerSql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.indexId=cases.investigatingOfficer AND cases.caseNumber=\'" + caseNumber + "\';";
+        String detailsSql = "SELECT firstName, lastName, department, position, permissions FROM staff WHERE username=\'" + username + "\';";
+
+		IPersistenceService db = mock(IPersistenceService.class);
+		UserRepository repo = new UserRepository(db);
+        Map<String, String> details = new HashMap<>();
+        details.put("firstName", "Inspector");
+        details.put("lastName", "Inspector");
+        details.put("department", "Inspectorate");
+        details.put("position", "inspector");
+        details.put("permissions", "1");
+        List<Map<String, String>> detailsList = new ArrayList<>();
+        detailsList.add(details);
+
+        Map<String, String> usernameMap = new HashMap<>();
+        usernameMap.put("username", username);
+        List<Map<String, String>> usernameList = new ArrayList<>();
+        usernameList.add(usernameMap);
+
+	    when(db.executeQuery(investigatingOfficerSql)).thenReturn(usernameList);
+	    when(db.executeQuery(detailsSql)).thenReturn(detailsList);
+
+        Staff response = repo.getInvestigatingOfficer(caseNumber);
+
+        assertTrue(response != null);
+        verify(db).executeQuery(investigatingOfficerSql);
+        verify(db).executeQuery(detailsSql);
+    }
 }

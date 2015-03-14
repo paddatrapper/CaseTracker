@@ -62,16 +62,40 @@ public class UserRepository implements IUserRepository {
 	        String sql = "SELECT firstName, lastName, department, position, permissions FROM staff "
 	            + "WHERE username=\'" + username + "\';";
 	        List<Map<String, String>> rs = db.executeQuery(sql);
+	        
+	        if(rs == null || rs.size() == 0) {
+                logger.debug("{} does not exist", username);
+	        	throw new AuthenticationException();
+	        }
+	        
 	        Map<String, String> details = rs.get(0);
 
 	        Permission permission = Permission.values()[Integer.parseInt(details.get("permissions"))];
 	        
 	        return new Staff(username, details.get("firstName"), details.get("lastName"), 
 	        			     details.get("department"), details.get("position"), permission);
-		}
-		catch(Exception e){
+		} catch(Exception e){
     		logger.error("Error retrieving details for {}", username, e);
 			throw new RowToModelParseException("Error retrieving user details from database for username: " + username);
+		}
+    }
+
+    public Staff getInvestigatingOfficer(String caseNumber) throws RowToModelParseException {
+        try {
+            logger.info("Fetching investigating officer for case {}", caseNumber);
+            String sql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.indexId=cases.investigatingOfficer AND cases.caseNumber=\'" + caseNumber + "\';";
+            List<Map<String, String>> rs = db.executeQuery(sql);
+	        
+	        if(rs == null || rs.size() == 0) {
+                logger.debug("Investigating officer for case {} does not exist", caseNumber);
+                return null;
+	        }
+	        
+            String username = rs.get(0).get("username");
+            return getUserDetails(username);
+		} catch(Exception e){
+    		logger.error("Error retrieving investigating officer for case {}", caseNumber, e);
+			throw new RowToModelParseException("Error retrieving investigating officer from database for case: " + caseNumber);
 		}
     }
 }
