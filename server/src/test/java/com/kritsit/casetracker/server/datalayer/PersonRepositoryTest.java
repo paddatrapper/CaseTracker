@@ -2,8 +2,9 @@ package com.kritsit.casetracker.server.datalayer;
 
 import static org.mockito.Mockito.*;
 
-import com.kritsit.casetracker.shared.domain.model.Person;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
+import com.kritsit.casetracker.shared.domain.model.Person;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
