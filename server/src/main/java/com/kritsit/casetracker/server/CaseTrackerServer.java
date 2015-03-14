@@ -43,7 +43,7 @@ public class CaseTrackerServer {
         return VERSION;
     }
 
-    private void listen(int port) throws RuntimeException {
+    private void listen(int port) {
         try {
             listener.listen(port);
         } catch (IOException ex) {
