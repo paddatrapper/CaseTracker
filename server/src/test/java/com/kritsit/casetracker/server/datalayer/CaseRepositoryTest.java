@@ -86,4 +86,44 @@ public class CaseRepositoryTest extends TestCase {
         verify(userRepo).getInvestigatingOfficer(caseNumber);
         verify(evidenceRepo).getEvidence(caseNumber);
     }
+
+    public void testGetCases_ForUser() throws SQLException, RowToModelParseException {
+        String username = "testUser";
+        String caseNumber = "1";
+        String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.indexId AND staff.username=\'" + username + "\';";
+        Incident incident = mock(Incident.class);
+        Defendant defendant = mock(Defendant.class);
+        Person complainant = mock(Person.class);
+        Staff investigatingOfficer = mock(Staff.class);
+        Evidence e = mock(Evidence.class);
+        List<Evidence> evidence = new ArrayList<>();
+        evidence.add(e);
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IIncidentRepository incidentRepo = mock(IIncidentRepository.class);
+        IPersonRepository personRepo = mock(IPersonRepository.class);
+        IUserRepository userRepo = mock(IUserRepository.class);
+        IEvidenceRepository evidenceRepo = mock(IEvidenceRepository.class);
+
+        when(investigatingOfficer.getUsername()).thenReturn(username);
+        when(db.executeQuery(sql)).thenReturn(caseList);
+        when(incidentRepo.getIncident(caseNumber)).thenReturn(incident);
+        when(personRepo.getComplainant(caseNumber)).thenReturn(complainant);
+        when(personRepo.getDefendant(caseNumber)).thenReturn(defendant);
+        when(userRepo.getInvestigatingOfficer(caseNumber)).thenReturn(investigatingOfficer);
+        when(evidenceRepo.getEvidence(caseNumber)).thenReturn(evidence);
+
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo, userRepo, evidenceRepo);
+
+        List<Case> cases = caseRepo.getCases(investigatingOfficer);
+
+        assertTrue(cases != null);
+        verify(investigatingOfficer, atLeast(2)).getUsername();
+        verify(db).executeQuery(sql);
+        verify(incidentRepo).getIncident(caseNumber);
+        verify(personRepo).getComplainant(caseNumber);
+        verify(personRepo).getDefendant(caseNumber);
+        verify(userRepo).getInvestigatingOfficer(caseNumber);
+        verify(evidenceRepo).getEvidence(caseNumber);
+    }
 }

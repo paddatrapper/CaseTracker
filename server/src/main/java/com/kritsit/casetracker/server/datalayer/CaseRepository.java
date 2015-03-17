@@ -58,30 +58,24 @@ public class CaseRepository implements ICaseRepository {
 
     public List<Case> getCases(Staff inspector) throws RowToModelParseException {
         try {
-            /*
-            logger.info("Fetching defendant for case {}", caseNumber);
-            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress, secondOffence FROM defendants INNER JOIN(cases) WHERE defendants.indexId=cases.defendantId AND cases.caseNumber=\'" + caseNumber + "\';";
+            logger.info("Fetching casesfor user {}", inspector.getUsername());
+            String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.indexId AND staff.username=\'" + inspector.getUsername() + "\';";
             List<Map<String, String>> rs = db.executeQuery(sql);
 
-            if(rs == null || rs.size() == 0) {
-                logger.debug("No defendants found for case {}", caseNumber);
+            if(rs.size() == 0) {
+                logger.debug("No cases found for user {}", inspector.getUsername());
                 return null;
             }
-            
-            String id = rs.get(0).get("id");
-            String firstName = rs.get(0).get("firstName");
-            String lastName = rs.get(0).get("lastName");
-            String address = rs.get(0).get("address");
-            String telephoneNumber = rs.get(0).get("telephoneNumber");
-            String emailAddress = rs.get(0).get("emailAddress");
-            boolean isSecondOffence = Boolean.parseBoolean(rs.get(0).get("secondOffence"));
-            
-            Defendant defendant = new Defendant(id, firstName, lastName, address, telephoneNumber, emailAddress, isSecondOffence);
-            return defendant;
-            */ return null;
+           
+            List<Case> cases = new ArrayList<>();
+            for (Map<String, String> line : rs) {
+                Case c = parseCase(line); 
+                cases.add(c);
+            }
+            return cases;
         } catch(Exception e){
-            logger.error("Error retrieving defendant for case}", e);
-            throw new RowToModelParseException("Error retrieving defendant from database for case number: ");
+            logger.error("Error retrieving cases for user {}", inspector.getUsername(), e);
+            throw new RowToModelParseException("Error retrieving cases from database for user " + inspector.getUsername());
         }
     }
 
