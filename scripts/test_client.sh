@@ -8,6 +8,10 @@ fi
 
 cd ./server
 mvn package
+
+if [ $? -ne 0 ]; then
+	exit
+fi
 java -jar ./target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar &
 JavaPID=$!
 
