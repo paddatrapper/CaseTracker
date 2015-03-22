@@ -87,7 +87,7 @@ public class UserRepository implements IUserRepository {
     public Staff getInvestigatingOfficer(String caseNumber) throws RowToModelParseException {
         try {
             logger.info("Fetching investigating officer for case {}", caseNumber);
-            String sql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.indexId=cases.investigatingOfficer AND cases.caseNumber=\'" + caseNumber + "\';";
+            String sql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.id=cases.staffID AND cases.caseNumber=\'" + caseNumber + "\';";
             List<Map<String, String>> rs = db.executeQuery(sql);
 	        
 	        if(rs == null || rs.size() == 0) {

@@ -90,7 +90,7 @@ public class CaseRepositoryTest extends TestCase {
     public void testGetCases_ForUser() throws SQLException, RowToModelParseException {
         String username = "testUser";
         String caseNumber = "1";
-        String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.indexId AND staff.username=\'" + username + "\';";
+        String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.id AND staff.username=\'" + username + "\';";
         Incident incident = mock(Incident.class);
         Defendant defendant = mock(Defendant.class);
         Person complainant = mock(Person.class);

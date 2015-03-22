@@ -37,7 +37,7 @@ public class EvidenceRepositoryTest extends TestCase {
     
     public void testGetEvidence() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence INNER JOIN(cases) WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + caseNumber + "\';";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=\'" + caseNumber + "\';";
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql)).thenReturn(evidenceList);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
@@ -50,7 +50,7 @@ public class EvidenceRepositoryTest extends TestCase {
 
     public void testGetEvidence_Null() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence INNER JOIN(cases) WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + caseNumber + "\';";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=\'" + caseNumber + "\';";
         IPersistenceService db = mock(IPersistenceService.class);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
 
@@ -62,7 +62,7 @@ public class EvidenceRepositoryTest extends TestCase {
 
     public void testGetEvidence_Empty() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence INNER JOIN(cases) WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + caseNumber + "\';";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=\'" + caseNumber + "\';";
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql)).thenReturn(new ArrayList<Map<String, String>>());
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);

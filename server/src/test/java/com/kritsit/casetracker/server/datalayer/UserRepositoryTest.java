@@ -87,7 +87,7 @@ public class UserRepositoryTest extends TestCase {
 	public void testGetInvestigatingOfficer() throws Exception {
         String caseNumber = "1";
         String username = "inspector";
-        String investigatingOfficerSql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.indexId=cases.investigatingOfficer AND cases.caseNumber=\'" + caseNumber + "\';";
+        String investigatingOfficerSql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.id=cases.staffID AND cases.caseNumber=\'" + caseNumber + "\';";
         String detailsSql = "SELECT firstName, lastName, department, position, permissions FROM staff WHERE username=\'" + username + "\';";
 
 		IPersistenceService db = mock(IPersistenceService.class);

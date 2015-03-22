@@ -59,7 +59,7 @@ public class CaseRepository implements ICaseRepository {
     public List<Case> getCases(Staff inspector) throws RowToModelParseException {
         try {
             logger.info("Fetching casesfor user {}", inspector.getUsername());
-            String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.indexId AND staff.username=\'" + inspector.getUsername() + "\';";
+            String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.id AND staff.username=\'" + inspector.getUsername() + "\';";
             List<Map<String, String>> rs = db.executeQuery(sql);
 
             if(rs.size() == 0) {

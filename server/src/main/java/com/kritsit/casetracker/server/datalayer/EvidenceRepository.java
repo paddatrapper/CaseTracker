@@ -22,8 +22,8 @@ public class EvidenceRepository implements IEvidenceRepository {
     public List<Evidence> getEvidence(String caseNumber) throws RowToModelParseException {
 		try {
             logger.info("Fetching evidence for case {}", caseNumber);
-	        String sql = "SELECT description, fileLocation FROM evidence INNER JOIN(cases) "
-	            + "WHERE evidence.id=cases.evidenceId AND cases.caseNumber=\'" + caseNumber + "\';";
+	        String sql = "SELECT description, fileLocation FROM evidence "
+	            + "WHERE evidence.caseNumber=\'" + caseNumber + "\';";
 	        List<Map<String, String>> rs = db.executeQuery(sql);
             
             if (rs == null || rs.size() == 0) {
