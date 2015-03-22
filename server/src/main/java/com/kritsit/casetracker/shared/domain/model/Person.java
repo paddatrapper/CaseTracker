@@ -1,8 +1,10 @@
 package com.kritsit.casetracker.shared.domain.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Person {
+public class Person implements Serializable {
+    private static final long serialVersionUID = 10L;
     private String id;
     private String firstName;
     private String lastName;

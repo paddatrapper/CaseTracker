@@ -1,6 +1,8 @@
 package com.kritsit.casetracker.shared.domain.model;
 
-public enum Permission {
+import java.io.Serializable;
+
+public enum Permission implements Serializable {
     ADMIN,
     EDITOR,
     VIEWER

@@ -1,11 +1,13 @@
 package com.kritsit.casetracker.shared.domain.model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
-public class Incident {
+public class Incident implements Serializable {
+    private static final long serialVersionUID = 10L;
     private String address;
     private double longitude;
     private double latitude;

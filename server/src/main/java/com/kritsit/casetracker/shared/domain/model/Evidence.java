@@ -2,9 +2,11 @@ package com.kritsit.casetracker.shared.domain.model;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Evidence {
+public class Evidence implements Serializable {
+    private static final long serialVersionUID = 10L;
     private String description;
     private File serverFile;
     private File localFile;
