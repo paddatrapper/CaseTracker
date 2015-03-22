@@ -4,7 +4,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequestTest extends TestCase {
     public RequestTest(String name) {
@@ -19,19 +20,13 @@ public class RequestTest extends TestCase {
         String command = "login";
         Request request = new Request(command);
 
-        assertTrue(request.getArguments().length == 0);
-    }
-
-    public void testOneArgument() {
-        String argument = "name";
-        String command = "login";
-        Request request = new Request(command, argument);
-
-        assertTrue(argument.equals(request.getArguments()[0]));
+        assertTrue(request.getArguments().size() == 0);
     }
 
     public void testGetCommand() {
-        String[] arguments = {"name", "password"};
+        List<String> arguments = new ArrayList<>();
+        arguments.add("username");
+        arguments.add("password");
         String command = "login";
         Request request = new Request(command, arguments);
 
@@ -39,10 +34,12 @@ public class RequestTest extends TestCase {
     }
 
     public void testGetArguments() {
-        String[] arguments = {"name", "password"};
+        List<String> arguments = new ArrayList<>();
+        arguments.add("username");
+        arguments.add("password");
         String command = "login";
         Request request = new Request(command, arguments);
 
-        assertTrue(Arrays.equals(arguments, request.getArguments()));
+        assertTrue(arguments.equals(request.getArguments()));
     }
 }

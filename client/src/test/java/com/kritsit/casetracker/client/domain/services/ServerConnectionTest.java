@@ -1,6 +1,9 @@
 package com.kritsit.casetracker.client.domain.services;
 
 import com.kritsit.casetracker.client.domain.Domain;
+import com.kritsit.casetracker.shared.domain.model.Case;
+import com.kritsit.casetracker.shared.domain.model.Permission;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -10,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.util.List;
 
 public class ServerConnectionTest extends TestCase {
     IConnectionService connection;
@@ -29,6 +33,7 @@ public class ServerConnectionTest extends TestCase {
 
     public void testConnection_PortOutOfBounds() {
         try {
+        connection.open("localhost", 1244);
             connection.open("localhost", 65555);
         } catch (IllegalArgumentException ex) {
             assertTrue("Port must be in range".equals(ex.getMessage()));
@@ -52,14 +57,23 @@ public class ServerConnectionTest extends TestCase {
         assertTrue(connection.login("inspector", "inspector".hashCode()));
     }
 
-    public void tearDown() {
-        if (connection.isOpen()) {
-            try {
-                connection.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+    public void testGetCases_NoUser() {
+        connection.open("localhost", 1244);
+        List<Case> caseList = connection.getCases(null);
+        assertTrue(caseList != null);
+    }
+
+    public void testGetCases_User() {
+        connection.open("localhost", 1244);
+        Staff user = new Staff("inspector", "test", "inspector", "department", "position", Permission.EDITOR);
+        List<Case> caseList = connection.getCases(user);
+        assertTrue(caseList != null);
+    }
+
+    public void tearDown() throws IOException {
         Domain.resetServerConnection();
+        if (connection.isOpen()) {
+            connection.close();
+        }
     }
 }

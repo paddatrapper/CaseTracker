@@ -1,5 +1,7 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import com.kritsit.casetracker.shared.domain.model.Case;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 import com.kritsit.casetracker.shared.domain.Request;
 import com.kritsit.casetracker.shared.domain.Response;
 
@@ -15,6 +17,8 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerConnection implements IConnectionService {
     private final Logger logger = LoggerFactory.getLogger(ServerConnection.class);
@@ -37,9 +41,10 @@ public class ServerConnection implements IConnectionService {
             connectionSocket = new Socket(host, port);
             out = new ObjectOutputStream(connectionSocket.getOutputStream());
             in = new ObjectInputStream(connectionSocket.getInputStream());
-            Request request = new Request("connect", getHostName());
-            out.writeObject(request);
-            out.flush();
+            List<String> argument = new ArrayList<>();
+            argument.add(getHostName());
+            Request request = new Request("connect", argument);
+            writeOut(request);
             open = true;
             logger.debug("Connected to server");
         } catch (UnknownHostException ex) {
@@ -78,14 +83,44 @@ public class ServerConnection implements IConnectionService {
 
     public boolean login(String username, int hash) {
         try {
-            Request request = new Request("login", new String[]{username, String.valueOf(hash)});
-            out.writeObject(request);
-            out.flush();
-            Response reply = (Response) in.readObject();
-            return reply.getStatus() == 200;
+            List<String> arguments = new ArrayList<>();
+            arguments.add(username);
+            arguments.add(String.valueOf(hash));
+            Request request = new Request("login", arguments);
+            Response response = getResponse(request);
+            return response.getStatus() == 200;
         } catch (IOException | ClassNotFoundException ex) {
             logger.error("Unable to log in", ex);
             return false;
         }
+    }
+
+    public List<Case> getCases(Staff user) {
+        try {
+            Request request;
+            if (user == null) {
+                request = new Request("getCases");
+            } else {
+                List<Staff> argument = new ArrayList<>();
+                argument.add(user);
+                request = new Request("getCases", argument); 
+            }
+            Response response = getResponse(request);
+            return (List<Case>) response.getBody();
+        } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to get cases", ex);
+            return null;
+        }
+    }
+
+    private Response getResponse(Request request) throws IOException, ClassNotFoundException {
+        writeOut(request);
+        Response response = (Response) in.readObject();
+        return response;
+    }
+
+    private void writeOut(Request request) throws IOException {
+        out.writeObject(request);
+        out.flush();
     }
 }

@@ -26,14 +26,8 @@ public class ClientConnectionThreadTest extends TestCase {
     }
 
     public void setUp() {
-        //try {
-            //listener = new ServerSocket(1244);
-            Socket connection = mock(Socket.class);
-            connectionThread = new ClientConnectionThread(connection);
-        //} catch (IOException ex) {
-            //ex.printStackTrace();
-        //}
-        //Domain.getPersistenceService().open();
+        Socket connection = mock(Socket.class);
+        connectionThread = new ClientConnectionThread(connection);
         connectionThread.setConnectedClient("testClient");
     }
 
@@ -45,16 +39,7 @@ public class ClientConnectionThreadTest extends TestCase {
         assertTrue("testClient".equals(connectionThread.getConnectedClient()));
     }
 
-    public void tearDown() {
-        try {
-            connectionThread.close();
-           // listener.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (NullPointerException ex) {
-            System.err.println("Connection thread or listener is null");
-        }
-        //Domain.getPersistenceService().close();
-        //Domain.resetPersistenceService();
+    public void tearDown() throws IOException, NullPointerException {
+        connectionThread.close();
     }
 }

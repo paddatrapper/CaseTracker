@@ -1,6 +1,9 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import com.kritsit.casetracker.shared.domain.model.Case;
 import com.kritsit.casetracker.shared.domain.model.Staff;
+
+import java.util.List;
 
 public class Editor implements IEditorService {
     Staff user;
@@ -16,5 +19,9 @@ public class Editor implements IEditorService {
 
     public Staff getUser() {
         return user;
+    }
+
+    public List<Case> getCases() {
+        return connection.getCases(null);
     }
 }

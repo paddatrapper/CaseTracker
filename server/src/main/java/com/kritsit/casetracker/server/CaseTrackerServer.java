@@ -24,8 +24,8 @@ public class CaseTrackerServer {
             server.listen(1244);
         } else if ("-v".equals(args[0]) || "--version".equals(args[0])) {
             logger.debug("Printing version information");
+            logger.info("Version: {}", getVersion());
             System.out.println("Version: " + getVersion());
-            System.exit(0);
         } else {
             try {
                 String arg = args[0].trim().replace("-", "");
@@ -33,8 +33,8 @@ public class CaseTrackerServer {
                 CaseTrackerServer server = new CaseTrackerServer();
                 server.listen(port);
             } catch (NumberFormatException ex) {
-                logger.error("Arguments invalid. Port is required");
-                System.exit(1);
+                logger.error("Port argument invalid");
+                throw new RuntimeException("Port argument invalid");
             }
         }
     }
