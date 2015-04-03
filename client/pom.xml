@@ -11,6 +11,9 @@
     The client side of the CaseTracker application. CaseTracker is a case 
     tracking system for the South African NSPCA
   </description>
+  <organisation>
+    <name>Krits IT</name>
+  </organisation>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -143,6 +146,15 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>com.zenjava</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>8.1.2</version>
+        <configuration>
+          <mainClass>com.kritsit.casetracker.client.CaseTrackerClient</mainClass>
+        </configuration>
       </plugin>
 	  </plugins>
   </build>
