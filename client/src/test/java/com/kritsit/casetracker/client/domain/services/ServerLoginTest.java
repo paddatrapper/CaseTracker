@@ -34,8 +34,8 @@ public class ServerLoginTest extends TestCase {
     }
 
     public void testLoginAttempt_ConnectionClosed() {
-        char[] password = {'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
         String username = "inspector";
+        String password = "inspector";
         when(connection.isOpen()).thenReturn(false);
 
         boolean result = loginService.login(username, password);
@@ -45,48 +45,41 @@ public class ServerLoginTest extends TestCase {
     }
 
     public void testLoginAttempt_IncorrectUser() {
-        char[] password = {'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
         String username = "wrongInspector";
-        String sPass = new String(password);
+        String password = "inspector";
         when(connection.isOpen()).thenReturn(true);
-        when(connection.login(username, sPass.hashCode())).thenReturn(false);
+        when(connection.login(username, password.hashCode())).thenReturn(false);
 
         boolean succeeded = loginService.login(username, password);
 
         assertFalse(succeeded);
         verify(connection).isOpen();
-        verify(connection).login(username, sPass.hashCode());
+        verify(connection).login(username, password.hashCode());
     }
 
     public void testLoginAttempt_IncorrectPassword() {
-        char[] password = {'w', 'r', 'o', 'n', 'g', ' ', 'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
         String username = "inspector";
-        String sPass = new String(password);
+        String password = "wrong inspector";
         when(connection.isOpen()).thenReturn(true);
-        when(connection.login(username, sPass.hashCode())).thenReturn(false);
+        when(connection.login(username, password.hashCode())).thenReturn(false);
 
         boolean succeeded = loginService.login(username, password);
 
         assertFalse(succeeded);
         verify(connection).isOpen();
-        verify(connection).login(username, sPass.hashCode());
+        verify(connection).login(username, password.hashCode());
     }
 
     public void testLoginAttempt_Succeeded() {
-        char[] password = {'i', 'n', 's', 'p', 'e', 'c', 't', 'o', 'r'};
         String username = "inspector";
-        String sPass = new String(password);
+        String password = "inspector";
         when(connection.isOpen()).thenReturn(true);
-        when(connection.login(username, sPass.hashCode())).thenReturn(true);
+        when(connection.login(username, password.hashCode())).thenReturn(true);
 
         boolean succeeded = loginService.login(username, password);
 
         assertTrue(succeeded);
         verify(connection).isOpen();
-        verify(connection).login(username, sPass.hashCode());
+        verify(connection).login(username, password.hashCode());
     }
-
-    public void tearDown() {
-    }
-
 }
