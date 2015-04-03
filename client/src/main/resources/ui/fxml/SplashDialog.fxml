@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 
-<VBox stylesheets="@../css/SplashDialog.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns:fx="http://javafx.com/fxml">
+  <stylesheets>
+    <URL value="@../css/SplashDialog.css" />
+  </stylesheets>
   <Label id="label-image" />
   <ProgressBar prefHeight="20.0" prefWidth="400.0" progress="0.0" />
 </VBox>
