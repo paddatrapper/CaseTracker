@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="center" hgap="10" styleClass="root" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+<GridPane alignment="center" hgap="10" styleClass="root" stylesheets="@../css/LoginDialog.css" vgap="10" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
   <padding>
     <Insets bottom="25" left="25" right="25" top="25" />
   </padding>
-
-  <stylesheets>
-    <URL value="@../css/LoginDialog.css" />
-  </stylesheets>
 
   <Label id="label-image" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
 
@@ -25,7 +20,7 @@
   <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
   <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+  <HBox alignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
     <children>
       <Button alignment="CENTER" mnemonicParsing="false" text="Login" textAlignment="CENTER">
         <HBox.margin>
@@ -39,5 +34,15 @@
         </HBox.margin>
       </Button>
     </children>
- </HBox>
+  </HBox>
+  <columnConstraints>
+    <ColumnConstraints />
+    <ColumnConstraints />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints />
+    <RowConstraints />
+    <RowConstraints />
+    <RowConstraints />
+  </rowConstraints>
 </GridPane>
