@@ -1,18 +1,21 @@
 package com.kritsit.casetracker.client;
 
-public class CaseTrackerClient {
+import javafx.application.Application;
+import javafx.stage.Stage;
 
+public class CaseTrackerClient extends Application {
     private static final String VERSION = "0.1a";
 
-    public CaseTrackerClient(String[] args) {
-    
+    public static void main(String[] args) {
+        Application.launch(args);
     }
 
     public String getVersion() {
         return VERSION;
     }
 
-    public static void main(String[] args) {
-        new CaseTrackerClient(args);
+    @Override
+    public void start(Stage stage) {
+        //TODO: Show Login Frame
     }
 }
