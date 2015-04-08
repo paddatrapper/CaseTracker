@@ -25,8 +25,17 @@ public class DomainTest extends TestCase {
         assertTrue(connection instanceof IConnectionService);
     }
 
-    public void testSingleton() {
+    public void testGetServerConnection() {
         assertTrue(connection.equals(Domain.getServerConnection()));
+    }
+
+    public void testGetLoginService() {
+        assertTrue(Domain.getLoginService() != null);
+    }
+
+    public void testGetConnectionSettings() {
+        assertTrue("localhost".equals(Domain.getServerAddress()));
+        assertTrue(Domain.getServerConnectionPort() == 1244);
     }
     
     public void tearDown() {
