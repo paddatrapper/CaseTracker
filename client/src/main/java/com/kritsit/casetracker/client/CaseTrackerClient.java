@@ -2,6 +2,7 @@ package com.kritsit.casetracker.client;
 
 import com.kritsit.casetracker.client.domain.ui.IUserInterface;
 import com.kritsit.casetracker.client.domain.ui.LoginDialog;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +25,24 @@ public class CaseTrackerClient extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        IUserInterface loginDialog = new LoginDialog();
+        LoginDialog loginDialog = new LoginDialog();
         try {
-            loginDialog.start(stage);
+            Staff user = loginDialog.run(stage);
+            if (user != null) {
+                launchUI(user);
+            }
         } catch(IOException e) {
             logger.error("Unable to start the login dialog", e);
             throw e;
+        }
+    }
+
+    private launchUI(Staff user) throws IOException {
+        IUserInterface ui = null;
+        switch (user.getPermission()) {
+            case ADMIN: break;
+            case EDITOR: break;
+            case VIEWER: break;
         }
     }
 }

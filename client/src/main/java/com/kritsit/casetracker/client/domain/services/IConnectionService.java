@@ -11,5 +11,6 @@ public interface IConnectionService {
     boolean isOpen();
     void close() throws IOException;
     boolean login(String username, int hash);
+    Staff getUser(String username, int hash);
     List<Case> getCases(Staff user);
 }

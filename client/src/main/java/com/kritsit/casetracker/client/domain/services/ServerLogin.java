@@ -1,5 +1,8 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import com.kritsit.casetracker.client.domain.Domain;
+import com.kritsit.casetracker.shared.domain.model.Staff;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,11 +16,28 @@ public class ServerLogin implements ILoginService {
     }
 
     public boolean login(String username, String password) {
-        if (!connection.isOpen()) {
-            logger.warn("Connection closed, unable to log in");
+        if (!openConnection()) {
             return false;
         }
         logger.debug("Logging in");
         return connection.login(username, password.hashCode());
+    }
+
+    public Staff getUser(String username, String password) {
+        if (!openConnection()) {
+            return null;
+        }
+        logger.debug("Getting user");
+        return connection.getUser(username, password.hashCode());
+    }
+
+    private boolean openConnection() {
+        if (!connection.isOpen()) {
+            if (!connection.open(Domain.getServerAddress(), Domain.getServerConnectionPort())) {
+                logger.warn("Unable to open connection with server");
+                return false;
+            }
+        }
+        return true;
     }
 }

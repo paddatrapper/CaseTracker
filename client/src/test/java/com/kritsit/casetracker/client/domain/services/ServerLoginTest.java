@@ -3,6 +3,7 @@ package com.kritsit.casetracker.client.domain.services;
 import static org.mockito.Mockito.*;
 
 import com.kritsit.casetracker.client.domain.Domain;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -33,10 +34,13 @@ public class ServerLoginTest extends TestCase {
         assertTrue(loginService instanceof ILoginService);
     }
 
-    public void testLoginAttempt_ConnectionClosed() {
+    public void testLoginAttempt_ConnectionClosedOpenFail() {
         String username = "inspector";
         String password = "inspector";
+        String host = "localhost";
+        int port = 1244;
         when(connection.isOpen()).thenReturn(false);
+        when(connection.open(host, port)).thenReturn(false);
 
         boolean result = loginService.login(username, password);
 
@@ -69,6 +73,22 @@ public class ServerLoginTest extends TestCase {
         verify(connection).isOpen();
         verify(connection).login(username, password.hashCode());
     }
+    
+    public void testLoginAttempt_SucceededOpenConnection() {
+        String username = "inspector";
+        String password = "inspector";
+        String host = "localhost";
+        int port = 1244;
+        when(connection.isOpen()).thenReturn(false);
+        when(connection.open(host, port)).thenReturn(true);
+        when(connection.login(username, password.hashCode())).thenReturn(true);
+
+        boolean succeeded = loginService.login(username, password);
+
+        assertTrue(succeeded);
+        verify(connection).isOpen();
+        verify(connection).login(username, password.hashCode());
+    }
 
     public void testLoginAttempt_Succeeded() {
         String username = "inspector";
@@ -81,5 +101,19 @@ public class ServerLoginTest extends TestCase {
         assertTrue(succeeded);
         verify(connection).isOpen();
         verify(connection).login(username, password.hashCode());
+    }
+
+    public void testGetUser() {
+        String username = "inspector";
+        String password = "inspector";
+        Staff returnUser = mock(Staff.class);
+        when(connection.isOpen()).thenReturn(true);
+        when(connection.getUser(username, password.hashCode())).thenReturn(returnUser);
+
+        Staff user = loginService.getUser(username, password);
+
+        assertTrue(user != null);
+        verify(connection).isOpen();
+        verify(connection).getUser(username, password.hashCode());
     }
 }

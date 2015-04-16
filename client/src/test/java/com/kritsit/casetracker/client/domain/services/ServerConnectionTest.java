@@ -57,6 +57,11 @@ public class ServerConnectionTest extends TestCase {
         assertTrue(connection.login("inspector", "inspector".hashCode()));
     }
 
+    public void testGetUser() {
+        connection.open("localhost", 1244);
+        assertTrue(connection.getUser("inspector", "inspector".hashCode()) != null);
+    }
+
     public void testGetCases_NoUser() {
         connection.open("localhost", 1244);
         List<Case> caseList = connection.getCases(null);

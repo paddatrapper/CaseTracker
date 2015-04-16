@@ -82,16 +82,28 @@ public class ServerConnection implements IConnectionService {
     }
 
     public boolean login(String username, int hash) {
+        Response response = getLoginResponse(username, hash);
+        if (response == null) {
+            return false;
+        }
+        return response.getStatus() == 200;
+    }
+
+    public Staff getUser(String username, int hash) {
+        Response response = getLoginResponse(username, hash);
+        return (Staff) response.getBody();
+    }
+
+    private Response getLoginResponse(String username, int hash) {
         try {
             List<String> arguments = new ArrayList<>();
             arguments.add(username);
             arguments.add(String.valueOf(hash));
             Request request = new Request("login", arguments);
-            Response response = getResponse(request);
-            return response.getStatus() == 200;
+            return getResponse(request);
         } catch (IOException | ClassNotFoundException ex) {
-            logger.error("Unable to log in", ex);
-            return false;
+            logger.error("Unable to retrieve login response", ex);
+            return null;
         }
     }
 
