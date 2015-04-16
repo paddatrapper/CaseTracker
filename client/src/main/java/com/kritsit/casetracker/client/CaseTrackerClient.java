@@ -37,7 +37,7 @@ public class CaseTrackerClient extends Application {
         }
     }
 
-    private launchUI(Staff user) throws IOException {
+    private void launchUI(Staff user) throws IOException {
         IUserInterface ui = null;
         switch (user.getPermission()) {
             case ADMIN: break;

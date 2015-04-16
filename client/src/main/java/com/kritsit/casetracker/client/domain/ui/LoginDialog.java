@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class LoginDialog implements IUserInterface {
+public class LoginDialog {
     public Staff run(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/fxml/LoginDialog.fxml"));
         Parent root = loader.load();
