@@ -17,5 +17,8 @@ JavaPID=$!
 
 cd ../client
 mvn test
+Exit=$?
 
 kill -9 $JavaPID
+
+exit $Exit
