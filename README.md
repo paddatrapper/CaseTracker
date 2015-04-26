@@ -2,10 +2,6 @@ CaseTracker
 ===========
 ![](https://travis-ci.org/paddatrapper/CaseTracker.svg?branch=master)
 
-NOTE: Travis CI is currently failing as CaseTracker makes use of the JavaFX 
-Alert class which only was introduced in JDK 8u40. Thus it is not found when 
-Travis CI compiles against Java 8u31.
-
 CaseTracker is a software system designed to help manage cases opened by the
 National Society for the Prevention of Cruelty to Animals (NSPCA) in South 
 Africa.
