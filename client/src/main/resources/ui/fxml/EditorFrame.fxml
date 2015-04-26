@@ -70,7 +70,7 @@
                                                 <Insets right="5.0" />
                                              </HBox.margin>
                                           </ChoiceBox>
-                                          <Button mnemonicParsing="false" onAction="#onFilterClearAction" text="Clear" />
+                                          <Button mnemonicParsing="false" onAction="#handleFilterClearAction" text="Clear" />
                                        </children>
                                        <BorderPane.margin>
                                           <Insets bottom="5.0" left="5.0" top="5.0" />
@@ -119,7 +119,7 @@
                                           <Insets top="10.0" />
                                        </padding>
                                     </HBox>
-                                    <Button mnemonicParsing="false" onAction="#onSummaryEditAction" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                                    <Button mnemonicParsing="false" onAction="#handleSummaryEditAction" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
@@ -249,7 +249,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#onCalendarPreviousAction" text="&lt;&lt;" />
+                                          <Button mnemonicParsing="false" onAction="#handleCalendarPreviousAction" text="&lt;&lt;" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" GridPane.columnIndex="1">
@@ -259,7 +259,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#onCalendarNextAction" text="&gt;&gt;" />
+                                          <Button mnemonicParsing="false" onAction="#handleCalendarNextAction" text="&gt;&gt;" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -290,7 +290,7 @@
                                     </FlowPane>
                                     <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#onCalendarTodayAction" text="Today" />
+                                          <Button mnemonicParsing="false" onAction="#handleCalendarTodayAction" text="Today" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -401,7 +401,7 @@
                                           <Insets right="5.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <Button mnemonicParsing="false" onAction="#onAddNewDefendantAction" text="Add New">
+                                    <Button mnemonicParsing="false" onAction="#handleAddNewDefendantAction" text="Add New">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
@@ -416,7 +416,7 @@
                                           <Insets right="5.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <Button mnemonicParsing="false" onAction="#onAddNewComplainantAction" text="Add New" />
+                                    <Button mnemonicParsing="false" onAction="#handleAddNewComplainantAction" text="Add New" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets top="5.0" />
@@ -489,7 +489,7 @@
                                        <HBox.margin>
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </HBox.margin></Button>
-                                    <Button mnemonicParsing="false" onAction="#onEditEvidenceAction" text="Edit">
+                                    <Button mnemonicParsing="false" onAction="#handleEditEvidenceAction" text="Edit">
                                        <HBox.margin>
                                           <Insets right="5.0" top="5.0" />
                                        </HBox.margin></Button>
@@ -501,7 +501,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#onAddCaseAction" text="Add Case">
+                                    <Button mnemonicParsing="false" onAction="#handleAddCaseAction" text="Add Case">
                                        <HBox.margin>
                                           <Insets bottom="5.0" right="5.0" top="10.0" />
                                        </HBox.margin></Button>
