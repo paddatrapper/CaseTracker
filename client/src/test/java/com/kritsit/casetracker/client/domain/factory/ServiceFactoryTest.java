@@ -27,10 +27,10 @@ public class ServiceFactoryTest extends TestCase {
     }
 
     public void testGetLoginService() {
-        assertTrue(Domain.getLoginService() != null);
+        assertTrue(ServiceFactory.getLoginService() != null);
     }
 
     public void tearDown() {
-        Domain.resetServerConnection();
+        ServiceFactory.resetServerConnection();
     }
 }
