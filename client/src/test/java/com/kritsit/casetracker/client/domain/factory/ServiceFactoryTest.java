@@ -23,7 +23,7 @@ public class ServiceFactoryTest extends TestCase {
     public void testGetServerConnection() {
         connection = ServiceFactory.getServerConnection();
         assertTrue(connection != null);
-        assertTrue(connection.equals(ServerFactory.getServerConnection()));
+        assertTrue(connection.equals(ServiceFactory.getServerConnection()));
     }
 
     public void testGetLoginService() {
