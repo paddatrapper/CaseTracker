@@ -43,6 +43,7 @@ public class LoginController implements IController {
 
     @FXML protected void handleCancelButtonAction(ActionEvent e) {
         logger.info("Close - user cancelled log in");
+        stage.close();
     }
 
     private void login(String username, String password) {

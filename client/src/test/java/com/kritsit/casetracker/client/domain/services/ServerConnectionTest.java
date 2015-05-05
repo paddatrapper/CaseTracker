@@ -1,6 +1,6 @@
 package com.kritsit.casetracker.client.domain.services;
 
-import com.kritsit.casetracker.client.domain.Domain;
+import com.kritsit.casetracker.client.domain.factory.ServiceFactory;
 import com.kritsit.casetracker.shared.domain.model.Case;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
@@ -28,7 +28,7 @@ public class ServerConnectionTest extends TestCase {
     }
 
     public void setUp() {
-        connection = Domain.getServerConnection();
+        connection = ServiceFactory.getServerConnection();
     }
 
     public void testConnection_PortOutOfBounds() {
@@ -76,7 +76,7 @@ public class ServerConnectionTest extends TestCase {
     }
 
     public void tearDown() throws IOException {
-        Domain.resetServerConnection();
+        ServiceFactory.resetServerConnection();
         if (connection.isOpen()) {
             connection.close();
         }

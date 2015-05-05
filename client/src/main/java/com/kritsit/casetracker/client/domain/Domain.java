@@ -12,24 +12,6 @@ public class Domain {
     private static final Logger logger = LoggerFactory.getLogger(Domain.class);
     private static IConnectionService connection;
 
-    public static IConnectionService getServerConnection() {
-        if (connection == null) {
-            logger.info("Creating new server connection");
-            connection = new ServerConnection();
-        }
-        return connection;
-    }
-
-    public static void resetServerConnection() {
-        logger.debug("Resetting server connection");
-        connection = null;
-    }
-
-    public static ILoginService getLoginService() {
-        logger.debug("Creating new login service");
-        return new ServerLogin(getServerConnection());
-    }
-
     public static String getServerAddress() {
         return "localhost";
     }

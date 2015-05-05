@@ -1,6 +1,6 @@
 package com.kritsit.casetracker.client.domain.ui;
 
-import com.kritsit.casetracker.client.domain.Domain;
+import com.kritsit.casetracker.client.domain.factory.ServiceFactory;
 import com.kritsit.casetracker.client.domain.services.ILoginService;
 import com.kritsit.casetracker.client.domain.ui.controller.LoginController;
 import com.kritsit.casetracker.shared.domain.model.Staff;
@@ -16,7 +16,7 @@ public class LoginDialog {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/fxml/LoginDialog.fxml"));
         Parent root = loader.load();
         LoginController controller = (LoginController) loader.getController();
-        ILoginService loginService = Domain.getLoginService();
+        ILoginService loginService = ServiceFactory.getLoginService();
         controller.setLoginService(loginService);
         controller.setStage(stage);
         stage.setTitle("CaseTracker - Login");
