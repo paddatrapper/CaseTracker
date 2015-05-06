@@ -10,8 +10,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 public class ServiceFactoryTest extends TestCase {
-    IConnectionService connection;
-
     public ServiceFactoryTest(String name) {
         super(name);
     }
@@ -20,11 +18,10 @@ public class ServiceFactoryTest extends TestCase {
         return new TestSuite(ServiceFactoryTest.class);
     }
 
-    public void setUp() {
-    }
+    public void setUp() {}
 
     public void testGetServerConnection() {
-        connection = ServiceFactory.getServerConnection();
+        IConnectionService connection = ServiceFactory.getServerConnection();
         assertTrue(connection != null);
         assertTrue(connection.equals(ServiceFactory.getServerConnection()));
     }
