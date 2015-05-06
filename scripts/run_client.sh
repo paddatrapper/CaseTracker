@@ -16,6 +16,6 @@ java -jar ./target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar &
 JavaPID=$!
 
 cd ../client
-mvn clean jfx:run
+mvn clean test jfx:run
 
 kill -9 $JavaPID
