@@ -1,6 +1,9 @@
 package com.kritsit.casetracker.client.domain.factory;
 
+import static org.mockito.Mockito.*;
+
 import com.kritsit.casetracker.client.domain.services.IConnectionService;
+import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -28,6 +31,11 @@ public class ServiceFactoryTest extends TestCase {
 
     public void testGetLoginService() {
         assertTrue(ServiceFactory.getLoginService() != null);
+    }
+
+    public void testGetEditorService() {
+        Staff user = mock(Staff.class);
+        assertTrue(ServiceFactory.getEditorService(user) != null);
     }
 
     public void tearDown() {
