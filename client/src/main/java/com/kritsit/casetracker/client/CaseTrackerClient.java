@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.client;
 
+import com.kritsit.casetracker.client.domain.factory.UserInterfaceFactory;
 import com.kritsit.casetracker.client.domain.ui.IUserInterface;
 import com.kritsit.casetracker.client.domain.ui.LoginDialog;
 import com.kritsit.casetracker.shared.domain.model.Staff;
@@ -27,9 +28,12 @@ public class CaseTrackerClient extends Application {
     public void start(Stage stage) throws Exception {
         LoginDialog loginDialog = new LoginDialog();
         try {
-            Staff user = loginDialog.run(stage);
+            logger.debug("Opening log in prompt");
+            Stage visible = new Stage();
+            Staff user = loginDialog.run(visible);
             if (user != null) {
-                launchUI(user);
+                logger.info("User logged in");
+                launchUI(user, visible);
             }
         } catch(IOException e) {
             logger.error("Unable to start the login dialog", e);
@@ -37,12 +41,16 @@ public class CaseTrackerClient extends Application {
         }
     }
 
-    private void launchUI(Staff user) throws IOException {
+    private void launchUI(Staff user, Stage stage) throws IOException {
         IUserInterface ui = null;
         switch (user.getPermission()) {
             case ADMIN: break;
-            case EDITOR: break;
-            case VIEWER: break;
+            case EDITOR: 
+            case VIEWER:
+                        logger.debug("User editor/viewer. Opening editor frame");
+                        ui = UserInterfaceFactory.getEditorFrame(); 
+                        break;
         }
+        ui.run(user, stage);
     }
 }
