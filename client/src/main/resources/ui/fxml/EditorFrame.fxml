@@ -7,518 +7,518 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kritsit.casetracker.client.domain.ui.controller.EditorController">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="Cases">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <SplitPane dividerPositions="0.563973063973064" layoutX="7.0" layoutY="19.0" prefHeight="338.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0">
-                                 <center>
-                                    <TableView fx:id="tblCases" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                      <columns>
-                                        <TableColumn prefWidth="70.0" text="Number" />
-                                        <TableColumn prefWidth="110.0" text="Description" />
-                                          <TableColumn prefWidth="170.0" text="Investigating Officer" />
-                                          <TableColumn minWidth="0.0" prefWidth="120.0" text="Incident Date" />
-                                          <TableColumn prefWidth="75.0" text="Type" />
-                                      </columns>
-                                       <BorderPane.margin>
-                                          <Insets left="5.0" />
-                                       </BorderPane.margin>
-                                    </TableView>
-                                 </center>
-                                 <bottom>
-                                    <HBox id="tblCases" alignment="CENTER_LEFT" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <Label alignment="BOTTOM_LEFT" prefHeight="16.0" text="Search:">
-                                             <HBox.margin>
-                                                <Insets right="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <TextField fx:id="txfFilterCases" prefHeight="26.0" prefWidth="330.0">
-                                             <HBox.margin>
-                                                <Insets right="5.0" />
-                                             </HBox.margin>
-                                          </TextField>
-                                          <ChoiceBox fx:id="cbxFilterCaseType" prefWidth="100.0">
-                                             <HBox.margin>
-                                                <Insets right="5.0" />
-                                             </HBox.margin>
-                                          </ChoiceBox>
-                                          <Button mnemonicParsing="false" onAction="#handleFilterClearAction" text="Clear" />
-                                       </children>
-                                       <BorderPane.margin>
-                                          <Insets bottom="5.0" left="5.0" top="5.0" />
-                                       </BorderPane.margin>
-                                    </HBox>
-                                 </bottom>
-                              </BorderPane>
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.0" minWidth="10.0" prefWidth="270.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="147.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <Text fill="#00000089" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Summary" />
-                                    <HBox alignment="BOTTOM_LEFT" prefWidth="200.0" GridPane.rowIndex="1">
-                                       <children>
-                                          <Text fx:id="txtSummaryCaseName" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseName">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text=": ">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Text>
-                                          <Text fx:id="txtSummaryCaseNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseNumber">
-                                             <HBox.margin>
-                                                <Insets bottom="1.0" />
-                                             </HBox.margin>
-                                          </Text>
-                                       </children>
-                                       <padding>
-                                          <Insets top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                    <Button mnemonicParsing="false" onAction="#handleSummaryEditAction" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                    </Button>
-                                    <Text fx:id="txtSummaryCaseType" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Type" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-                                    <VBox GridPane.rowIndex="2">
-                                       <children>
-                                          <FlowPane>
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Investigating Officer">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Text>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                                                <Text fx:id="txtSummaryIncidentDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Incident Date" />
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </FlowPane>
-                                          <FlowPane>
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Defendant" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                                                <Text fx:id="txtSummaryDefendant" strokeType="OUTSIDE" strokeWidth="0.0" text="Defendant" />
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </FlowPane>
-                                          <FlowPane>
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Next Court Date" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                                                <Text fx:id="txtSummaryCourtDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Court Date" />
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </FlowPane>
-                                          <FlowPane>
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                                                <Text fx:id="txtSummaryReturnDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date" />
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </FlowPane>
-                                       </children>
-                                    </VBox>
-                                    <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                       <children>
-                                          <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT">
-                                             <children>
-                                                <Text fx:id="txtSummaryLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Address: " />
-                                                <Text fx:id="txtSummaryLocationValue" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </FlowPane>
-                                          <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT">
-                                             <children>
-                                                <Text fx:id="txtSummaryLatitude" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude: " />
-                                                <Text fx:id="txtSummaryLatitudeValue" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude" />
-                                             </children>
-                                          </FlowPane>
-                                       </children>
-                                    </VBox>
-                                    <Label text="Details:" GridPane.rowIndex="3">
-                                       <padding>
-                                          <Insets top="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label text="Evidence:" GridPane.rowIndex="5">
-                                       <padding>
-                                          <Insets top="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <TextArea fx:id="txaSummaryDetails" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-                                    <ListView fx:id="lstSummaryEvidence" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </GridPane>
-                          </items>
-                        </SplitPane>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Calendar">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <BorderPane prefHeight="533.0" prefWidth="1090.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <center>
-                              <TableView fx:id="tblCalendar" BorderPane.alignment="CENTER">
-                                <columns>
-                                  <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Monday" />
-                                  <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Tuesday" />
-                                    <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Wednesday" />
-                                    <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Thursday" />
-                                    <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Friday" />
-                                    <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Saturday" />
-                                    <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Sunday" />
-                                </columns>
-                                 <BorderPane.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </BorderPane.margin>
-                              </TableView>
-                           </center>
-                           <top>
-                              <GridPane alignment="BOTTOM_CENTER" BorderPane.alignment="CENTER">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT">
-                                       <children>
-                                          <Button mnemonicParsing="false" onAction="#handleCalendarPreviousAction" text="&lt;&lt;" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" GridPane.columnIndex="1">
-                                       <children>
-                                          <Text fx:id="txtCalendarMonth" strokeType="OUTSIDE" strokeWidth="0.0" text="Month" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
-                                       <children>
-                                          <Button mnemonicParsing="false" onAction="#handleCalendarNextAction" text="&gt;&gt;" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <BorderPane.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </BorderPane.margin>
-                              </GridPane>
-                           </top>
-                           <bottom>
-                              <GridPane BorderPane.alignment="CENTER">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <FlowPane>
-                                       <children>
-                                          <Label text="Year:">
-                                             <padding>
-                                                <Insets right="5.0" />
-                                             </padding>
-                                          </Label>
-                                          <ChoiceBox fx:id="cbxCalendarYear" prefWidth="150.0" />
-                                       </children>
-                                    </FlowPane>
-                                    <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
-                                       <children>
-                                          <Button mnemonicParsing="false" onAction="#handleCalendarTodayAction" text="Today" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <BorderPane.margin>
-                                    <Insets left="5.0" right="5.0" top="5.0" />
-                                 </BorderPane.margin>
-                              </GridPane>
-                           </bottom>
-                        </BorderPane>
-                     </children></AnchorPane>
-            </content>
-          </Tab>
-            <Tab text="Add Case">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <GridPane layoutX="52.0" layoutY="207.0" prefHeight="533.0" prefWidth="1090.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="545.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="576.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2">
-                                 <children>
-                                    <Label text="Case Number:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txtAddCaseNumber" editable="false" prefHeight="26.0" prefWidth="124.0">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <Label text="Date:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <DatePicker fx:id="dpkAddIncidentDate" prefHeight="26.0" prefWidth="110.0">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </DatePicker>
-                                    <Label text="Investigating Officer:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <ComboBox fx:id="cmbAddInvestigatingOfficer" prefWidth="150.0">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </ComboBox>
-                                    <Label text="Case Type:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <ComboBox fx:id="cmbAddCaseType" editable="true" prefHeight="26.0" prefWidth="120.0">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </ComboBox>
-                                    <CheckBox fx:id="cbxAddIsReturnVisit" mnemonicParsing="false" text="Return Visit">
-                                       <HBox.margin>
-                                          <Insets right="7.0" />
-                                       </HBox.margin>
-                                    </CheckBox>
-                                    <Label text="Return Date:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <DatePicker fx:id="dchAddReturnDate" disable="true" prefHeight="26.0" prefWidth="110.0" />
-                                 </children>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin></HBox>
-                              <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                                 <children>
-                                    <Label text="Case Reference:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txfAddCaseName">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <Label text="Defendant:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <ComboBox fx:id="chbDefendant" prefWidth="150.0">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </ComboBox>
-                                    <Button mnemonicParsing="false" onAction="#handleAddNewDefendantAction" text="Add New">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                    <Label text="Complainant:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <ComboBox fx:id="cbxAddComplainant" prefWidth="150.0">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </ComboBox>
-                                    <Button mnemonicParsing="false" onAction="#handleAddNewComplainantAction" text="Add New" />
-                                 </children>
-                                 <GridPane.margin>
-                                    <Insets top="5.0" />
-                                 </GridPane.margin></HBox>
-                              <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="2">
-                                 <children>
-                                    <Label text="Address:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txfAddAddress" prefHeight="26.0" prefWidth="460.0">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <Label text="Longitude:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txfAddLongitude" editable="false" prefHeight="26.0" prefWidth="230.0">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <Label text="Latitude:">
-                                       <HBox.margin>
-                                          <Insets right="2.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txfAddLatitiude" editable="false" prefHeight="26.0" prefWidth="230.0" />
-                                 </children>
-                                 <GridPane.margin>
-                                    <Insets top="5.0" />
-                                 </GridPane.margin></HBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
-                                 <children>
-                                    <Label text="Details:">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin></Label>
-                                    <TextArea fx:id="txaAddDetails" prefHeight="200.0" prefWidth="200.0">
-                                       <VBox.margin>
-                                          <Insets right="5.0" />
-                                       </VBox.margin></TextArea>
-                                 </children>
-                              </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
-                                 <children>
-                                    <Label text="Evidence:">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin></Label>
-                                    <ListView fx:id="lstAddEvidence" prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                              </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <children>
-                                    <Label text="Animals Involved:">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin></Label>
-                                    <TextArea fx:id="txaAddAnimalsInvolved" prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                              </VBox>
-                              <HBox alignment="CENTER_LEFT" GridPane.rowIndex="5">
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#handleAddEvidenceAction" text="Add">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" top="5.0" />
-                                       </HBox.margin></Button>
-                                    <Button mnemonicParsing="false" onAction="#handleEditEvidenceAction" text="Edit">
-                                       <HBox.margin>
-                                          <Insets right="5.0" top="5.0" />
-                                       </HBox.margin></Button>
-                                    <Button mnemonicParsing="false" onAction="#handleDeleteEvidenceAction" text="Delete">
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin></Button>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#handleAddCaseAction" text="Add Case">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" right="5.0" top="10.0" />
-                                       </HBox.margin></Button>
-                                 </children>
-                              </HBox>
-                           </children>
-                           <padding>
-                              <Insets left="5.0" right="5.0" top="10.0" />
-                           </padding>
-                        </GridPane>
-                     </children></AnchorPane>
+  <top>
+    <MenuBar BorderPane.alignment="CENTER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Close" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Delete" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+  <center>
+    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <tabs>
+        <Tab text="Cases">
+          <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <SplitPane dividerPositions="0.563973063973064" layoutX="7.0" layoutY="19.0" prefHeight="338.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <items>
+                    <BorderPane prefHeight="200.0" prefWidth="200.0">
+                       <center>
+                          <TableView fx:id="tblCases" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                            <columns>
+                              <TableColumn fx:id="colCaseNumber" prefWidth="70.0" text="Number" />
+                              <TableColumn fx:id="colCaseName" prefWidth="110.0" text="Description" />
+                              <TableColumn fx:id="colInvestigatingOfficer" prefWidth="170.0" text="Investigating Officer" />
+                              <TableColumn fx:id="colIncidentDate" prefWidth="120.0" text="Incident Date" />
+                              <TableColumn fx:id="colCaseType" prefWidth="75.0" text="Type" />
+                            </columns>
+                            <BorderPane.margin>
+                              <Insets left="5.0" />
+                            </BorderPane.margin>
+                          </TableView>
+                       </center>
+                       <bottom>
+                          <HBox id="tblCases" alignment="CENTER_LEFT" prefWidth="200.0" BorderPane.alignment="CENTER">
+                             <children>
+                               <Label alignment="BOTTOM_LEFT" prefHeight="16.0" text="Search:">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                               </Label>
+                               <TextField fx:id="txfFilterCases" prefHeight="26.0" prefWidth="330.0">
+                                 <HBox.margin>
+                                   <Insets right="5.0" />
+                                 </HBox.margin>
+                               </TextField>
+                               <ChoiceBox fx:id="cbxFilterCaseType" prefWidth="100.0">
+                                 <HBox.margin>
+                                   <Insets right="5.0" />
+                                 </HBox.margin>
+                               </ChoiceBox>
+                               <Button mnemonicParsing="false" onAction="#handleFilterClearAction" text="Clear" />
+                             </children>
+                             <BorderPane.margin>
+                               <Insets bottom="5.0" left="5.0" top="5.0" />
+                             </BorderPane.margin>
+                          </HBox>
+                       </bottom>
+                    </BorderPane>
+                    <GridPane>
+                      <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.0" minWidth="10.0" prefWidth="270.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="147.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                      <children>
+                        <Text fill="#00000089" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Summary" />
+                        <HBox alignment="BOTTOM_LEFT" prefWidth="200.0" GridPane.rowIndex="1">
+                          <children>
+                            <Text fx:id="txtSummaryCaseName" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseName">
+                              <HBox.margin>
+                                <Insets />
+                              </HBox.margin>
+                              <font>
+                                <Font size="18.0" />
+                              </font>
+                            </Text>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=": ">
+                              <font>
+                                <Font size="18.0" />
+                              </font>
+                            </Text>
+                            <Text fx:id="txtSummaryCaseNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseNumber">
+                              <HBox.margin>
+                                <Insets bottom="1.0" />
+                              </HBox.margin>
+                            </Text>
+                          </children>
+                          <padding>
+                            <Insets top="10.0" />
+                          </padding>
+                        </HBox>
+                          <Button mnemonicParsing="false" onAction="#handleSummaryEditAction" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                             <GridPane.margin>
+                                <Insets />
+                             </GridPane.margin>
+                          </Button>
+                          <Text fx:id="txtSummaryCaseType" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Type" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                          <VBox GridPane.rowIndex="2">
+                             <children>
+                                <FlowPane>
+                                   <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Investigating Officer">
+                                         <font>
+                                            <Font size="15.0" />
+                                         </font>
+                                      </Text>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                      <Text fx:id="txtSummaryIncidentDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Incident Date" />
+                                   </children>
+                                   <VBox.margin>
+                                      <Insets top="5.0" />
+                                   </VBox.margin>
+                                </FlowPane>
+                                <FlowPane>
+                                   <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Defendant" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                      <Text fx:id="txtSummaryDefendant" strokeType="OUTSIDE" strokeWidth="0.0" text="Defendant" />
+                                   </children>
+                                   <VBox.margin>
+                                      <Insets top="5.0" />
+                                   </VBox.margin>
+                                </FlowPane>
+                                <FlowPane>
+                                   <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Next Court Date" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                      <Text fx:id="txtSummaryCourtDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Court Date" />
+                                   </children>
+                                   <VBox.margin>
+                                      <Insets top="5.0" />
+                                   </VBox.margin>
+                                </FlowPane>
+                                <FlowPane>
+                                   <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                      <Text fx:id="txtSummaryReturnDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date" />
+                                   </children>
+                                   <VBox.margin>
+                                      <Insets top="5.0" />
+                                   </VBox.margin>
+                                </FlowPane>
+                             </children>
+                          </VBox>
+                          <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+                             <children>
+                                <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT">
+                                   <children>
+                                      <Text fx:id="txtSummaryLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Address: " />
+                                      <Text fx:id="txtSummaryLocationValue" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
+                                   </children>
+                                   <VBox.margin>
+                                      <Insets top="5.0" />
+                                   </VBox.margin>
+                                </FlowPane>
+                                <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT">
+                                   <children>
+                                      <Text fx:id="txtSummaryLatitude" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude: " />
+                                      <Text fx:id="txtSummaryLatitudeValue" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude" />
+                                   </children>
+                                </FlowPane>
+                             </children>
+                          </VBox>
+                          <Label text="Details:" GridPane.rowIndex="3">
+                             <padding>
+                                <Insets top="10.0" />
+                             </padding>
+                          </Label>
+                          <Label text="Evidence:" GridPane.rowIndex="5">
+                             <padding>
+                                <Insets top="10.0" />
+                             </padding>
+                          </Label>
+                          <TextArea fx:id="txaSummaryDetails" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                          <ListView fx:id="lstSummaryEvidence" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                       </children>
+                       <padding>
+                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                       </padding>
+                    </GridPane>
+                </items>
+              </SplitPane>
+           </children>
+        </AnchorPane>
+  </content>
+</Tab>
+<Tab text="Calendar">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+           <children>
+              <BorderPane prefHeight="533.0" prefWidth="1090.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                 <center>
+                    <TableView fx:id="tblCalendar" BorderPane.alignment="CENTER">
+                      <columns>
+                        <TableColumn fx:id="colMonday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Monday" />
+                        <TableColumn fx:id="colTuesday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Tuesday" />
+                        <TableColumn fx:id="colWednesday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Wednesday" />
+                        <TableColumn fx:id="colThursday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Thursday" />
+                        <TableColumn fx:id="colFriday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Friday" />
+                        <TableColumn fx:id="colSaturday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Saturday" />
+                        <TableColumn fx:id="colSunday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Sunday" />
+                      </columns>
+                       <BorderPane.margin>
+                          <Insets left="5.0" right="5.0" />
+                       </BorderPane.margin>
+                    </TableView>
+                 </center>
+                 <top>
+                    <GridPane alignment="BOTTOM_CENTER" BorderPane.alignment="CENTER">
+                      <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                      <children>
+                        <HBox alignment="CENTER_LEFT">
+                             <children>
+                                <Button mnemonicParsing="false" onAction="#handleCalendarPreviousAction" text="&lt;&lt;" />
+                             </children>
+                          </HBox>
+                          <HBox alignment="CENTER" GridPane.columnIndex="1">
+                             <children>
+                                <Text fx:id="txtCalendarMonth" strokeType="OUTSIDE" strokeWidth="0.0" text="Month" />
+                             </children>
+                          </HBox>
+                          <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
+                             <children>
+                                <Button mnemonicParsing="false" onAction="#handleCalendarNextAction" text="&gt;&gt;" />
+                             </children>
+                          </HBox>
+                       </children>
+                       <BorderPane.margin>
+                          <Insets left="5.0" right="5.0" />
+                       </BorderPane.margin>
+                    </GridPane>
+                 </top>
+                 <bottom>
+                    <GridPane BorderPane.alignment="CENTER">
+                      <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                       <children>
+                          <FlowPane>
+                             <children>
+                                <Label text="Year:">
+                                   <padding>
+                                      <Insets right="5.0" />
+                                   </padding>
+                                </Label>
+                                <ChoiceBox fx:id="cbxCalendarYear" prefWidth="150.0" />
+                             </children>
+                          </FlowPane>
+                          <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
+                             <children>
+                                <Button mnemonicParsing="false" onAction="#handleCalendarTodayAction" text="Today" />
+                             </children>
+                          </HBox>
+                       </children>
+                       <BorderPane.margin>
+                          <Insets left="5.0" right="5.0" top="5.0" />
+                       </BorderPane.margin>
+                    </GridPane>
+                 </bottom>
+              </BorderPane>
+           </children></AnchorPane>
+  </content>
+</Tab>
+  <Tab text="Add Case">
+    <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+           <children>
+              <GridPane layoutX="52.0" layoutY="207.0" prefHeight="533.0" prefWidth="1090.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="545.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="576.0" />
+                </columnConstraints>
+                <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+                </rowConstraints>
+                 <children>
+                    <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2">
+                       <children>
+                          <Label text="Case Number:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <TextField fx:id="txtAddCaseNumber" editable="false" prefHeight="26.0" prefWidth="124.0">
+                             <HBox.margin>
+                                <Insets right="5.0" />
+                             </HBox.margin>
+                          </TextField>
+                          <Label text="Date:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <DatePicker fx:id="dpkAddIncidentDate" prefHeight="26.0" prefWidth="110.0">
+                             <HBox.margin>
+                                <Insets right="5.0" />
+                             </HBox.margin>
+                          </DatePicker>
+                          <Label text="Investigating Officer:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <ComboBox fx:id="cmbAddInvestigatingOfficer" prefWidth="150.0">
+                             <HBox.margin>
+                                <Insets right="5.0" />
+                             </HBox.margin>
+                          </ComboBox>
+                          <Label text="Case Type:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <ComboBox fx:id="cmbAddCaseType" editable="true" prefHeight="26.0" prefWidth="120.0">
+                             <HBox.margin>
+                                <Insets right="5.0" />
+                             </HBox.margin>
+                          </ComboBox>
+                          <CheckBox fx:id="cbxAddIsReturnVisit" mnemonicParsing="false" text="Return Visit">
+                             <HBox.margin>
+                                <Insets right="7.0" />
+                             </HBox.margin>
+                          </CheckBox>
+                          <Label text="Return Date:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <DatePicker fx:id="dchAddReturnDate" disable="true" prefHeight="26.0" prefWidth="110.0" />
+                       </children>
+                       <GridPane.margin>
+                          <Insets />
+                       </GridPane.margin></HBox>
+                    <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                       <children>
+                          <Label text="Case Reference:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <TextField fx:id="txfAddCaseName">
+                             <HBox.margin>
+                                <Insets right="10.0" />
+                             </HBox.margin>
+                          </TextField>
+                          <Label text="Defendant:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <ComboBox fx:id="chbDefendant" prefWidth="150.0">
+                             <HBox.margin>
+                                <Insets right="5.0" />
+                             </HBox.margin>
+                          </ComboBox>
+                          <Button mnemonicParsing="false" onAction="#handleAddNewDefendantAction" text="Add New">
+                             <HBox.margin>
+                                <Insets right="10.0" />
+                             </HBox.margin>
+                          </Button>
+                          <Label text="Complainant:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <ComboBox fx:id="cbxAddComplainant" prefWidth="150.0">
+                             <HBox.margin>
+                                <Insets right="5.0" />
+                             </HBox.margin>
+                          </ComboBox>
+                          <Button mnemonicParsing="false" onAction="#handleAddNewComplainantAction" text="Add New" />
+                       </children>
+                       <GridPane.margin>
+                          <Insets top="5.0" />
+                       </GridPane.margin></HBox>
+                    <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                       <children>
+                          <Label text="Address:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <TextField fx:id="txfAddAddress" prefHeight="26.0" prefWidth="460.0">
+                             <HBox.margin>
+                                <Insets right="10.0" />
+                             </HBox.margin>
+                          </TextField>
+                          <Label text="Longitude:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <TextField fx:id="txfAddLongitude" editable="false" prefHeight="26.0" prefWidth="230.0">
+                             <HBox.margin>
+                                <Insets right="10.0" />
+                             </HBox.margin>
+                          </TextField>
+                          <Label text="Latitude:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <TextField fx:id="txfAddLatitiude" editable="false" prefHeight="26.0" prefWidth="230.0" />
+                       </children>
+                       <GridPane.margin>
+                          <Insets top="5.0" />
+                       </GridPane.margin></HBox>
+                    <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+                       <children>
+                          <Label text="Details:">
+                             <VBox.margin>
+                                <Insets top="10.0" />
+                             </VBox.margin></Label>
+                          <TextArea fx:id="txaAddDetails" prefHeight="200.0" prefWidth="200.0">
+                             <VBox.margin>
+                                <Insets right="5.0" />
+                             </VBox.margin></TextArea>
+                       </children>
+                    </VBox>
+                    <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                       <children>
+                          <Label text="Evidence:">
+                             <VBox.margin>
+                                <Insets top="10.0" />
+                             </VBox.margin></Label>
+                          <ListView fx:id="lstAddEvidence" prefHeight="200.0" prefWidth="200.0" />
+                       </children>
+                    </VBox>
+                    <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                       <children>
+                          <Label text="Animals Involved:">
+                             <VBox.margin>
+                                <Insets top="10.0" />
+                             </VBox.margin></Label>
+                          <TextArea fx:id="txaAddAnimalsInvolved" prefHeight="200.0" prefWidth="200.0" />
+                       </children>
+                    </VBox>
+                    <HBox alignment="CENTER_LEFT" GridPane.rowIndex="5">
+                       <children>
+                          <Button mnemonicParsing="false" onAction="#handleAddEvidenceAction" text="Add">
+                             <HBox.margin>
+                                <Insets left="5.0" right="5.0" top="5.0" />
+                             </HBox.margin></Button>
+                          <Button mnemonicParsing="false" onAction="#handleEditEvidenceAction" text="Edit">
+                             <HBox.margin>
+                                <Insets right="5.0" top="5.0" />
+                             </HBox.margin></Button>
+                          <Button mnemonicParsing="false" onAction="#handleDeleteEvidenceAction" text="Delete">
+                             <HBox.margin>
+                                <Insets top="5.0" />
+                             </HBox.margin></Button>
+                       </children>
+                    </HBox>
+                    <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                       <children>
+                          <Button mnemonicParsing="false" onAction="#handleAddCaseAction" text="Add Case">
+                             <HBox.margin>
+                                <Insets bottom="5.0" right="5.0" top="10.0" />
+                             </HBox.margin></Button>
+                       </children>
+                    </HBox>
+                 </children>
+                 <padding>
+                    <Insets left="5.0" right="5.0" top="10.0" />
+                 </padding>
+              </GridPane>
+           </children></AnchorPane>
               </content>
             </Tab>
         </tabs>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
+        <BorderPane.margin>
+          <Insets />
+        </BorderPane.margin>
       </TabPane>
    </center>
 </BorderPane>
