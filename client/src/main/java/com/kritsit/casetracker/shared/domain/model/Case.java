@@ -1,12 +1,10 @@
 package com.kritsit.casetracker.shared.domain.model;
 
+import com.kritsit.casetracker.shared.domain.SerializableBooleanProperty;
+import com.kritsit.casetracker.shared.domain.SerializableObjectProperty;
+import com.kritsit.casetracker.shared.domain.SerializableStringProperty;
+
 import javafx.beans.property.Property;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -16,36 +14,36 @@ import java.util.Objects;
 
 public class Case implements Serializable {
     private static final long serialVersionUID = 10L;
-    private StringProperty caseNumberProperty;
-    private StringProperty caseNameProperty;
-    private StringProperty descriptionProperty;
-    private StringProperty animalsInvolvedProperty;
-    private ObjectProperty<Staff> investigatingOfficerProperty;
-    private ObjectProperty<Incident> incidentProperty;
-    private ObjectProperty<Defendant> defendantProperty;
-    private ObjectProperty<Person> complainantProperty;
-    private ObjectProperty<Date> nextCourtDateProperty;
-    private StringProperty outcomeProperty;
-    private ObjectProperty<List<Evidence>> evidenceProperty;
-    private BooleanProperty returnVisitProperty;
-    private ObjectProperty<Date> returnDateProperty;
-    private StringProperty caseTypeProperty;
+    private SerializableStringProperty caseNumberProperty;
+    private SerializableStringProperty caseNameProperty;
+    private SerializableStringProperty descriptionProperty;
+    private SerializableStringProperty animalsInvolvedProperty;
+    private SerializableObjectProperty<Staff> investigatingOfficerProperty;
+    private SerializableObjectProperty<Incident> incidentProperty;
+    private SerializableObjectProperty<Defendant> defendantProperty;
+    private SerializableObjectProperty<Person> complainantProperty;
+    private SerializableObjectProperty<Date> nextCourtDateProperty;
+    private SerializableStringProperty outcomeProperty;
+    private SerializableObjectProperty<List<Evidence>> evidenceProperty;
+    private SerializableBooleanProperty returnVisitProperty;
+    private SerializableObjectProperty<Date> returnDateProperty;
+    private SerializableStringProperty caseTypeProperty;
 
     public Case(String caseNumber, String caseName, String description, String animalsInvolved, Staff investigatingOfficer, Incident incident, Defendant defendant, Person complainant, Date nextCourtDate, List<Evidence> evidence, boolean returnVisit, Date returnDate, String caseType, String outcome) {
-        caseNumberProperty = new SimpleStringProperty();
-        caseNameProperty = new SimpleStringProperty();
-        descriptionProperty = new SimpleStringProperty();
-        animalsInvolvedProperty = new SimpleStringProperty();
-        investigatingOfficerProperty = new SimpleObjectProperty<>();
-        incidentProperty = new SimpleObjectProperty<>();
-        defendantProperty = new SimpleObjectProperty<>();
-        complainantProperty = new SimpleObjectProperty<>();
-        nextCourtDateProperty = new SimpleObjectProperty<>();
-        outcomeProperty = new SimpleStringProperty();
-        evidenceProperty = new SimpleObjectProperty<>();
-        returnVisitProperty = new SimpleBooleanProperty();
-        returnDateProperty = new SimpleObjectProperty<>();
-        caseTypeProperty = new SimpleStringProperty();
+        caseNumberProperty = new SerializableStringProperty();
+        caseNameProperty = new SerializableStringProperty();
+        descriptionProperty = new SerializableStringProperty();
+        animalsInvolvedProperty = new SerializableStringProperty();
+        investigatingOfficerProperty = new SerializableObjectProperty<>();
+        incidentProperty = new SerializableObjectProperty<>();
+        defendantProperty = new SerializableObjectProperty<>();
+        complainantProperty = new SerializableObjectProperty<>();
+        nextCourtDateProperty = new SerializableObjectProperty<>();
+        outcomeProperty = new SerializableStringProperty();
+        evidenceProperty = new SerializableObjectProperty<>();
+        returnVisitProperty = new SerializableBooleanProperty();
+        returnDateProperty = new SerializableObjectProperty<>();
+        caseTypeProperty = new SerializableStringProperty();
 
         setNumber(caseNumber);
         setName(caseName);
