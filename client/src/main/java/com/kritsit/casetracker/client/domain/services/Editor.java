@@ -14,9 +14,6 @@ public class Editor implements IEditorService {
         this.connection = connection;
     }
 
-    public void showUI() {
-    }
-
     public Staff getUser() {
         return user;
     }
