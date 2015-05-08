@@ -1,60 +1,73 @@
 package com.kritsit.casetracker.shared.domain.model;
 
-import java.io.Serializable;
-import java.util.Objects;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
-public class Vehicle implements Serializable {
+public class Vehicle implements Externalizable {
     private static final long serialVersionUID = 10L;
-    private String registration;
-    private String make;
-    private String colour;
-    private boolean isTrailer;
+    private StringProperty registrationProperty;
+    private StringProperty makeProperty;
+    private StringProperty colourProperty;
+    private BooleanProperty isTrailerProperty;
+
+    public Vehicle() {
+        registrationProperty = new SimpleStringProperty();
+        makeProperty = new SimpleStringProperty();
+        colourProperty = new SimpleStringProperty();
+        isTrailerProperty = new SimpleBooleanProperty();
+    }
 
     public Vehicle(String registration, String make, String colour, boolean isTrailer) {
-        this.registration = registration;
-        this.make = make;
-        this.colour = colour;
-        this.isTrailer = isTrailer;
+        registrationProperty = new SimpleStringProperty(registration);
+        makeProperty = new SimpleStringProperty(make);
+        colourProperty = new SimpleStringProperty(colour);
+        isTrailerProperty = new SimpleBooleanProperty(isTrailer);
     }
 
     // Accessor methods:
     public String getRegistration() {
-        return registration;
+        return registrationProperty.get();
     }
 
     public String getMake() {
-        return make;
+        return makeProperty.get();
     }
 
     public String getColour() {
-        return colour;
+        return colourProperty.get();
     }
 
     public boolean isTrailer() {
-        return isTrailer;
+        return isTrailerProperty.get();
     }
 
     // Mutator methods:
     public void setRegistration(String registration) {
-        this.registration = registration;
+        registrationProperty.set(registration);
     }
 
     public void setMake(String make) {
-        this.make = make;
+        makeProperty.set(make);
     }
 
     public void setColour(String colour) {
-        this.colour = colour;
+        colourProperty.set(colour);
     }
 
     public void setTrailer(boolean isTrailer) {
-        this.isTrailer = isTrailer;
+        isTrailerProperty.set(isTrailer);
     }
 
     @Override
     public int hashCode() {
-        Boolean t = Boolean.valueOf(isTrailer);
-        return ((registration + make + colour).hashCode() + t.hashCode()) / 3;
+        Boolean t = Boolean.valueOf(isTrailer());
+        return ((getRegistration() + getMake() + getColour()).hashCode() + t.hashCode()) / 3;
     }
 
     @Override
@@ -71,9 +84,25 @@ public class Vehicle implements Serializable {
     @Override
     public String toString() {
         String result = "Vehicle: ";
-        result += colour + " ";
-        result += make + " ";
-        result += "(" + registration + ")";
+        result += getColour() + " ";
+        result += getMake() + " ";
+        result += "(" + getRegistration() + ")";
         return result;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(getRegistration());
+        out.writeObject(getMake());
+        out.writeObject(getColour());
+        out.writeBoolean(isTrailer());
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        setRegistration((String) in.readObject());
+        setMake((String) in.readObject());
+        setColour((String) in.readObject());
+        setTrailer(in.readBoolean());
     }
 }

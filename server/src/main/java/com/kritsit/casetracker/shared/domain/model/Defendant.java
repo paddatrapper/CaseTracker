@@ -1,20 +1,33 @@
 package com.kritsit.casetracker.shared.domain.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.ObjectProperty;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Defendant extends Person{
-    private boolean secondOffence;
-    private List<Vehicle> vehicles;
+public class Defendant extends Person {
+    private BooleanProperty secondOffenceProperty;
+    private ObjectProperty<List<Vehicle>> vehicleProperty;
+
+    public Defendant() {
+        super();
+        secondOffenceProperty = new SimpleBooleanProperty();
+        vehicleProperty = new SimpleObjectProperty<List<Vehicle>>(new ArrayList<Vehicle>());
+    }
 
     public Defendant(String id, String firstName, String lastName, String address, String telephoneNumber, String emailAddress, boolean secondOffence) {
         super(id, firstName, lastName, address, telephoneNumber, emailAddress);
-        this.secondOffence = secondOffence;
-        vehicles = new ArrayList<>();
+        secondOffenceProperty = new SimpleBooleanProperty(secondOffence);
+        vehicleProperty = new SimpleObjectProperty<List<Vehicle>>(new ArrayList<Vehicle>());
     }
 
     public void addVehicle(Vehicle vehicle) {
-        this.vehicles.add(vehicle);
+        getVehicles().add(vehicle);
     }
 
     public void addVehicles(Vehicle[] vehicle) {
@@ -25,25 +38,25 @@ public class Defendant extends Person{
 
     // Accessor methods:
     public List<Vehicle> getVehicles() {
-        return vehicles;
+        return vehicleProperty.get();
     }
 
     public boolean isSecondOffence() {
-        return secondOffence;
+        return secondOffenceProperty.get();
     }
 
     // Mutator methods:
     public void setVehicles(List<Vehicle> vehicles) {
-        this.vehicles = vehicles;
+        vehicleProperty.set(vehicles);
     }
 
     public void setSecondOffence(boolean secondOffence) {
-        this.secondOffence = secondOffence;
+        secondOffenceProperty.set(secondOffence);
     }
 
     @Override
     public int hashCode() {
-        Boolean so = Boolean.valueOf(secondOffence);
+        Boolean so = Boolean.valueOf(isSecondOffence());
         return super.hashCode() + (so.hashCode() / 3);
     }
 
@@ -64,5 +77,19 @@ public class Defendant extends Person{
         result += getName() + " ";
         result += "(" + getId() + ")";
         return result;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        super.writeExternal(out);
+        out.writeBoolean(isSecondOffence());
+        out.writeObject(getVehicles());
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        super.readExternal(in);
+        setSecondOffence(in.readBoolean());
+        setVehicles((List<Vehicle>) in.readObject());
     }
 }
