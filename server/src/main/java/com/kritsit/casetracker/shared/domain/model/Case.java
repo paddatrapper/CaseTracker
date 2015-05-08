@@ -128,15 +128,15 @@ public class Case implements Externalizable {
     }
 
     public Property caseNumberProperty() {
-        return caseNumberProperty();
+        return caseNumberProperty;
     }
 
     public Property caseNameProperty() {
-        return caseNameProperty();
+        return caseNameProperty;
     }
 
     public Property caseTypeProperty() {
-        return caseTypeProperty();
+        return caseTypeProperty;
     }
 
     // Mutator methods:

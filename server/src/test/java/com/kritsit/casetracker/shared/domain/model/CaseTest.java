@@ -68,6 +68,9 @@ public class CaseTest extends TestCase {
         assertTrue(null == testCase.getReturnDate());
         assertTrue("Malnutrition".equals(testCase.getType()));
         assertTrue("R4500 fine".equals(testCase.getRuling()));
+        assertTrue(testCase.caseNumberProperty() != null);
+        assertTrue(testCase.caseNameProperty() != null);
+        assertTrue(testCase.caseTypeProperty() != null);
     }
 
     public void testMutators() {

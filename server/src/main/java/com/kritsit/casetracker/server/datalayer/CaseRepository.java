@@ -62,7 +62,7 @@ public class CaseRepository implements ICaseRepository {
             String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.id AND staff.username=\'" + inspector.getUsername() + "\';";
             List<Map<String, String>> rs = db.executeQuery(sql);
 
-            if(rs.size() == 0) {
+            if(rs == null || rs.size() == 0) {
                 logger.debug("No cases found for user {}", inspector.getUsername());
                 return null;
             }
