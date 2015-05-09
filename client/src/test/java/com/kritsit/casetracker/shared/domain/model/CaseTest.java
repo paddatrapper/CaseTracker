@@ -5,15 +5,12 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CaseTest extends TestCase {
     Case testCase;
-    Date date;
 
     public CaseTest(String name) {
         super(name);
@@ -24,7 +21,7 @@ public class CaseTest extends TestCase {
     }
 
     public void setUp() {
-        date = new Date();
+        LocalDate date = LocalDate.now();
         Incident incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, date, false);
         Defendant defendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
         Person complainant = new Person("000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
@@ -47,6 +44,7 @@ public class CaseTest extends TestCase {
     }
 
     public void testAccessors() {
+        LocalDate date = LocalDate.now();
         Person complainant = new Person("000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
         Incident incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, date, false);
         List<Evidence> evidence = new ArrayList<>();
@@ -74,10 +72,10 @@ public class CaseTest extends TestCase {
     }
 
     public void testMutators() {
+        LocalDate date = LocalDate.now();
         Person complainant = new Person("000222507645", "Sam", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
         Incident incident = new Incident("100 Long Street, Cape Town", "Eastern Cape", date, date, false);
         Staff investigatingOfficer = new Staff("user", "Another", "User", "Inspectorate", "Manager", Permission.EDITOR); 
-        Date date = new Date();
         Defendant defendant = new Defendant("0002225094573", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", true);
         List<Evidence> evidence = new ArrayList<>();
         evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
@@ -127,7 +125,7 @@ public class CaseTest extends TestCase {
     }
 
     public void testEquals() {
-        date = new Date();
+        LocalDate date = LocalDate.now();
         Incident incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, date, false);
         Defendant defendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
         Person complainant = new Person("000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");

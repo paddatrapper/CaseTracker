@@ -13,8 +13,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.GregorianCalendar;
 
 public class Incident implements Externalizable {
@@ -23,8 +23,8 @@ public class Incident implements Externalizable {
     private DoubleProperty longitudeProperty;
     private DoubleProperty latitudeProperty;
     private StringProperty regionProperty;
-    private ObjectProperty<Date> dateProperty;
-    private ObjectProperty<Date> followUpDateProperty;
+    private ObjectProperty<LocalDate> dateProperty;
+    private ObjectProperty<LocalDate> followUpDateProperty;
     private BooleanProperty followedUpProperty;
 
     public Incident() {
@@ -37,7 +37,7 @@ public class Incident implements Externalizable {
         latitudeProperty = new SimpleDoubleProperty();
     }
 
-    public Incident(String address, String region, Date date, Date followUpDate, boolean followedUp) {
+    public Incident(String address, String region, LocalDate date, LocalDate followUpDate, boolean followedUp) {
         addressProperty = new SimpleStringProperty(address);
         regionProperty = new SimpleStringProperty(region);
         dateProperty = new SimpleObjectProperty<>(date);
@@ -47,7 +47,7 @@ public class Incident implements Externalizable {
         latitudeProperty = new SimpleDoubleProperty();
     }
 
-    public Incident(double longitude, double latitude, String region, Date date, Date followUpDate, boolean followedUp) {
+    public Incident(double longitude, double latitude, String region, LocalDate date, LocalDate followUpDate, boolean followedUp) {
         longitudeProperty = new SimpleDoubleProperty(longitude);
         latitudeProperty = new SimpleDoubleProperty(latitude);
         regionProperty = new SimpleStringProperty(region);
@@ -73,11 +73,11 @@ public class Incident implements Externalizable {
         return regionProperty.get();
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return dateProperty.get();
     }
 
-    public Date getFollowUpDate() {
+    public LocalDate getFollowUpDate() {
         return followUpDateProperty.get();
     }
 
@@ -105,11 +105,11 @@ public class Incident implements Externalizable {
         regionProperty.set(region);
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         dateProperty.set(date);
     }
 
-    public void setFollowUpDate(Date followUpDate) {
+    public void setFollowUpDate(LocalDate followUpDate) {
         followUpDateProperty.set(followUpDate);
     }
 
@@ -117,11 +117,8 @@ public class Incident implements Externalizable {
         followedUpProperty.set(followedUp);
     }
 
-    public Date getDefaultFollowUpDate() {
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(getDate());
-        cal.add(GregorianCalendar.DATE, 7);
-        return cal.getTime();
+    public LocalDate getDefaultFollowUpDate() {
+        return getDate().plusWeeks(1L);
     }
 
     @Override
@@ -143,7 +140,6 @@ public class Incident implements Externalizable {
     
     @Override
     public String toString() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String result = "Incident: ";
         if (getAddress() != null && getAddress().length() != 0) {
             result += getAddress() + " ";
@@ -151,7 +147,7 @@ public class Incident implements Externalizable {
             result += getLatitude() + ", ";
             result += getLongitude() + " ";
         }
-        result += "(" + df.format(getDate()) + ")";
+        result += "(" + getDate().toString() + ")";
         return result;
     }
 
@@ -172,8 +168,8 @@ public class Incident implements Externalizable {
         setLongitude(in.readDouble());
         setLatitude(in.readDouble());
         setRegion((String) in.readObject());
-        setDate((Date) in.readObject());
-        setFollowUpDate((Date) in.readObject());
+        setDate((LocalDate) in.readObject());
+        setFollowUpDate((LocalDate) in.readObject());
         setFollowedUp(in.readBoolean());
     }
 }

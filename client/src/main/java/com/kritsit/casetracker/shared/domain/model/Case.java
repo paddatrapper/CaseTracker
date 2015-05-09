@@ -11,8 +11,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Case implements Externalizable {
@@ -25,11 +25,11 @@ public class Case implements Externalizable {
     private ObjectProperty<Incident> incidentProperty;
     private ObjectProperty<Defendant> defendantProperty;
     private ObjectProperty<Person> complainantProperty;
-    private ObjectProperty<Date> nextCourtDateProperty;
+    private ObjectProperty<LocalDate> nextCourtDateProperty;
     private StringProperty outcomeProperty;
     private ObjectProperty<List<Evidence>> evidenceProperty;
     private BooleanProperty returnVisitProperty;
-    private ObjectProperty<Date> returnDateProperty;
+    private ObjectProperty<LocalDate> returnDateProperty;
     private StringProperty caseTypeProperty;
 
     public Case() {
@@ -49,7 +49,7 @@ public class Case implements Externalizable {
         caseTypeProperty = new SimpleStringProperty();
     }
 
-    public Case(String caseNumber, String caseName, String description, String animalsInvolved, Staff investigatingOfficer, Incident incident, Defendant defendant, Person complainant, Date nextCourtDate, List<Evidence> evidence, boolean returnVisit, Date returnDate, String caseType, String outcome) {
+    public Case(String caseNumber, String caseName, String description, String animalsInvolved, Staff investigatingOfficer, Incident incident, Defendant defendant, Person complainant, LocalDate nextCourtDate, List<Evidence> evidence, boolean returnVisit, LocalDate returnDate, String caseType, String outcome) {
         caseNumberProperty = new SimpleStringProperty(caseNumber);
         caseNameProperty = new SimpleStringProperty(caseName);
         descriptionProperty = new SimpleStringProperty(description);
@@ -107,7 +107,7 @@ public class Case implements Externalizable {
         return investigatingOfficerProperty.get();
     }
 
-    public Date getNextCourtDate() {
+    public LocalDate getNextCourtDate() {
         return nextCourtDateProperty.get();
     }
 
@@ -115,7 +115,7 @@ public class Case implements Externalizable {
         return defendantProperty.get();
     }
 
-    public Date getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDateProperty.get();
     }
 
@@ -172,7 +172,7 @@ public class Case implements Externalizable {
         investigatingOfficerProperty.set(investigatingOfficer);
     }
 
-    public void setNextCourtDate(Date nextCourtDate) {
+    public void setNextCourtDate(LocalDate nextCourtDate) {
         nextCourtDateProperty.set(nextCourtDate);
     }
 
@@ -180,7 +180,7 @@ public class Case implements Externalizable {
         defendantProperty.set(defendant);
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         returnDateProperty.set(returnDate);
     }
 
@@ -248,11 +248,11 @@ public class Case implements Externalizable {
         setIncident((Incident) in.readObject());
         setDefendant((Defendant) in.readObject());
         setComplainant((Person) in.readObject());
-        setNextCourtDate((Date) in.readObject());
+        setNextCourtDate((LocalDate) in.readObject());
         setRuling((String) in.readObject());
         setEvidence((List<Evidence>) in.readObject());
         setReturnVisit(in.readBoolean());
-        setReturnDate((Date) in.readObject());
+        setReturnDate((LocalDate) in.readObject());
         setType((String) in.readObject());
     }
 }

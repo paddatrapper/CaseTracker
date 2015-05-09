@@ -4,9 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class IncidentTest extends TestCase {
     Incident incident;
@@ -20,33 +18,20 @@ public class IncidentTest extends TestCase {
     }
 
     public void setUp() {
-        SimpleDateFormat df  = new SimpleDateFormat("yyy-MM-dd");
-        try {
-            Date date = df.parse("2015-01-19");
-            Date followUpDate = df.parse("2015-02-19");
-            incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-            incident = null;
-        }
+        LocalDate date = LocalDate.parse("2015-01-19");
+        LocalDate followUpDate = LocalDate.parse("2015-02-19");
+        incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
     }
 
     public void testCreation() {
         assertTrue(incident.getClass() == Incident.class);
-        Incident i = new Incident(-25.0001, 10.11, "Western Cape", new Date(), new Date(), false);
+        Incident i = new Incident(-25.0001, 10.11, "Western Cape", LocalDate.now(), LocalDate.now(), false);
         assertTrue(i.getClass() == Incident.class);
     }
 
     public void testAccessors() {
-        SimpleDateFormat df  = new SimpleDateFormat("yyy-MM-dd");
-        Date date = new Date();
-        Date followUpDate = new Date();
-        try {
-            date = df.parse("2015-01-19");
-            followUpDate = df.parse("2015-02-19");
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        LocalDate date = LocalDate.parse("2015-01-19");
+        LocalDate followUpDate = LocalDate.parse("2015-02-19");
 
         assertTrue("100 Long Street, Cape Town".equals(incident.getAddress()));
         assertTrue("Western Cape".equals(incident.getRegion()));
@@ -56,8 +41,8 @@ public class IncidentTest extends TestCase {
     }
 
     public void testMutators() {
-        Date followUpDate = new Date();
-        Date date = new Date();
+        LocalDate followUpDate = LocalDate.now();
+        LocalDate date = LocalDate.now();
 
         incident.setLongitude(-25.993);
         incident.setLatitude(10.26653);
@@ -77,15 +62,8 @@ public class IncidentTest extends TestCase {
     }
 
     public void testGetFollowUpDate() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = new Date();
-        Date followUpDate = new Date();
-        try {
-            date = df.parse("2015-01-10");
-            followUpDate = df.parse("2015-01-17");
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        LocalDate date = LocalDate.parse("2015-01-10");
+        LocalDate followUpDate = LocalDate.parse("2015-01-17");
         
         incident.setDate(date);
 
@@ -97,20 +75,15 @@ public class IncidentTest extends TestCase {
     }
 
     public void testEquals_Class() {
-        Date date = new Date();
-        assertFalse(incident.equals(date));
+        LocalDate date = LocalDate.now();
+        assertFalse(incident.equals(date.plusDays(2)));
     }
 
     public void testEquals() {
-        SimpleDateFormat df  = new SimpleDateFormat("yyy-MM-dd");
-        Date date = new Date();
-        Date followUpDate = new Date();
-        try {
-            date = df.parse("2015-01-19");
-            followUpDate = df.parse("2015-02-19");
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        LocalDate date = LocalDate.now();
+        LocalDate followUpDate = LocalDate.now();
+        date = LocalDate.parse("2015-01-19");
+        followUpDate = LocalDate.parse("2015-02-19");
         Incident i = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
         
         assertTrue(incident.equals(i));
