@@ -7,10 +7,8 @@ import com.kritsit.casetracker.shared.domain.model.Incident;
 import com.kritsit.casetracker.shared.domain.model.Person;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -81,21 +79,20 @@ public class CaseRepository implements ICaseRepository {
 
     private Case parseCase(Map<String, String> row) throws RowToModelParseException {
         try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String caseNumber = row.get("caseNumber");
             String reference = row.get("reference");
             String details = row.get("details");
             String animalsInvolved = row.get("animalsInvolved");
             String caseType = row.get("caseType");
-            Date nextCourtDate = null;
+            LocalDate nextCourtDate = null;
             if (row.get("nextCourtDate") != null) {
-                nextCourtDate = df.parse(row.get("nextCourtDate"));
+                nextCourtDate = LocalDate.parse(row.get("nextCourtDate"));
             }
             String outcome = row.get("outcome");
             boolean isReturnVisit = Boolean.parseBoolean(row.get("returnVisit"));
-            Date returnDate = null;
+            LocalDate returnDate = null;
             if (isReturnVisit) {
-                returnDate = df.parse(row.get("returnDate"));
+                returnDate = LocalDate.parse(row.get("returnDate"));
             }
             Incident incident = incidentRepo.getIncident(caseNumber);
             Defendant defendant = personRepo.getDefendant(caseNumber);

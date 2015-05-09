@@ -3,9 +3,7 @@ package com.kritsit.casetracker.server.datalayer;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Incident;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +29,8 @@ public class IncidentRepository implements IIncidentRepository {
                 return null;
             }
             String region = rs.get(0).get("region");
-            DateFormat df = new SimpleDateFormat("yyy-MM-dd");
-            Date date = df.parse(rs.get(0).get("incidentDate"));
-            Date followUpDate = df.parse(rs.get(0).get("followUpDate"));
+            LocalDate date = LocalDate.parse(rs.get(0).get("incidentDate"));
+            LocalDate followUpDate = LocalDate.parse(rs.get(0).get("followUpDate"));
             boolean isFollowedUp = Boolean.parseBoolean(rs.get(0).get("followedUp"));
             if (rs.get(0).get("address") == null) {
                 float longitude = Float.parseFloat(rs.get(0).get("longitude"));
