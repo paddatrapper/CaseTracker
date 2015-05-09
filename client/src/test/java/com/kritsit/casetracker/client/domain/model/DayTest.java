@@ -39,7 +39,7 @@ public class DayTest extends TestCase {
     }
 
     public void testAccessors() {
-        assertTrue(day.getNumber() == 1);
+        assertTrue("1".equals(day.getNumber()));
         assertTrue(day.getAppointments() != null);
         assertTrue(day.dayNumberProperty() != null);
         assertTrue(day.appointmentsProperty() != null);
@@ -48,10 +48,10 @@ public class DayTest extends TestCase {
     public void testMutators() {
         List<Appointment> appointments = new ArrayList<>();
         appointments.add(new Appointment(LocalDate.now(), "Return to John's farm"));
-        day.setNumber(2);
+        day.setNumber("2");
         day.setAppointments(appointments);
 
-        assertTrue(day.getNumber() == 2);
+        assertTrue("2".equals(day.getNumber()));
         assertTrue(appointments.equals(day.getAppointments()));
     }
 

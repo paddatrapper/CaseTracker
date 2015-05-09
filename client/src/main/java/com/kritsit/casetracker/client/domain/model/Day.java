@@ -1,29 +1,27 @@
 package com.kritsit.casetracker.client.domain.model;
 
 import javafx.beans.property.Property;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Day {
-    private IntegerProperty dayNumberProperty;
+    private ObjectProperty<String> dayNumberProperty;
     private ObjectProperty<List<Appointment>> appointmentsProperty;
 
     public Day() {
-        dayNumberProperty = new SimpleIntegerProperty();
+        dayNumberProperty = new SimpleObjectProperty<>("");
         appointmentsProperty = new SimpleObjectProperty<List<Appointment>>(new ArrayList<Appointment>());
     }
 
     public Day(int dayNumber) {
-        dayNumberProperty = new SimpleIntegerProperty(dayNumber);
+        dayNumberProperty = new SimpleObjectProperty<>(String.valueOf(dayNumber));
         appointmentsProperty = new SimpleObjectProperty<List<Appointment>>(new ArrayList<Appointment>());
     }
 
     public Day(int dayNumber, List<Appointment> appointments) {
-        dayNumberProperty = new SimpleIntegerProperty(dayNumber);
+        dayNumberProperty = new SimpleObjectProperty<>(String.valueOf(dayNumber));
         appointmentsProperty = new SimpleObjectProperty<>(appointments);
     }
 
@@ -31,7 +29,7 @@ public class Day {
         getAppointments().add(appointment);
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return dayNumberProperty.get();
     }
 
@@ -39,7 +37,7 @@ public class Day {
         return appointmentsProperty.get();
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         dayNumberProperty.set(number);
     }
 
@@ -57,8 +55,7 @@ public class Day {
 
     @Override
     public int hashCode() {
-        Integer dn = Integer.valueOf(getNumber());
-        return (dn.hashCode() + getAppointments().hashCode())  / 3;
+        return (getNumber().hashCode() + getAppointments().hashCode())  / 3;
     }
 
     @Override
