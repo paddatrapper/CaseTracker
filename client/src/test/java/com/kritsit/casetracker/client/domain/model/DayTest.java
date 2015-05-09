@@ -4,6 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class DayTest extends TestCase {
     }
 
     public void setUp() {
-        List<String> appointments = new ArrayList<>();
+        List<Appointment> appointments = new ArrayList<>();
         day = new Day(1, appointments);
     }
 
@@ -32,7 +33,7 @@ public class DayTest extends TestCase {
     }
 
     public void testAddAppointment() {
-        String appointment = "Return to John's farm";
+        Appointment appointment = new Appointment(LocalDate.now(), "Meet John");
         day.addAppointment(appointment);
         assertTrue(appointment.equals(day.getAppointments().get(0)));
     }
@@ -45,8 +46,8 @@ public class DayTest extends TestCase {
     }
 
     public void testMutators() {
-        List<String> appointments = new ArrayList<>();
-        appointments.add("Return to John's farm");
+        List<Appointment> appointments = new ArrayList<>();
+        appointments.add(new Appointment(LocalDate.now(), "Return to John's farm"));
         day.setNumber(2);
         day.setAppointments(appointments);
 
@@ -55,9 +56,9 @@ public class DayTest extends TestCase {
     }
 
     public void testToString() {
-        String appointment = "Return to John's farm";
+        Appointment appointment = new Appointment(LocalDate.now(), "Meet John");
         day.addAppointment(appointment);
-        String toString = "1\nReturn to John's farm\n";
+        String toString = "1\nMeet John\n";
         assertTrue(toString.equals(day.toString()));
     }
 
@@ -70,7 +71,7 @@ public class DayTest extends TestCase {
     }
 
     public void testEquals() {
-        List<String> appointments = new ArrayList<>();
+        List<Appointment> appointments = new ArrayList<>();
         Day d = new Day(1, appointments);
         assertTrue(day.equals(d));
     }

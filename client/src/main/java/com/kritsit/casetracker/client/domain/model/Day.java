@@ -10,24 +10,24 @@ import java.util.List;
 
 public class Day {
     private IntegerProperty dayNumberProperty;
-    private ObjectProperty<List<String>> appointmentsProperty;
+    private ObjectProperty<List<Appointment>> appointmentsProperty;
 
     public Day() {
         dayNumberProperty = new SimpleIntegerProperty();
-        appointmentsProperty = new SimpleObjectProperty<List<String>>(new ArrayList<String>());
+        appointmentsProperty = new SimpleObjectProperty<List<Appointment>>(new ArrayList<Appointment>());
     }
 
     public Day(int dayNumber) {
         dayNumberProperty = new SimpleIntegerProperty(dayNumber);
-        appointmentsProperty = new SimpleObjectProperty<List<String>>(new ArrayList<String>());
+        appointmentsProperty = new SimpleObjectProperty<List<Appointment>>(new ArrayList<Appointment>());
     }
 
-    public Day(int dayNumber, List<String> appointments) {
+    public Day(int dayNumber, List<Appointment> appointments) {
         dayNumberProperty = new SimpleIntegerProperty(dayNumber);
         appointmentsProperty = new SimpleObjectProperty<>(appointments);
     }
 
-    public void addAppointment(String appointment) {
+    public void addAppointment(Appointment appointment) {
         getAppointments().add(appointment);
     }
 
@@ -35,7 +35,7 @@ public class Day {
         return dayNumberProperty.get();
     }
 
-    public List<String> getAppointments() {
+    public List<Appointment> getAppointments() {
         return appointmentsProperty.get();
     }
 
@@ -43,7 +43,7 @@ public class Day {
         dayNumberProperty.set(number);
     }
 
-    public void setAppointments(List<String> appointments) {
+    public void setAppointments(List<Appointment> appointments) {
         appointmentsProperty.set(appointments);
     }
 
@@ -75,8 +75,8 @@ public class Day {
     @Override
     public String toString() {
         String result = getNumber() + "\n";
-        for (String appointment : getAppointments()) {
-            result += appointment + "\n";
+        for (Appointment appointment : getAppointments()) {
+            result += appointment.getDetails() + "\n";
         }
         return result;
     }
