@@ -24,8 +24,10 @@ public class DayTest extends TestCase {
     }
 
     public void testCreation() {
-        Day d = new Day(1);
+        Day d = new Day();
+        Day d1 = new Day(1);
         assertTrue(d.getClass() == Day.class);
+        assertTrue(d1.getClass() == Day.class);
         assertTrue(day.getClass() == Day.class);
     }
 

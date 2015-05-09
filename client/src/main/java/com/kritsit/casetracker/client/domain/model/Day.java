@@ -12,6 +12,11 @@ public class Day {
     private IntegerProperty dayNumberProperty;
     private ObjectProperty<List<String>> appointmentsProperty;
 
+    public Day() {
+        dayNumberProperty = new SimpleIntegerProperty();
+        appointmentsProperty = new SimpleObjectProperty<List<String>>(new ArrayList<String>());
+    }
+
     public Day(int dayNumber) {
         dayNumberProperty = new SimpleIntegerProperty(dayNumber);
         appointmentsProperty = new SimpleObjectProperty<List<String>>(new ArrayList<String>());
