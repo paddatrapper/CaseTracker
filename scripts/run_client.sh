@@ -2,20 +2,73 @@
 #
 # Starts the server and then tests the client
 #
-if [ '$1' == '-e' ]; then
-	set -e
+function package_server 
+{
+	cd ./server
+	mvn package
+	if [ $? -ne 0 ]; then
+		exit
+	fi
+	cd ..
+}
+
+function run_server 
+{
+	cd ./server
+	java -jar ./target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar &
+	JavaPID=$!
+	cd ..
+}
+
+function test_client 
+{
+	cd ./client
+	mvn clean test
+	if [ $? -ne 0 ]; then
+		kill -9 $JavaPID
+		exit
+	fi
+	cd ..
+}
+
+function run_client 
+{
+	cd ./client
+	mvn jfx:run
+	cd ..
+}
+
+function usage
+{
+	echo "usage: $0 [ -n ] [ -e ]"
+	echo "\t-n | --no-recompile\tDoes not recompile the server or client before running them"
+	echo "\t-e | --error-put\tHalts script if any call exits abnormally"
+}
+
+if [ "$1" == "" ]; then 
+	package_server
+	run_server
+	test_client
+	run_client
+else
+	while [ "$1" != "" ]; do
+		case $1 in
+			-n | --no-recompile )	run_server
+						run_client
+						;;
+			-e | --error-out )	set-e
+						package_server
+						run_server
+						test_client
+						run_client
+						;;	
+			* )			usage
+						exit 1
+						;;
+		esac
+		shift
+	done
 fi
-
-cd ./server
-mvn package
-
-if [ $? -ne 0 ]; then
-	exit
+if [ "$JavaPID" != "" ]; then
+	kill -9 $JavaPID
 fi
-java -jar ./target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar &
-JavaPID=$!
-
-cd ../client
-mvn clean test jfx:run
-
-kill -9 $JavaPID
