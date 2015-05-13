@@ -2,11 +2,15 @@
 
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kritsit.casetracker.client.domain.ui.controller.EditorController">
+  <stylesheets>
+    <URL value="@../css/EditorFrame.css" />
+  </stylesheets>
   <top>
     <MenuBar BorderPane.alignment="CENTER">
       <menus>
@@ -221,7 +225,7 @@
            <children>
               <BorderPane prefHeight="533.0" prefWidth="1090.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                  <center>
-                    <TableView fx:id="tblCalendar" BorderPane.alignment="CENTER">
+                    <TableView id="calendar-table" fx:id="tblCalendar" BorderPane.alignment="CENTER">
                       <columns>
                         <TableColumn fx:id="colMonday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Monday" />
                         <TableColumn fx:id="colTuesday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Tuesday" />
@@ -231,9 +235,9 @@
                         <TableColumn fx:id="colSaturday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Saturday" />
                         <TableColumn fx:id="colSunday" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Sunday" />
                       </columns>
-                       <BorderPane.margin>
-                          <Insets left="5.0" right="5.0" />
-                       </BorderPane.margin>
+                      <BorderPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                      </BorderPane.margin>
                     </TableView>
                  </center>
                  <top>
@@ -249,7 +253,7 @@
                       <children>
                         <HBox alignment="CENTER_LEFT">
                              <children>
-                                <Button mnemonicParsing="false" onAction="#handleCalendarPreviousAction" text="&lt;&lt;" />
+                                <Button fx:id="btnCalendarPrevious" mnemonicParsing="false" onAction="#handleCalendarPreviousAction" text="&lt;&lt;" />
                              </children>
                           </HBox>
                           <HBox alignment="CENTER" GridPane.columnIndex="1">
@@ -259,7 +263,7 @@
                           </HBox>
                           <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="2">
                              <children>
-                                <Button mnemonicParsing="false" onAction="#handleCalendarNextAction" text="&gt;&gt;" />
+                                <Button fx:id="btnCalendarNext" mnemonicParsing="false" onAction="#handleCalendarNextAction" text="&gt;&gt;" />
                              </children>
                           </HBox>
                        </children>
@@ -285,7 +289,7 @@
                                       <Insets right="5.0" />
                                    </padding>
                                 </Label>
-                                <ChoiceBox fx:id="cbxCalendarYear" prefWidth="150.0" />
+                                <ChoiceBox fx:id="cmbCalendarYear" prefWidth="75.0" />
                              </children>
                           </FlowPane>
                           <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
@@ -396,7 +400,7 @@
                                 <Insets right="2.0" />
                              </HBox.margin>
                           </Label>
-                          <ComboBox fx:id="chbDefendant" prefWidth="150.0">
+                          <ComboBox fx:id="cmbDefendant" prefWidth="150.0">
                              <HBox.margin>
                                 <Insets right="5.0" />
                              </HBox.margin>
@@ -411,7 +415,7 @@
                                 <Insets right="2.0" />
                              </HBox.margin>
                           </Label>
-                          <ComboBox fx:id="cbxAddComplainant" prefWidth="150.0">
+                          <ComboBox fx:id="cmbAddComplainant" prefWidth="150.0">
                              <HBox.margin>
                                 <Insets right="5.0" />
                              </HBox.margin>
