@@ -26,7 +26,7 @@ function test_client
 	mvn clean test
 	if [ $? -ne 0 ]; then
 		kill -9 $JavaPID
-		exit
+		exit 1
 	fi
 	cd ..
 }
@@ -41,8 +41,9 @@ function run_client
 function usage
 {
 	echo "usage: $0 [ -n ] [ -e ]"
-	echo "\t-n | --no-recompile\tDoes not recompile the server or client before running them"
+	echo "\t-c | --compile_client\tCompile and test only the client"
 	echo "\t-e | --error-put\tHalts script if any call exits abnormally"
+	echo "\t-n | --no-recompile\tDoes not recompile the server or client before running them"
 }
 
 if [ "$1" == "" ]; then 
@@ -62,6 +63,10 @@ else
 						test_client
 						run_client
 						;;	
+			-c | --compile-client )	run_server
+						test_client
+						run_client
+						;;
 			* )			usage
 						exit 1
 						;;
