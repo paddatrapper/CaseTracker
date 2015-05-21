@@ -82,137 +82,146 @@
                           </HBox>
                        </bottom>
                     </BorderPane>
-                    <GridPane>
-                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.0" minWidth="10.0" prefWidth="270.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="147.0" />
-                      </columnConstraints>
-                      <rowConstraints>
-                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      </rowConstraints>
+                    <StackPane>
                       <children>
-                        <Text fill="#00000089" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Summary" />
-                        <HBox alignment="BOTTOM_LEFT" prefWidth="200.0" GridPane.rowIndex="1">
-                          <children>
-                            <Text fx:id="txtSummaryCaseName" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseName">
-                              <HBox.margin>
-                                <Insets />
-                              </HBox.margin>
-                              <font>
-                                <Font size="18.0" />
-                              </font>
-                            </Text>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=": ">
-                              <font>
-                                <Font size="18.0" />
-                              </font>
-                            </Text>
-                            <Text fx:id="txtSummaryCaseNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseNumber">
-                              <HBox.margin>
-                                <Insets bottom="1.0" />
-                              </HBox.margin>
-                            </Text>
-                          </children>
-                          <padding>
-                            <Insets top="10.0" />
-                          </padding>
-                        </HBox>
-                          <Button mnemonicParsing="false" onAction="#handleSummaryEditAction" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                             <GridPane.margin>
-                                <Insets />
-                             </GridPane.margin>
-                          </Button>
-                          <Text fx:id="txtSummaryCaseType" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Type" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-                          <VBox GridPane.rowIndex="2">
-                             <children>
-                                <FlowPane>
+                          <BorderPane prefHeight="200.0" prefWidth="200.0">
+                             <center>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No Case Selected" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+                             </center>
+                          </BorderPane>
+                          <GridPane fx:id="panCaseSummary">
+                            <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.0" minWidth="10.0" prefWidth="270.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.0" minWidth="10.0" prefWidth="147.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                              <Text fill="#00000089" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Summary" />
+                              <HBox alignment="BOTTOM_LEFT" prefWidth="200.0" GridPane.rowIndex="1">
+                                <children>
+                                  <Text fx:id="txtSummaryCaseName" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseName">
+                                    <HBox.margin>
+                                      <Insets />
+                                    </HBox.margin>
+                                    <font>
+                                      <Font size="18.0" />
+                                    </font>
+                                  </Text>
+                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=": ">
+                                    <font>
+                                      <Font size="18.0" />
+                                    </font>
+                                  </Text>
+                                  <Text fx:id="txtSummaryCaseNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseNumber">
+                                    <HBox.margin>
+                                      <Insets bottom="1.0" />
+                                    </HBox.margin>
+                                  </Text>
+                                </children>
+                                <padding>
+                                  <Insets top="10.0" />
+                                </padding>
+                              </HBox>
+                                <Button mnemonicParsing="false" onAction="#handleSummaryEditAction" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                                   <GridPane.margin>
+                                      <Insets />
+                                   </GridPane.margin>
+                                </Button>
+                                <Text fx:id="txtSummaryCaseType" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Type" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                                <VBox GridPane.rowIndex="2">
                                    <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Investigating Officer">
-                                         <font>
-                                            <Font size="15.0" />
-                                         </font>
-                                      </Text>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                                      <Text fx:id="txtSummaryIncidentDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Incident Date" />
+                                      <FlowPane>
+                                         <children>
+                                            <Text fx:id="txtSummaryInvestigatingOfficer" strokeType="OUTSIDE" strokeWidth="0.0" text="Investigating Officer">
+                                               <font>
+                                                  <Font size="15.0" />
+                                               </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                            <Text fx:id="txtSummaryIncidentDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Incident Date" />
+                                         </children>
+                                         <VBox.margin>
+                                            <Insets top="5.0" />
+                                         </VBox.margin>
+                                      </FlowPane>
+                                      <FlowPane>
+                                         <children>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Defendant" />
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                            <Text fx:id="txtSummaryDefendant" strokeType="OUTSIDE" strokeWidth="0.0" text="Defendant" />
+                                         </children>
+                                         <VBox.margin>
+                                            <Insets top="5.0" />
+                                         </VBox.margin>
+                                      </FlowPane>
+                                      <FlowPane>
+                                         <children>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Next Court Date" />
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                            <Text fx:id="txtSummaryCourtDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Court Date" />
+                                         </children>
+                                         <VBox.margin>
+                                            <Insets top="5.0" />
+                                         </VBox.margin>
+                                      </FlowPane>
+                                      <FlowPane>
+                                         <children>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date" />
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
+                                            <Text fx:id="txtSummaryReturnDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date" />
+                                         </children>
+                                         <VBox.margin>
+                                            <Insets top="5.0" />
+                                         </VBox.margin>
+                                      </FlowPane>
                                    </children>
-                                   <VBox.margin>
-                                      <Insets top="5.0" />
-                                   </VBox.margin>
-                                </FlowPane>
-                                <FlowPane>
+                                </VBox>
+                                <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                                    <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Defendant" />
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                                      <Text fx:id="txtSummaryDefendant" strokeType="OUTSIDE" strokeWidth="0.0" text="Defendant" />
+                                      <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT">
+                                         <children>
+                                            <Text fx:id="txtSummaryLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Address: " />
+                                            <Text fx:id="txtSummaryLocationValue" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
+                                         </children>
+                                         <VBox.margin>
+                                            <Insets top="5.0" />
+                                         </VBox.margin>
+                                      </FlowPane>
+                                      <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT">
+                                         <children>
+                                            <Text fx:id="txtSummaryLatitude" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude: " />
+                                            <Text fx:id="txtSummaryLatitudeValue" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude" />
+                                         </children>
+                                      </FlowPane>
                                    </children>
-                                   <VBox.margin>
-                                      <Insets top="5.0" />
-                                   </VBox.margin>
-                                </FlowPane>
-                                <FlowPane>
-                                   <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Next Court Date" />
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                                      <Text fx:id="txtSummaryCourtDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Court Date" />
-                                   </children>
-                                   <VBox.margin>
-                                      <Insets top="5.0" />
-                                   </VBox.margin>
-                                </FlowPane>
-                                <FlowPane>
-                                   <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date" />
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" - " />
-                                      <Text fx:id="txtSummaryReturnDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date" />
-                                   </children>
-                                   <VBox.margin>
-                                      <Insets top="5.0" />
-                                   </VBox.margin>
-                                </FlowPane>
+                                </VBox>
+                                <Label text="Details:" GridPane.rowIndex="3">
+                                   <padding>
+                                      <Insets top="10.0" />
+                                   </padding>
+                                </Label>
+                                <Label text="Evidence:" GridPane.rowIndex="5">
+                                   <padding>
+                                      <Insets top="10.0" />
+                                   </padding>
+                                </Label>
+                                <TextArea fx:id="txaSummaryDetails" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                                <ListView fx:id="lstSummaryEvidence" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
                              </children>
-                          </VBox>
-                          <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
-                             <children>
-                                <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT">
-                                   <children>
-                                      <Text fx:id="txtSummaryLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Address: " />
-                                      <Text fx:id="txtSummaryLocationValue" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
-                                   </children>
-                                   <VBox.margin>
-                                      <Insets top="5.0" />
-                                   </VBox.margin>
-                                </FlowPane>
-                                <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT">
-                                   <children>
-                                      <Text fx:id="txtSummaryLatitude" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude: " />
-                                      <Text fx:id="txtSummaryLatitudeValue" strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude" />
-                                   </children>
-                                </FlowPane>
-                             </children>
-                          </VBox>
-                          <Label text="Details:" GridPane.rowIndex="3">
                              <padding>
-                                <Insets top="10.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                              </padding>
-                          </Label>
-                          <Label text="Evidence:" GridPane.rowIndex="5">
-                             <padding>
-                                <Insets top="10.0" />
-                             </padding>
-                          </Label>
-                          <TextArea fx:id="txaSummaryDetails" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-                          <ListView fx:id="lstSummaryEvidence" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                          </GridPane>
                        </children>
-                       <padding>
-                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                       </padding>
-                    </GridPane>
+                    </StackPane>
                 </items>
               </SplitPane>
            </children>

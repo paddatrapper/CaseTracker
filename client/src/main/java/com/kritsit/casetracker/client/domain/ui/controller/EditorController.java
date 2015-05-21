@@ -4,6 +4,7 @@ import com.kritsit.casetracker.client.domain.services.IEditorService;
 import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
 import com.kritsit.casetracker.shared.domain.model.Case;
+import com.kritsit.casetracker.shared.domain.model.Evidence;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import org.slf4j.Logger;
@@ -19,11 +20,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -82,6 +86,11 @@ public class EditorController implements IController {
         colInvestigatingOfficer.prefWidthProperty().bind(tblCases.widthProperty().multiply(officerWidthPercent));
         colIncidentDate.prefWidthProperty().bind(tblCases.widthProperty().multiply(dateWidthPercent));
         colCaseType.prefWidthProperty().bind(tblCases.widthProperty().multiply(typeWidthPercent));
+
+        tblCases.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            updateShownCase(newSelection);
+        });
+        updateShownCase(null);
     }
 
     private void initCalendarTable() {
@@ -152,6 +161,48 @@ public class EditorController implements IController {
         tblCalendar.setItems(FXCollections.observableList(monthAppointments));
     }
 
+    private void updateShownCase(Case c) {
+        if (c == null) {
+            panCaseSummary.setVisible(false);
+        } else { 
+            panCaseSummary.setVisible(true);
+            txtSummaryCaseName.setText(c.getName());
+            txtSummaryCaseNumber.setText(c.getNumber());
+            txtSummaryCaseType.setText(c.getType());
+            txtSummaryInvestigatingOfficer.setText(c.getInvestigatingOfficer().getName());
+            txtSummaryIncidentDate.setText(c.getIncident().getDate().toString());
+            txtSummaryDefendant.setText(c.getDefendant().getName());
+            if (c.getNextCourtDate() != null) {
+                txtSummaryCourtDate.setText(c.getNextCourtDate().toString());
+            } else {
+                txtSummaryCourtDate.setText("N/A");
+            }
+            if (c.isReturnVisit()) {
+                txtSummaryReturnDate.setText(c.getReturnDate().toString());
+            } else {
+                txtSummaryReturnDate.setText("N/A");
+            }
+            if (c.getIncident().getAddress() != null) {
+                txtSummaryLocation.setText("Address: ");
+                txtSummaryLocationValue.setText(c.getIncident().getAddress());
+                txtSummaryLatitude.setVisible(false);
+                txtSummaryLatitudeValue.setVisible(false);
+            } else {
+                txtSummaryLocation.setText("Longitude: ");
+                txtSummaryLocationValue.setText(c.getIncident().getLongitude() + "");
+                txtSummaryLatitude.setVisible(true);
+                txtSummaryLatitudeValue.setText(c.getIncident().getLatitude() + "");
+            }
+            txaSummaryDetails.setText(c.getDescription());
+            if (c.getEvidence() == null) {
+                lstSummaryEvidence.setItems(FXCollections.observableList(new ArrayList<Evidence>()));
+                //lstSummaryEvidence.getItems().clear();
+            } else {
+                lstSummaryEvidence.setItems(FXCollections.observableList(c.getEvidence()));
+            }
+        }
+    }
+
     @FXML protected void handleFilterClearAction(ActionEvent e) {
     }
 
@@ -202,6 +253,8 @@ public class EditorController implements IController {
     @FXML private Button btnCalendarNext;
     @FXML private Button btnCalendarPrevious;
     @FXML private ChoiceBox<Integer> cmbCalendarYear;
+    @FXML private GridPane panCaseSummary;
+    @FXML private ListView<Evidence> lstSummaryEvidence;
     @FXML private TableView<Case> tblCases;
     @FXML private TableView<List<Day>> tblCalendar;
     @FXML private TableColumn<Case, String> colCaseNumber;
@@ -216,5 +269,18 @@ public class EditorController implements IController {
     @FXML private TableColumn<List<Day>, String> colFriday;
     @FXML private TableColumn<List<Day>, String> colSaturday;
     @FXML private TableColumn<List<Day>, String> colSunday;
+    @FXML private TextArea txaSummaryDetails;
     @FXML private Text txtCalendarMonth;
+    @FXML private Text txtSummaryDefendant;
+    @FXML private Text txtSummaryCaseName;
+    @FXML private Text txtSummaryCaseNumber;
+    @FXML private Text txtSummaryCaseType;
+    @FXML private Text txtSummaryCourtDate;
+    @FXML private Text txtSummaryLatitude;
+    @FXML private Text txtSummaryLatitudeValue;
+    @FXML private Text txtSummaryLocation;
+    @FXML private Text txtSummaryLocationValue;
+    @FXML private Text txtSummaryIncidentDate;
+    @FXML private Text txtSummaryInvestigatingOfficer;
+    @FXML private Text txtSummaryReturnDate;
 }
