@@ -196,7 +196,6 @@ public class EditorController implements IController {
             txaSummaryDetails.setText(c.getDescription());
             if (c.getEvidence() == null) {
                 lstSummaryEvidence.setItems(FXCollections.observableList(new ArrayList<Evidence>()));
-                //lstSummaryEvidence.getItems().clear();
             } else {
                 lstSummaryEvidence.setItems(FXCollections.observableList(c.getEvidence()));
             }
