@@ -41,9 +41,9 @@ function run_client
 function usage
 {
 	echo "usage: $0 [ -n ] [ -e ]"
-	echo "\t-c | --compile_client\tCompile and test only the client"
-	echo "\t-e | --error-put\tHalts script if any call exits abnormally"
-	echo "\t-n | --no-recompile\tDoes not recompile the server or client before running them"
+	echo "	-c | --compile_client	Compile and test only the client"
+	echo "	-e | --error-put	Halts script if any call exits abnormally"
+	echo "	-n | --no-recompile	Does not recompile the server or client before running them"
 }
 
 if [ "$1" == "" ]; then 
