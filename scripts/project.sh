@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Starts the server and then tests the client
+# Controls testing and running the server and client
 #
 function package_server 
 {
@@ -9,6 +9,13 @@ function package_server
 	if [ $? -ne 0 ]; then
 		exit
 	fi
+	cd ..
+}
+
+function test_server 
+{
+	cd ./server
+	mvn test
 	cd ..
 }
 
@@ -40,32 +47,33 @@ function run_client
 
 function usage
 {
-	echo "usage: $0 [ -n ] [ -e ]"
-	echo "	-c | --compile_client	Compile and test only the client"
+	echo "usage: $0 [ -e ] [ -a | -c | -s ] [ -r ]"
+	echo "	-a | --test-all		Compile and test both client and server"
+	echo "	-c | --test-client	Compile and test only the client"
 	echo "	-e | --error-put	Halts script if any call exits abnormally"
-	echo "	-n | --no-recompile	Does not recompile the server or client before running them"
+	echo "	-r | --run		Runs the client and server"
+	echo "	-c | --test-server	Compile and test only the server"
 }
 
 if [ "$1" == "" ]; then 
 	package_server
-	run_server
 	test_client
-	run_client
 else
 	while [ "$1" != "" ]; do
 		case $1 in
-			-n | --no-recompile )	run_server
-						run_client
-						;;
-			-e | --error-out )	set-e
-						package_server
+			-a | --test-all )	package_server
 						run_server
 						test_client
-						run_client
-						;;	
-			-c | --compile-client )	run_server
+						;;
+			-c | --test-client )	run_server
 						test_client
+						;;
+			-e | --error-out )	set -e
+						;;	
+			-r | --run )		run_server
 						run_client
+						;;
+			-s | --test-server )	test_server
 						;;
 			* )			usage
 						exit 1
