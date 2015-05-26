@@ -38,6 +38,7 @@ public class IncidentTest extends TestCase {
         assertTrue(date.equals(incident.getDate()));
         assertTrue(followUpDate.equals(incident.getFollowUpDate()));
         assertFalse(incident.isFollowedUp());
+        assertTrue(incident.dateProperty() != null);
     }
 
     public void testMutators() {
@@ -85,13 +86,25 @@ public class IncidentTest extends TestCase {
         date = LocalDate.parse("2015-01-19");
         followUpDate = LocalDate.parse("2015-02-19");
         Incident i = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
+        Incident differentIncident = new Incident("230 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
         
         assertTrue(incident.equals(i));
+        assertFalse(incident.equals(differentIncident));
     }
 
-    public void testToString() {
+    public void testToString_Address() {
         String incidentString = "Incident: 100 Long Street, Cape Town (2015-01-19)";
 
         assertTrue(incidentString.equals(incident.toString()));
+    }
+
+    public void testToString_Coordinates() {
+        String incidentString = "Incident: 20.221, -12.776 (2015-01-19)";
+        LocalDate date = LocalDate.parse("2015-01-19");
+        LocalDate followUpDate = LocalDate.parse("2015-02-19");
+        Incident i = new Incident(20.221, -12.776, "Western Cape", date, followUpDate, false);
+
+        System.out.println(i.toString());
+        assertTrue(incidentString.equals(i.toString()));
     }
 }

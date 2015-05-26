@@ -38,6 +38,11 @@ public class VehicleTest extends TestCase {
         assertTrue(vehicle.isTrailer());
     }
 
+    public void testDefaultCreation() {
+        Vehicle v = new Vehicle();
+        assertTrue(v.getClass() == Vehicle.class);
+    }
+
     public void testToString() {
         assertTrue("Vehicle: White Nissan (CA456789)".equals(vehicle.toString()));
     }
@@ -52,7 +57,8 @@ public class VehicleTest extends TestCase {
 
     public void testEquals() {
         Vehicle v = new Vehicle("CA456789", "Nissan", "White", false);
-
+        Vehicle anotherVehicle = new Vehicle("CA111111", "Nissan", "White", false);
         assertTrue(vehicle.equals(v));
+        assertFalse(vehicle.equals(anotherVehicle));
     }
 }

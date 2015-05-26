@@ -133,7 +133,9 @@ public class CaseTest extends TestCase {
         List<Evidence> evidence = new ArrayList<>();
         evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
         Case c = new Case("1234/15", "SPCA vs Defendant", "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, defendant, complainant, date, evidence, false, null, "Malnutrition", "R4500 fine");
+        Case anotherCase = new Case("1234/15", "SPCA vs Another Defendant", "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, defendant, complainant, date, evidence, false, null, "Malnutrition", "R4500 fine");
 
         assertTrue(testCase.equals(c));
+        assertFalse(testCase.equals(anotherCase));
     }
 }

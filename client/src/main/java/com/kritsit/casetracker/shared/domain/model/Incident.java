@@ -144,8 +144,8 @@ public class Incident implements Externalizable {
         if (getAddress() != null && getAddress().length() != 0) {
             result += getAddress() + " ";
         } else {
-            result += getLatitude() + ", ";
-            result += getLongitude() + " ";
+            result += getLongitude() + ", ";
+            result += getLatitude() + " ";
         }
         result += "(" + getDate().toString() + ")";
         return result;

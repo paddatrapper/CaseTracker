@@ -58,8 +58,10 @@ public class PersonTest extends TestCase {
     }
 
     public void testEquals() {
-        Person d = new Person("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Person p = new Person("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Person anotherPerson = new Person("000255843834", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
 
-        assertTrue(person.equals(d));
+        assertTrue(person.equals(p));
+        assertFalse(person.equals(anotherPerson));
     }
 }

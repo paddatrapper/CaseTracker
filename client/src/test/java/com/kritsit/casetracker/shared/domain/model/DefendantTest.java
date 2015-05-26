@@ -67,7 +67,9 @@ public class DefendantTest extends TestCase {
 
     public void testEquals() {
         Defendant testDefendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
+        Defendant anotherDefendant = new Defendant("0273822728339", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
         assertTrue(defendant.equals(testDefendant));
+        assertFalse(defendant.equals(anotherDefendant));
     }
 
     public void testToString() {

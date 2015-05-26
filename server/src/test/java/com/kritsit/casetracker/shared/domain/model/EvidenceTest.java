@@ -68,6 +68,8 @@ public class EvidenceTest extends TestCase {
         File serverFile = new File("test.file");
         File localFile = new File("local.file");
         Evidence e = new Evidence("Test file", serverFile, localFile);
+        Evidence otherEvidence = new Evidence("Another file", serverFile, localFile);
         assertTrue(evidence.equals(e));
+        assertFalse(evidence.equals(otherEvidence));
     }
 }
