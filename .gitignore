@@ -1,5 +1,7 @@
 # Build directory
 target/
+client/target/
+server/target/
 
 # Class files
 *.class
@@ -17,3 +19,6 @@ target/
 
 # Log files
 *.log
+
+# Distribution archives
+CaseTracker.zip
