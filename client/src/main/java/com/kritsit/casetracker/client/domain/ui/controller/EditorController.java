@@ -118,6 +118,11 @@ public class EditorController implements IController {
             cmbCalendarYear.getItems().add(Integer.valueOf(i));
         }
 
+        cmbCalendarYear.valueProperty().addListener((obs, newValue, oldValue) -> {
+            calendarCurrentYear = newValue;
+            refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
+        });
+
         calendarCurrentYear = year;
         calendarCurrentMonth = month;
 
@@ -229,6 +234,10 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleCalendarTodayAction(ActionEvent e) {
+        LocalDate today = LocalDate.now();
+        calendarCurrentMonth = today.getMonthValue();
+        calendarCurrentYear = today.getYear();
+        refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
     }
 
     @FXML protected void handleAddNewDefendantAction(ActionEvent e) {
