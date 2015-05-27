@@ -21,10 +21,12 @@ function test_server
 
 function run_server 
 {
-	cd ./server
-	java -jar ./target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar &
-	JavaPID=$!
-	cd ..
+	if [ "$JavaPID" == "" ]; then
+		cd ./server
+		java -jar ./target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar &
+		JavaPID=$!
+		cd ..
+	fi
 }
 
 function test_client 
