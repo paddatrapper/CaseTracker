@@ -104,7 +104,6 @@ public class IncidentTest extends TestCase {
         LocalDate followUpDate = LocalDate.parse("2015-02-19");
         Incident i = new Incident(20.221, -12.776, "Western Cape", date, followUpDate, false);
 
-        System.out.println(i.toString());
         assertTrue(incidentString.equals(i.toString()));
     }
 }
