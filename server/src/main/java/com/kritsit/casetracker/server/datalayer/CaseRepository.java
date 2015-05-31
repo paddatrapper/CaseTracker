@@ -89,7 +89,7 @@ public class CaseRepository implements ICaseRepository {
                 nextCourtDate = LocalDate.parse(row.get("nextCourtDate"));
             }
             String outcome = row.get("outcome");
-            boolean isReturnVisit = Boolean.parseBoolean(row.get("returnVisit"));
+            boolean isReturnVisit = "1".equals(row.get("returnVisit"));
             LocalDate returnDate = null;
             if (isReturnVisit) {
                 returnDate = LocalDate.parse(row.get("returnDate"));
