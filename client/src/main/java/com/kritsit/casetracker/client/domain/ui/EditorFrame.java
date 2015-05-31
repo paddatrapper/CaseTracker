@@ -45,7 +45,7 @@ public class EditorFrame implements IUserInterface {
         IEditorService editorService = ServiceFactory.getEditorService(user);
         controller.setEditorService(editorService);
         controller.setStage(stage);
-        controller.populateTables(); 
+        controller.initFrame(); 
         logger.debug("Controller set up");
     }
 }

@@ -15,6 +15,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -52,7 +55,7 @@ public class EditorController implements IController {
         this.stage = stage;
     }
 
-    public void populateTables() {
+    public void initFrame() {
         initCasesTable();
         initCalendarTable();
     }
@@ -60,7 +63,25 @@ public class EditorController implements IController {
     @SuppressWarnings("unchecked")
     private void initCasesTable() {
         cases = FXCollections.observableArrayList(editorService.getCases());
-        tblCases.setItems(cases);
+        FilteredList<Case> filteredCases = new FilteredList<>(cases, p -> true);
+        txfFilterCases.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredCases.setPredicate(c -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (c.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (c.getNumber().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Case> sortedCases = new SortedList<>(filteredCases);
+        sortedCases.comparatorProperty().bind(tblCases.comparatorProperty());
+        tblCases.setItems(sortedCases);
+
         colCaseNumber.setCellValueFactory(new PropertyValueFactory("caseNumber"));
         colCaseName.setCellValueFactory(new PropertyValueFactory("caseName"));
         colCaseType.setCellValueFactory(new PropertyValueFactory("caseType"));
@@ -86,7 +107,6 @@ public class EditorController implements IController {
         colInvestigatingOfficer.prefWidthProperty().bind(tblCases.widthProperty().multiply(officerWidthPercent));
         colIncidentDate.prefWidthProperty().bind(tblCases.widthProperty().multiply(dateWidthPercent));
         colCaseType.prefWidthProperty().bind(tblCases.widthProperty().multiply(typeWidthPercent));
-
         tblCases.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             updateShownCase(newSelection);
         });
@@ -118,13 +138,13 @@ public class EditorController implements IController {
             cmbCalendarYear.getItems().add(Integer.valueOf(i));
         }
 
-        cmbCalendarYear.valueProperty().addListener((obs, newValue, oldValue) -> {
+        calendarCurrentYear = year;
+        calendarCurrentMonth = month;
+
+        cmbCalendarYear.valueProperty().addListener((obs, oldValue, newValue) -> {
             calendarCurrentYear = newValue;
             refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
         });
-
-        calendarCurrentYear = year;
-        calendarCurrentMonth = month;
 
         refreshCalendarTable(month, year);
     }
@@ -278,6 +298,7 @@ public class EditorController implements IController {
     @FXML private TableColumn<List<Day>, String> colSaturday;
     @FXML private TableColumn<List<Day>, String> colSunday;
     @FXML private TextArea txaSummaryDetails;
+    @FXML private TextField txfFilterCases;
     @FXML private Text txtCalendarMonth;
     @FXML private Text txtSummaryDefendant;
     @FXML private Text txtSummaryCaseName;
