@@ -64,6 +64,7 @@ public class Editor implements IEditorService {
                 }
             }
         }
+
         for (int i = 1; i <= numberOfDays; i++) {
             int row = (startOfMonth + i - 1) / 7;
             int column = (startOfMonth + i - 1) % 7;
@@ -75,6 +76,7 @@ public class Editor implements IEditorService {
                 }
             }
             week.set(column, d);
+            day = day.plusDays(1L);
         }
         return monthList;
     }
