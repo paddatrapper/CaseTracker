@@ -63,6 +63,13 @@ public class EditorController implements IController {
     @SuppressWarnings("unchecked")
     private void initCasesTable() {
         cases = FXCollections.observableArrayList(editorService.getCases());
+        cbxFilterCaseType.getItems().add("All");
+        cbxFilterCaseType.setValue("All");
+        for (Case c : cases) {
+            if (!cbxFilterCaseType.getItems().contains(c.getType())) {
+                cbxFilterCaseType.getItems().add(c.getType());
+            }
+        }
         FilteredList<Case> filteredCases = new FilteredList<>(cases, p -> true);
         txfFilterCases.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredCases.setPredicate(c -> {
@@ -78,6 +85,20 @@ public class EditorController implements IController {
                 return false;
             });
         });
+
+        cbxFilterCaseType.valueProperty().addListener((obs, oldValue, newValue) -> {
+            filteredCases.setPredicate(c -> {
+                if (newValue == null || newValue.isEmpty() || newValue.equals("All")) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (c.getType().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
         SortedList<Case> sortedCases = new SortedList<>(filteredCases);
         sortedCases.comparatorProperty().bind(tblCases.comparatorProperty());
         tblCases.setItems(sortedCases);
@@ -135,13 +156,13 @@ public class EditorController implements IController {
         int year = today.getYear();
 
         for (int i = year - 10; i <= year + 10; i++) {
-            cmbCalendarYear.getItems().add(Integer.valueOf(i));
+            cbxCalendarYear.getItems().add(Integer.valueOf(i));
         }
 
         calendarCurrentYear = year;
         calendarCurrentMonth = month;
 
-        cmbCalendarYear.valueProperty().addListener((obs, oldValue, newValue) -> {
+        cbxCalendarYear.valueProperty().addListener((obs, oldValue, newValue) -> {
             calendarCurrentYear = newValue;
             refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
         });
@@ -179,7 +200,7 @@ public class EditorController implements IController {
         }
 
         txtCalendarMonth.setText(month[currentMonth - 1]);
-        cmbCalendarYear.setValue(Integer.valueOf(currentYear));
+        cbxCalendarYear.setValue(Integer.valueOf(currentYear));
 
         List<List<Day>> monthAppointments = editorService.getMonthAppointments(currentMonth, currentYear);
 
@@ -228,6 +249,8 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleFilterClearAction(ActionEvent e) {
+        cbxFilterCaseType.setValue("All");
+        txfFilterCases.setText("");
     }
 
     @FXML protected void handleSummaryEditAction(ActionEvent e) {
@@ -280,7 +303,8 @@ public class EditorController implements IController {
 
     @FXML private Button btnCalendarNext;
     @FXML private Button btnCalendarPrevious;
-    @FXML private ChoiceBox<Integer> cmbCalendarYear;
+    @FXML private ChoiceBox<Integer> cbxCalendarYear;
+    @FXML private ChoiceBox<String> cbxFilterCaseType;
     @FXML private GridPane panCaseSummary;
     @FXML private ListView<Evidence> lstSummaryEvidence;
     @FXML private TableView<Case> tblCases;

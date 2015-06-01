@@ -298,7 +298,7 @@
                                       <Insets right="5.0" />
                                    </padding>
                                 </Label>
-                                <ChoiceBox fx:id="cmbCalendarYear" prefWidth="75.0" />
+                                <ChoiceBox fx:id="cbxCalendarYear" prefWidth="75.0" />
                              </children>
                           </FlowPane>
                           <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
