@@ -67,7 +67,14 @@ public class Evidence implements Serializable {
 
     @Override
     public int hashCode() {
-        return (description.hashCode() + serverFile.hashCode()) / 3;
+        int fileHash = 0;
+        if (getServerFile() != null) {
+            fileHash += getServerFile().hashCode();
+        }
+        if (getLocalFile() != null) {
+            fileHash += getLocalFile().hashCode();
+        }
+        return (description.hashCode() + fileHash) / 3;
     }
 
     @Override

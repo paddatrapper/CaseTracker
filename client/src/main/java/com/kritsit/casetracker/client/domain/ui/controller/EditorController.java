@@ -21,8 +21,11 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -46,6 +49,7 @@ import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EditorController implements IController {
     private final Logger logger = LoggerFactory.getLogger(EditorController.class);
@@ -317,6 +321,21 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleDeleteEvidenceAction(ActionEvent e) {
+        Evidence evidence = lstAddEvidence.getSelectionModel().getSelectedItem();
+        if (evidence != null) {
+            Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Confirm Deletion");
+            confirmationAlert.setContentText("Are you sure you want to remove this evidence?");
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                lstAddEvidence.getItems().remove(evidence);
+            }
+        } else {
+            Alert selectionWarning = new Alert(AlertType.WARNING);
+            selectionWarning.setTitle("No Evidence Selected");
+            selectionWarning.setContentText("No evidence selected to delete");
+            selectionWarning.showAndWait();
+        }
     }
 
     @FXML protected void handleAddCaseAction(ActionEvent e) {
