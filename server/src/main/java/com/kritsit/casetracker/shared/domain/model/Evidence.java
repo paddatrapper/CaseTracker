@@ -32,6 +32,10 @@ public class Evidence implements Serializable {
         return localFile;
     }
 
+    public File getServerFile() {
+        return serverFile;
+    }
+
     public String getServerFileLocation() {
         return serverFile.getAbsolutePath();
     }
@@ -81,7 +85,11 @@ public class Evidence implements Serializable {
     public String toString() {
         String result = "Evidence: ";
         result += description + " ";
-        result += "(" + getServerFileLocation() + ")";
+        if (getServerFile() != null) {
+            result += "(" + getServerFileLocation() + ")";
+        } else {
+            result += "(" + getLocalFileLocation() + ")";
+        }
         return result;
     }
 }

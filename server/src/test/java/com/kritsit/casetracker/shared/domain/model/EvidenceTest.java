@@ -31,6 +31,7 @@ public class EvidenceTest extends TestCase {
 
         assertTrue("Test file".equals(evidence.getDescription()));
         assertTrue(serverFile.getAbsolutePath().equals(evidence.getServerFileLocation()));
+        assertTrue(serverFile.equals(evidence.getServerFile()));
         assertTrue(localFile.equals(evidence.getLocalFile()));
         assertTrue(localFile.getAbsolutePath().equals(evidence.getLocalFileLocation()));
         assertTrue(evidence.getImage() == null);
@@ -52,8 +53,13 @@ public class EvidenceTest extends TestCase {
 
     public void testToString() {
         File serverFile = new File("test.file");
-        String toString = "Evidence: Test file (" + serverFile.getAbsolutePath() + ")";
-        assertTrue(toString.equals(evidence.toString()));
+        String serverString = "Evidence: Test file (" + serverFile.getAbsolutePath() + ")";
+        File localFile = new File("local.file");
+        String localString = "Evidence: Test file (" + localFile.getAbsolutePath() + ")";
+        Evidence e = new Evidence("Test file", null, localFile);
+
+        assertTrue(serverString.equals(evidence.toString()));
+        assertTrue(localString.equals(e.toString()));
     }
 
     public void testEquals_Null() {
