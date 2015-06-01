@@ -4,7 +4,9 @@ import com.kritsit.casetracker.client.domain.services.IEditorService;
 import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
 import com.kritsit.casetracker.shared.domain.model.Case;
+import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Evidence;
+import com.kritsit.casetracker.shared.domain.model.Person;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import org.slf4j.Logger;
@@ -21,7 +23,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
@@ -32,9 +37,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import java.time.LocalDate;
+import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.util.List;
@@ -290,6 +298,19 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleAddEvidenceAction(ActionEvent e) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Add Evidence Files");
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("Text Files", "*.txt", "*.docx", "*.xmlx", "*.doc", "*.xml", "*.pdf"),
+                new ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif", "*.jpeg"),
+                new ExtensionFilter("Video Files", "*.mp4", "*.avi", "*.mkv", "*.mts"),
+                new ExtensionFilter("All Files", "*.*"));
+        File evidenceFile = fileChooser.showOpenDialog(stage);
+        if (evidenceFile != null) {
+            String name = evidenceFile.getName();
+            Evidence evidence = new Evidence(name, null, evidenceFile);
+            lstAddEvidence.getItems().add(evidence);
+        }
     }
 
     @FXML protected void handleEditEvidenceAction(ActionEvent e) {
@@ -303,10 +324,18 @@ public class EditorController implements IController {
 
     @FXML private Button btnCalendarNext;
     @FXML private Button btnCalendarPrevious;
+    @FXML private CheckBox cbxAddIsReturnVisit;
     @FXML private ChoiceBox<Integer> cbxCalendarYear;
     @FXML private ChoiceBox<String> cbxFilterCaseType;
+    @FXML private ComboBox<Person> cmbAddComplainant;
+    @FXML private ComboBox<Defendant> cmbAddDefendant;
+    @FXML private ComboBox<Staff> cmbAddInvestigatingOfficer;
+    @FXML private ComboBox<String> cmbAddCaseType;
+    @FXML private DatePicker dpkAddIncidentDate;
+    @FXML private DatePicker dpkAddReturnDate;
     @FXML private GridPane panCaseSummary;
     @FXML private ListView<Evidence> lstSummaryEvidence;
+    @FXML private ListView<Evidence> lstAddEvidence;
     @FXML private TableView<Case> tblCases;
     @FXML private TableView<List<Day>> tblCalendar;
     @FXML private TableColumn<Case, String> colCaseNumber;
@@ -321,7 +350,14 @@ public class EditorController implements IController {
     @FXML private TableColumn<List<Day>, String> colFriday;
     @FXML private TableColumn<List<Day>, String> colSaturday;
     @FXML private TableColumn<List<Day>, String> colSunday;
+    @FXML private TextArea txaAddAnimalsInvolved;
+    @FXML private TextArea txaAddDetails;
     @FXML private TextArea txaSummaryDetails;
+    @FXML private TextField txfAddAddress;
+    @FXML private TextField txfAddCaseName;
+    @FXML private TextField txfAddCaseNumber;
+    @FXML private TextField txfAddLatitude;
+    @FXML private TextField txfAddLongitude;
     @FXML private TextField txfFilterCases;
     @FXML private Text txtCalendarMonth;
     @FXML private Text txtSummaryDefendant;
