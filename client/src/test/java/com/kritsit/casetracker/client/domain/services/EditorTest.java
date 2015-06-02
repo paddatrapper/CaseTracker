@@ -112,4 +112,14 @@ public class EditorTest extends TestCase {
 
         verify(connection).getCases(null);
     } 
+
+    public void testGetInspectors() {
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        editor = new Editor(user, connection);
+        
+        editor.getInspectors(); 
+
+        verify(connection).getInspectors();
+    }
 }

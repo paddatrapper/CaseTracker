@@ -75,6 +75,11 @@ public class ServerConnectionTest extends TestCase {
         assertTrue(caseList != null);
     }
 
+    public void testGetInspectors() {
+        connection.open("localhost", 1244);
+        assertTrue(connection.getInspectors() != null);
+    }
+
     public void tearDown() throws IOException {
         ServiceFactory.resetServerConnection();
         if (connection.isOpen()) {

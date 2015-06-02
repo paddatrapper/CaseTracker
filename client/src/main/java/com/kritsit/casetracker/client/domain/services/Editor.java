@@ -80,4 +80,8 @@ public class Editor implements IEditorService {
         }
         return monthList;
     }
+
+    public List<Staff> getInspectors() {
+        return connection.getInspectors();
+    }
 }

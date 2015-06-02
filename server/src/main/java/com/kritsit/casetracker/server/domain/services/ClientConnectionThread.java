@@ -93,6 +93,15 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         out.flush();
                         break;
                     }
+                    case "getInspectors": {
+                        logger.debug("Inspectors requested");
+                        IUserRepository userRepo = new UserRepository(persistence);
+                        List<Staff> inspectors = userRepo.getInspectors();
+                        Response dto = new Response(200, inspectors);
+                        out.writeObject(dto);
+                        out.flush();
+                        break;
+                    }
                     case "close": {
                         close();
                         logger.info("{} has disconnected", connectedClient);

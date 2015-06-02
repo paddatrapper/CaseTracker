@@ -6,6 +6,7 @@ import com.kritsit.casetracker.client.domain.model.Day;
 import com.kritsit.casetracker.shared.domain.model.Case;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Evidence;
+import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Person;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
@@ -70,6 +71,7 @@ public class EditorController implements IController {
     public void initFrame() {
         initCasesTable();
         initCalendarTable();
+        initAddCaseTab();
     }
 
     @SuppressWarnings("unchecked")
@@ -194,6 +196,14 @@ public class EditorController implements IController {
                 return new SimpleStringProperty(day.toString());
             }
         });
+    }
+
+    private void initAddCaseTab() {
+        ObservableList<Staff> inspectors = FXCollections.observableArrayList(editorService.getInspectors());
+        cmbAddInvestigatingOfficer.setItems(inspectors);
+        if (editorService.getUser().getPermission() == Permission.EDITOR) {
+            cmbAddInvestigatingOfficer.setValue(editorService.getUser());
+        }
     }
 
     private void refreshCalendarTable(int currentMonth, int currentYear) {

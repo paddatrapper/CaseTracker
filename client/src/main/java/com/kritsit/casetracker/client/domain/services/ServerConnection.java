@@ -135,4 +135,15 @@ public class ServerConnection implements IConnectionService {
         out.writeObject(request);
         out.flush();
     }
+
+    public List<Staff> getInspectors() {
+        try {
+            Request request = new Request("getInspectors");
+            Response response = getResponse(request);
+            return (List<Staff>) response.getBody();
+        } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to get inspectors", ex);
+            return null;
+        }
+    }
 }

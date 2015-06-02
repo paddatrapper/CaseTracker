@@ -1,14 +1,15 @@
 package com.kritsit.casetracker.server.datalayer;
 
-import java.util.List;
-import java.util.Map;
-
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class UserRepository implements IUserRepository {
     private final Logger logger = LoggerFactory.getLogger(UserRepository.class);	
@@ -102,4 +103,26 @@ public class UserRepository implements IUserRepository {
 			throw new RowToModelParseException("Error retrieving investigating officer from database for case: " + caseNumber);
 		}
     }
+
+    public List<Staff> getInspectors() throws RowToModelParseException {
+        try {
+            logger.info("Fetching inspectors");
+            String sql = "SELECT username FROM staff WHERE permissions=1;";
+            List<Map<String, String>> rs = db.executeQuery(sql);
+
+            if (rs == null || rs.size() == 0) {
+                logger.debug("No inspectors found");
+                return null;
+	        }
+	        
+            List<Staff> inspectors = new ArrayList<>();
+            for (Map<String, String> inspector : rs) {
+                inspectors.add(getUserDetails(inspector.get("username")));
+            }
+            return inspectors;
+        } catch (Exception e) {
+            logger.error("Error retrieving inspectors");
+            throw new RowToModelParseException("Error retrieving inspectors");
+        }
+   }
 }

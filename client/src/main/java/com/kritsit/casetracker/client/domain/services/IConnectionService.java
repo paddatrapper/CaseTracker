@@ -13,4 +13,5 @@ public interface IConnectionService {
     boolean login(String username, int hash);
     Staff getUser(String username, int hash);
     List<Case> getCases(Staff user);
+    List<Staff> getInspectors();
 }

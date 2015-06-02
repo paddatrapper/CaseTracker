@@ -11,4 +11,5 @@ public interface IEditorService {
     List<Case> getCases();
     List<List<Day>> getBlankMonth();
     List<List<Day>> getMonthAppointments(int month, int year);
+    List<Staff> getInspectors();
 }
