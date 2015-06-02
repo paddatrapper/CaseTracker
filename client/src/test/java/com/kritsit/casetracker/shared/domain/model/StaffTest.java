@@ -66,7 +66,7 @@ public class StaffTest extends TestCase {
     }
 
     public void testToString() {
-        String expected = "Staff: testUsername (firstName lastName)";
+        String expected = "firstName lastName";
         assertTrue(expected.equals(staff.toString()));
     }
 }

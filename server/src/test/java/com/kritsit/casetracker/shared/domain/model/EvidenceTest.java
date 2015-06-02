@@ -53,9 +53,9 @@ public class EvidenceTest extends TestCase {
 
     public void testToString() {
         File serverFile = new File("test.file");
-        String serverString = "Evidence: Test file (" + serverFile.getAbsolutePath() + ")";
+        String serverString = "Test file (" + serverFile.getAbsolutePath() + ")";
         File localFile = new File("local.file");
-        String localString = "Evidence: Test file (" + localFile.getAbsolutePath() + ")";
+        String localString = "Test file (" + localFile.getAbsolutePath() + ")";
         Evidence e = new Evidence("Test file", null, localFile);
 
         assertTrue(serverString.equals(evidence.toString()));

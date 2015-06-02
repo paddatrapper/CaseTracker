@@ -90,8 +90,7 @@ public class Evidence implements Serializable {
     
     @Override
     public String toString() {
-        String result = "Evidence: ";
-        result += description + " ";
+        String result = description + " ";
         if (getServerFile() != null) {
             result += "(" + getServerFileLocation() + ")";
         } else {

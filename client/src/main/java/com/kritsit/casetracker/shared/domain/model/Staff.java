@@ -111,10 +111,7 @@ public class Staff implements Externalizable {
     
     @Override
     public String toString() {
-        String result = "Staff: ";
-        result += getUsername() + " ";
-        result += "(" + getName() + ")";
-        return result;
+        return getName();
     }
 
     @Override
