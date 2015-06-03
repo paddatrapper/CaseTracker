@@ -39,6 +39,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -328,6 +329,24 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleEditEvidenceAction(ActionEvent e) {
+        Evidence evidence = lstAddEvidence.getSelectionModel().getSelectedItem();
+        Evidence oldEvidence = evidence;
+        if (evidence != null) {
+            TextInputDialog editDialog = new TextInputDialog(evidence.getDescription());
+            editDialog.setTitle("Edit Evidence");
+            editDialog.setContentText("Please enter the description:");
+            Optional<String> newDescription = editDialog.showAndWait();
+            if (newDescription.isPresent()) {
+                evidence.setDescription(newDescription.get());
+                int index = lstAddEvidence.getItems().indexOf(oldEvidence);
+                lstAddEvidence.getItems().set(index, evidence);
+            }
+        } else {
+            Alert selectionWarning = new Alert(AlertType.WARNING);
+            selectionWarning.setTitle("No Evidence Selected");
+            selectionWarning.setContentText("No evidence selected to delete");
+            selectionWarning.showAndWait();
+        }
     }
 
     @FXML protected void handleDeleteEvidenceAction(ActionEvent e) {
