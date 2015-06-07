@@ -73,9 +73,7 @@ public class Defendant extends Person {
     
     @Override
     public String toString() {
-        String result = "Defendant: ";
-        result += getName() + " ";
-        result += "(" + getId() + ")";
+        String result = getName();
         return result;
     }
 

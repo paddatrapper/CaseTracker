@@ -107,9 +107,7 @@ public class Person implements Externalizable {
     
     @Override
     public String toString() {
-        String result = "Person: ";
-        result += getName() + " ";
-        result += "(" + getId() + ")";
+        String result = getName();
         return result;
     }
 

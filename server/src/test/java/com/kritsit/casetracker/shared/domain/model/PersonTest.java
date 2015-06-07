@@ -46,7 +46,7 @@ public class PersonTest extends TestCase {
     }
 
     public void testToString() {
-        assertTrue("Person: John Smith (0002225094081)".equals(person.toString()));
+        assertTrue("John Smith".equals(person.toString()));
     }
 
     public void testEquals_Null() {

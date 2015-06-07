@@ -73,6 +73,6 @@ public class DefendantTest extends TestCase {
     }
 
     public void testToString() {
-        assertTrue("Defendant: John Smith (0002225094081)".equals(defendant.toString()));
+        assertTrue("John Smith".equals(defendant.toString()));
     }
 }
