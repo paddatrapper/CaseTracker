@@ -122,4 +122,67 @@ public class EditorTest extends TestCase {
 
         verify(connection).getInspectors();
     }
+
+    public void testGetCaseTypes() {
+        String caseType = "TestType";
+        List<String> caseTypes = new ArrayList<>();
+        caseTypes.add(caseType);
+        List<Case> caseList = new ArrayList<>();
+        Case c = mock(Case.class);
+        caseList.add(c);
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        editor = new Editor(user, connection);
+       
+        when(connection.getCases(null)).thenReturn(caseList);
+        when(c.getType()).thenReturn(caseType);
+
+        editor.getCases();
+
+        assertTrue(caseTypes.equals(editor.getCaseTypes()));
+        verify(connection).getCases(null);
+        verify(c, times(2)).getType();
+    }
+
+    public void testGetDefendants() {
+        Defendant defendant = mock(Defendant.class);
+        List<Defendant> defendants = new ArrayList<>();
+        defendants.add(defendant);
+        List<Case> caseList = new ArrayList<>();
+        Case c = mock(Case.class);
+        caseList.add(c);
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        editor = new Editor(user, connection);
+       
+        when(connection.getCases(null)).thenReturn(caseList);
+        when(c.getDefendant()).thenReturn(defendant);
+
+        editor.getCases();
+
+        assertTrue(defendants.equals(editor.getDefendants()));
+        verify(connection).getCases(null);
+        verify(c, times(2)).getDefendant();
+    }
+
+    public void testGetComplainants() {
+        Person complainant = mock(Person.class);
+        List<Person> complainants = new ArrayList<>();
+        complainants.add(complainant);
+        List<Case> caseList = new ArrayList<>();
+        Case c = mock(Case.class);
+        caseList.add(c);
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        editor = new Editor(user, connection);
+       
+        when(connection.getCases(null)).thenReturn(caseList);
+        when(c.getComplainant()).thenReturn(complainant);
+
+        editor.getCases();
+
+        assertTrue(complainants.equals(editor.getComplainants()));
+        verify(connection).getCases(null);
+        verify(c, times(2)).getComplainant();
+    }
 }

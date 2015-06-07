@@ -3,6 +3,8 @@ package com.kritsit.casetracker.client.domain.services;
 import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
 import com.kritsit.casetracker.shared.domain.model.Case;
+import com.kritsit.casetracker.shared.domain.model.Defendant;
+import com.kritsit.casetracker.shared.domain.model.Person;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import java.time.LocalDate;
@@ -83,5 +85,35 @@ public class Editor implements IEditorService {
 
     public List<Staff> getInspectors() {
         return connection.getInspectors();
+    }
+
+    public List<String> getCaseTypes() {
+        List<String> caseTypes = new ArrayList<>();
+        for (Case c : cases) {
+            if (!caseTypes.contains(c.getType())) {
+                caseTypes.add(c.getType());
+            }
+        }
+        return caseTypes;
+    }
+
+    public List<Defendant> getDefendants() {
+        List<Defendant> defendants = new ArrayList<>();
+        for (Case c : cases) {
+            if (!defendants.contains(c.getDefendant())) {
+                defendants.add(c.getDefendant());
+            }
+        }
+        return defendants;
+    }
+
+    public List<Person> getComplainants() {
+        List<Person> complainants = new ArrayList<>();
+        for (Case c : cases) {
+            if (!complainants.contains(c.getComplainant())) {
+                complainants.add(c.getComplainant());
+            }
+        }
+        return complainants;
     }
 }

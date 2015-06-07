@@ -205,6 +205,15 @@ public class EditorController implements IController {
         if (editorService.getUser().getPermission() == Permission.EDITOR) {
             cmbAddInvestigatingOfficer.setValue(editorService.getUser());
         }
+
+        ObservableList<String> caseTypes = FXCollections.observableArrayList(editorService.getCaseTypes());
+        cmbAddCaseType.setItems(caseTypes);
+
+        ObservableList<Defendant> defendants = FXCollections.observableArrayList(editorService.getDefendants());
+        cmbAddDefendant.setItems(defendants);
+
+        ObservableList<Person> complainants = FXCollections.observableArrayList(editorService.getComplainants());
+        cmbAddComplainant.setItems(complainants);
     }
 
     private void refreshCalendarTable(int currentMonth, int currentYear) {
