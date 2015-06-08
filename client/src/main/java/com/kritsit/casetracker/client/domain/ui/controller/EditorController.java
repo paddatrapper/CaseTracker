@@ -34,6 +34,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -70,21 +71,25 @@ public class EditorController implements IController {
     }
 
     public void initFrame() {
+        logger.info("Initiating frame");
         initCasesTable();
         initCalendarTable();
-        initAddCaseTab();
+        if (editorService.getUser().getPermission() == Permission.EDITOR) {
+            initAddCaseTab();
+        } else {
+            logger.debug("Add case tab disabled");
+            tabAddCase.setDisable(true);
+        } 
     }
 
     @SuppressWarnings("unchecked")
     private void initCasesTable() {
+        logger.info("Initiating case list table");
         cases = FXCollections.observableArrayList(editorService.getCases());
         cbxFilterCaseType.getItems().add("All");
         cbxFilterCaseType.setValue("All");
-        for (Case c : cases) {
-            if (!cbxFilterCaseType.getItems().contains(c.getType())) {
-                cbxFilterCaseType.getItems().add(c.getType());
-            }
-        }
+        ObservableList<String> caseTypes = FXCollections.observableArrayList(editorService.getCaseTypes());
+        cbxFilterCaseType.getItems().addAll(caseTypes);
         FilteredList<Case> filteredCases = new FilteredList<>(cases, p -> true);
         txfFilterCases.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredCases.setPredicate(c -> {
@@ -150,6 +155,7 @@ public class EditorController implements IController {
     }
 
     private void initCalendarTable() {
+        logger.info("Initiating calendar");
         tblCalendar.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tblCalendar.getSelectionModel().setCellSelectionEnabled(true);
         List<TableColumn<List<Day>, String>> columns = new ArrayList<>();
@@ -200,6 +206,7 @@ public class EditorController implements IController {
     }
 
     private void initAddCaseTab() {
+        logger.info("Initiating add case tab");
         ObservableList<Staff> inspectors = FXCollections.observableArrayList(editorService.getInspectors());
         cmbAddInvestigatingOfficer.setItems(inspectors);
         if (editorService.getUser().getPermission() == Permission.EDITOR) {
@@ -218,6 +225,7 @@ public class EditorController implements IController {
 
     private void refreshCalendarTable(int currentMonth, int currentYear) {
         String[] month = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        logger.info("Refreshing calendar to {} of {}", month[currentMonth - 1], currentYear);
         LocalDate today = LocalDate.now();
         int realMonth = today.getMonthValue();
         int realYear = today.getYear();
@@ -240,7 +248,9 @@ public class EditorController implements IController {
     }
 
     private void updateShownCase(Case c) {
+        logger.info("Updating displayed case to {}", c);
         if (c == null) {
+            logger.debug("No case to show");
             panCaseSummary.setVisible(false);
         } else { 
             panCaseSummary.setVisible(true);
@@ -281,6 +291,7 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleFilterClearAction(ActionEvent e) {
+        logger.info("Clearing case filter");
         cbxFilterCaseType.setValue("All");
         txfFilterCases.setText("");
     }
@@ -289,7 +300,9 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleCalendarPreviousAction(ActionEvent e) {
+        logger.info("Displaying previous month in the calendar");
         if (calendarCurrentMonth == 1) {
+            logger.debug("Year rolled over");
             calendarCurrentMonth = 12;
             calendarCurrentYear--;
         } else {
@@ -299,7 +312,9 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleCalendarNextAction(ActionEvent e) {
+        logger.info("Displaying next month in the calendar");
         if (calendarCurrentMonth == 12) {
+            logger.debug("Year rolled over");
             calendarCurrentMonth = 1;
             calendarCurrentYear++;
         } else {
@@ -309,6 +324,7 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleCalendarTodayAction(ActionEvent e) {
+        logger.info("Displaying today in the calendar");
         LocalDate today = LocalDate.now();
         calendarCurrentMonth = today.getMonthValue();
         calendarCurrentYear = today.getYear();
@@ -322,6 +338,7 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleAddEvidenceAction(ActionEvent e) {
+        logger.info("Adding evidence to new case");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Add Evidence Files");
         fileChooser.getExtensionFilters().addAll(
@@ -331,6 +348,7 @@ public class EditorController implements IController {
                 new ExtensionFilter("All Files", "*.*"));
         File evidenceFile = fileChooser.showOpenDialog(stage);
         if (evidenceFile != null) {
+            logger.debug("Adding selected evidence to new case");
             String name = evidenceFile.getName();
             Evidence evidence = new Evidence(name, null, evidenceFile);
             lstAddEvidence.getItems().add(evidence);
@@ -338,6 +356,7 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleEditEvidenceAction(ActionEvent e) {
+        logger.info("Editing evidence attached to new case");
         Evidence evidence = lstAddEvidence.getSelectionModel().getSelectedItem();
         Evidence oldEvidence = evidence;
         if (evidence != null) {
@@ -346,19 +365,22 @@ public class EditorController implements IController {
             editDialog.setContentText("Please enter the description:");
             Optional<String> newDescription = editDialog.showAndWait();
             if (newDescription.isPresent()) {
+                logger.debug("Setting new evidence description to {}", newDescription.get());
                 evidence.setDescription(newDescription.get());
                 int index = lstAddEvidence.getItems().indexOf(oldEvidence);
                 lstAddEvidence.getItems().set(index, evidence);
             }
         } else {
+            logger.debug("No evidence selected to edit");
             Alert selectionWarning = new Alert(AlertType.WARNING);
             selectionWarning.setTitle("No Evidence Selected");
-            selectionWarning.setContentText("No evidence selected to delete");
+            selectionWarning.setContentText("No evidence selected to edit");
             selectionWarning.showAndWait();
         }
     }
 
     @FXML protected void handleDeleteEvidenceAction(ActionEvent e) {
+        logger.info("Deleting evidence from new case");
         Evidence evidence = lstAddEvidence.getSelectionModel().getSelectedItem();
         if (evidence != null) {
             Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
@@ -366,9 +388,11 @@ public class EditorController implements IController {
             confirmationAlert.setContentText("Are you sure you want to remove this evidence?");
             Optional<ButtonType> result = confirmationAlert.showAndWait();
             if (result.get() == ButtonType.OK) {
+                logger.debug("Deleting evidence {} from new case", evidence);
                 lstAddEvidence.getItems().remove(evidence);
             }
         } else {
+            logger.debug("No evidence selected to delete");
             Alert selectionWarning = new Alert(AlertType.WARNING);
             selectionWarning.setTitle("No Evidence Selected");
             selectionWarning.setContentText("No evidence selected to delete");
@@ -393,6 +417,7 @@ public class EditorController implements IController {
     @FXML private GridPane panCaseSummary;
     @FXML private ListView<Evidence> lstSummaryEvidence;
     @FXML private ListView<Evidence> lstAddEvidence;
+    @FXML private Tab tabAddCase;
     @FXML private TableView<Case> tblCases;
     @FXML private TableView<List<Day>> tblCalendar;
     @FXML private TableColumn<Case, String> colCaseNumber;
