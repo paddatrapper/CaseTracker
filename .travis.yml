@@ -7,4 +7,4 @@ script:
     - sudo apt-get update && sudo apt-get install oracle-java8-installer
     - ./scripts/project.sh -e -a
 after_success:
-    - mvn clean test jacoco:report coveralls:report
+    - mvn clean verify jacoco:report coveralls:report
