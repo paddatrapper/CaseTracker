@@ -137,7 +137,7 @@
                     <element>BUNDLE</element>
                     <limits>
                       <limit>
-                        <counter>LINE</counter>
+                        <counter>INSTRUCTIONS</counter>
                         <value>COVEREDRATIO</value>
                         <minimum>0.50</minimum>
                       </limit>
