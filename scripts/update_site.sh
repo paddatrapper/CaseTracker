@@ -1,37 +1,16 @@
 #!/bin/bash
 #
-# Updates the site documentation on http://kritsit.ddns.net/CaseTracker/
+# Updates the site documentation on http://kritsit.ddns.net/casetracker/
 #
-
 # Create updated site documentation
-cd ./server
-mvn clean package site
-STATUS=$?
-
-if [ $STATUS -ne 0 ]; then
-	exit $STATUS
-fi
-
-java -jar ./target/server-0.1a-SNAPSHOT-jar-with-dependencies.jar &
-JavaPID=$!
-
-cd ../client
-mvn clean package site
-STATUS=$?
-
-kill -9 $JavaPID
-
-if [ $STATUS -ne 0 ]; then
-	exit $STATUS
-fi
-
-cd ..
-
 # Remove old files from server
 echo "Removing old site files"
-ssh kyle@kritsit.ddns.net "rm -rf /var/www/kritsit/public_html/casetracker/{client,server}; mkdir -p /var/www/kritsit.ddns.net/public_html/casetracker/{client,server};"
+ssh kyle@kritsit.ddns.net "rm -rf /var/www/kritsit/public_html/casetracker; mkdir -p /var/www/kritsit.ddns.net/public_html/casetracker/{client,server};"
 
 # Copy new files to server
+echo "Copying new project site from developer"
+scp -r ./target/site/* kyle@kritsit.ddns.net:/var/www/kritsit.ddns.net/public_html/casetracker/
+
 echo "Copying new client site from developer"
 scp -r ./client/target/site/* kyle@kritsit.ddns.net:/var/www/kritsit.ddns.net/public_html/casetracker/client/
 
