@@ -28,16 +28,11 @@ Maven is being used to manage the project life cycle. This includes compiling,
 packaging, testing and documentation. All maven commands must be run from
 within the client or server root directories.
 
-To generate a runnable .jar file of the client or server:
+Builing and running can be done through [scripts/project,sh](https://github.com/paddatrapper/CaseTracker/blob/master/scripts/project.sh):
 
-    mvn package
+    scripts/project.sh -a -r
 
-To generate the documentation:
-
-    mvn site
-
-The project documentation can be viewed on the CaseTracker [client website](http://kritsit.ddns.net/casetracker/client/project-info.html)
-and [sever website](http://kritsit.ddns.net/casetracker/server/project-info.html).
+The project documentation can be viewed on the [CaseTracker website](http://kritsit.ddns.net/casetracker).
 
 Development
 -----------
@@ -61,7 +56,7 @@ New developers are welcome. The process to follow when contributing is:
 Coding Style
 ------------
 
-* Indents are four spaces.
 * Spaces, not tabs.
+* Indents are four spaces.
 * Everything else follows [Google Java Style](https://google-styleguide.googlecode.com/svn/trunk/javaguide.html).
 * If there are any grey areas create an issue for it and it can be discussed.
