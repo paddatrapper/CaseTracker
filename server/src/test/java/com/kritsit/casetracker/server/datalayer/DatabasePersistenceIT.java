@@ -7,15 +7,15 @@ import junit.framework.TestSuite;
 import com.kritsit.casetracker.server.datalayer.DatabasePersistence;
 import com.kritsit.casetracker.server.datalayer.IPersistenceService;
 
-public class DatabasePersistenceTest extends TestCase {
+public class DatabasePersistenceIT extends TestCase {
     private IPersistenceService db;
 
-    public DatabasePersistenceTest(String name) {
+    public DatabasePersistenceIT(String name) {
         super(name);
     }
 
     public static Test suite() {
-        return new TestSuite(DatabasePersistenceTest.class);
+        return new TestSuite(DatabasePersistenceIT.class);
     }
 
     public void setUp() {

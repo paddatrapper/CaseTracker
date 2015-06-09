@@ -15,16 +15,16 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.List;
 
-public class ServerConnectionTest extends TestCase {
+public class ServerConnectionIT extends TestCase {
     IConnectionService connection;
     Process server;
 
-    public ServerConnectionTest(String name) {
+    public ServerConnectionIT(String name) {
         super(name);
     }
 
     public static Test suite() {
-        return new TestSuite(ServerConnectionTest.class);
+        return new TestSuite(ServerConnectionIT.class);
     }
 
     public void setUp() {
