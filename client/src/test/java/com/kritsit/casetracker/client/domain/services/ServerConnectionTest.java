@@ -79,6 +79,11 @@ public class ServerConnectionTest extends TestCase {
         connection.open("localhost", 1244);
         assertTrue(connection.getInspectors() != null);
     }
+    
+    public void testGetLastCaseNumber() {
+        connection.open("localhost", 1244);
+        assertFalse("0000-00-0000".equals(connection.getLastCaseNumber()));
+    }
 
     public void tearDown() throws IOException {
         ServiceFactory.resetServerConnection();

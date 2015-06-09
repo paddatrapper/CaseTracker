@@ -126,4 +126,26 @@ public class CaseRepositoryTest extends TestCase {
         verify(userRepo).getInvestigatingOfficer(caseNumber);
         verify(evidenceRepo).getEvidence(caseNumber);
     }
+
+    public void testGetLastCaseNumber() throws SQLException, RowToModelParseException {
+        String sql = "SELECT caseNumber FROM cases ORDER BY caseNumber DESC LIMIT 1;";
+        String caseNumber = "2015-02-0001";
+        Map<String, String> map = new HashMap<>();
+        List<Map<String, String>> caseNumbers = new ArrayList<>();
+        map.put("caseNumber", caseNumber);
+        caseNumbers.add(map);
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IIncidentRepository incidentRepo = mock(IIncidentRepository.class);
+        IPersonRepository personRepo = mock(IPersonRepository.class);
+        IUserRepository userRepo = mock(IUserRepository.class);
+        IEvidenceRepository evidenceRepo = mock(IEvidenceRepository.class);
+        
+        when(db.executeQuery(sql)).thenReturn(caseNumbers);
+
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo, userRepo, evidenceRepo);
+
+        assertTrue(caseNumber.equals(caseRepo.getLastCaseNumber()));
+        verify(db).executeQuery(sql);
+    }
 }

@@ -116,4 +116,19 @@ public class Editor implements IEditorService {
         }
         return complainants;
     }
+
+    public String getNextCaseNumber() {
+        LocalDate today = LocalDate.now();
+        String current = connection.getLastCaseNumber();
+        String[] parts = current.split("-");
+        int nextNumber = 1;
+        int currentMonth = Integer.parseInt(parts[1]);
+        int currentYear = Integer.parseInt(parts[2]);
+        if (currentMonth == today.getMonthValue() && currentYear == today.getYear()) {
+            nextNumber = Integer.parseInt(parts[0]) + 1;
+        }
+        String nextSequence = String.format("%04d", nextNumber);
+        String nextMonth = String.format("%02d", today.getMonthValue());
+        return today.getYear() + "-" + nextMonth + "-" + nextSequence;
+    }
 }

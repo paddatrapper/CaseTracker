@@ -17,4 +17,5 @@ public interface IEditorService {
     List<String> getCaseTypes();
     List<Defendant> getDefendants();
     List<Person> getComplainants();
+    String getNextCaseNumber();
 }

@@ -56,7 +56,7 @@ public class CaseRepository implements ICaseRepository {
 
     public List<Case> getCases(Staff inspector) throws RowToModelParseException {
         try {
-            logger.info("Fetching casesfor user {}", inspector.getUsername());
+            logger.info("Fetching cases for user {}", inspector.getUsername());
             String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.id AND staff.username=\'" + inspector.getUsername() + "\';";
             List<Map<String, String>> rs = db.executeQuery(sql);
 
@@ -104,6 +104,23 @@ public class CaseRepository implements ICaseRepository {
         } catch (Exception e) {
             logger.error("Error retrieving case", e);
             throw new RowToModelParseException("Error retrieving case from database");
+        }
+    }
+
+    public String getLastCaseNumber() throws RowToModelParseException {
+        try {
+            logger.info("Fetching last case number");
+            String sql = "SELECT caseNumber FROM cases ORDER BY caseNumber DESC LIMIT 1;";
+            List<Map<String, String>> rs = db.executeQuery(sql);
+
+            if (rs == null || rs.size() == 0) {
+                logger.warn("No cases found in the database");
+                return "0000-00-0000";
+            }
+            return rs.get(0).get("caseNumber");
+        } catch (Exception e) {
+            logger.error("Error retrieving the last case number", e);
+            throw new RowToModelParseException("Error retrieving the last case number");
         }
     }
 }

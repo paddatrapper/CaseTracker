@@ -146,4 +146,15 @@ public class ServerConnection implements IConnectionService {
             return null;
         }
     }
+
+    public String getLastCaseNumber() {
+        try {
+            Request request = new Request("getLastCaseNumber");
+            Response response = getResponse(request);
+            return (String) response.getBody();
+        } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to get last case number", ex);
+            return "0000-00-0000";
+        }
+    }
 }

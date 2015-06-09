@@ -342,7 +342,7 @@
                                 <Insets right="2.0" />
                              </HBox.margin>
                           </Label>
-                          <TextField fx:id="txtAddCaseNumber" editable="false" prefHeight="26.0" prefWidth="124.0">
+                          <TextField fx:id="txfAddCaseNumber" editable="false" prefHeight="26.0" prefWidth="124.0">
                              <HBox.margin>
                                 <Insets right="5.0" />
                              </HBox.margin>

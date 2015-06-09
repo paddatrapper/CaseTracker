@@ -102,6 +102,19 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         out.flush();
                         break;
                     }
+                    case "getLastCaseNumber": {
+                        logger.debug("Last case number requested");
+                        IIncidentRepository incidentRepo = new IncidentRepository(persistence);
+                        IPersonRepository personRepo = new PersonRepository(persistence);
+                        IUserRepository userRepo = new UserRepository(persistence);
+                        IEvidenceRepository evidenceRepo = new EvidenceRepository(persistence);
+                        ICaseRepository caseRepo = new CaseRepository(persistence, incidentRepo, personRepo, userRepo, evidenceRepo);
+                        String caseNumber = caseRepo.getLastCaseNumber();
+                        Response dto = new Response(200, caseNumber);
+                        out.writeObject(dto);
+                        out.flush();
+                        break;
+                    }
                     case "close": {
                         close();
                         logger.info("{} has disconnected", connectedClient);

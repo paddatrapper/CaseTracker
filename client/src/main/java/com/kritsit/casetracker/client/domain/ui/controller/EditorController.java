@@ -51,7 +51,9 @@ import java.time.LocalDate;
 import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class EditorController implements IController {
@@ -221,6 +223,12 @@ public class EditorController implements IController {
 
         ObservableList<Person> complainants = FXCollections.observableArrayList(editorService.getComplainants());
         cmbAddComplainant.setItems(complainants);
+
+        tabAddCase.setOnSelectionChanged(t -> {
+            if (tabAddCase.isSelected()) {
+                txfAddCaseNumber.setText(editorService.getNextCaseNumber());
+            }
+        });
     }
 
     private void refreshCalendarTable(int currentMonth, int currentYear) {
