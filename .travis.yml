@@ -6,3 +6,5 @@ install: true
 script: 
     - sudo apt-get update && sudo apt-get install oracle-java8-installer
     - ./scripts/project.sh -e -a
+after_success:
+    - ./scripts/get_coverage_report.sh
