@@ -229,6 +229,42 @@ public class EditorController implements IController {
                 txfAddCaseNumber.setText(editorService.getNextCaseNumber());
             }
         });
+
+        cbxAddIsReturnVisit.selectedProperty().addListener((obs, oldValue, newValue) -> {
+                dpkAddReturnDate.setDisable(!newValue);
+        });
+
+        txfAddAddress.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                txfAddLongitude.setDisable(false);
+                txfAddLatitude.setDisable(false);
+            } else {
+                txfAddLongitude.setDisable(true);
+                txfAddLatitude.setDisable(true);
+            }
+        });
+
+        txfAddLongitude.textProperty().addListener((obs, oldValue, newValue) -> {
+            String latitude = txfAddLatitude.getText();
+            if (newValue == null || newValue.isEmpty()) {
+                if (latitude == null || latitude.isEmpty()) {
+                    txfAddAddress.setDisable(false);
+                }
+            } else {
+                txfAddAddress.setDisable(true);
+            }
+        });
+
+        txfAddLatitude.textProperty().addListener((obs, oldValue, newValue) -> {
+            String longitude = txfAddLongitude.getText();
+            if (newValue == null || newValue.isEmpty()) {
+                if (longitude == null || longitude.isEmpty()) {
+                    txfAddAddress.setDisable(false);
+                }
+            } else {
+                txfAddAddress.setDisable(true);
+            }
+        });
     }
 
     private void refreshCalendarTable(int currentMonth, int currentYear) {
