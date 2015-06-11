@@ -120,10 +120,16 @@
               </goals>
             </execution>
             <execution>
-              <id>default-report</id>
+              <id>test-report</id>
               <phase>prepare-package</phase>
               <goals>
                 <goal>report</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>it-report</id>
+              <goals>
+                <goal>report-integration</goal>
               </goals>
             </execution>
             <execution>
