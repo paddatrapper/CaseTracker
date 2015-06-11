@@ -33,7 +33,6 @@ public class ServerConnectionIT extends TestCase {
 
     public void testConnection_PortOutOfBounds() {
         try {
-        connection.open("localhost", 1244);
             connection.open("localhost", 65555);
         } catch (IllegalArgumentException ex) {
             assertTrue("Port must be in range".equals(ex.getMessage()));
