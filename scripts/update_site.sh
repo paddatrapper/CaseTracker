@@ -5,7 +5,7 @@
 # Create updated site documentation
 # Remove old files from server
 echo "Removing old site files"
-ssh kyle@kritsit.ddns.net "rm -rf /var/www/kritsit/public_html/casetracker; mkdir -p /var/www/kritsit.ddns.net/public_html/casetracker/{client,server};"
+ssh kyle@kritsit.ddns.net "rm -rf /var/www/kritsit.ddns.net/public_html/casetracker; mkdir -p /var/www/kritsit.ddns.net/public_html/casetracker/{client,server};"
 
 # Copy new files to server
 echo "Copying new project site from developer"
