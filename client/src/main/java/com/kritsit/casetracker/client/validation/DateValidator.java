@@ -9,24 +9,29 @@ public class DateValidator implements IValidator<LocalDate> {
     private LocalDate checkDate;
     private Period period;
 
-    public DateValidator(LocalDate checkDate, Period period) {
+    public DateValidator() {
+        this.period = Period.NONE;
+    }
+
+    public DateValidator(Period period, LocalDate checkDate) {
         this.checkDate = checkDate;
         this.period = period;
     }
 
-    public boolean validate(LocalDate obj) {
-        if (obj == null) {
+    public boolean validate(Object obj) {
+        if (obj == null || obj.getClass() != LocalDate.class) {
             return false;
         }
+        LocalDate date = (LocalDate) obj;
         switch (period) {
             case BEFORE :
-                return obj.isBefore(checkDate);
+                return date.isBefore(checkDate);
             case EQUALS :
-                return obj.isEqual(checkDate);
+                return date.isEqual(checkDate);
             case AFTER :
-                return obj.isAfter(checkDate);
+                return date.isAfter(checkDate);
             default :
-                return false;
+                return true;
         }
     }
 }

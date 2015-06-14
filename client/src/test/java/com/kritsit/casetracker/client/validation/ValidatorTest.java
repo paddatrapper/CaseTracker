@@ -15,12 +15,17 @@ public class ValidatorTest extends TestCase {
     }
 
     public void test_ValidateNull() {
-        IValidator<String> validator = new Validator<String>();
+        IValidator<String> validator = new Validator<String>(String.class);
         assertFalse(validator.validate(null));
     }
 
+    public void test_ValidateDifferentClass() {
+        IValidator<String> validator = new Validator<String>(String.class);
+        assertFalse(validator.validate(1));
+    }
+
     public void test_ValidateSuccess() {
-        IValidator<String> validator = new Validator<String>();
+        IValidator<String> validator = new Validator<String>(String.class);
         assertTrue(validator.validate("This is not null"));
     }
 }

@@ -19,6 +19,11 @@ public class BooleanValidatorTest extends TestCase {
         assertFalse(validator.validate(null));
     }
 
+    public void test_ValidateDifferentClass() {
+        IValidator<Boolean> validator = new BooleanValidator();
+        assertFalse(validator.validate(1));
+    }
+
     public void test_ValidateSuccess() {
         IValidator<Boolean> validator = new BooleanValidator();
         assertTrue(validator.validate(false));

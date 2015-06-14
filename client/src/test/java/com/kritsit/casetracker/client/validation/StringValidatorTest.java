@@ -23,6 +23,10 @@ public class StringValidatorTest extends TestCase {
         assertFalse(validator.validate(null));
     }
 
+    public void test_ValidateDifferentClass() {
+        assertFalse(validator.validate(1));
+    }
+
     public void test_ValidateEmpty() {
         assertFalse(validator.validate(""));
     }
