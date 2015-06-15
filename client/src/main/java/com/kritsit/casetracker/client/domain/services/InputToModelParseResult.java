@@ -24,6 +24,10 @@ public class InputToModelParseResult {
         failedInputs.add(input);
     }
 
+    public boolean contains(String input) {
+        return failedInputs.contains(input);
+    }
+
     public boolean isSuccessful() {
         return isSuccessful;
     }

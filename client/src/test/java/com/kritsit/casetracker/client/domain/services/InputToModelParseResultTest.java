@@ -32,6 +32,12 @@ public class InputToModelParseResultTest extends TestCase {
         assertFalse(result.isSuccessful());
     }
 
+    public void testContains() {
+        InputToModelParseResult result = new InputToModelParseResult(true);
+        result.addFailedInput("Case name");
+        assertTrue(result.contains("Case name"));
+    }
+
     public void testGetMessage_Successful() {
         InputToModelParseResult result = new InputToModelParseResult(true);
         assertTrue("Case created successfully".equals(result.getReason()));
