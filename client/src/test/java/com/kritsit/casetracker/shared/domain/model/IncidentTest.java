@@ -62,13 +62,9 @@ public class IncidentTest extends TestCase {
         assertTrue(incident.isFollowedUp());
     }
 
-    public void testGetFollowUpDate() {
+    public void testGetDefaultFollowUpDate() {
         LocalDate date = LocalDate.parse("2015-01-10");
-        LocalDate followUpDate = LocalDate.parse("2015-01-17");
-        
-        incident.setDate(date);
-
-        assertTrue(followUpDate.equals(incident.getDefaultFollowUpDate()));
+        assertTrue(date.plusWeeks(1L).equals(Incident.getDefaultFollowUpDate(date)));
     }
 
     public void testEquals_Null() {

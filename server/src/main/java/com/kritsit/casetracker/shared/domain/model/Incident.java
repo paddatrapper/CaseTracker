@@ -117,8 +117,8 @@ public class Incident implements Externalizable {
         followedUpProperty.set(followedUp);
     }
 
-    public LocalDate getDefaultFollowUpDate() {
-        return getDate().plusWeeks(1L);
+    public static LocalDate getDefaultFollowUpDate(LocalDate date) {
+        return date.plusWeeks(1L);
     }
 
     @Override
