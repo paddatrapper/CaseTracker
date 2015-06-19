@@ -451,7 +451,7 @@
                                 <Insets right="2.0" />
                              </HBox.margin>
                           </Label>
-                          <TextField fx:id="txfAddLongitude" prefHeight="26.0" prefWidth="230.0">
+                          <TextField fx:id="txfAddLongitude" prefHeight="26.0" prefWidth="210.0">
                              <HBox.margin>
                                 <Insets right="10.0" />
                              </HBox.margin>
@@ -461,7 +461,17 @@
                                 <Insets right="2.0" />
                              </HBox.margin>
                           </Label>
-                          <TextField fx:id="txfAddLatitude" prefHeight="26.0" prefWidth="230.0" />
+                          <TextField fx:id="txfAddLatitude" prefHeight="26.0" prefWidth="210.0">
+                             <HBox.margin>
+                                <Insets right="10.0" />
+                             </HBox.margin>
+                          </TextField>
+                          <Label text="Region:">
+                             <HBox.margin>
+                                <Insets right="2.0" />
+                             </HBox.margin>
+                          </Label>
+                          <TextField fx:id="txfAddRegion" prefHeight="26.0" prefWidth="110.0" />
                        </children>
                        <GridPane.margin>
                           <Insets top="5.0" />
