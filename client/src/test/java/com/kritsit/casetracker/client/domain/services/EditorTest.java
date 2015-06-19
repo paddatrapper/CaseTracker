@@ -145,7 +145,7 @@ public class EditorTest extends TestCase {
 
         assertTrue(caseTypes.equals(editor.getCaseTypes()));
         verify(connection).getCases(null);
-        verify(c, times(3)).getType();
+        verify(c, times(2)).getType();
     }
 
     public void testGetDefendants() {
@@ -166,7 +166,7 @@ public class EditorTest extends TestCase {
 
         assertTrue(defendants.equals(editor.getDefendants()));
         verify(connection).getCases(null);
-        verify(c, times(3)).getDefendant();
+        verify(c, times(2)).getDefendant();
     }
 
     public void testGetComplainants() {
@@ -187,7 +187,7 @@ public class EditorTest extends TestCase {
 
         assertTrue(complainants.equals(editor.getComplainants()));
         verify(connection).getCases(null);
-        verify(c, times(3)).getComplainant();
+        verify(c, times(2)).getComplainant();
     }
 
     public void testGetNextCaseNumber() {
