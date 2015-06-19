@@ -1,6 +1,7 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
 import com.kritsit.casetracker.client.domain.services.IEditorService;
+import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
 import com.kritsit.casetracker.shared.domain.model.Case;
@@ -445,6 +446,36 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleAddCaseAction(ActionEvent e) {
+        logger.info("Creating new case");
+        Map<String, Object> inputMap = new HashMap<>();
+        inputMap.put("caseNumber", txfAddCaseNumber.getText());
+        inputMap.put("incidentDate", dpkAddIncidentDate.getValue());
+        inputMap.put("investigatingOfficer", cmbAddInvestigatingOfficer.getSelectionModel().getSelectedItem());
+        inputMap.put("caseType", cmbAddCaseType.getSelectionModel().getSelectedItem()); 
+        inputMap.put("isReturnVisit", cbxAddIsReturnVisit.isSelected());
+        inputMap.put("returnDate", dpkAddReturnDate.getValue());
+        inputMap.put("caseName", txfAddCaseName.getText());
+        inputMap.put("defendant", cmbAddDefendant.getSelectionModel().getSelectedItem());
+        inputMap.put("complainant", cmbAddComplainant.getSelectionModel().getSelectedItem());
+        inputMap.put("address", txfAddAddress.getText());
+        inputMap.put("longitude", txfAddLongitude.getText());
+        inputMap.put("latitude", txfAddLatitude.getText());
+        inputMap.put("region", txfAddRegion.getText());
+        inputMap.put("details", txaAddDetails.getText());
+        inputMap.put("animalsInvolved", txaAddAnimalsInvolved.getText());
+        inputMap.put("evidence", lstAddEvidence.getItems());
+
+        InputToModelParseResult result = editorService.addCase(inputMap);
+        if (result.isSuccessful()) {
+            //TODO
+        } else {
+            logger.error("Unable to add case. {}", result.getReason());
+            Alert error = new Alert(AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText("Unable to add case");
+            error.setContentText(result.getReason());
+            error.showAndWait();
+        }
     }
 
     @FXML private Button btnCalendarNext;
@@ -484,6 +515,8 @@ public class EditorController implements IController {
     @FXML private TextField txfAddCaseNumber;
     @FXML private TextField txfAddLatitude;
     @FXML private TextField txfAddLongitude;
+    //TODO: Add txfAddRegion to fxml
+    @FXML private TextField txfAddRegion;
     @FXML private TextField txfFilterCases;
     @FXML private Text txtCalendarMonth;
     @FXML private Text txtSummaryDefendant;
