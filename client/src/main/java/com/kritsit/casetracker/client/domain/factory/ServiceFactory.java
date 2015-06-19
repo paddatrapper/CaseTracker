@@ -15,7 +15,7 @@ public class ServiceFactory {
     private static final Logger logger = LoggerFactory.getLogger(ServiceFactory.class);
     private static IConnectionService connection;
 
-    public synchronized static IConnectionService getServerConnection() {
+    public static synchronized IConnectionService getServerConnection() {
         if (connection == null) {
             logger.info("Creating new server connection");
             connection = new ServerConnection();
