@@ -31,7 +31,7 @@ public class ServerLoginTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(loginService instanceof ILoginService);
+        assertNotNull(loginService);
     }
 
     public void testLoginAttempt_ConnectionClosedOpenFail() {

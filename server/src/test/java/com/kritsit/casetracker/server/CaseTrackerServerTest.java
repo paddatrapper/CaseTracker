@@ -20,7 +20,7 @@ public class CaseTrackerServerTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(server instanceof CaseTrackerServer);
+        assertNotNull(server);
     }
 
     public void testVersion() {

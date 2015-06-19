@@ -37,7 +37,7 @@ public class EditorTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(editor instanceof IEditorService);
+        assertNotNull(editor);
     }
 
     public void testGetUser() {

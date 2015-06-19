@@ -3,6 +3,7 @@ package com.kritsit.casetracker.server.datalayer;
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
+import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,7 +111,7 @@ public class UserRepository implements IUserRepository {
             String sql = "SELECT username FROM staff WHERE permissions=1;";
             List<Map<String, String>> rs = db.executeQuery(sql);
 
-            if (rs == null || rs.size() == 0) {
+            if (rs == null || rs.isEmpty()) {
                 logger.debug("No inspectors found");
                 return null;
 	        }
@@ -120,7 +121,7 @@ public class UserRepository implements IUserRepository {
                 inspectors.add(getUserDetails(inspector.get("username")));
             }
             return inspectors;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             logger.error("Error retrieving inspectors");
             throw new RowToModelParseException("Error retrieving inspectors");
         }

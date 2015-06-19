@@ -89,7 +89,7 @@ public class Editor implements IEditorService {
 
     public List<String> getCaseTypes() {
         List<String> caseTypes = new ArrayList<>();
-        for (Case c : cases) {
+        for (Case c : getCases()) {
             if (!caseTypes.contains(c.getType())) {
                 caseTypes.add(c.getType());
             }
@@ -99,7 +99,7 @@ public class Editor implements IEditorService {
 
     public List<Defendant> getDefendants() {
         List<Defendant> defendants = new ArrayList<>();
-        for (Case c : cases) {
+        for (Case c : getCases()) {
             if (!defendants.contains(c.getDefendant())) {
                 defendants.add(c.getDefendant());
             }
@@ -109,7 +109,7 @@ public class Editor implements IEditorService {
 
     public List<Person> getComplainants() {
         List<Person> complainants = new ArrayList<>();
-        for (Case c : cases) {
+        for (Case c : getCases()) {
             if (!complainants.contains(c.getComplainant())) {
                 complainants.add(c.getComplainant());
             }

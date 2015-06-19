@@ -32,7 +32,7 @@ public class ClientConnectionThreadTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(connectionThread instanceof IClientConnectionService);
+        assertNotNull(connectionThread);
     }
 
     public void testGetConnectedClient() {

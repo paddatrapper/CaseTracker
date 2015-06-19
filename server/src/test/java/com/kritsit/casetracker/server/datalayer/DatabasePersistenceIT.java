@@ -24,7 +24,7 @@ public class DatabasePersistenceIT extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(db instanceof IPersistenceService);
+        assertNotNull(db);
     }
 
     public void testOpen() {

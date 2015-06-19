@@ -128,16 +128,8 @@ public class EditorController implements IController {
         colCaseNumber.setCellValueFactory(new PropertyValueFactory("caseNumber"));
         colCaseName.setCellValueFactory(new PropertyValueFactory("caseName"));
         colCaseType.setCellValueFactory(new PropertyValueFactory("caseType"));
-        colInvestigatingOfficer.setCellValueFactory(new Callback<CellDataFeatures<Case, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Case, String> c) {
-                return c.getValue().getInvestigatingOfficer().nameProperty();
-            }
-        });
-        colIncidentDate.setCellValueFactory(new Callback<CellDataFeatures<Case, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Case, String> c) {
-                return c.getValue().getIncident().dateProperty();
-            }
-        });
+        colInvestigatingOfficer.setCellValueFactory(new CellValueFactoryOfficerNameCallback());
+        colIncidentDate.setCellValueFactory(new CellValueFactoryIncidentDateCallback());
         
         double numberWidthPercent = 0.15;
         double nameWidthPercent = 0.25;
@@ -155,6 +147,31 @@ public class EditorController implements IController {
         });
         updateShownCase(null);
     }
+    
+    private static class CellValueFactoryOfficerNameCallback implements Callback<CellDataFeatures<Case, String>, ObservableValue<String>> {        
+        public ObservableValue<String> call(CellDataFeatures<Case, String> c) {
+            return c.getValue().getInvestigatingOfficer().nameProperty();
+        }
+    }
+    
+    private static class CellValueFactoryIncidentDateCallback implements Callback<CellDataFeatures<Case, String>, ObservableValue<String>> {        
+        public ObservableValue<String> call(CellDataFeatures<Case, String> c) {
+            return c.getValue().getIncident().dateProperty();
+        }
+    } 
+    
+    private static class CellValueFactoryDayCallback implements Callback<CellDataFeatures<List<Day>, String>, ObservableValue<String>> {
+        private final int dayIndex;
+        
+        private CellValueFactoryDayCallback(int dayIndex){
+            this.dayIndex = dayIndex;
+        }
+        
+        public ObservableValue<String> call(CellDataFeatures<List<Day>, String> week) {
+            Day day = week.getValue().get(dayIndex);
+            return new SimpleStringProperty(day.toString());
+        }
+    } 
 
     private void initCalendarTable() {
         logger.info("Initiating calendar");
@@ -199,12 +216,7 @@ public class EditorController implements IController {
     }
 
     private void setCellValueFactory(TableColumn<List<Day>, String> column, final int dayIndex) {
-        column.setCellValueFactory(new Callback<CellDataFeatures<List<Day>, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<List<Day>, String> week) {
-                Day day = week.getValue().get(dayIndex);
-                return new SimpleStringProperty(day.toString());
-            }
-        });
+        column.setCellValueFactory(new CellValueFactoryDayCallback(dayIndex));
     }
 
     private void initAddCaseTab() {
@@ -271,7 +283,6 @@ public class EditorController implements IController {
         String[] month = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         logger.info("Refreshing calendar to {} of {}", month[currentMonth - 1], currentYear);
         LocalDate today = LocalDate.now();
-        int realMonth = today.getMonthValue();
         int realYear = today.getYear();
 
         btnCalendarNext.setDisable(false);

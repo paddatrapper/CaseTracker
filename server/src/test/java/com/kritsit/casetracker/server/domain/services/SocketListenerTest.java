@@ -24,7 +24,7 @@ public class SocketListenerTest extends TestCase {
     }
 
     public void testCreation() {
-        assertTrue(listener instanceof IListeningService);
+        assertNotNull(listener);
     }
 
     public void testIsListen() {

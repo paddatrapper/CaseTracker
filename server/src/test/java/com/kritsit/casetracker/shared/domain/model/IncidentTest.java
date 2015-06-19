@@ -81,10 +81,8 @@ public class IncidentTest extends TestCase {
     }
 
     public void testEquals() {
-        LocalDate date = LocalDate.now();
-        LocalDate followUpDate = LocalDate.now();
-        date = LocalDate.parse("2015-01-19");
-        followUpDate = LocalDate.parse("2015-02-19");
+        LocalDate date = LocalDate.parse("2015-01-19");
+        LocalDate followUpDate = LocalDate.parse("2015-02-19");
         Incident i = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
         Incident differentIncident = new Incident("230 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
         
