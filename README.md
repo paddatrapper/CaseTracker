@@ -8,7 +8,7 @@ National Society for the Prevention of Cruelty to Animals (NSPCA) in South
 Africa.
 
 This is a re-work of the initial development so as to follow [Domain Driven
-Design](http://en.wikipedia.org/wiki/Domain-driven_design) and [Clean Code](https://www.ufm.edu/images/0/04/Clean_Code.pdf) 
+Design](http://en.wikipedia.org/wiki/Domain-driven_design) and [Clean Code](http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.2.pdf) 
 principles.
 
 Status
@@ -45,7 +45,7 @@ New developers are welcome. The process to follow when contributing is:
 
     `git checkout -b <branch-name>`
 
-1. CaseTracker follows [Test Driven Development](en.wikipedia.org/wiki/Test-driven_development),
+1. CaseTracker follows [Test Driven Development](http://en.wikipedia.org/wiki/Test-driven_development),
    so ensure that all pull requests include test cases for all elements of the
    feature or fix.
 1. Create a pull request to the CaseTracker master repository. The description
