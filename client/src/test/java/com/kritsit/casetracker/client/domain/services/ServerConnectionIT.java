@@ -16,8 +16,9 @@ import java.net.InetAddress;
 import java.util.List;
 
 public class ServerConnectionIT extends TestCase {
+    String host = "localhost";
+    int port = 1244;
     IConnectionService connection;
-    Process server;
 
     public ServerConnectionIT(String name) {
         super(name);
@@ -33,7 +34,7 @@ public class ServerConnectionIT extends TestCase {
 
     public void testConnection_PortOutOfBounds() {
         try {
-            connection.open("localhost", 65555);
+            connection.open(host, 65555);
         } catch (IllegalArgumentException ex) {
             assertTrue("Port must be in range".equals(ex.getMessage()));
         }
@@ -41,46 +42,46 @@ public class ServerConnectionIT extends TestCase {
 
     public void testConnection_UnknownHostException() {
         try {
-            connection.open("ThisIsNotAValidHost", 1244);
+            connection.open("ThisIsNotAValidHost", port);
         } catch (IllegalArgumentException ex) {
             assertTrue("Host not found".equals(ex.getMessage()));
         }
     }
 
     public void testConnection_Succeed() {
-        assertTrue(connection.open("localhost", 1244));
+        assertTrue(connection.open(host, port));
     }
 
     public void testLogin_Correct() {
-        connection.open("localhost", 1244);
+        connection.open(host, port);
         assertTrue(connection.login("inspector", "inspector".hashCode()));
     }
 
     public void testGetUser() {
-        connection.open("localhost", 1244);
+        connection.open(host, port);
         assertTrue(connection.getUser("inspector", "inspector".hashCode()) != null);
     }
 
     public void testGetCases_NoUser() {
-        connection.open("localhost", 1244);
+        connection.open(host, port);
         List<Case> caseList = connection.getCases(null);
         assertTrue(caseList != null);
     }
 
     public void testGetCases_User() {
-        connection.open("localhost", 1244);
+        connection.open(host, port);
         Staff user = new Staff("inspector", "test", "inspector", "department", "position", Permission.EDITOR);
         List<Case> caseList = connection.getCases(user);
         assertTrue(caseList != null);
     }
 
     public void testGetInspectors() {
-        connection.open("localhost", 1244);
+        connection.open(host, port);
         assertTrue(connection.getInspectors() != null);
     }
     
     public void testGetLastCaseNumber() {
-        connection.open("localhost", 1244);
+        connection.open(host, port);
         assertFalse("0000-00-0000".equals(connection.getLastCaseNumber()));
     }
 
