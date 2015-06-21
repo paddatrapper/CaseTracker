@@ -21,7 +21,7 @@ public class VehicleRepository implements IVehicleRepository {
     public List<Vehicle> getVehicles(Defendant defendant) throws RowToModelParseException {
         try {
             logger.info("Fetching vehicles for defendant {}", defendant.getName());
-            String sql = "SELECT vehicles.*, defendants.id FROM vehicle INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + defendant.getId() + "';";
+            String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + defendant.getId() + "';";
             List<Map<String, String>> rs = db.executeQuery(sql);
 
             if(rs == null || rs.size() == 0) {
