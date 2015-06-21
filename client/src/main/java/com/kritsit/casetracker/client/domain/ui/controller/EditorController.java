@@ -467,7 +467,12 @@ public class EditorController implements IController {
 
         InputToModelParseResult result = editorService.addCase(inputMap);
         if (result.isSuccessful()) {
-            //TODO
+            //TODO: Reset fields
+            logger.info("Case added successfully");
+            Alert info = new Alert(AlertType.INFORMATION);
+            info.setTitle("Case Added");
+            info.setContentText("Case added successfully");
+            info.showAndWait();
         } else {
             logger.error("Unable to add case. {}", result.getReason());
             Alert error = new Alert(AlertType.ERROR);
@@ -515,7 +520,6 @@ public class EditorController implements IController {
     @FXML private TextField txfAddCaseNumber;
     @FXML private TextField txfAddLatitude;
     @FXML private TextField txfAddLongitude;
-    //TODO: Add txfAddRegion to fxml
     @FXML private TextField txfAddRegion;
     @FXML private TextField txfFilterCases;
     @FXML private Text txtCalendarMonth;
