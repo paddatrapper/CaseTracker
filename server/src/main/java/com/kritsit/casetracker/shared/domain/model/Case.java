@@ -60,7 +60,9 @@ public class Case implements Externalizable {
         complainantProperty = new SimpleObjectProperty<>(complainant);
         nextCourtDateProperty = new SimpleObjectProperty<>(nextCourtDate);
         outcomeProperty = new SimpleStringProperty(outcome);
-        evidenceProperty = new SimpleObjectProperty<>(evidence);
+        evidenceProperty = (evidence == null) ? 
+           new SimpleObjectProperty<List<Evidence>>(new ArrayList<Evidence>()) :
+           new SimpleObjectProperty<>(evidence);
         returnVisitProperty = new SimpleBooleanProperty(returnVisit);
         returnDateProperty = new SimpleObjectProperty<>(returnDate);
         caseTypeProperty = new SimpleStringProperty(caseType);
