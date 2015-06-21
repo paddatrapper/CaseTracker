@@ -165,8 +165,10 @@ public class Editor implements IEditorService {
 
     public InputToModelParseResult addCase(Map<String, Object> inputMap) {
         if (inputMap == null || inputMap.isEmpty()) {
+            logger.debug("InputMap empty or null. Aborting");
             return new InputToModelParseResult(false, "Required information missing");
         }
+        logger.info("Add case {}", inputMap.get("caseName"));
         InputToModelParseResult result = new InputToModelParseResult(true);
         for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
             String inputKey = getHumanReadableName(entry.getKey());
@@ -185,6 +187,12 @@ public class Editor implements IEditorService {
                 case "investigatingOfficer" :
                     validator = new Validator<Staff>(Staff.class);
                     break;
+                case "complainant" :
+                    validator = new Validator<Person>(Person.class);
+                    break;
+                case "defendant" :
+                    validator = new Validator<Defendant>(Defendant.class);
+                    break;
                 case "isReturnVisit" :
                     validator = new BooleanValidator();
                     break;
@@ -201,8 +209,8 @@ public class Editor implements IEditorService {
                     }
                     break;
                 case "address" :
-                    String longitude = (String) inputMap.get("longitude");
-                    String latitude = (String) inputMap.get("latitude");
+                    String longitude = inputMap.get("longitude").toString();
+                    String latitude = inputMap.get("latitude").toString();
                     if (longitude.isEmpty() && latitude.isEmpty()) {
                         validator = new StringValidator();
                     }
@@ -210,17 +218,20 @@ public class Editor implements IEditorService {
             }
             if (validator != null && !validator.validate(entry.getValue())) {
                 if (inputKey.equals("Address")) {
-                    String longitude = (String) inputMap.get("longitude");
-                    String latitude = (String) inputMap.get("latitude");
+                    String longitude = inputMap.get("longitude").toString();
+                    String latitude = inputMap.get("latitude").toString();
                     if (longitude.isEmpty() && latitude.isEmpty()) {
+                        logger.debug("Input failed parsing: {}", inputKey);
                         result.addFailedInput(inputKey);
                     }
                 } else if (inputKey.equals("Latitude") || inputKey.equals("Longitude")) {
                     String address = (String) inputMap.get("address");
                     if (address.isEmpty() && !result.contains("Address")) {
+                        logger.debug("Input failed parsing: {}", inputKey);
                         result.addFailedInput(inputKey);
                     }
                 } else {
+                    logger.debug("Input failed parsing: {}", inputKey);
                     result.addFailedInput(inputKey);
                 }
             }
@@ -229,8 +240,9 @@ public class Editor implements IEditorService {
             return result;
         }
         Case c = parseCase(inputMap);
-        //TODO
-        throw new UnsupportedOperationException("Not yet implemented");
+        logger.debug("Adding case to server");
+        result = connection.addCase(c);
+        return result;
     }
 
     private String getHumanReadableName(String camelCaseString) {
@@ -250,6 +262,7 @@ public class Editor implements IEditorService {
     }
 
     private Case parseCase(Map<String, Object> inputMap) {
+        logger.info("Parsing case {}", inputMap.get("caseName"));
         String caseNumber = (String) inputMap.get("caseNumber");
         String caseName = (String) inputMap.get("caseName");
         String caseType = (String) inputMap.get("caseType");

@@ -6,6 +6,7 @@ import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Case;
+import com.kritsit.casetracker.shared.domain.model.Evidence;
 import com.kritsit.casetracker.shared.domain.model.Incident;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 import com.kritsit.casetracker.shared.domain.model.Permission;
@@ -269,7 +270,7 @@ public class EditorTest extends TestCase {
         assertTrue("Incident date required".equals(result.getReason()));
     }
 
-    public void testAddCase_OjectValidator() {
+    public void testAddCase_OjectValidatorStaff() {
         Map<String, Object> inputMap = new HashMap<>();
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
@@ -280,6 +281,32 @@ public class EditorTest extends TestCase {
 
         assertFalse(result.isSuccessful());
         assertTrue("Investigating officer required".equals(result.getReason()));
+    }
+
+    public void testAddCase_OjectValidatorPerson() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+        inputMap.put("complainant", mock(Incident.class));
+
+        InputToModelParseResult result = editor.addCase(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Complainant required".equals(result.getReason()));
+    }
+
+    public void testAddCase_OjectValidatorDefendant() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+        inputMap.put("defendant", mock(Incident.class));
+
+        InputToModelParseResult result = editor.addCase(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Defendant required".equals(result.getReason()));
     }
 
     public void testAddCase_BooleanValidator() {
@@ -337,5 +364,54 @@ public class EditorTest extends TestCase {
 
         assertFalse(result.isSuccessful());
         assertTrue("Latitude and Longitude required".equals(result.getReason()));
+    }
+
+    public void testAddCase_SuccessCoordinates() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+        InputToModelParseResult successful = new InputToModelParseResult(true);
+
+        String caseNumber = "2015-02-0001";
+        String caseName = "Developers vs Testing";
+        String caseType = "Battle to the death";
+        String details = "Last man standing survives";
+        String animalsInvolved = "1 Developer and 1 AI";
+        LocalDate incidentDate = LocalDate.parse("2014-05-14");
+        String address = "";
+        double longitude = -12.9880;
+        double latitude = 9.82203;
+        String region = "Outer space";
+        boolean isReturnVisit = false;
+        List<Evidence> evidence = new ArrayList<>();
+        Staff investigatingOfficer = new Staff("inspector", "test", "inspector", "department", "position", Permission.EDITOR);
+        Person complainant = new Person("0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com");
+        Defendant defendant = new Defendant("0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com", false);
+        Incident incident = new Incident(longitude, latitude, region, incidentDate, Incident.getDefaultFollowUpDate(incidentDate), false);
+        Case c = new Case(caseNumber, caseName, details, animalsInvolved, user, incident, defendant, complainant, null, evidence, isReturnVisit, null, caseType, null);
+
+        inputMap.put("caseNumber", caseNumber);
+        inputMap.put("caseName", caseName);
+        inputMap.put("caseType", caseType);
+        inputMap.put("details", details);
+        inputMap.put("animalsInvolved", animalsInvolved);
+        inputMap.put("investigatingOfficer", investigatingOfficer);
+        inputMap.put("incidentDate", incidentDate);
+        inputMap.put("address", address);
+        inputMap.put("longitude", longitude);
+        inputMap.put("latitude", latitude);
+        inputMap.put("region", region);
+        inputMap.put("isReturnVisit", isReturnVisit);
+        inputMap.put("defendant", defendant);
+        inputMap.put("complainant", complainant);
+        inputMap.put("evidence", evidence);
+
+        when(connection.addCase(any())).thenReturn(successful);
+
+        InputToModelParseResult result = editor.addCase(inputMap);
+        
+        assertTrue(result.isSuccessful());
+        verify(connection).addCase(any());
     }
 }

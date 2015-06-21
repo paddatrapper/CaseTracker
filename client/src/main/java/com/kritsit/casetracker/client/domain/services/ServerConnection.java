@@ -157,4 +157,9 @@ public class ServerConnection implements IConnectionService {
             return "0000-00-0000";
         }
     }
+
+    public InputToModelParseResult addCase(Case c) {
+        //TODO
+        throw new UnsupportedOperationException("Not implemented yet");
+    } 
 }
