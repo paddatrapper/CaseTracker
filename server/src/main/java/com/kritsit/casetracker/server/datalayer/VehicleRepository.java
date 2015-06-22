@@ -44,4 +44,24 @@ public class VehicleRepository implements IVehicleRepository {
             throw new RowToModelParseException("Error retrieving vehicles from database for defendant name: " + defendant.getName());
         }
     }
+    
+    public void insertVehicles(Vehicle vehicle, Defendant defendant) {
+    	try{
+    	logger.info("Inserting a vehicle for defendant {}", defendant.getName());
+    	
+    	String sql = "INSERT INTO vehicles SELECT from defendants '"
+    			+vehicle.getRegistration()+"', "
+    			+"indexID"+", '"
+    			+vehicle.getMake()+"', '"
+    			+vehicle.getColour()+"', '"
+    			+vehicle.isTrailer()+"' "
+    			+"where id="+defendant.getId()+";";
+    	
+    	db.executeUpdate(sql);
+            
+		}
+		catch(Exception e){
+			
+		}
+    }
 }

@@ -102,4 +102,10 @@ public class DatabasePersistence implements IPersistenceService {
             logger.debug("Connection already closed");
         }
     }
+
+	@Override
+	public void executeUpdate(String sql) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 }
