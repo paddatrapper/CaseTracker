@@ -90,8 +90,7 @@ public class VehicleRepositoryTest extends TestCase {
             +vehicle.getColour()+"', '"
             +vehicle.isTrailer()+"' "
             +"where id="+defendant.getId()+";";
-        
-        assertTrue(sql instanceof String);   
+         
         IPersistenceService db = mock(IPersistenceService.class);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
         vehicleRepo.insertVehicles(vehicle, defendant); // ?

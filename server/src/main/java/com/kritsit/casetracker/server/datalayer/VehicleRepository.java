@@ -63,7 +63,7 @@ public class VehicleRepository implements IVehicleRepository {
     	}
 
         catch(Exception e){
-            logger.error("Error inserting values to database");
+            logger.error("Error inserting vehicle into the database", e);
             throw new RowToModelParseException("Error inserting values to database");
         }
     }
