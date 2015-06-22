@@ -61,13 +61,13 @@ public class DatabasePersistence implements IPersistenceService {
     }
     
     public List<Map<String, String>> executeQuery(String sql) throws SQLException{
-    	try {
-			open();
-	    	ResultSet rs = get(sql);
-	        if (isEmpty(rs)) {
+        try {
+            open();
+            ResultSet rs = get(sql);
+            if (isEmpty(rs)) {
                 logger.debug("ResultSet empty");
-	            return null;
-	        }
+                return null;
+            }
             List details = new ArrayList<>();
             rs.beforeFirst();
             while (rs.next()) {
@@ -80,11 +80,11 @@ public class DatabasePersistence implements IPersistenceService {
                 }
                 details.add(rowDetails);
             }
-	        return details;
-    	}
-    	finally{
-    		close();
-    	}
+            return details;
+        }
+        finally{
+            close();
+        }
     }
 
     private boolean isEmpty(ResultSet rs) throws SQLException {
@@ -100,6 +100,19 @@ public class DatabasePersistence implements IPersistenceService {
             logger.error("Unable to close connection: {}", ex);
         } catch (NullPointerException ex) {
             logger.debug("Connection already closed");
+        }
+    }
+
+    public void executeUpdate(String sql) throws SQLException {
+        logger.info("Inserting changes to database");
+        try{
+            open();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        }
+        finally{
+            close();
+            logger.info("Database updated");
         }
     }
 }

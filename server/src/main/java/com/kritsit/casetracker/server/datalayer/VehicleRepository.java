@@ -3,6 +3,7 @@ package com.kritsit.casetracker.server.datalayer;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Vehicle;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,28 @@ public class VehicleRepository implements IVehicleRepository {
         } catch(Exception e){
             logger.error("Error retrieving vehicles for {}", defendant.getName(), e);
             throw new RowToModelParseException("Error retrieving vehicles from database for defendant name: " + defendant.getName());
+        }
+    }
+    
+    public void insertVehicles(Vehicle vehicle, Defendant defendant) throws RowToModelParseException {
+        try{
+    	logger.info("Inserting a vehicle for defendant {}", defendant.getName());
+    	
+    	String sql = "INSERT INTO vehicles SELECT from defendants '"
+    	    +vehicle.getRegistration()+"', "
+    		+"indexID"+", '"
+    		+vehicle.getMake()+"', '"
+    		+vehicle.getColour()+"', '"
+    		+vehicle.isTrailer()+"' "
+    		+"where id="+defendant.getId()+";";
+    	
+    	db.executeUpdate(sql);
+            
+    	}
+
+        catch(Exception e){
+            logger.error("Error inserting vehicle into the database", e);
+            throw new RowToModelParseException("Error inserting values to database");
         }
     }
 }

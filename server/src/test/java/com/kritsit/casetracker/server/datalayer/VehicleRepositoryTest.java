@@ -77,4 +77,24 @@ public class VehicleRepositoryTest extends TestCase {
         assertTrue(vehicles == null);
         verify(db).executeQuery(sql);
     }
+    
+    public void testInsertVehicles() throws SQLException, RowToModelParseException{
+        String id = "9802245849032";
+        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
+        Vehicle vehicle = new Vehicle("ZSZ1234", "Citroen", "silver", false);
+        
+        String sql = "INSERT INTO vehicles SELECT from defendants '"
+            +vehicle.getRegistration()+"', "
+            +"indexID"+", '"
+            +vehicle.getMake()+"', '"
+            +vehicle.getColour()+"', '"
+            +vehicle.isTrailer()+"' "
+            +"where id="+defendant.getId()+";";
+         
+        IPersistenceService db = mock(IPersistenceService.class);
+        IVehicleRepository vehicleRepo = new VehicleRepository(db);
+        vehicleRepo.insertVehicles(vehicle, defendant); // ?
+        verify(db).executeUpdate(sql);
+        
+    }
 }
