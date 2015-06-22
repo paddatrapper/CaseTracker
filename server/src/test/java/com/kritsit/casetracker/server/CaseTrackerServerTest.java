@@ -19,10 +19,6 @@ public class CaseTrackerServerTest extends TestCase {
         server = new CaseTrackerServer();
     }
 
-    public void testCreation() {
-        assertNotNull(server);
-    }
-
     public void testVersion() {
         String version = CaseTrackerServer.getVersion();
         assertTrue("0.1a".equals(version));

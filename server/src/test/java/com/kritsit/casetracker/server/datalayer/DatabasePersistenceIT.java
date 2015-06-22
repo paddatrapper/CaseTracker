@@ -23,10 +23,6 @@ public class DatabasePersistenceIT extends TestCase {
         db.open();
     }
 
-    public void testCreation() {
-        assertNotNull(db);
-    }
-
     public void testOpen() {
         assertTrue(db.isOpen());
     }

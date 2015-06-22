@@ -37,10 +37,6 @@ public class LoginTest extends TestCase {
         login = new Login(repo);
     }
 
-    public void testCreation() {
-        assertNotNull(login);
-    }
-
     public void testLoginAttempt_IncorrectUser() throws RowToModelParseException {
     	try {
             int password = "inspector".hashCode();

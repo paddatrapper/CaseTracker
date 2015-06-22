@@ -36,12 +36,8 @@ public class EditorTest extends TestCase {
         editor = new Editor(user, connection);
     }
 
-    public void testCreation() {
-        assertNotNull(editor);
-    }
-
     public void testGetUser() {
-        assertTrue(editor.getUser() != null);
+        assertNotNull(editor.getUser());
     }
 
     public void testGetCases() {

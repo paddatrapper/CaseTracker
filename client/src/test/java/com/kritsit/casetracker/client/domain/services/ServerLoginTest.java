@@ -30,10 +30,6 @@ public class ServerLoginTest extends TestCase {
         loginService = new ServerLogin(connection);
     }
 
-    public void testCreation() {
-        assertNotNull(loginService);
-    }
-
     public void testLoginAttempt_ConnectionClosedOpenFail() {
         String username = "inspector";
         String password = "inspector";
