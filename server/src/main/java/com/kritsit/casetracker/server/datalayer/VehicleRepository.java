@@ -46,11 +46,11 @@ public class VehicleRepository implements IVehicleRepository {
     }
     
     public void insertVehicles(Vehicle vehicle, Defendant defendant) {
-    	try{
+        try{
     	logger.info("Inserting a vehicle for defendant {}", defendant.getName());
     	
     	String sql = "INSERT INTO vehicles SELECT from defendants '"
-    		+vehicle.getRegistration()+"', "
+    	    +vehicle.getRegistration()+"', "
     		+"indexID"+", '"
     		+vehicle.getMake()+"', '"
     		+vehicle.getColour()+"', '"
