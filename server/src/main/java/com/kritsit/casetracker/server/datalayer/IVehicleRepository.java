@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface IVehicleRepository {
     List<Vehicle> getVehicles(Defendant defendant) throws RowToModelParseException;
-    void insertVehicles(Vehicle vehicle, Defendant defendant) throws Exception;
+    void insertVehicles(Vehicle vehicle, Defendant defendant) throws RowToModelParseException;
 }

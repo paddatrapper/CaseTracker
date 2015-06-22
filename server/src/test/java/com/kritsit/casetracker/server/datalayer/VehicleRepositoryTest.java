@@ -78,7 +78,7 @@ public class VehicleRepositoryTest extends TestCase {
         verify(db).executeQuery(sql);
     }
     
-    public void testInsertVehicles() throws Exception{
+    public void testInsertVehicles() throws SQLException, RowToModelParseException{
         String id = "9802245849032";
         Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
         Vehicle vehicle = new Vehicle("ZSZ1234", "Citroen", "silver", false);

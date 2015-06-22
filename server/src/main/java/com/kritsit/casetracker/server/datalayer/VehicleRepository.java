@@ -3,6 +3,7 @@ package com.kritsit.casetracker.server.datalayer;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Vehicle;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class VehicleRepository implements IVehicleRepository {
         }
     }
     
-    public void insertVehicles(Vehicle vehicle, Defendant defendant) {
+    public void insertVehicles(Vehicle vehicle, Defendant defendant) throws RowToModelParseException {
         try{
     	logger.info("Inserting a vehicle for defendant {}", defendant.getName());
     	
@@ -60,8 +61,10 @@ public class VehicleRepository implements IVehicleRepository {
     	db.executeUpdate(sql);
             
     	}
-    	catch(Exception e){
-    		
-    	}
+
+        catch(Exception e){
+            logger.error("Error inserting values to database");
+            throw new RowToModelParseException("Error inserting values to database");
+        }
     }
 }
