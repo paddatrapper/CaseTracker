@@ -103,9 +103,16 @@ public class DatabasePersistence implements IPersistenceService {
         }
     }
 
-	@Override
 	public void executeUpdate(String sql) throws SQLException {
-		// yet to be implemented
-		
+	    logger.info("Inserting changes to database");
+	    try{
+    		open();
+    		Statement statement = connection.createStatement();
+    		statement.executeUpdate(sql);
+	    }
+	    finally{
+    	    close();
+    	    logger.info("Database updated");
+	    }
 	}
 }
