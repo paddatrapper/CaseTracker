@@ -26,4 +26,8 @@ public class ResponseTest extends TestCase {
     public void testGetBody() {
         assertTrue("This is a message".equals(response.getBody()));
     }
+
+    public void testIsSuccessful() {
+        assertTrue(response.isSuccessful());
+    }
 }
