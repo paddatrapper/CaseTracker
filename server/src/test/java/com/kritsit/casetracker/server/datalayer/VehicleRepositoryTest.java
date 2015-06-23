@@ -82,13 +82,13 @@ public class VehicleRepositoryTest extends TestCase {
         String id = "9802245849032";
         Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
         Vehicle vehicle = new Vehicle("ZSZ1234", "Citroen", "silver", false);
-        
+        int isTrailer = (vehicle.isTrailer()) ? 1 : 0;
         String sql = "INSERT INTO vehicles SELECT from defendants '"
             +vehicle.getRegistration()+"', "
             +"indexID"+", '"
             +vehicle.getMake()+"', '"
             +vehicle.getColour()+"', '"
-            +vehicle.isTrailer()+"' "
+            +isTrailer+"' "
             +"where id="+defendant.getId()+";";
          
         IPersistenceService db = mock(IPersistenceService.class);
