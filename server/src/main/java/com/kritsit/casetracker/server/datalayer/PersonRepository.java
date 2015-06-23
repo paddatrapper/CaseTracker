@@ -91,4 +91,25 @@ public class PersonRepository implements IPersonRepository {
             throw new RowToModelParseException("Error inserting values to database");
         }
     }
+    
+    public void insertComplainant(Person complainant) throws RowToModelParseException{
+        try{
+            logger.info("Inserting complainant {}", complainant.getName());
+         
+            String sql="INSERT INTO complainants VALUES ('"
+                +complainant.getId()+"', '"
+                +complainant.getFirstName()+"', '"
+                +complainant.getLastName()+"', '"
+                +complainant.getAddress()+"', '"
+                +complainant.getTelephoneNumber()+"', '"
+                +complainant.getEmailAddress()+"');";
+             
+            db.executeUpdate(sql);
+                
+        }
+        catch(Exception e){
+            logger.error("Error inserting complainant into the database", e);
+            throw new RowToModelParseException("Error inserting values to database");
+        }
+    }
 }

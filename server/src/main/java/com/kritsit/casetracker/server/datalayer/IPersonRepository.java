@@ -9,4 +9,5 @@ public interface IPersonRepository {
     Person getComplainant(String caseNumber) throws RowToModelParseException;
     Defendant getDefendant(String caseNumber) throws RowToModelParseException;
     void insertDefendant(Defendant defendant) throws RowToModelParseException;
+    void insertComplainant(Person complainant) throws RowToModelParseException;
 }
