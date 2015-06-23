@@ -57,6 +57,11 @@ public class ServerConnectionIT extends TestCase {
         assertTrue(connection.login("inspector", "inspector".hashCode()));
     }
 
+    public void testLogin_Incorrect() {
+        connection.open(host, port);
+        assertFalse(connection.login("test", "".hashCode()));
+    }
+    
     public void testGetUser() {
         connection.open(host, port);
         assertTrue(connection.getUser("inspector", "inspector".hashCode()) != null);
@@ -83,6 +88,12 @@ public class ServerConnectionIT extends TestCase {
     public void testGetLastCaseNumber() {
         connection.open(host, port);
         assertFalse("0000-00-0000".equals(connection.getLastCaseNumber()));
+    }
+
+    public void testAddCase() {
+        connection.open(host, port);
+        Case c = new Case();
+        assertTrue(connection.addCase(c));
     }
 
     public void tearDown() throws IOException {

@@ -86,7 +86,7 @@ public class ServerConnection implements IConnectionService {
         if (response == null) {
             return false;
         }
-        return response.getStatus() == 200;
+        return response.isSuccessful();
     }
 
     public Staff getUser(String username, int hash) {
@@ -118,7 +118,14 @@ public class ServerConnection implements IConnectionService {
                 request = new Request("getCases", argument); 
             }
             Response response = getResponse(request);
-            return (List<Case>) response.getBody();
+            if (response.isSuccessful()) {
+                return (List<Case>) response.getBody();
+            } else {
+                logger.error("Unable to get cases. Code {} - {}", 
+                        response.getStatus(), 
+                        response.getBody().toString());
+                return null;
+            }
         } catch (IOException | ClassNotFoundException ex) {
             logger.error("Unable to get cases", ex);
             return null;
@@ -158,8 +165,21 @@ public class ServerConnection implements IConnectionService {
         }
     }
 
-    public InputToModelParseResult addCase(Case c) {
-        //TODO
-        throw new UnsupportedOperationException("Not implemented yet");
+    public boolean addCase(Case c) {
+        try {
+            List<Case> arguments = new ArrayList<>();
+            arguments.add(c);
+            Request request = new Request("addCase", arguments); 
+            Response response = getResponse(request);
+            if (!response.isSuccessful()) {
+                logger.error("Unable to upload cases. Code {} - {}", 
+                        response.getStatus(), 
+                        response.getBody().toString());
+            }
+            return response.isSuccessful();
+        } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to upload case", ex);
+            return false;
+        }
     } 
 }

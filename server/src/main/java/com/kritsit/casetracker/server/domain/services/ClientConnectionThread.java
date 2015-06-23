@@ -51,71 +51,75 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
             Request request;
             while ((request = (Request) in.readObject()) != null) {
                 switch (request.getCommand()) {
-                    case "connect": {
+                    case "connect" : {
                         setConnectedClient(request.getArguments().get(0).toString());
                         logger.info("{} has connected", connectedClient);
                         break;
                     }
-                    case "login": {
+                    case "login" : {
                         logger.debug("Login requested");
+
                     	//These constructions will be handled by the DI container
                     	IUserRepository repository = new UserRepository(persistence);
                         ILoginService login = new Login(repository);
+                        Staff user = login.login(request.getArguments().get(0).toString(), 
+                                Integer.parseInt(request.getArguments().get(1).toString()));
 
-                        Staff user = login.login(request.getArguments().get(0).toString(), Integer.parseInt(request.getArguments().get(1).toString()));
-                        
                         //This probably needs to be demanded to a factory method
                         Response dto = new Response(200, user);
-                         
-                        out.writeObject(dto);
-                        out.flush();
+                        writeResponse(dto);
                         break;
                     }
-                    case "getCases": {
+                    case "getCases" : {
                         IIncidentRepository incidentRepo = new IncidentRepository(persistence);
                         IPersonRepository personRepo = new PersonRepository(persistence);
                         IUserRepository userRepo = new UserRepository(persistence);
                         IEvidenceRepository evidenceRepo = new EvidenceRepository(persistence);
-                        ICaseRepository caseRepo = new CaseRepository(persistence, incidentRepo, personRepo, userRepo, evidenceRepo);
+                        ICaseRepository caseRepo = new CaseRepository(persistence, 
+                                incidentRepo, personRepo, userRepo, evidenceRepo);
                         List<Case> cases;
                         if (request.getArguments().size() == 0) {
                             logger.debug("All cases requested");
                             cases = caseRepo.getCases();
                         } else {
-                            logger.debug("Cases requested for user {}", request.getArguments().get(0));
                             Staff user = (Staff) request.getArguments().get(0);
+                            logger.debug("Cases requested for user {}", user);
                             cases = caseRepo.getCases(user);
                         }
-                        
                         Response dto = new Response(200, cases);
-
-                        out.writeObject(dto);
-                        out.flush();
+                        writeResponse(dto);
                         break;
                     }
-                    case "getInspectors": {
+                    case "getInspectors" : {
                         logger.debug("Inspectors requested");
                         IUserRepository userRepo = new UserRepository(persistence);
                         List<Staff> inspectors = userRepo.getInspectors();
                         Response dto = new Response(200, inspectors);
-                        out.writeObject(dto);
-                        out.flush();
+                        writeResponse(dto);
                         break;
                     }
-                    case "getLastCaseNumber": {
+                    case "getLastCaseNumber" : {
                         logger.debug("Last case number requested");
                         IIncidentRepository incidentRepo = new IncidentRepository(persistence);
                         IPersonRepository personRepo = new PersonRepository(persistence);
                         IUserRepository userRepo = new UserRepository(persistence);
                         IEvidenceRepository evidenceRepo = new EvidenceRepository(persistence);
-                        ICaseRepository caseRepo = new CaseRepository(persistence, incidentRepo, personRepo, userRepo, evidenceRepo);
+                        ICaseRepository caseRepo = new CaseRepository(persistence, 
+                                incidentRepo, personRepo, userRepo, evidenceRepo);
                         String caseNumber = caseRepo.getLastCaseNumber();
                         Response dto = new Response(200, caseNumber);
-                        out.writeObject(dto);
-                        out.flush();
+                        writeResponse(dto);
                         break;
                     }
-                    case "close": {
+                    case "addCase" : { 
+                        Case c = (Case) request.getArguments().get(0);
+                        logger.debug("Requested to add case: {}", c);
+                        //TODO: Implement
+                        Response dto = new Response(200, "Case added");
+                        writeResponse(dto);
+                        break;
+                    }
+                    case "close" : { 
                         close();
                         logger.info("{} has disconnected", connectedClient);
                         return;
@@ -126,7 +130,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
         catch (AuthenticationException ex){
         	Response dto = new Response(401, null);
         	try {
-				out.writeObject(dto);
+                writeResponse(dto);
 			} catch (IOException e) {
                 logger.error("Unable to write to client", e);
 			}
@@ -134,9 +138,9 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
         catch (IOException | RowToModelParseException | ClassNotFoundException ex) {
             logger.error("An error occured", ex);
             //Either deal with exception generically here or specifically in each call
-            Response dto = new Response(500, null);
+            Response dto = new Response(500, ex.getMessage());
             try {
-				out.writeObject(dto);
+                writeResponse(dto);
 			} catch (IOException e) {
                 logger.error("Unable to write to client", e);
 			}
@@ -160,5 +164,10 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
         } catch (NullPointerException ex) {
             logger.error("Socket is not connected");
         }
+    }
+
+    private void writeResponse(Response dto) throws IOException {
+        out.writeObject(dto);
+        out.flush();
     }
 }
