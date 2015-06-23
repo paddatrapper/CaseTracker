@@ -75,7 +75,7 @@ public class PersonRepository implements IPersonRepository {
         try{
             logger.info("Inserting defendant {}", defendant.getName());
             int isSecondOffence = (defendant.isSecondOffence()) ? 1 : 0;
-            String sql="INSERT INTO defendants VALUES ('"
+            String sql="INSERT INTO defendants VALUES (NULL, '"
                 +defendant.getId()+"', '"
                 +defendant.getFirstName()+"', '"
                 +defendant.getLastName()+"', '"
@@ -88,6 +88,27 @@ public class PersonRepository implements IPersonRepository {
         }
         catch(Exception e){
             logger.error("Error inserting defendant into the database", e);
+            throw new RowToModelParseException("Error inserting values to database");
+        }
+    }
+    
+    public void insertComplainant(Person complainant) throws RowToModelParseException{
+        try{
+            logger.info("Inserting complainant {}", complainant.getName());
+         
+            String sql="INSERT INTO complainants VALUES (NULL, '"
+                +complainant.getId()+"', '"
+                +complainant.getFirstName()+"', '"
+                +complainant.getLastName()+"', '"
+                +complainant.getAddress()+"', '"
+                +complainant.getTelephoneNumber()+"', '"
+                +complainant.getEmailAddress()+"');";
+             
+            db.executeUpdate(sql);
+                
+        }
+        catch(Exception e){
+            logger.error("Error inserting complainant into the database", e);
             throw new RowToModelParseException("Error inserting values to database");
         }
     }
