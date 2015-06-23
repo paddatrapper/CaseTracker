@@ -80,14 +80,15 @@ public class PersonRepositoryTest extends TestCase {
         String id = "9802245849032";
         Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
         
+        int isSecondOffence = (defendant.isSecondOffence()) ? 1 : 0;
         String sql="INSERT INTO defendants VALUES ('"
-                +defendant.getId()+"', '"
-                +defendant.getFirstName()+"', '"
-                +defendant.getLastName()+"', '"
-                +defendant.getAddress()+"', '"
-                +defendant.getTelephoneNumber()+"', '"
-                +defendant.getEmailAddress()+"', '"
-                +defendant.isSecondOffence()+"');";
+            +defendant.getId()+"', '"
+            +defendant.getFirstName()+"', '"
+            +defendant.getLastName()+"', '"
+            +defendant.getAddress()+"', '"
+            +defendant.getTelephoneNumber()+"', '"
+            +defendant.getEmailAddress()+"', '"
+            +isSecondOffence+"');";
         
         IPersistenceService db = mock(IPersistenceService.class);
         IPersonRepository personRepo = new PersonRepository(db);
