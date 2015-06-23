@@ -371,7 +371,6 @@ public class EditorTest extends TestCase {
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
         IEditorService editor = new Editor(user, connection);
-        InputToModelParseResult successful = new InputToModelParseResult(true);
 
         String caseNumber = "2015-02-0001";
         String caseName = "Developers vs Testing";
@@ -407,7 +406,7 @@ public class EditorTest extends TestCase {
         inputMap.put("complainant", complainant);
         inputMap.put("evidence", evidence);
 
-        when(connection.addCase(any())).thenReturn(successful);
+        when(connection.addCase(any())).thenReturn(true);
 
         InputToModelParseResult result = editor.addCase(inputMap);
         
