@@ -8,4 +8,5 @@ import java.util.List;
 public interface IPersonRepository {
     Person getComplainant(String caseNumber) throws RowToModelParseException;
     Defendant getDefendant(String caseNumber) throws RowToModelParseException;
+    void insertDefendant(Defendant defendant) throws RowToModelParseException;
 }

@@ -61,13 +61,34 @@ public class PersonRepository implements IPersonRepository {
             String address = rs.get(0).get("address");
             String telephoneNumber = rs.get(0).get("telephoneNumber");
             String emailAddress = rs.get(0).get("emailAddress");
-            boolean isSecondOffence = Boolean.parseBoolean(rs.get(0).get("secondOffence"));
+            boolean isSecondOffence = "1".equals(rs.get(0).get("secondOffence"));
             
             Defendant defendant = new Defendant(id, firstName, lastName, address, telephoneNumber, emailAddress, isSecondOffence);
             return defendant;
         } catch(Exception e){
             logger.error("Error retrieving defendant for case {}", caseNumber, e);
             throw new RowToModelParseException("Error retrieving defendant from database for case number: " + caseNumber);
+        }
+    }
+    
+    public void insertDefendant(Defendant defendant) throws RowToModelParseException{
+        try{
+            logger.info("Inserting defendant {}", defendant.getName());
+            int isSecondOffence = (defendant.isSecondOffence()) ? 1 : 0;
+            String sql="INSERT INTO defendants VALUES ('"
+                +defendant.getId()+"', '"
+                +defendant.getFirstName()+"', '"
+                +defendant.getLastName()+"', '"
+                +defendant.getAddress()+"', '"
+                +defendant.getTelephoneNumber()+"', '"
+                +defendant.getEmailAddress()+"', '"
+                +isSecondOffence+"');";
+            db.executeUpdate(sql);
+                
+        }
+        catch(Exception e){
+            logger.error("Error inserting defendant into the database", e);
+            throw new RowToModelParseException("Error inserting values to database");
         }
     }
 }
