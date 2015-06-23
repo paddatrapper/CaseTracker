@@ -73,7 +73,7 @@ public class PersonRepository implements IPersonRepository {
     
     public void insertDefendant(Defendant defendant) throws RowToModelParseException{
         try{
-            logger.info("Inserting a vehicle for defendant {}", defendant.getName());
+            logger.info("Inserting defendant {}", defendant.getName());
             int isSecondOffence = (defendant.isSecondOffence()) ? 1 : 0;
             String sql="INSERT INTO defendants VALUES ('"
                 +defendant.getId()+"', '"
@@ -87,7 +87,7 @@ public class PersonRepository implements IPersonRepository {
                 
         }
         catch(Exception e){
-            logger.error("Error inserting vehicle into the database", e);
+            logger.error("Error inserting defendant into the database", e);
             throw new RowToModelParseException("Error inserting values to database");
         }
     }
