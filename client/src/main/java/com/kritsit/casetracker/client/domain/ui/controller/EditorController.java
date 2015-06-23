@@ -467,8 +467,8 @@ public class EditorController implements IController {
 
         InputToModelParseResult result = editorService.addCase(inputMap);
         if (result.isSuccessful()) {
-            //TODO: Reset fields
             logger.info("Case added successfully");
+            resetAddCaseTab();
             Alert info = new Alert(AlertType.INFORMATION);
             info.setTitle("Case Added");
             info.setContentText("Case added successfully");
@@ -481,6 +481,21 @@ public class EditorController implements IController {
             error.setContentText(result.getReason());
             error.showAndWait();
         }
+    }
+
+    private void resetAddCaseTab() {
+        txfAddCaseNumber.setText("");
+        cmbAddInvestigatingOfficer.setValue(editorService.getUser());
+        cmbAddCaseType.setValue("");
+        cbxAddIsReturnVisit.setSelected(false);
+        txfAddCaseName.setText("");
+        txfAddAddress.setText("");
+        txfAddLongitude.setText("");
+        txfAddLatitude.setText("");
+        txfAddRegion.setText("");
+        txaAddDetails.setText("");
+        txaAddAnimalsInvolved.setText("");
+        lstAddEvidence.setItems(FXCollections.observableList(new ArrayList<Evidence>()));
     }
 
     @FXML private Button btnCalendarNext;
