@@ -35,7 +35,7 @@ public class VehicleRepository implements IVehicleRepository {
                 String reg = line.get("registration");
                 String make = line.get("make");
                 String colour = line.get("colour");
-                boolean isTrailer = Boolean.parseBoolean(line.get("isTrailer"));
+                boolean isTrailer = "1".equals(line.get("isTrailer"));
                 Vehicle v = new Vehicle(reg, make, colour, isTrailer);
                 vehicles.add(v);
             }
@@ -49,13 +49,13 @@ public class VehicleRepository implements IVehicleRepository {
     public void insertVehicles(Vehicle vehicle, Defendant defendant) throws RowToModelParseException {
         try{
     	logger.info("Inserting a vehicle for defendant {}", defendant.getName());
-    	
+    	int isTrailer = (vehicle.isTrailer()) ? 1 : 0;
     	String sql = "INSERT INTO vehicles SELECT from defendants '"
     	    +vehicle.getRegistration()+"', "
     		+"indexID"+", '"
     		+vehicle.getMake()+"', '"
     		+vehicle.getColour()+"', '"
-    		+vehicle.isTrailer()+"' "
+    		+isTrailer+"' "
     		+"where id="+defendant.getId()+";";
     	
     	db.executeUpdate(sql);
