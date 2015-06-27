@@ -23,10 +23,10 @@ public class EvidenceRepository implements IEvidenceRepository {
 		try {
             logger.info("Fetching evidence for case {}", caseNumber);
 	        String sql = "SELECT description, fileLocation FROM evidence "
-	            + "WHERE evidence.caseNumber=\'" + caseNumber + "\';";
-	        List<Map<String, String>> rs = db.executeQuery(sql);
+	            + "WHERE evidence.caseNumber=?;";
+	        List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
             
-            if (rs == null || rs.size() == 0) {
+            if (rs == null || rs.isEmpty()) {
                 logger.debug("No evidence found for case {}", caseNumber);
                 return null;
             }

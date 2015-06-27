@@ -21,10 +21,10 @@ public class PersonRepository implements IPersonRepository {
     public Person getComplainant(String caseNumber) throws RowToModelParseException {
         try {
             logger.info("Fetching complainant for case {}", caseNumber);
-            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress FROM complainants INNER JOIN(cases) WHERE complainants.indexId=cases.complainantId AND cases.caseNumber=\'" + caseNumber + "\';";
-            List<Map<String, String>> rs = db.executeQuery(sql);
+            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress FROM complainants INNER JOIN(cases) WHERE complainants.indexId=cases.complainantId AND cases.caseNumber=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
 
-            if(rs == null || rs.size() == 0) {
+            if(rs == null || rs.isEmpty()) {
                 logger.debug("No complainants found for case {}", caseNumber);
                 return null;
             }
@@ -47,10 +47,10 @@ public class PersonRepository implements IPersonRepository {
     public Defendant getDefendant(String caseNumber) throws RowToModelParseException {
         try {
             logger.info("Fetching defendant for case {}", caseNumber);
-            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress, secondOffence FROM defendants INNER JOIN(cases) WHERE defendants.indexId=cases.defendantId AND cases.caseNumber=\'" + caseNumber + "\';";
-            List<Map<String, String>> rs = db.executeQuery(sql);
+            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress, secondOffence FROM defendants INNER JOIN(cases) WHERE defendants.indexId=cases.defendantId AND cases.caseNumber=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
 
-            if(rs == null || rs.size() == 0) {
+            if(rs == null || rs.isEmpty()) {
                 logger.debug("No defendants found for case {}", caseNumber);
                 return null;
             }

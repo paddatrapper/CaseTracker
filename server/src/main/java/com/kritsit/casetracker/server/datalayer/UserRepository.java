@@ -23,11 +23,10 @@ public class UserRepository implements IUserRepository {
     public long getPasswordSaltedHash(String username) throws RowToModelParseException {
     	try {
             logger.info("Fetching password salted hash for {}", username);
-	        String sql = "SELECT passwordHash FROM staff WHERE username=\'" 
-	            + username + "\';";
-	        List<Map<String, String>> rs = db.executeQuery(sql);
+	        String sql = "SELECT passwordHash FROM staff WHERE username=?;";
+	        List<Map<String, String>> rs = db.executeQuery(sql, username);
 	        
-	        if(rs == null || rs.size() == 0) {
+	        if(rs == null || rs.isEmpty()) {
                 logger.debug("{} does not exist", username);
 	        	throw new AuthenticationException();
 	        } 
@@ -43,10 +42,10 @@ public class UserRepository implements IUserRepository {
     public long getSalt(String username) throws RowToModelParseException {
     	try {
             logger.info("Fetching salt for {}", username);
-	        String sql = "SELECT salt FROM staff WHERE username=\'" + username + "\';";
-	        List<Map<String, String>> rs = db.executeQuery(sql);
+	        String sql = "SELECT salt FROM staff WHERE username=?;";
+	        List<Map<String, String>> rs = db.executeQuery(sql, username);
 	        
-	        if(rs == null || rs.size() == 0) {
+	        if(rs == null || rs.isEmpty()) {
                 logger.debug("{} does not exist", username);
 	        	throw new AuthenticationException();
 	        }
@@ -64,10 +63,10 @@ public class UserRepository implements IUserRepository {
 		try {
             logger.info("Fetching details for {}", username);
 	        String sql = "SELECT firstName, lastName, department, position, permissions FROM staff "
-	            + "WHERE username=\'" + username + "\';";
-	        List<Map<String, String>> rs = db.executeQuery(sql);
+	            + "WHERE username=?;";
+	        List<Map<String, String>> rs = db.executeQuery(sql, username);
 	        
-	        if(rs == null || rs.size() == 0) {
+	        if(rs == null || rs.isEmpty()) {
                 logger.debug("{} does not exist", username);
 	        	throw new AuthenticationException();
 	        }
@@ -89,10 +88,10 @@ public class UserRepository implements IUserRepository {
     public Staff getInvestigatingOfficer(String caseNumber) throws RowToModelParseException {
         try {
             logger.info("Fetching investigating officer for case {}", caseNumber);
-            String sql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.id=cases.staffID AND cases.caseNumber=\'" + caseNumber + "\';";
-            List<Map<String, String>> rs = db.executeQuery(sql);
+            String sql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.id=cases.staffID AND cases.caseNumber=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
 	        
-	        if(rs == null || rs.size() == 0) {
+	        if(rs == null || rs.isEmpty()) {
                 logger.debug("Investigating officer for case {} does not exist", caseNumber);
                 return null;
 	        }
@@ -108,8 +107,8 @@ public class UserRepository implements IUserRepository {
     public List<Staff> getInspectors() throws RowToModelParseException {
         try {
             logger.info("Fetching inspectors");
-            String sql = "SELECT username FROM staff WHERE permissions=1;";
-            List<Map<String, String>> rs = db.executeQuery(sql);
+            String sql = "SELECT username FROM staff WHERE permissions=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, "1");
 
             if (rs == null || rs.isEmpty()) {
                 logger.debug("No inspectors found");

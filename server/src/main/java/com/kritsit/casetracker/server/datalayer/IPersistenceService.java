@@ -7,6 +7,6 @@ import java.util.Map;
 public interface IPersistenceService {
     boolean open();
     boolean isOpen();
-    List<Map<String, String>> executeQuery(String sql) throws SQLException;
+    List<Map<String, String>> executeQuery(String sql, String... args) throws SQLException;
     void close();
 }

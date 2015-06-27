@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,26 +51,31 @@ public class DatabasePersistence implements IPersistenceService {
         return connected;
     }
 
-    private ResultSet get(String sql) throws SQLException {
+    private ResultSet get(String sql, String... args) throws SQLException {
         logger.info("Executing request {}", sql);
         
-        try(Statement statement = connection.createStatement(ResultSet.CONCUR_READ_ONLY, 
+        try(PreparedStatement statement = connection.prepareStatement(sql, ResultSet.CONCUR_READ_ONLY, 
                 ResultSet.TYPE_FORWARD_ONLY)) {
-             ResultSet query = statement.executeQuery(sql);
-             return query;
+            
+            for(int i = 0; i < args.length; ++i){
+                statement.setString(i + 1, args[i]);
+            }
+            
+            ResultSet query = statement.executeQuery();
+            return query;
         } catch (SQLException e){
             throw e;
         }
     }
     
-    public List<Map<String, String>> executeQuery(String sql) throws SQLException{
+    public List<Map<String, String>> executeQuery(String sql, String... args) throws SQLException{
     	try {
-			open();
-	    	ResultSet rs = get(sql);
-	        if (isEmpty(rs)) {
+	    open();
+	    ResultSet rs = get(sql, args);
+	    if (isEmpty(rs)) {
                 logger.debug("ResultSet empty");
-	            return null;
-	        }
+	        return null;
+	    }
             List details = new ArrayList<>();
             rs.beforeFirst();
             while (rs.next()) {
@@ -83,10 +88,9 @@ public class DatabasePersistence implements IPersistenceService {
                 }
                 details.add(rowDetails);
             }
-	        return details;
-    	}
-    	finally{
-    		close();
+	    return details;
+    	} finally{
+    	    close();
     	}
     }
 
