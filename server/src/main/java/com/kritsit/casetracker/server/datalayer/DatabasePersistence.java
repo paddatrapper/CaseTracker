@@ -51,6 +51,7 @@ public class DatabasePersistence implements IPersistenceService {
         return connected;
     }
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING")
     private ResultSet get(String sql, String... args) throws SQLException {
         logger.info("Executing request {}", sql);
         
