@@ -21,7 +21,9 @@ public class PersonRepository implements IPersonRepository {
     public Person getComplainant(String caseNumber) throws RowToModelParseException {
         try {
             logger.info("Fetching complainant for case {}", caseNumber);
-            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress FROM complainants INNER JOIN(cases) WHERE complainants.indexId=cases.complainantId AND cases.caseNumber=?;";
+            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, " + 
+                "emailAddress FROM complainants INNER JOIN(cases) " + 
+                "WHERE complainants.indexId=cases.complainantId AND cases.caseNumber=?;";
             List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
 
             if(rs == null || rs.isEmpty()) {
@@ -36,18 +38,22 @@ public class PersonRepository implements IPersonRepository {
             String telephoneNumber = rs.get(0).get("telephoneNumber");
             String emailAddress = rs.get(0).get("emailAddress");
             
-            Person complainant = new Person(id, firstName, lastName, address, telephoneNumber, emailAddress);
+            Person complainant = new Person(id, firstName, lastName, address, 
+                    telephoneNumber, emailAddress);
             return complainant;
         } catch(Exception e){
             logger.error("Error retrieving complainant for case {}", caseNumber, e);
-            throw new RowToModelParseException("Error retrieving complainant from database for case number: " + caseNumber);
+            throw new RowToModelParseException("Error retrieving complainant from " +
+                    "database for case number: " + caseNumber);
         }
     }
 
     public Defendant getDefendant(String caseNumber) throws RowToModelParseException {
         try {
             logger.info("Fetching defendant for case {}", caseNumber);
-            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress, secondOffence FROM defendants INNER JOIN(cases) WHERE defendants.indexId=cases.defendantId AND cases.caseNumber=?;";
+            String sql = "SELECT id, firstName, lastName, address, telephoneNumber, " +
+                "emailAddress, secondOffence FROM defendants INNER JOIN(cases) " +
+                "WHERE defendants.indexId=cases.defendantId AND cases.caseNumber=?;";
             List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
 
             if(rs == null || rs.isEmpty()) {
@@ -63,27 +69,26 @@ public class PersonRepository implements IPersonRepository {
             String emailAddress = rs.get(0).get("emailAddress");
             boolean isSecondOffence = "1".equals(rs.get(0).get("secondOffence"));
             
-            Defendant defendant = new Defendant(id, firstName, lastName, address, telephoneNumber, emailAddress, isSecondOffence);
+            Defendant defendant = new Defendant(id, firstName, lastName, address, 
+                    telephoneNumber, emailAddress, isSecondOffence);
             return defendant;
         } catch(Exception e){
             logger.error("Error retrieving defendant for case {}", caseNumber, e);
-            throw new RowToModelParseException("Error retrieving defendant from database for case number: " + caseNumber);
+            throw new RowToModelParseException("Error retrieving defendant from " +
+                    "database for case number: " + caseNumber);
         }
     }
     
     public void insertDefendant(Defendant defendant) throws RowToModelParseException{
         try{
             logger.info("Inserting defendant {}", defendant.getName());
-            int isSecondOffence = (defendant.isSecondOffence()) ? 1 : 0;
-            String sql="INSERT INTO defendants VALUES (NULL, '"
-                +defendant.getId()+"', '"
-                +defendant.getFirstName()+"', '"
-                +defendant.getLastName()+"', '"
-                +defendant.getAddress()+"', '"
-                +defendant.getTelephoneNumber()+"', '"
-                +defendant.getEmailAddress()+"', '"
-                +isSecondOffence+"');";
-            db.executeUpdate(sql);
+            String isSecondOffence = (defendant.isSecondOffence()) ? "1" : "0";
+            String sql = "INSERT INTO defendants VALUES (NULL, ?, ?, ?, ?, ?, " +
+                "?, ?);";
+            db.executeUpdate(sql, defendant.getId(), defendant.getFirstName(), 
+                    defendant.getLastName(), defendant.getAddress(), 
+                    defendant.getTelephoneNumber(), defendant.getEmailAddress(),
+                    isSecondOffence);
                 
         }
         catch(Exception e){
@@ -95,17 +100,11 @@ public class PersonRepository implements IPersonRepository {
     public void insertComplainant(Person complainant) throws RowToModelParseException{
         try{
             logger.info("Inserting complainant {}", complainant.getName());
-         
-            String sql="INSERT INTO complainants VALUES (NULL, '"
-                +complainant.getId()+"', '"
-                +complainant.getFirstName()+"', '"
-                +complainant.getLastName()+"', '"
-                +complainant.getAddress()+"', '"
-                +complainant.getTelephoneNumber()+"', '"
-                +complainant.getEmailAddress()+"');";
-             
-            db.executeUpdate(sql);
-                
+            String sql = "INSERT INTO complainants VALUES (NULL, ?, ?, ?, ?, ?, " +
+                "?);";
+            db.executeUpdate(sql, complainant.getId(), complainant.getFirstName(), 
+                    complainant.getLastName(), complainant.getAddress(), 
+                    complainant.getTelephoneNumber(), complainant.getEmailAddress());
         }
         catch(Exception e){
             logger.error("Error inserting complainant into the database", e);

@@ -2,6 +2,7 @@ package com.kritsit.casetracker.server.datalayer;
 
 import com.kritsit.casetracker.server.domain.Domain;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,32 +52,41 @@ public class DatabasePersistence implements IPersistenceService {
         return connected;
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING")
+    @SuppressFBWarnings("SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING")
     private ResultSet get(String sql, String... args) throws SQLException {
         logger.info("Executing request {}", sql);
         
-        try(PreparedStatement statement = connection.prepareStatement(sql, ResultSet.CONCUR_READ_ONLY, 
+        try (PreparedStatement statement = connection.prepareStatement(sql, ResultSet.CONCUR_READ_ONLY, 
                 ResultSet.TYPE_FORWARD_ONLY)) {
             
-            for(int i = 0; i < args.length; ++i){
+            for (int i = 0; i < args.length; ++i) {
                 statement.setString(i + 1, args[i]);
             }
             
             ResultSet query = statement.executeQuery();
             return query;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw e;
         }
     }
     
-    public List<Map<String, String>> executeQuery(String sql, String... args) throws SQLException{
-    	try {
-	    open();
-	    ResultSet rs = get(sql, args);
-	    if (isEmpty(rs)) {
+    public List<Map<String, String>> executeQuery(String sql, String... args) throws SQLException {
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            open();
+            statement = connection.prepareStatement(sql, ResultSet.CONCUR_READ_ONLY, 
+                ResultSet.TYPE_FORWARD_ONLY);
+            
+            for (int i = 0; i < args.length; ++i) {
+                statement.setString(i + 1, args[i]);
+            }
+            
+            rs = statement.executeQuery();
+            if (isEmpty(rs)) {
                 logger.debug("ResultSet empty");
-	        return null;
-	    }
+                return null;
+            }
             List details = new ArrayList<>();
             rs.beforeFirst();
             while (rs.next()) {
@@ -89,10 +99,16 @@ public class DatabasePersistence implements IPersistenceService {
                 }
                 details.add(rowDetails);
             }
-	    return details;
-    	} finally {
-    	    close();
-    	}
+            return details;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            close();
+        }
     }
 
     private boolean isEmpty(ResultSet rs) throws SQLException {
@@ -111,16 +127,31 @@ public class DatabasePersistence implements IPersistenceService {
         }
     }
 
-    public void executeUpdate(String sql) throws SQLException {
+    public void executeUpdate(String sql, String... args) throws SQLException {
         logger.info("Inserting changes to database");
-        try{
+        try {
             open();
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+            set(sql, args);
         }
-        finally{
+        finally {
             close();
             logger.info("Database updated");
+        }
+    }
+
+    @SuppressFBWarnings("SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING")
+    private void set(String sql, String... args) throws SQLException {
+        logger.info("Executing request {}", sql);
+        
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            
+            for (int i = 0; i < args.length; ++i) {
+                statement.setString(i + 1, args[i]);
+            }
+            
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
         }
     }
 }

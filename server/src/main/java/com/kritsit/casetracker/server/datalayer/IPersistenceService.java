@@ -8,6 +8,6 @@ public interface IPersistenceService {
     boolean open();
     boolean isOpen();
     List<Map<String, String>> executeQuery(String sql, String... args) throws SQLException;
-    void executeUpdate(String sql) throws SQLException;
+    void executeUpdate(String sql, String... args) throws SQLException;
     void close();
 }

@@ -52,7 +52,9 @@ public class PersonRepositoryTest extends TestCase {
     
     public void testGetComplainant() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress FROM complainants INNER JOIN(cases) WHERE complainants.indexId=cases.complainantId AND cases.caseNumber=?;";
+        String sql = "SELECT id, firstName, lastName, address, telephoneNumber, " +
+            "emailAddress FROM complainants INNER JOIN(cases) " + 
+            "WHERE complainants.indexId=cases.complainantId AND cases.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql, caseNumber)).thenReturn(complainantList);
         IPersonRepository personRepo = new PersonRepository(db);
@@ -65,7 +67,9 @@ public class PersonRepositoryTest extends TestCase {
 
     public void testGetDefendant() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT id, firstName, lastName, address, telephoneNumber, emailAddress, secondOffence FROM defendants INNER JOIN(cases) WHERE defendants.indexId=cases.defendantId AND cases.caseNumber=?;";
+        String sql = "SELECT id, firstName, lastName, address, telephoneNumber, " +
+            "emailAddress, secondOffence FROM defendants INNER JOIN(cases) " + 
+            "WHERE defendants.indexId=cases.defendantId AND cases.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql, caseNumber)).thenReturn(defendantList);
         IPersonRepository personRepo = new PersonRepository(db);
@@ -78,39 +82,33 @@ public class PersonRepositoryTest extends TestCase {
     
     public void testInsertDefendant() throws SQLException, RowToModelParseException{
         String id = "9802245849032";
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
-        
-        int isSecondOffence = (defendant.isSecondOffence()) ? 1 : 0;
-        String sql="INSERT INTO defendants VALUES (NULL, '"
-            +defendant.getId()+"', '"
-            +defendant.getFirstName()+"', '"
-            +defendant.getLastName()+"', '"
-            +defendant.getAddress()+"', '"
-            +defendant.getTelephoneNumber()+"', '"
-            +defendant.getEmailAddress()+"', '"
-            +isSecondOffence+"');";
+        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+                "0212221233", "test@testing.co.za", false);
+        String isSecondOffence = (defendant.isSecondOffence()) ? "1" : "0";
+        String sql = "INSERT INTO defendants VALUES (NULL, ?, ?, ?, ?, ?, " +
+            "?, ?);";
         
         IPersistenceService db = mock(IPersistenceService.class);
         IPersonRepository personRepo = new PersonRepository(db);
         personRepo.insertDefendant(defendant);
-        verify(db).executeUpdate(sql);
+        verify(db).executeUpdate(sql, defendant.getId(), defendant.getFirstName(),
+                defendant.getLastName(), defendant.getAddress(),
+                defendant.getTelephoneNumber(), defendant.getEmailAddress(),
+                isSecondOffence);
     }
     
     public void testInsertComplainant() throws SQLException, RowToModelParseException{
         String id = "9802245849032";
-        Person complainant = new Person(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za");
-
-        String sql="INSERT INTO complainants VALUES (NULL, '"
-            +complainant.getId()+"', '"
-            +complainant.getFirstName()+"', '"
-            +complainant.getLastName()+"', '"
-            +complainant.getAddress()+"', '"
-            +complainant.getTelephoneNumber()+"', '"
-            +complainant.getEmailAddress()+"');";
+        Person complainant = new Person(id, "Bob", "Dylan", "1 address road", 
+                "0212221233", "test@testing.co.za");
+        String sql = "INSERT INTO complainants VALUES (NULL, ?, ?, ?, ?, ?, " +
+            "?);";
         
         IPersistenceService db = mock(IPersistenceService.class);
         IPersonRepository personRepo = new PersonRepository(db);
         personRepo.insertComplainant(complainant);
-        verify(db).executeUpdate(sql);
+        verify(db).executeUpdate(sql, complainant.getId(), complainant.getFirstName(),
+                complainant.getLastName(), complainant.getAddress(),
+                complainant.getTelephoneNumber(), complainant.getEmailAddress());
     }
 }
