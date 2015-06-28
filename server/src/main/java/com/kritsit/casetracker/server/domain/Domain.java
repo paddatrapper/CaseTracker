@@ -10,7 +10,7 @@ public class Domain {
     private static final Logger logger = LoggerFactory.getLogger(Domain.class);
     private static IPersistenceService persistence;
 
-    public static IPersistenceService getPersistenceService() {
+    public static synchronized IPersistenceService getPersistenceService() {
         if (persistence == null) {
             logger.info("Creating new persistence connection");
             persistence = new DatabasePersistence();

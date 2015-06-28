@@ -12,20 +12,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class VehicleRepository implements IVehicleRepository {
-    private final Logger logger = LoggerFactory.getLogger(VehicleRepository.class);	
-	private final IPersistenceService db;
-	
-	public VehicleRepository(IPersistenceService db){
-		this.db = db;
-	}
+    private final Logger logger = LoggerFactory.getLogger(VehicleRepository.class); 
+    private final IPersistenceService db;
+    
+    public VehicleRepository(IPersistenceService db){
+        this.db = db;
+    }
 
     public List<Vehicle> getVehicles(Defendant defendant) throws RowToModelParseException {
         try {
             logger.info("Fetching vehicles for defendant {}", defendant.getName());
-            String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + defendant.getId() + "';";
-            List<Map<String, String>> rs = db.executeQuery(sql);
+            String sql = "SELECT vehicles.*, defendants.id FROM vehicles " + 
+                "INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID " + 
+                "AND defendants.id=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, defendant.getId());
 
-            if(rs == null || rs.size() == 0) {
+            if(rs == null || rs.isEmpty()) {
                 logger.debug("No vehicles found for defendant {}", defendant.getName());
                 return null;
             }
@@ -40,29 +42,22 @@ public class VehicleRepository implements IVehicleRepository {
                 vehicles.add(v);
             }
             return vehicles;
-        } catch(Exception e){
+        } catch(Exception e) {
             logger.error("Error retrieving vehicles for {}", defendant.getName(), e);
             throw new RowToModelParseException("Error retrieving vehicles from database for defendant name: " + defendant.getName());
         }
     }
     
-    public void insertVehicles(Vehicle vehicle, Defendant defendant) throws RowToModelParseException {
+    public void insertVehicle(Vehicle vehicle, Defendant defendant) throws RowToModelParseException {
         try{
-    	logger.info("Inserting a vehicle for defendant {}", defendant.getName());
-    	int isTrailer = (vehicle.isTrailer()) ? 1 : 0;
-    	String sql = "INSERT INTO vehicles SELECT from defendants '"
-    	    +vehicle.getRegistration()+"', "
-    		+"indexID"+", '"
-    		+vehicle.getMake()+"', '"
-    		+vehicle.getColour()+"', '"
-    		+isTrailer+"' "
-    		+"where id="+defendant.getId()+";";
-    	
-    	db.executeUpdate(sql);
+            logger.info("Inserting a vehicle for defendant {}", defendant.getName());
+            int isTrailer = (vehicle.isTrailer()) ? 1 : 0;
+            String sql = "INSERT INTO vehicles SELECT FROM defendants ?, indexID, " +
+                "?, ?, ? WHERE id=?;";
             
-    	}
-
-        catch(Exception e){
+            db.executeUpdate(sql, vehicle.getRegistration(), vehicle.getMake(),
+                vehicle.getColour(), String.valueOf(isTrailer), defendant.getId());
+        } catch(Exception e){
             logger.error("Error inserting vehicle into the database", e);
             throw new RowToModelParseException("Error inserting values to database");
         }

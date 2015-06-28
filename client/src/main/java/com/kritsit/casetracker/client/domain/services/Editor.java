@@ -112,7 +112,7 @@ public class Editor implements IEditorService {
     public List<String> getCaseTypes() {
         logger.info("Building case type list");
         List<String> caseTypes = new ArrayList<>();
-        for (Case c : cases) {
+        for (Case c : getCases()) {
             if (!caseTypes.contains(c.getType())) {
                 logger.debug("Adding case type {}", c.getType());
                 caseTypes.add(c.getType());
@@ -124,7 +124,7 @@ public class Editor implements IEditorService {
     public List<Defendant> getDefendants() {
         logger.info("Building defendant list");
         List<Defendant> defendants = new ArrayList<>();
-        for (Case c : cases) {
+        for (Case c : getCases()) {
             if (!defendants.contains(c.getDefendant())) {
                 logger.debug("Adding defendant {}", c.getDefendant());
                 defendants.add(c.getDefendant());
@@ -136,7 +136,7 @@ public class Editor implements IEditorService {
     public List<Person> getComplainants() {
         logger.info("Building complainant list");
         List<Person> complainants = new ArrayList<>();
-        for (Case c : cases) {
+        for (Case c : getCases()) {
             if (!complainants.contains(c.getComplainant())) {
                 logger.debug("Adding complainant {}", c.getComplainant());
                 complainants.add(c.getComplainant());

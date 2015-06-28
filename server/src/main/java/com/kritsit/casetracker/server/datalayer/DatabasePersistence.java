@@ -2,15 +2,16 @@ package com.kritsit.casetracker.server.datalayer;
 
 import com.kritsit.casetracker.server.domain.Domain;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,19 +52,37 @@ public class DatabasePersistence implements IPersistenceService {
         return connected;
     }
 
-    private ResultSet get(String sql) throws SQLException {
+    @SuppressFBWarnings("SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING")
+    private ResultSet get(String sql, String... args) throws SQLException {
         logger.info("Executing request {}", sql);
-        ResultSet query = null;
-        Statement statement = connection.createStatement(ResultSet.CONCUR_READ_ONLY, 
-                                                         ResultSet.TYPE_FORWARD_ONLY);
-        query = statement.executeQuery(sql);
-        return query;
+        
+        try (PreparedStatement statement = connection.prepareStatement(sql, ResultSet.CONCUR_READ_ONLY, 
+                ResultSet.TYPE_FORWARD_ONLY)) {
+            
+            for (int i = 0; i < args.length; ++i) {
+                statement.setString(i + 1, args[i]);
+            }
+            
+            ResultSet query = statement.executeQuery();
+            return query;
+        } catch (SQLException e) {
+            throw e;
+        }
     }
     
-    public List<Map<String, String>> executeQuery(String sql) throws SQLException{
+    public List<Map<String, String>> executeQuery(String sql, String... args) throws SQLException {
+        PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             open();
-            ResultSet rs = get(sql);
+            statement = connection.prepareStatement(sql, ResultSet.CONCUR_READ_ONLY, 
+                ResultSet.TYPE_FORWARD_ONLY);
+            
+            for (int i = 0; i < args.length; ++i) {
+                statement.setString(i + 1, args[i]);
+            }
+            
+            rs = statement.executeQuery();
             if (isEmpty(rs)) {
                 logger.debug("ResultSet empty");
                 return null;
@@ -81,8 +100,13 @@ public class DatabasePersistence implements IPersistenceService {
                 details.add(rowDetails);
             }
             return details;
-        }
-        finally{
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
             close();
         }
     }
@@ -103,16 +127,31 @@ public class DatabasePersistence implements IPersistenceService {
         }
     }
 
-    public void executeUpdate(String sql) throws SQLException {
+    public void executeUpdate(String sql, String... args) throws SQLException {
         logger.info("Inserting changes to database");
-        try{
+        try {
             open();
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+            set(sql, args);
         }
-        finally{
+        finally {
             close();
             logger.info("Database updated");
+        }
+    }
+
+    @SuppressFBWarnings("SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING")
+    private void set(String sql, String... args) throws SQLException {
+        logger.info("Executing request {}", sql);
+        
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            
+            for (int i = 0; i < args.length; ++i) {
+                statement.setString(i + 1, args[i]);
+            }
+            
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
         }
     }
 }

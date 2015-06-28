@@ -2,6 +2,7 @@ package com.kritsit.casetracker.server.datalayer;
 
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Incident;
+import java.sql.SQLException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,10 +22,10 @@ public class IncidentRepository implements IIncidentRepository {
     public Incident getIncident(String caseNumber) throws RowToModelParseException {
         try {
             logger.info("Fetching incident for case {}", caseNumber);
-            String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber='" + caseNumber + "';";
-            List<Map<String, String>> rs = db.executeQuery(sql);
+            String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
 
-            if(rs == null || rs.size() == 0) {
+            if(rs == null || rs.isEmpty()) {
                 logger.debug("No incident found for case {}", caseNumber);
                 return null;
             }
@@ -44,7 +45,7 @@ public class IncidentRepository implements IIncidentRepository {
             }
         } catch(RuntimeException e){
             throw e;
-        } catch(Exception e){
+        } catch(SQLException e){
             logger.error("Error retrieving incident for {}", caseNumber, e);
             throw new RowToModelParseException("Error retrieving incident from database for case number: " + caseNumber);
         }

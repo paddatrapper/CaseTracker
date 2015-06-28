@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class EditorFrame implements IUserInterface {
+public final class EditorFrame implements IUserInterface {
     private static final Logger logger = LoggerFactory.getLogger(EditorFrame.class);
     private EditorController controller;
     private Staff user;

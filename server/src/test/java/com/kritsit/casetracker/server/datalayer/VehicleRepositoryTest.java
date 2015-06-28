@@ -39,62 +39,68 @@ public class VehicleRepositoryTest extends TestCase {
     
     public void testGetVehicles() throws SQLException, RowToModelParseException {
         String id = "9802245849032";
-        String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + id + "';";
+        String sql = "SELECT vehicles.*, defendants.id FROM vehicles " +
+            "INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID " + 
+            "AND defendants.id=?;";
         IPersistenceService db = mock(IPersistenceService.class);
-        when(db.executeQuery(sql)).thenReturn(vehicleList);
+        when(db.executeQuery(sql, id)).thenReturn(vehicleList);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
+        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+                "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
         
         assertTrue(vehicles != null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, id);
     }
 
     public void testGetVehicles_Null() throws SQLException, RowToModelParseException {
         String id = "9802245849032";
-        String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + id + "';";
+        String sql = "SELECT vehicles.*, defendants.id FROM vehicles " +
+            "INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID " + 
+            "AND defendants.id=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
+        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+                "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
 
         assertTrue(vehicles == null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, id);
     }
     
     public void testGetVehicles_Empty() throws SQLException, RowToModelParseException{
         String id = "9802245849032";
-        String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + id + "';";
+        String sql = "SELECT vehicles.*, defendants.id FROM vehicles " +
+            "INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID " + 
+            "AND defendants.id=?;";
         IPersistenceService db = mock(IPersistenceService.class);
-        when(db.executeQuery(sql)).thenReturn(new ArrayList<Map<String, String>>());
+        when(db.executeQuery(sql, id)).thenReturn(new ArrayList<Map<String, String>>());
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
+        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+                "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
         
         assertTrue(vehicles == null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, id);
     }
     
-    public void testInsertVehicles() throws SQLException, RowToModelParseException{
+    public void testInsertVehicle() throws SQLException, RowToModelParseException{
         String id = "9802245849032";
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
+        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+                "0212221233", "test@testing.co.za", false);
         Vehicle vehicle = new Vehicle("ZSZ1234", "Citroen", "silver", false);
         int isTrailer = (vehicle.isTrailer()) ? 1 : 0;
-        String sql = "INSERT INTO vehicles SELECT from defendants '"
-            +vehicle.getRegistration()+"', "
-            +"indexID"+", '"
-            +vehicle.getMake()+"', '"
-            +vehicle.getColour()+"', '"
-            +isTrailer+"' "
-            +"where id="+defendant.getId()+";";
+        String sql = "INSERT INTO vehicles SELECT FROM defendants ?, indexID, " +
+            "?, ?, ? WHERE id=?;";
          
         IPersistenceService db = mock(IPersistenceService.class);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        vehicleRepo.insertVehicles(vehicle, defendant); // ?
-        verify(db).executeUpdate(sql);
+        vehicleRepo.insertVehicle(vehicle, defendant);
+        verify(db).executeUpdate(sql, vehicle.getRegistration(), vehicle.getMake(),
+                vehicle.getColour(), String.valueOf(isTrailer), defendant.getId());
         
     }
 }

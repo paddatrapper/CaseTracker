@@ -27,25 +27,33 @@ public class DatabasePersistenceIT extends TestCase {
         db.open();
     }
 
-    public void testCreation() {
-        assertTrue(db instanceof IPersistenceService);
-    }
-
     public void testOpen() {
         assertTrue(db.isOpen());
     }
 
     public void testInsertQuery() throws SQLException {
-        String insert = "INSERT INTO staff VALUES (NULL, 'test', 'test', 'test', 'test', 'test', -1, -1, -1);";
-        String select = "SELECT * FROM staff WHERE firstName='test' AND lastName='test' AND username='test' AND passwordHash=-1;";
-        db.executeUpdate(insert);
-        List<Map<String, String>> result = db.executeQuery(select);
+        String firstName = "test";
+        String lastName = "test";
+        String username = "test";
+        String passwordHash = "-1";
+        String insert = "INSERT INTO staff VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String select = "SELECT * FROM staff WHERE firstName=? AND lastName=? " +
+            "AND username=? AND passwordHash=?;";
+        db.executeUpdate(insert, firstName, lastName, "test", "test", username, 
+                passwordHash, "-1", "-1");
+        List<Map<String, String>> result = db.executeQuery(select, firstName, 
+                lastName, username, passwordHash);
         assertFalse(result.isEmpty());
     }
 
     public void tearDown() throws SQLException {
-        String delete = "DELETE FROM staff WHERE firstName='test' AND lastName='test' AND username='test' AND passwordHash=-1;";
-        db.executeUpdate(delete);
+        String firstName = "test";
+        String lastName = "test";
+        String username = "test";
+        String passwordHash = "-1";
+        String delete = "DELETE FROM staff WHERE firstName=? AND lastName=? " +
+            "AND username=? AND passwordHash=?;";
+        db.executeUpdate(delete, firstName, lastName, username, passwordHash);
         db.close();
     }
 }

@@ -37,39 +37,39 @@ public class EvidenceRepositoryTest extends TestCase {
     
     public void testGetEvidence() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=\'" + caseNumber + "\';";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
-        when(db.executeQuery(sql)).thenReturn(evidenceList);
+        when(db.executeQuery(sql, caseNumber)).thenReturn(evidenceList);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
 
         List<Evidence> evidence = evidenceRepo.getEvidence(caseNumber);
 
         assertTrue(evidence != null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, caseNumber);
     }
 
     public void testGetEvidence_Null() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=\'" + caseNumber + "\';";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
 
         List<Evidence> evidence = evidenceRepo.getEvidence(caseNumber);
 
         assertTrue(evidence == null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, caseNumber);
     }
 
     public void testGetEvidence_Empty() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=\'" + caseNumber + "\';";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
-        when(db.executeQuery(sql)).thenReturn(new ArrayList<Map<String, String>>());
+        when(db.executeQuery(sql, caseNumber)).thenReturn(new ArrayList<Map<String, String>>());
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
 
         List<Evidence> evidence = evidenceRepo.getEvidence(caseNumber);
 
         assertTrue(evidence == null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, caseNumber);
     }
 }

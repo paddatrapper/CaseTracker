@@ -71,10 +71,13 @@ public class Day {
 
     @Override
     public String toString() {
-        String result = getNumber() + "\n";
+        StringBuilder result = new StringBuilder();
+        result.append(getNumber());
+        result.append("\n");
         for (Appointment appointment : getAppointments()) {
-            result += appointment.getDetails() + "\n";
+            result.append(appointment.getDetails());
+            result.append("\n");
         }
-        return result;
+        return result.toString();
     }
 }

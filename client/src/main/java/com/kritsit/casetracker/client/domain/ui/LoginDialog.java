@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class LoginDialog {
+public final class LoginDialog {
     private static final Logger logger = LoggerFactory.getLogger(LoginDialog.class);
 
     public Staff run(Stage stage) throws IOException {

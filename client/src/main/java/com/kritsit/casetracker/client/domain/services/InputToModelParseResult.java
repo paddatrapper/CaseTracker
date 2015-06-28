@@ -46,15 +46,16 @@ public class InputToModelParseResult {
         if (failedInputs.isEmpty()) {
             return "Input failed to parse into model";
         }
-        String message = failedInputs.get(0);
+        StringBuilder message = new StringBuilder(failedInputs.get(0));
         for (int i = 1; i < failedInputs.size(); i++) {
-            message += ", " + failedInputs.get(i);
+            message.append(", ");
+            message.append(failedInputs.get(i));
         }
-        int andIndex = message.lastIndexOf(',');
+        int andIndex = message.lastIndexOf(",");
         if (andIndex != -1) {
-            message = new StringBuilder(message).replace(andIndex, andIndex + 1, " and").toString();
+            message.replace(andIndex, andIndex + 1, " and");
         }
-        message += " required";
-        return message;
+        message.append(" required");
+        return message.toString();
     }
 }

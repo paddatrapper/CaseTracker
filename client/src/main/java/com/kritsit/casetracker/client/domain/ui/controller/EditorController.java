@@ -129,16 +129,8 @@ public class EditorController implements IController {
         colCaseNumber.setCellValueFactory(new PropertyValueFactory("caseNumber"));
         colCaseName.setCellValueFactory(new PropertyValueFactory("caseName"));
         colCaseType.setCellValueFactory(new PropertyValueFactory("caseType"));
-        colInvestigatingOfficer.setCellValueFactory(new Callback<CellDataFeatures<Case, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Case, String> c) {
-                return c.getValue().getInvestigatingOfficer().nameProperty();
-            }
-        });
-        colIncidentDate.setCellValueFactory(new Callback<CellDataFeatures<Case, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Case, String> c) {
-                return c.getValue().getIncident().dateProperty();
-            }
-        });
+        colInvestigatingOfficer.setCellValueFactory((CellDataFeatures<Case, String> c) -> c.getValue().getInvestigatingOfficer().nameProperty());       
+        colIncidentDate.setCellValueFactory((CellDataFeatures<Case, String> c) -> c.getValue().getIncident().dateProperty());
         
         double numberWidthPercent = 0.15;
         double nameWidthPercent = 0.25;
@@ -156,7 +148,7 @@ public class EditorController implements IController {
         });
         updateShownCase(null);
     }
-
+        
     private void initCalendarTable() {
         logger.info("Initiating calendar");
         tblCalendar.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -200,11 +192,9 @@ public class EditorController implements IController {
     }
 
     private void setCellValueFactory(TableColumn<List<Day>, String> column, final int dayIndex) {
-        column.setCellValueFactory(new Callback<CellDataFeatures<List<Day>, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<List<Day>, String> week) {
-                Day day = week.getValue().get(dayIndex);
-                return new SimpleStringProperty(day.toString());
-            }
+        column.setCellValueFactory((CellDataFeatures<List<Day>, String> week) -> {
+            Day day = week.getValue().get(dayIndex);
+            return new SimpleStringProperty(day.toString());
         });
     }
 
@@ -272,7 +262,6 @@ public class EditorController implements IController {
         String[] month = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         logger.info("Refreshing calendar to {} of {}", month[currentMonth - 1], currentYear);
         LocalDate today = LocalDate.now();
-        int realMonth = today.getMonthValue();
         int realYear = today.getYear();
 
         btnCalendarNext.setDisable(false);

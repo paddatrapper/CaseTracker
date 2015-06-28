@@ -32,12 +32,6 @@ public class EditorTest extends TestCase {
         return new TestSuite(EditorTest.class);
     }
 
-    public void testCreation() {
-        IConnectionService connection = mock(IConnectionService.class);
-        Staff user = mock(Staff.class);
-        Editor editor = new Editor(user, connection);
-        assertTrue(editor instanceof IEditorService);
-    }
 
     public void testGetUser() {
         IConnectionService connection = mock(IConnectionService.class);

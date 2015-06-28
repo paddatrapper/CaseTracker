@@ -31,10 +31,6 @@ public class ClientConnectionThreadTest extends TestCase {
         connectionThread.setConnectedClient("testClient");
     }
 
-    public void testCreation() {
-        assertTrue(connectionThread instanceof IClientConnectionService);
-    }
-
     public void testGetConnectedClient() {
         assertTrue("testClient".equals(connectionThread.getConnectedClient()));
     }
