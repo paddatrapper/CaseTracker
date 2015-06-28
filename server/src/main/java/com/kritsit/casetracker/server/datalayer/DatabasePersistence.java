@@ -51,25 +51,8 @@ public class DatabasePersistence implements IPersistenceService {
     public boolean isOpen() {
         return connected;
     }
-
-    @SuppressFBWarnings("SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING")
-    private ResultSet get(String sql, String... args) throws SQLException {
-        logger.info("Executing request {}", sql);
-        
-        try (PreparedStatement statement = connection.prepareStatement(sql, ResultSet.CONCUR_READ_ONLY, 
-                ResultSet.TYPE_FORWARD_ONLY)) {
-            
-            for (int i = 0; i < args.length; ++i) {
-                statement.setString(i + 1, args[i]);
-            }
-            
-            ResultSet query = statement.executeQuery();
-            return query;
-        } catch (SQLException e) {
-            throw e;
-        }
-    }
     
+    @SuppressFBWarnings({"ODR", "Experimental", "SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING"})
     public List<Map<String, String>> executeQuery(String sql, String... args) throws SQLException {
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -127,13 +110,13 @@ public class DatabasePersistence implements IPersistenceService {
         }
     }
 
+    @SuppressFBWarnings("SQL_PREPARED_STATEMENT_GENERATED_FROM_NONCONSTANT_STRING")
     public void executeUpdate(String sql, String... args) throws SQLException {
         logger.info("Inserting changes to database");
         try {
             open();
             set(sql, args);
-        }
-        finally {
+        } finally {
             close();
             logger.info("Database updated");
         }
@@ -144,11 +127,9 @@ public class DatabasePersistence implements IPersistenceService {
         logger.info("Executing request {}", sql);
         
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
-            
             for (int i = 0; i < args.length; ++i) {
                 statement.setString(i + 1, args[i]);
             }
-            
             statement.executeUpdate();
         } catch (SQLException e) {
             throw e;
