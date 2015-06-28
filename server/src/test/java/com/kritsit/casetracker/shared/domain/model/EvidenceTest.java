@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.shared.domain.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -17,6 +18,7 @@ public class EvidenceTest extends TestCase {
         return new TestSuite(EvidenceTest.class);
     }
 
+    @SuppressFBWarnings("UC_USELESS_OBJECT")
     public void setUp() {
         File serverFile = new File("test.file");
         File localFile = new File("local.file");
