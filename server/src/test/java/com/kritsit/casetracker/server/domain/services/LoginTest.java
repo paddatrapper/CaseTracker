@@ -37,16 +37,12 @@ public class LoginTest extends TestCase {
         login = new Login(repo);
     }
 
-    public void testCreation() {
-        assertTrue(login instanceof ILoginService);
-    }
-
     public void testLoginAttempt_IncorrectUser() throws RowToModelParseException {
     	try {
-		    int password = "inspector".hashCode();
-		    String username = "wrongInspector";
-		    Staff succeeded = login.login(username, password);
-	        fail("Exception was not thrown");
+            int password = "inspector".hashCode();
+            String username = "wrongInspector";
+            login.login(username, password);
+            fail("Exception was not thrown");
         } catch(AuthenticationException e){
             verify(repo).getPasswordSaltedHash("wrongInspector");
             verify(repo).getSalt("wrongInspector");
@@ -55,10 +51,10 @@ public class LoginTest extends TestCase {
 
     public void testLoginAttempt_IncorrectPassword() throws RowToModelParseException {
     	try {
-	        int password = "wrong inspector".hashCode();
-	        String username = "inspector";
-	        Staff succeeded = login.login(username, password);
-	        fail("Exception was not thrown");
+            int password = "wrong inspector".hashCode();
+            String username = "inspector";
+            login.login(username, password);
+            fail("Exception was not thrown");
         } catch(AuthenticationException e){
             verify(repo).getPasswordSaltedHash("inspector");
             verify(repo).getSalt("inspector");

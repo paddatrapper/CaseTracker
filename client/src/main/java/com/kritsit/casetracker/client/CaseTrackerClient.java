@@ -51,6 +51,8 @@ public class CaseTrackerClient extends Application {
                         ui = UserInterfaceFactory.getEditorFrame(); 
                         break;
         }
-        ui.run(user, stage);
+        if(ui != null){
+            ui.run(user, stage);
+        }
     }
 }

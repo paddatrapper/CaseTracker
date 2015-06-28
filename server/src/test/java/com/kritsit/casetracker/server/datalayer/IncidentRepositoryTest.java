@@ -39,15 +39,15 @@ public class IncidentRepositoryTest extends TestCase {
     
     public void testGetIncidents_Address() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber='" + caseNumber + "';";
+        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
-        when(db.executeQuery(sql)).thenReturn(incidentList);
+        when(db.executeQuery(sql, caseNumber)).thenReturn(incidentList);
         IIncidentRepository incidentRepo = new IncidentRepository(db);
 
         Incident incident = incidentRepo.getIncident(caseNumber);
         
         assertTrue(incident != null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, caseNumber);
     }
 
     public void testGetIncidents_Coordinates() throws SQLException, RowToModelParseException {
@@ -61,39 +61,39 @@ public class IncidentRepositoryTest extends TestCase {
         i.put("followedUp", "1");
         incidentList.add(i);
         String caseNumber = "3";
-        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber='" + caseNumber + "';";
+        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
-        when(db.executeQuery(sql)).thenReturn(incidentList);
+        when(db.executeQuery(sql, caseNumber)).thenReturn(incidentList);
         IIncidentRepository incidentRepo = new IncidentRepository(db);
 
         Incident incident = incidentRepo.getIncident(caseNumber);
         
         assertTrue(incident != null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, caseNumber);
     }
 
     public void testGetIncidents_Null() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber='" + caseNumber + "';";
+        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         IIncidentRepository incidentRepo = new IncidentRepository(db);
 
         Incident incident = incidentRepo.getIncident(caseNumber);
 
         assertTrue(incident == null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, caseNumber);
     }
     
     public void testGetIncidents_Empty() throws SQLException, RowToModelParseException{
         String caseNumber = "1";
-        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber='" + caseNumber + "';";
+        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         IIncidentRepository incidentRepo = new IncidentRepository(db);
-        when(db.executeQuery(sql)).thenReturn(new ArrayList<Map<String, String>>());
+        when(db.executeQuery(sql, caseNumber)).thenReturn(new ArrayList<Map<String, String>>());
 
         Incident incident = incidentRepo.getIncident(caseNumber);
         
         assertTrue(incident == null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, caseNumber);
     }
 }

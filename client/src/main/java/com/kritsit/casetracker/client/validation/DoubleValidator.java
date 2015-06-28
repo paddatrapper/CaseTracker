@@ -7,7 +7,7 @@ public class DoubleValidator implements IValidator<Double> {
         }
         String s = obj.toString();
         try {
-            double value = Double.parseDouble(s);
+            Double.parseDouble(s);
             return true;
         } catch (NumberFormatException ex) {
             return false;

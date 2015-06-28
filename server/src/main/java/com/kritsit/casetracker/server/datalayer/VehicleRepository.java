@@ -22,10 +22,10 @@ public class VehicleRepository implements IVehicleRepository {
     public List<Vehicle> getVehicles(Defendant defendant) throws RowToModelParseException {
         try {
             logger.info("Fetching vehicles for defendant {}", defendant.getName());
-            String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + defendant.getId() + "';";
-            List<Map<String, String>> rs = db.executeQuery(sql);
+            String sql = "SELECT vehicles.*, defendants.id FROM vehicle INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, defendant.getId());
 
-            if(rs == null || rs.size() == 0) {
+            if(rs == null || rs.isEmpty()) {
                 logger.debug("No vehicles found for defendant {}", defendant.getName());
                 return null;
             }

@@ -6,6 +6,7 @@ import com.kritsit.casetracker.shared.domain.model.Evidence;
 import com.kritsit.casetracker.shared.domain.model.Incident;
 import com.kritsit.casetracker.shared.domain.model.Person;
 import com.kritsit.casetracker.shared.domain.model.Staff;
+import java.sql.SQLException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class CaseRepository implements ICaseRepository {
             String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases;";
             List<Map<String, String>> rs = db.executeQuery(sql);
 
-            if(rs == null || rs.size() == 0) {
+            if(rs == null || rs.isEmpty()) {
                 logger.debug("No cases found");
                 return null;
             }
@@ -48,7 +49,7 @@ public class CaseRepository implements ICaseRepository {
                 cases.add(c);
             }
             return cases;
-        } catch(Exception e){
+        } catch(SQLException | RowToModelParseException e){
             logger.error("Error retrieving cases", e);
             throw new RowToModelParseException("Error retrieving cases from database");
         }
@@ -57,10 +58,10 @@ public class CaseRepository implements ICaseRepository {
     public List<Case> getCases(Staff inspector) throws RowToModelParseException {
         try {
             logger.info("Fetching cases for user {}", inspector.getUsername());
-            String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.id AND staff.username=\'" + inspector.getUsername() + "\';";
-            List<Map<String, String>> rs = db.executeQuery(sql);
+            String sql = "SELECT caseNumber, reference, caseType, details, animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.id AND staff.username=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, inspector.getUsername());
 
-            if(rs == null || rs.size() == 0) {
+            if(rs == null || rs.isEmpty()) {
                 logger.debug("No cases found for user {}", inspector.getUsername());
                 return null;
             }
@@ -71,7 +72,7 @@ public class CaseRepository implements ICaseRepository {
                 cases.add(c);
             }
             return cases;
-        } catch(Exception e){
+        } catch(SQLException | RowToModelParseException e){
             logger.error("Error retrieving cases for user {}", inspector.getUsername(), e);
             throw new RowToModelParseException("Error retrieving cases from database for user " + inspector.getUsername());
         }
@@ -113,7 +114,7 @@ public class CaseRepository implements ICaseRepository {
             String sql = "SELECT caseNumber FROM cases ORDER BY caseNumber DESC LIMIT 1;";
             List<Map<String, String>> rs = db.executeQuery(sql);
 
-            if (rs == null || rs.size() == 0) {
+            if (rs == null || rs.isEmpty()) {
                 logger.warn("No cases found in the database");
                 return "0000-00-0000";
             }

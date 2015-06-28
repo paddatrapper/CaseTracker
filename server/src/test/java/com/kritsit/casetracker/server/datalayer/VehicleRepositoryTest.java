@@ -39,21 +39,25 @@ public class VehicleRepositoryTest extends TestCase {
     
     public void testGetVehicles() throws SQLException, RowToModelParseException {
         String id = "9802245849032";
+<<<<<<< HEAD
         String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + id + "';";
+=======
+        String sql = "SELECT vehicles.*, defendants.id FROM vehicle INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id=?;";
+>>>>>>> 6cb3df81c941ecac5ac72487175f2d115cd54872
         IPersistenceService db = mock(IPersistenceService.class);
-        when(db.executeQuery(sql)).thenReturn(vehicleList);
+        when(db.executeQuery(sql, id)).thenReturn(vehicleList);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
         Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
         
         assertTrue(vehicles != null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, id);
     }
 
     public void testGetVehicles_Null() throws SQLException, RowToModelParseException {
         String id = "9802245849032";
-        String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + id + "';";
+        String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
         Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
@@ -61,21 +65,21 @@ public class VehicleRepositoryTest extends TestCase {
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
 
         assertTrue(vehicles == null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, id);
     }
     
     public void testGetVehicles_Empty() throws SQLException, RowToModelParseException{
         String id = "9802245849032";
-        String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id='" + id + "';";
+        String sql = "SELECT vehicles.*, defendants.id FROM vehicles INNER JOIN(defendants) WHERE vehicles.owner=defendants.indexID AND defendants.id=?;";
         IPersistenceService db = mock(IPersistenceService.class);
-        when(db.executeQuery(sql)).thenReturn(new ArrayList<Map<String, String>>());
+        when(db.executeQuery(sql, id)).thenReturn(new ArrayList<Map<String, String>>());
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
         Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
         
         assertTrue(vehicles == null);
-        verify(db).executeQuery(sql);
+        verify(db).executeQuery(sql, id);
     }
     
     public void testInsertVehicles() throws SQLException, RowToModelParseException{

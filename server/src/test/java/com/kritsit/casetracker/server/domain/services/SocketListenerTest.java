@@ -23,10 +23,6 @@ public class SocketListenerTest extends TestCase {
         listener = new SocketListener();
     }
 
-    public void testCreation() {
-        assertTrue(listener instanceof IListeningService);
-    }
-
     public void testIsListen() {
         assertFalse(listener.isListening());
     }

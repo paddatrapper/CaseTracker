@@ -27,10 +27,6 @@ public class DatabasePersistenceIT extends TestCase {
         db.open();
     }
 
-    public void testCreation() {
-        assertTrue(db instanceof IPersistenceService);
-    }
-
     public void testOpen() {
         assertTrue(db.isOpen());
     }

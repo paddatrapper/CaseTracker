@@ -10,7 +10,7 @@ public class Evidence implements Serializable {
     private String description;
     private File serverFile;
     private File localFile;
-    private BufferedImage image;
+    private transient BufferedImage image;
 
     public Evidence(String description, File serverFile, File localFile) {
         this.description = description;
