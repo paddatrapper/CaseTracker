@@ -51,12 +51,14 @@ public class VehicleRepository implements IVehicleRepository {
     public void insertVehicle(Vehicle vehicle, Defendant defendant) throws RowToModelParseException {
         try{
             logger.info("Inserting a vehicle for defendant {}", defendant.getName());
-            int isTrailer = (vehicle.isTrailer()) ? 1 : 0;
-            String sql = "INSERT INTO vehicles SELECT FROM defendants ?, indexID, " +
-                "?, ?, ? WHERE id=?;";
+            String isTrailer = (vehicle.isTrailer()) ? "1" : "0";
+            String sql = "INSERT INTO vehicles VALUES(?, ( " +
+                "SELECT indexID FROM defendants WHERE firstName=? AND lastName=? " +
+                " AND address=?), ?, ?, ?);";
             
-            db.executeUpdate(sql, vehicle.getRegistration(), vehicle.getMake(),
-                vehicle.getColour(), String.valueOf(isTrailer), defendant.getId());
+            db.executeUpdate(sql, vehicle.getRegistration(), defendant.getFirstName(),
+                    defendant.getLastName(), defendant.getAddress(), vehicle.getMake(),
+                vehicle.getColour(), isTrailer);
         } catch(Exception e){
             logger.error("Error inserting vehicle into the database", e);
             throw new RowToModelParseException("Error inserting values to database");
