@@ -22,7 +22,8 @@ public class IncidentRepository implements IIncidentRepository {
     public Incident getIncident(String caseNumber) throws RowToModelParseException {
         try {
             logger.info("Fetching incident for case {}", caseNumber);
-            String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) WHERE incidents.id=cases.incidentId AND cases.caseNumber=?;";
+            String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) " +
+                "WHERE incidents.id=cases.incidentId AND cases.caseNumber=?;";
             List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
 
             if(rs == null || rs.isEmpty()) {
@@ -36,18 +37,41 @@ public class IncidentRepository implements IIncidentRepository {
             if (rs.get(0).get("address") == null) {
                 float longitude = Float.parseFloat(rs.get(0).get("longitude"));
                 float latitude = Float.parseFloat(rs.get(0).get("latitude"));
-                Incident i = new Incident(longitude, latitude, region, date, followUpDate, isFollowedUp);
+                Incident i = new Incident(longitude, latitude, region, date, 
+                        followUpDate, isFollowedUp);
                 return i;
             } else {
                 String address = rs.get(0).get("address");
-                Incident i = new Incident(address, region, date, followUpDate, isFollowedUp);
+                Incident i = new Incident(address, region, date, followUpDate, 
+                        isFollowedUp);
                 return i;
             }
-        } catch(RuntimeException e){
-            throw e;
         } catch(SQLException e){
             logger.error("Error retrieving incident for {}", caseNumber, e);
-            throw new RowToModelParseException("Error retrieving incident from database for case number: " + caseNumber);
+            throw new RowToModelParseException("Error retrieving incident from " +
+                    "database for case number: " + caseNumber);
+        }
+    }
+
+    public void insertIncident(Incident incident) throws RowToModelParseException {
+        try {
+            logger.info("Adding {}", incident.toString());
+            String isFollowedUp = incident.isFollowedUp() ? "1" : "0";
+            if (incident.getAddress() == null || incident.getAddress().isEmpty()) {
+                String sql = "INSERT INTO incidents VALUES (NULL, ?, ?, NULL, ?, ?, ?, ?);";
+                db.executeUpdate(sql, String.valueOf(incident.getLongitude()), 
+                        String.valueOf(incident.getLatitude()), incident.getRegion(), 
+                        incident.getDate().toString(), incident.getFollowUpDate().toString(), 
+                        isFollowedUp);
+            } else {
+                String sql = "INSERT INTO incidents VALUES (NULL, NULL, NULL, ?, ?, ?, ?, ?);";
+                db.executeUpdate(sql, incident.getAddress(), incident.getRegion(), 
+                        incident.getDate().toString(), incident.getFollowUpDate().toString(), 
+                        isFollowedUp);
+            }
+        } catch (SQLException e) {
+            logger.error("Error inserting {}", incident.toString());
+            throw new RowToModelParseException("Error inserting " + incident.toString());
         }
     }
 }
