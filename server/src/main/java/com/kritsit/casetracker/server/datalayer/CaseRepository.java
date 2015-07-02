@@ -124,4 +124,8 @@ public class CaseRepository implements ICaseRepository {
             throw new RowToModelParseException("Error retrieving the last case number");
         }
     }
+
+    public void insertCase(Case c) throws RowToModelParseException {
+        throw new RowToModelParseException("Not implemented yet");
+    }
 }
