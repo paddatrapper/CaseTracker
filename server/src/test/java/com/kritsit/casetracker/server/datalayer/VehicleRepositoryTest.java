@@ -82,7 +82,7 @@ public class VehicleRepositoryTest extends TestCase {
                 "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
-        
+
         assertTrue(vehicles == null);
         verify(db).executeQuery(sql, id);
     }
@@ -92,15 +92,16 @@ public class VehicleRepositoryTest extends TestCase {
         Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
         Vehicle vehicle = new Vehicle("ZSZ1234", "Citroen", "silver", false);
-        int isTrailer = (vehicle.isTrailer()) ? 1 : 0;
-        String sql = "INSERT INTO vehicles SELECT FROM defendants ?, indexID, " +
-            "?, ?, ? WHERE id=?;";
+        String isTrailer = (vehicle.isTrailer()) ? "1" : "0";
+        String sql = "INSERT INTO vehicles VALUES(?, ( " +
+            "SELECT indexID FROM defendants WHERE firstName=? AND lastName=? " +
+            " AND address=?), ?, ?, ?);";
          
         IPersistenceService db = mock(IPersistenceService.class);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
         vehicleRepo.insertVehicle(vehicle, defendant);
-        verify(db).executeUpdate(sql, vehicle.getRegistration(), vehicle.getMake(),
-                vehicle.getColour(), String.valueOf(isTrailer), defendant.getId());
-        
+        verify(db).executeUpdate(sql, vehicle.getRegistration(), defendant.getFirstName(),
+                defendant.getLastName(), defendant.getAddress(), vehicle.getMake(),
+                vehicle.getColour(), isTrailer);
     }
 }
