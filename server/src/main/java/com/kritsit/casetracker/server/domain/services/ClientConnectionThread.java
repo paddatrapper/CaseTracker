@@ -1,18 +1,10 @@
 package com.kritsit.casetracker.server.domain.services;
 
-import com.kritsit.casetracker.server.datalayer.CaseRepository;
-import com.kritsit.casetracker.server.datalayer.EvidenceRepository;
 import com.kritsit.casetracker.server.datalayer.ICaseRepository;
-import com.kritsit.casetracker.server.datalayer.IEvidenceRepository;
-import com.kritsit.casetracker.server.datalayer.IIncidentRepository;
-import com.kritsit.casetracker.server.datalayer.IncidentRepository;
-import com.kritsit.casetracker.server.datalayer.IPersistenceService;
 import com.kritsit.casetracker.server.datalayer.IPersonRepository;
 import com.kritsit.casetracker.server.datalayer.IUserRepository;
-import com.kritsit.casetracker.server.datalayer.PersonRepository;
+import com.kritsit.casetracker.server.datalayer.RepositoryFactory;
 import com.kritsit.casetracker.server.datalayer.RowToModelParseException;
-import com.kritsit.casetracker.server.datalayer.UserRepository;
-import com.kritsit.casetracker.server.domain.Domain;
 import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.shared.domain.Request;
 import com.kritsit.casetracker.shared.domain.Response;
@@ -33,7 +25,6 @@ import java.util.List;
 public class ClientConnectionThread implements Runnable, IClientConnectionService {
     private final Logger logger = LoggerFactory.getLogger(ClientConnectionThread.class);
     private Socket socket = null;
-    private IPersistenceService persistence;
     private String connectedClient;
     private ObjectInputStream in;
     private ObjectOutputStream out;
@@ -45,7 +36,6 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
     public void run() {
         try {
             logger.debug("Connection thread started");
-            persistence = Domain.getPersistenceService();
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
             Request request;
@@ -59,8 +49,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     case "login" : {
                         logger.debug("Login requested");
 
-                    	//These constructions will be handled by the DI container
-                    	IUserRepository repository = new UserRepository(persistence);
+                        IUserRepository repository = RepositoryFactory.getUserRepository();
                         ILoginService login = new Login(repository);
                         Staff user = login.login(request.getArguments().get(0).toString(), 
                                 Integer.parseInt(request.getArguments().get(1).toString()));
@@ -71,12 +60,8 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         break;
                     }
                     case "getCases" : {
-                        IIncidentRepository incidentRepo = new IncidentRepository(persistence);
-                        IPersonRepository personRepo = new PersonRepository(persistence);
-                        IUserRepository userRepo = new UserRepository(persistence);
-                        IEvidenceRepository evidenceRepo = new EvidenceRepository(persistence);
-                        ICaseRepository caseRepo = new CaseRepository(persistence, 
-                                incidentRepo, personRepo, userRepo, evidenceRepo);
+                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository(); 
+
                         List<Case> cases;
                         if (request.getArguments().size() == 0) {
                             logger.debug("All cases requested");
@@ -92,7 +77,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     }
                     case "getInspectors" : {
                         logger.debug("Inspectors requested");
-                        IUserRepository userRepo = new UserRepository(persistence);
+                        IUserRepository userRepo = RepositoryFactory.getUserRepository();
                         List<Staff> inspectors = userRepo.getInspectors();
                         Response dto = new Response(200, inspectors);
                         writeResponse(dto);
@@ -100,12 +85,7 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     }
                     case "getLastCaseNumber" : {
                         logger.debug("Last case number requested");
-                        IIncidentRepository incidentRepo = new IncidentRepository(persistence);
-                        IPersonRepository personRepo = new PersonRepository(persistence);
-                        IUserRepository userRepo = new UserRepository(persistence);
-                        IEvidenceRepository evidenceRepo = new EvidenceRepository(persistence);
-                        ICaseRepository caseRepo = new CaseRepository(persistence, 
-                                incidentRepo, personRepo, userRepo, evidenceRepo);
+                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository(); 
                         String caseNumber = caseRepo.getLastCaseNumber();
                         Response dto = new Response(200, caseNumber);
                         writeResponse(dto);
@@ -114,7 +94,8 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     case "addCase" : { 
                         Case c = (Case) request.getArguments().get(0);
                         logger.debug("Requested to add case: {}", c);
-                        //TODO: Implement
+                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository(); 
+                        caseRepo.insertCase(c);
                         Response dto = new Response(200, "Case added");
                         writeResponse(dto);
                         break;
@@ -128,12 +109,12 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
             }
         } 
         catch (AuthenticationException ex){
-        	Response dto = new Response(401, null);
-        	try {
+            Response dto = new Response(401, null);
+            try {
                 writeResponse(dto);
-			} catch (IOException e) {
+            } catch (IOException e) {
                 logger.error("Unable to write to client", e);
-			}
+            }
         }
         catch (IOException | RowToModelParseException | ClassNotFoundException ex) {
             logger.error("An error occured", ex);
@@ -141,9 +122,9 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
             Response dto = new Response(500, ex.getMessage());
             try {
                 writeResponse(dto);
-			} catch (IOException e) {
+            } catch (IOException e) {
                 logger.error("Unable to write to client", e);
-			}
+            }
         }
     }
 
