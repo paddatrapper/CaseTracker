@@ -9,6 +9,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class EvidenceRepositoryTest extends TestCase {
     
     public void testGetEvidence() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=?;";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql, caseNumber)).thenReturn(evidenceList);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
@@ -50,7 +51,7 @@ public class EvidenceRepositoryTest extends TestCase {
 
     public void testGetEvidence_Null() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=?;";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
 
@@ -62,7 +63,7 @@ public class EvidenceRepositoryTest extends TestCase {
 
     public void testGetEvidence_Empty() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
-        String sql = "SELECT description, fileLocation FROM evidence WHERE evidence.caseNumber=?;";
+        String sql = "SELECT description, fileLocation FROM evidence WHERE caseNumber=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql, caseNumber)).thenReturn(new ArrayList<Map<String, String>>());
         IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
@@ -71,5 +72,21 @@ public class EvidenceRepositoryTest extends TestCase {
 
         assertTrue(evidence == null);
         verify(db).executeQuery(sql, caseNumber);
+    }
+
+    public void testInsertEvidence() throws SQLException, RowToModelParseException{
+        String caseNumber = "1";
+        String description = "test evidence";
+        File serverFile = new File("testFile.test");
+        String sql = "INSERT INTO evidence VALUES(NULL, ?, ?, ?);";
+        
+        Evidence evidence = new Evidence(description, serverFile);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IEvidenceRepository evidenceRepo = new EvidenceRepository(db);
+
+        evidenceRepo.insertEvidence(evidence, caseNumber);
+
+        verify(db).executeUpdate(sql, evidence.getServerFileLocation(), 
+                    evidence.getDescription(), caseNumber);
     }
 }
