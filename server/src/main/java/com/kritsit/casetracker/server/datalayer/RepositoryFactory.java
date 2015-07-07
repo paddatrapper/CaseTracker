@@ -1,6 +1,7 @@
 package com.kritsit.casetracker.server.datalayer;
 
 import com.kritsit.casetracker.server.domain.Domain;
+import com.kritsit.casetracker.shared.domain.FileSerializer;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -15,14 +16,15 @@ public class RepositoryFactory {
         IPersonRepository personRepo = getPersonRepository();
         IUserRepository userRepo = getUserRepository();
         IEvidenceRepository evidenceRepo = getEvidenceRepository();
-        return new CaseRepository(persistence, incidentRepo, personRepo, userRepo, 
+        return new CaseRepository(persistence, incidentRepo, personRepo, userRepo,
                 evidenceRepo);
     }
 
     public static IEvidenceRepository getEvidenceRepository() {
         logger.info("Creating evidence repository");
         IPersistenceService persistence = Domain.getPersistenceService();
-        return new EvidenceRepository(persistence);
+        FileSerializer serializer = new FileSerializer();
+        return new EvidenceRepository(persistence, serializer);
     }
 
     public static IIncidentRepository getIncidentRepository() {

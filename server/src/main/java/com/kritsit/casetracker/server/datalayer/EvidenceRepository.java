@@ -1,24 +1,27 @@
 package com.kritsit.casetracker.server.datalayer;
 
+import com.kritsit.casetracker.shared.domain.model.Case;
+import com.kritsit.casetracker.shared.domain.model.Evidence;
+import com.kritsit.casetracker.shared.domain.FileSerializer;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.kritsit.casetracker.shared.domain.model.Case;
-import com.kritsit.casetracker.shared.domain.model.Evidence;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.sql.SQLException;
-
 public class EvidenceRepository implements IEvidenceRepository {
     private final Logger logger = LoggerFactory.getLogger(EvidenceRepository.class);
     private final IPersistenceService db;
+    private final FileSerializer serializer;
 
-    public EvidenceRepository(IPersistenceService db){
+    public EvidenceRepository(IPersistenceService db, FileSerializer serializer){
         this.db = db;
+        this.serializer = serializer;
     }
 
     public List<Evidence> getEvidence(String caseNumber) throws RowToModelParseException {
@@ -51,13 +54,30 @@ public class EvidenceRepository implements IEvidenceRepository {
 
     public void insertEvidence(Evidence evidence, String caseNumber) throws RowToModelParseException {
         try {
+            logger.info("Inserting {}", evidence.toString());
             String sql = "INSERT INTO evidence VALUES(NULL, ?, ?, ?);";
+            evidence = saveEvidence(evidence, caseNumber);
             db.executeUpdate(sql, evidence.getServerFileLocation(),
                     evidence.getDescription(), caseNumber);
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             logger.error("Unable to insert {}", evidence.toString(), e);
             throw new RowToModelParseException("Unable to insert " +
                     evidence.toString(), e);
         }
+    }
+
+    private Evidence saveEvidence(Evidence evidence, String caseNumber) throws IOException {
+        String fileName = evidence.getDescription().replaceAll(" ", "_");
+        if (evidence.getLocalFile().getName().contains(".")) {
+            String clientFileName = evidence.getLocalFile().getName();
+            fileName += clientFileName.substring(clientFileName.lastIndexOf("."));
+        }
+        fileName.replaceAll("/", "");
+        fileName.replaceAll(" ", "_");
+        String fileLocation = "data/evidence/" + caseNumber + "/" + fileName;
+        File f = new File(fileLocation);
+        serializer.write(f, evidence.getByteFile());
+        evidence.setServerFile(f);
+        return evidence;
     }
 }
