@@ -37,19 +37,19 @@ public class IncidentRepository implements IIncidentRepository {
             if (rs.get(0).get("address") == null) {
                 float longitude = Float.parseFloat(rs.get(0).get("longitude"));
                 float latitude = Float.parseFloat(rs.get(0).get("latitude"));
-                Incident i = new Incident(longitude, latitude, region, date, 
+                Incident i = new Incident(longitude, latitude, region, date,
                         followUpDate, isFollowedUp);
                 return i;
             } else {
                 String address = rs.get(0).get("address");
-                Incident i = new Incident(address, region, date, followUpDate, 
+                Incident i = new Incident(address, region, date, followUpDate,
                         isFollowedUp);
                 return i;
             }
         } catch(SQLException e){
             logger.error("Error retrieving incident for {}", caseNumber, e);
             throw new RowToModelParseException("Error retrieving incident from " +
-                    "database for case number: " + caseNumber);
+                    "database for case number: " + caseNumber, e);
         }
     }
 
@@ -59,19 +59,19 @@ public class IncidentRepository implements IIncidentRepository {
             String isFollowedUp = incident.isFollowedUp() ? "1" : "0";
             if (incident.getAddress() == null || incident.getAddress().isEmpty()) {
                 String sql = "INSERT INTO incidents VALUES (NULL, ?, ?, NULL, ?, ?, ?, ?);";
-                db.executeUpdate(sql, String.valueOf(incident.getLongitude()), 
-                        String.valueOf(incident.getLatitude()), incident.getRegion(), 
-                        incident.getDate().toString(), incident.getFollowUpDate().toString(), 
+                db.executeUpdate(sql, String.valueOf(incident.getLongitude()),
+                        String.valueOf(incident.getLatitude()), incident.getRegion(),
+                        incident.getDate().toString(), incident.getFollowUpDate().toString(),
                         isFollowedUp);
             } else {
                 String sql = "INSERT INTO incidents VALUES (NULL, NULL, NULL, ?, ?, ?, ?, ?);";
-                db.executeUpdate(sql, incident.getAddress(), incident.getRegion(), 
-                        incident.getDate().toString(), incident.getFollowUpDate().toString(), 
+                db.executeUpdate(sql, incident.getAddress(), incident.getRegion(),
+                        incident.getDate().toString(), incident.getFollowUpDate().toString(),
                         isFollowedUp);
             }
         } catch (SQLException e) {
             logger.error("Error inserting {}", incident.toString());
-            throw new RowToModelParseException("Error inserting " + incident.toString());
+            throw new RowToModelParseException("Error inserting " + incident.toString(), e);
         }
     }
 }
