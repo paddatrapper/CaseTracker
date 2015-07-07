@@ -65,8 +65,8 @@ public class Editor implements IEditorService {
         logger.info("Fetching appointments for {}/{}", month, year);
         GregorianCalendar calendar = new GregorianCalendar(year, month - 1, 1);
         LocalDate day = LocalDate.of(year, month, 1);
-        int numberOfDays = calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH); 
-        int startOfMonth = day.getDayOfWeek().getValue() - 1; 
+        int numberOfDays = calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+        int startOfMonth = day.getDayOfWeek().getValue() - 1;
         List<List<Day>> monthList = getBlankMonth();
         List<Appointment> appointments = new ArrayList<>();
         for (Case c : getCases()) {
@@ -242,7 +242,7 @@ public class Editor implements IEditorService {
         Case c = parseCase(inputMap);
         logger.debug("Adding case to server");
         boolean isAdded = connection.addCase(c);
-        String reason = (isAdded) ? "Case uploaded successfully" : 
+        String reason = (isAdded) ? "Case uploaded successfully" :
             "Unable to upload case to server. Please see log for details";
         InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
         return uploaded;
@@ -285,14 +285,14 @@ public class Editor implements IEditorService {
         if (address == null || address.isEmpty()) {
             double longitude = Double.parseDouble(inputMap.get("longitude").toString());
             double latitude = Double.parseDouble(inputMap.get("latitude").toString());
-            incident = new Incident(longitude, latitude, region, incidentDate, 
+            incident = new Incident(longitude, latitude, region, incidentDate,
                     Incident.getDefaultFollowUpDate(incidentDate), false);
         } else {
-            incident = new Incident(address, region, incidentDate, 
+            incident = new Incident(address, region, incidentDate,
                     Incident.getDefaultFollowUpDate(incidentDate), false);
         }
-        Case c = new Case(caseNumber, caseName, details, animalsInvolved, 
-                investigatingOfficer, incident, defendant, complainant, null, 
+        Case c = new Case(caseNumber, caseName, details, animalsInvolved,
+                investigatingOfficer, incident, defendant, complainant, null,
                 evidence, isReturnVisit, returnDate, caseType, null);
         return c;
     }
