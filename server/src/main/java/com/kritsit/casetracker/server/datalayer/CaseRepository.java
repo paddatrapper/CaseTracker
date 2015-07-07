@@ -140,7 +140,7 @@ public class CaseRepository implements ICaseRepository {
         personRepo.insertComplainant(c.getComplainant());
 
         try {
-            logger.info("Inserting case");
+            logger.info("Inserting case {}", c.toString());
             String sql = "INSERT INTO cases VALUES(NULL, ?, ?, ?, ?, " +
                 "(SELECT indexID FROM staff WHERE firstName=? AND lastName=? " +
                 "AND username=?), (SELECT indexID FROM incidents WHERE latitude=? " +
