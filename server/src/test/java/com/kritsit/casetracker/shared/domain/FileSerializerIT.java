@@ -41,7 +41,10 @@ public class FileSerializerIT extends TestCase {
     public void tearDown() {
         File f = new File("src/test/resources/test-write.txt");
         if (f.exists()) {
-            f.delete();
+            boolean isSuccess = f.delete();
+            if (!isSuccess) {
+                System.out.println("Unable to delete file");
+            }
         }
     }
 }
