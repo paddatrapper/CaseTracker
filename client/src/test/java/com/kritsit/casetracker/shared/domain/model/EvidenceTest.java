@@ -24,7 +24,7 @@ public class EvidenceTest extends TestCase {
         File localFile = new File("local.file");
         evidence = new Evidence("Test file", serverFile, localFile);
         Evidence e = new Evidence("Test file", serverFile);
-        assertTrue(e.getLocalFile() == null);
+        assertNull(e.getLocalFile());
     }
 
     public void testAccessors() {
@@ -36,7 +36,7 @@ public class EvidenceTest extends TestCase {
         assertTrue(serverFile.equals(evidence.getServerFile()));
         assertTrue(localFile.equals(evidence.getLocalFile()));
         assertTrue(localFile.getAbsolutePath().equals(evidence.getLocalFileLocation()));
-        assertTrue(evidence.getImage() == null);
+        assertNull(evidence.getByteFile());
     }
 
     public void testMutators() {
@@ -45,12 +45,12 @@ public class EvidenceTest extends TestCase {
         evidence.setServerFile(serverFile);
         File localFile = new File("test.file");
         evidence.setLocalFile(localFile);
-        evidence.setImage(null);
+        evidence.setByteFile((byte[]) null);
 
         assertTrue(localFile.equals(evidence.getLocalFile()));
         assertTrue(serverFile.getAbsolutePath().equals(evidence.getServerFileLocation()));
         assertTrue("Another description".equals(evidence.getDescription()));
-        assertTrue(evidence.getImage() == null);
+        assertNull(evidence.getByteFile());
     }
 
     public void testToString() {
