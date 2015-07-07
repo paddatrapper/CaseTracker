@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Evidence implements Serializable {
@@ -48,7 +49,12 @@ public class Evidence implements Serializable {
     }
 
     public byte[] getByteFile() {
-        return file;
+        if (file == null) {
+            return new byte[0];
+        } else {
+            byte[] buffer = Arrays.copyOf(file, file.length);
+            return buffer;
+        }
     }
 
     // Mutator methods:
@@ -65,7 +71,12 @@ public class Evidence implements Serializable {
     }
 
     public void setByteFile(byte[] file) {
-        this.file = file;
+        if (file == null) {
+            this.file = new byte[0];
+        } else {
+            byte[] buffer = Arrays.copyOf(file, file.length);
+            this.file = buffer;
+        }
     }
 
     public void setByteFile(File file) throws IOException {

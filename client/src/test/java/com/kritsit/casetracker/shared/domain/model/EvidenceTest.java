@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class EvidenceTest extends TestCase {
     Evidence evidence;
@@ -36,7 +37,7 @@ public class EvidenceTest extends TestCase {
         assertTrue(serverFile.equals(evidence.getServerFile()));
         assertTrue(localFile.equals(evidence.getLocalFile()));
         assertTrue(localFile.getAbsolutePath().equals(evidence.getLocalFileLocation()));
-        assertNull(evidence.getByteFile());
+        assertTrue(Arrays.equals(evidence.getByteFile(), new byte[0]));
     }
 
     public void testMutators() {
@@ -50,7 +51,7 @@ public class EvidenceTest extends TestCase {
         assertTrue(localFile.equals(evidence.getLocalFile()));
         assertTrue(serverFile.getAbsolutePath().equals(evidence.getServerFileLocation()));
         assertTrue("Another description".equals(evidence.getDescription()));
-        assertNull(evidence.getByteFile());
+        assertTrue(Arrays.equals(evidence.getByteFile(), new byte[0]));
     }
 
     public void testToString() {

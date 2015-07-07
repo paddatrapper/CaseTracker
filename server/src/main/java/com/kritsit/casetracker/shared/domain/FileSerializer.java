@@ -20,7 +20,7 @@ public class FileSerializer {
         try (FileInputStream input = new FileInputStream(f);
                 ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             byte[] b  = new byte[1024];
-            for (int i; (i = input.read(b)) != -1; i++) {
+            for (int i; (i = input.read(b)) != -1;) {
                 output.write(b, 0, i);
             }
             outputBytes = output.toByteArray();
