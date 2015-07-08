@@ -47,16 +47,15 @@ CREATE TABLE CaseTracker.complainants (
 );
 
 CREATE TABLE CaseTracker.staff (
-	id INT NOT NULL AUTO_INCREMENT,
+	username VARCHAR(20) NOT NULL,
 	firstName VARCHAR(20),
 	lastName VARCHAR(20) NOT NULL,
 	department VARCHAR(20) NOT NULL,
 	position VARCHAR(20),
-	username VARCHAR(20),
 	passwordHash BIGINT NOT NULL,
 	salt BIGINT NOT NULL,
 	permissions INT NOT NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (username)
 );
 
 /* TODO: Beta
@@ -68,7 +67,7 @@ AuthorityNumber VARCHAR (20),
 speciality VARCHAR (50),
 PRIMARY KEY (id),
 INDEX fk_InspectorID (inspectorID),
-CONSTRAINT fk_InspectorID FOREIGN KEY (inspectorID) REFERENCES CaseTracker.staff (id) ON UPDATE NO ACTION ON DELETE NO ACTION
+CONSTRAINT fk_InspectorID FOREIGN KEY (inspector) REFERENCES CaseTracker.staff (username) ON UPDATE NO ACTION ON DELETE NO ACTION
 );*/
 
 CREATE TABLE CaseTracker.cases (
@@ -77,7 +76,7 @@ CREATE TABLE CaseTracker.cases (
 	caseType VARCHAR(20) NOT NULL,
 	details VARCHAR(500) NULL DEFAULT NULL,
 	animalsInvolved VARCHAR(500) NOT NULL,
-	staffID INT(11) NOT NULL,
+	staffID VARCHAR(20) NOT NULL,
 	incidentID INT(11) NOT NULL,
 	defendantID INT NOT NULL,
 	complainantID INT NOT NULL,
@@ -93,7 +92,7 @@ CREATE TABLE CaseTracker.cases (
 	CONSTRAINT fk_ComplainantID FOREIGN KEY (complainantID) REFERENCES CaseTracker.complainants (indexID) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT fk_DefendantID FOREIGN KEY (defendantID) REFERENCES CaseTracker.defendants (indexID) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT fk_IncidentID FOREIGN KEY (incidentID) REFERENCES CaseTracker.incidents (id) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT fk_StaffID FOREIGN KEY (staffID) REFERENCES CaseTracker.staff (id) ON UPDATE NO ACTION ON DELETE NO ACTION
+	CONSTRAINT fk_StaffID FOREIGN KEY (staffID) REFERENCES CaseTracker.staff (username) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE CaseTracker.evidence (
@@ -106,5 +105,10 @@ CREATE TABLE CaseTracker.evidence (
 	CONSTRAINT fk_CaseNumber FOREIGN KEY (caseNumber) REFERENCES CaseTracker.cases (caseNumber) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
-INSERT INTO CaseTracker.staff VALUES (NULL, 'root', 'root', 'System', 'Admin', 'root', -634923903, 3227621176210808074, 0);
-INSERT INTO CaseTracker.staff VALUES (NULL, 'inspector', 'inspector', 'inspector', 'inspector', 'inspector', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('root', 'root', 'root', 'System', 'Admin', -634923903, 3227621176210808074, 0);
+INSERT INTO CaseTracker.staff VALUES ('inspector', 'inspector', 'inspector', 'inspector', 'inspector', -5922475058343094375, -5922475058261058398, 1);
+
+INSERT INTO CaseTracker.defendants VALUES (1, NULL, 'Test', 'Defendant', NULL, NULL, NULL, 0);
+INSERT INTO CaseTracker.complainants VALUES (1, NULL, 'Test', 'Complainant', NULL, NULL, NULL);
+INSERT INTO CaseTracker.incidents VALUES (1, NULL, NULL, 'Test address', 'Test region', '2015-07-08', '2015-07-15', 0);
+INSERT INTO CaseTracker.cases VALUES ('2015-07-0001', 'Test Case', 'Testing', 'A test case for integration testing', '1 Developer', 'inspector', 1, 1, 1, NULL, NULL, 0, NULL);
