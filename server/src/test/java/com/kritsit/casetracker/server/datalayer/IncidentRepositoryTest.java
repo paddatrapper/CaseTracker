@@ -130,7 +130,7 @@ public class IncidentRepositoryTest extends TestCase {
 
         int returnIndexId = incidentRepo.insertIncident(incident);
 
-        assertTrue(indexId == indexId);
+        assertTrue(returnIndexId == indexId);
         verify(db).executeUpdate(sql, incident.getAddress(), incident.getRegion(), 
                 incident.getDate().toString(), incident.getFollowUpDate().toString(), 
                 isFollowedUp);

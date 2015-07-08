@@ -144,7 +144,7 @@ public class PersonRepositoryTest extends TestCase {
 
         int resultIndexId = personRepo.insertDefendant(defendant);
 
-        //assertTrue(indexId == resultIndexId);
+        assertTrue(indexId == resultIndexId);
         verify(db).executeUpdate(sql, String.valueOf(indexId));
         verify(db).executeQuery(query, defendant.getLastName(),
                 defendant.getId(), defendant.getFirstName(), defendant.getAddress(),
@@ -177,7 +177,7 @@ public class PersonRepositoryTest extends TestCase {
 
         int returnIndexId = personRepo.insertComplainant(complainant);
 
-       // assertTrue(returnIndexId == indexId);
+        assertTrue(returnIndexId == indexId);
         verify(db).executeUpdate(sql, complainant.getId(), complainant.getFirstName(),
                 complainant.getLastName(), complainant.getAddress(),
                 complainant.getTelephoneNumber(), complainant.getEmailAddress());

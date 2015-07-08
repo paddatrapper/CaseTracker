@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<BugCollection version="3.0.1" sequence="8" timestamp="1436307850000" analysisTimestamp="1436307857016" release="">
+<BugCollection version="3.0.1" sequence="11" timestamp="1436367102000" analysisTimestamp="1436367108641" release="">
   <Project projectName="CaseTracker Server">
     <Jar>/home/kyle/github/CaseTracker/server/target</Jar>
     <SrcDir>/home/kyle/github/CaseTracker/server/src/main/java</SrcDir>
@@ -111,6 +111,48 @@
     </Method>
     <SourceLine classname="com.kritsit.casetracker.server.datalayer.EvidenceRepository" start="75" end="75" startBytecode="71" endBytecode="71" sourcefile="EvidenceRepository.java" sourcepath="com/kritsit/casetracker/server/datalayer/EvidenceRepository.java"/>
     <SourceLine classname="com.kritsit.casetracker.server.datalayer.EvidenceRepository" start="76" end="76" startBytecode="80" endBytecode="80" sourcefile="EvidenceRepository.java" sourcepath="com/kritsit/casetracker/server/datalayer/EvidenceRepository.java" role="SOURCE_LINE_ANOTHER_INSTANCE"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="9" last="10" removedByChange="true">
+    <Class classname="com.kritsit.casetracker.server.datalayer.IncidentRepositoryTest">
+      <SourceLine classname="com.kritsit.casetracker.server.datalayer.IncidentRepositoryTest" sourcefile="IncidentRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/IncidentRepositoryTest.java"/>
+    </Class>
+    <Method classname="com.kritsit.casetracker.server.datalayer.IncidentRepositoryTest" name="testInsertIncident_Address" signature="()V" isStatic="false">
+      <SourceLine classname="com.kritsit.casetracker.server.datalayer.IncidentRepositoryTest" start="108" end="139" startBytecode="0" endBytecode="167" sourcefile="IncidentRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/IncidentRepositoryTest.java"/>
+    </Method>
+    <LocalVariable name="returnIndexId" register="15" pc="204" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="com.kritsit.casetracker.server.datalayer.IncidentRepositoryTest" start="131" end="131" startBytecode="202" endBytecode="202" sourcefile="IncidentRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/IncidentRepositoryTest.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.BASE_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="returnIndexId"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="9" last="10" removedByChange="true">
+    <Class classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest">
+      <SourceLine classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" sourcefile="PersonRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/PersonRepositoryTest.java"/>
+    </Class>
+    <Method classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" name="testInsertComplainant_New" signature="()V" isStatic="false">
+      <SourceLine classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" start="155" end="187" startBytecode="0" endBytecode="168" sourcefile="PersonRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/PersonRepositoryTest.java"/>
+    </Method>
+    <LocalVariable name="returnIndexId" register="10" pc="179" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" start="178" end="178" startBytecode="177" endBytecode="177" sourcefile="PersonRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/PersonRepositoryTest.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.BASE_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="returnIndexId"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" rank="17" abbrev="DLS" category="STYLE" first="9" last="10" removedByChange="true">
+    <Class classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest">
+      <SourceLine classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" sourcefile="PersonRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/PersonRepositoryTest.java"/>
+    </Class>
+    <Method classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" name="testInsertDefendant_Existing" signature="()V" isStatic="false">
+      <SourceLine classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" start="123" end="152" startBytecode="0" endBytecode="147" sourcefile="PersonRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/PersonRepositoryTest.java"/>
+    </Method>
+    <LocalVariable name="resultIndexId" register="11" pc="190" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" start="145" end="145" startBytecode="188" endBytecode="188" sourcefile="PersonRepositoryTest.java" sourcepath="com/kritsit/casetracker/server/datalayer/PersonRepositoryTest.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.BASE_VALUE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="resultIndexId"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
   </BugInstance>
   <BugInstance type="LI_LAZY_INIT_STATIC" priority="3" rank="17" abbrev="LI" category="MT_CORRECTNESS" last="1" removedByChange="true">
     <Class classname="com.kritsit.casetracker.server.domain.Domain">
@@ -541,14 +583,14 @@
     <MissingClass>org.slf4j.Logger</MissingClass>
     <MissingClass>org.slf4j.LoggerFactory</MissingClass>
   </Errors>
-  <FindBugsSummary timestamp="Wed, 8 Jul 2015 00:24:10 +0200" total_classes="61" referenced_classes="140" total_bugs="0" total_size="2805" num_packages="7" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="14.04" clock_seconds="13.00" peak_mbytes="320.70" alloc_mbytes="683.00" gc_seconds="0.06">
+  <FindBugsSummary timestamp="Wed, 8 Jul 2015 16:51:42 +0200" total_classes="61" referenced_classes="142" total_bugs="0" total_size="2988" num_packages="7" java_version="1.8.0_45" vm_version="25.45-b02" cpu_seconds="13.33" clock_seconds="7.74" peak_mbytes="345.21" alloc_mbytes="683.00" gc_seconds="0.08">
     <PackageStats package="com.kritsit.casetracker.server" total_bugs="0" total_types="2" total_size="63">
       <ClassStats class="com.kritsit.casetracker.server.CaseTrackerServer" sourceFile="CaseTrackerServer.java" interface="false" size="46" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.CaseTrackerServerTest" sourceFile="CaseTrackerServerTest.java" interface="false" size="17" bugs="0"/>
     </PackageStats>
-    <PackageStats package="com.kritsit.casetracker.server.datalayer" total_bugs="0" total_types="25" total_size="1192">
-      <ClassStats class="com.kritsit.casetracker.server.datalayer.CaseRepository" sourceFile="CaseRepository.java" interface="false" size="131" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.server.datalayer.CaseRepositoryTest" sourceFile="CaseRepositoryTest.java" interface="false" size="140" bugs="0"/>
+    <PackageStats package="com.kritsit.casetracker.server.datalayer" total_bugs="0" total_types="25" total_size="1349">
+      <ClassStats class="com.kritsit.casetracker.server.datalayer.CaseRepository" sourceFile="CaseRepository.java" interface="false" size="126" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.server.datalayer.CaseRepositoryTest" sourceFile="CaseRepositoryTest.java" interface="false" size="137" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.DatabasePersistence" sourceFile="DatabasePersistence.java" interface="false" size="86" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.DatabasePersistenceIT" sourceFile="DatabasePersistenceIT.java" interface="false" size="34" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.EvidenceRepository" sourceFile="EvidenceRepository.java" interface="false" size="52" bugs="0"/>
@@ -560,15 +602,15 @@
       <ClassStats class="com.kritsit.casetracker.server.datalayer.IPersonRepository" sourceFile="IPersonRepository.java" interface="true" size="5" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.IUserRepository" sourceFile="IUserRepository.java" interface="true" size="6" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.IVehicleRepository" sourceFile="IVehicleRepository.java" interface="true" size="3" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.server.datalayer.IncidentRepository" sourceFile="IncidentRepository.java" interface="false" size="47" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.server.datalayer.IncidentRepositoryTest" sourceFile="IncidentRepositoryTest.java" interface="false" size="98" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.server.datalayer.PersonRepository" sourceFile="PersonRepository.java" interface="false" size="68" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" sourceFile="PersonRepositoryTest.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.server.datalayer.IncidentRepository" sourceFile="IncidentRepository.java" interface="false" size="58" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.server.datalayer.IncidentRepositoryTest" sourceFile="IncidentRepositoryTest.java" interface="false" size="126" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.server.datalayer.PersonRepository" sourceFile="PersonRepository.java" interface="false" size="123" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.server.datalayer.PersonRepositoryTest" sourceFile="PersonRepositoryTest.java" interface="false" size="148" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.RepositoryFactory" sourceFile="RepositoryFactory.java" interface="false" size="35" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.RepositoryFactoryTest" sourceFile="RepositoryFactoryTest.java" interface="false" size="24" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.RowToModelParseException" sourceFile="RowToModelParseException.java" interface="false" size="4" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.RowToModelParseExceptionTest" sourceFile="RowToModelParseExceptionTest.java" interface="false" size="11" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.server.datalayer.UserRepository" sourceFile="UserRepository.java" interface="false" size="77" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.server.datalayer.UserRepository" sourceFile="UserRepository.java" interface="false" size="71" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.UserRepositoryTest" sourceFile="UserRepositoryTest.java" interface="false" size="121" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.VehicleRepository" sourceFile="VehicleRepository.java" interface="false" size="41" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.datalayer.VehicleRepositoryTest" sourceFile="VehicleRepositoryTest.java" interface="false" size="62" bugs="0"/>
@@ -581,8 +623,8 @@
       <ClassStats class="com.kritsit.casetracker.server.domain.model.AuthenticationException" sourceFile="AuthenticationException.java" interface="false" size="3" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.domain.model.AuthenticationExceptionTest" sourceFile="AuthenticationExceptionTest.java" interface="false" size="13" bugs="0"/>
     </PackageStats>
-    <PackageStats package="com.kritsit.casetracker.server.domain.services" total_bugs="0" total_types="9" total_size="253">
-      <ClassStats class="com.kritsit.casetracker.server.domain.services.ClientConnectionThread" sourceFile="ClientConnectionThread.java" interface="false" size="94" bugs="0"/>
+    <PackageStats package="com.kritsit.casetracker.server.domain.services" total_bugs="0" total_types="9" total_size="251">
+      <ClassStats class="com.kritsit.casetracker.server.domain.services.ClientConnectionThread" sourceFile="ClientConnectionThread.java" interface="false" size="92" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.domain.services.ClientConnectionThreadTest" sourceFile="ClientConnectionThreadTest.java" interface="false" size="19" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.domain.services.IClientConnectionService" sourceFile="IClientConnectionService.java" interface="true" size="5" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.server.domain.services.IListeningService" sourceFile="IListeningService.java" interface="true" size="4" bugs="0"/>
@@ -600,56 +642,62 @@
       <ClassStats class="com.kritsit.casetracker.shared.domain.Response" sourceFile="Response.java" interface="false" size="15" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.ResponseTest" sourceFile="ResponseTest.java" interface="false" size="19" bugs="0"/>
     </PackageStats>
-    <PackageStats package="com.kritsit.casetracker.shared.domain.model" total_bugs="0" total_types="15" total_size="1103">
+    <PackageStats package="com.kritsit.casetracker.shared.domain.model" total_bugs="0" total_types="15" total_size="1131">
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.Case" sourceFile="Case.java" interface="false" size="174" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.CaseTest" sourceFile="CaseTest.java" interface="false" size="111" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.Defendant" sourceFile="Defendant.java" interface="false" size="52" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.DefendantTest" sourceFile="DefendantTest.java" interface="false" size="54" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.Evidence" sourceFile="Evidence.java" interface="false" size="69" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.EvidenceTest" sourceFile="EvidenceTest.java" interface="false" size="59" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.shared.domain.model.Incident" sourceFile="Incident.java" interface="false" size="113" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.shared.domain.model.IncidentTest" sourceFile="IncidentTest.java" interface="false" size="75" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.shared.domain.model.Incident" sourceFile="Incident.java" interface="false" size="122" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.shared.domain.model.IncidentTest" sourceFile="IncidentTest.java" interface="false" size="79" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.Permission" sourceFile="Permission.java" interface="false" size="13" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.shared.domain.model.Person" sourceFile="Person.java" interface="false" size="85" bugs="0"/>
-      <ClassStats class="com.kritsit.casetracker.shared.domain.model.PersonTest" sourceFile="PersonTest.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.shared.domain.model.Person" sourceFile="Person.java" interface="false" size="97" bugs="0"/>
+      <ClassStats class="com.kritsit.casetracker.shared.domain.model.PersonTest" sourceFile="PersonTest.java" interface="false" size="51" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.Staff" sourceFile="Staff.java" interface="false" size="86" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.StaffTest" sourceFile="StaffTest.java" interface="false" size="52" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.Vehicle" sourceFile="Vehicle.java" interface="false" size="67" bugs="0"/>
       <ClassStats class="com.kritsit.casetracker.shared.domain.model.VehicleTest" sourceFile="VehicleTest.java" interface="false" size="45" bugs="0"/>
     </PackageStats>
     <FindBugsProfile>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="304" invocations="761" avgMicrosecondsPerInvocation="400" maxMicrosecondsPerInvocation="32363" standardDeviationMircosecondsPerInvocation="1326"/>
-      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="208" invocations="417" avgMicrosecondsPerInvocation="500" maxMicrosecondsPerInvocation="8555" standardDeviationMircosecondsPerInvocation="918"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="205" invocations="417" avgMicrosecondsPerInvocation="493" maxMicrosecondsPerInvocation="30926" standardDeviationMircosecondsPerInvocation="1770"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="181" invocations="436" avgMicrosecondsPerInvocation="416" maxMicrosecondsPerInvocation="11618" standardDeviationMircosecondsPerInvocation="1079"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="164" invocations="417" avgMicrosecondsPerInvocation="393" maxMicrosecondsPerInvocation="9262" standardDeviationMircosecondsPerInvocation="782"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="163" invocations="465" avgMicrosecondsPerInvocation="350" maxMicrosecondsPerInvocation="10361" standardDeviationMircosecondsPerInvocation="891"/>
-      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="160" invocations="2" avgMicrosecondsPerInvocation="80035" maxMicrosecondsPerInvocation="110645" standardDeviationMircosecondsPerInvocation="30610"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="130" invocations="140" avgMicrosecondsPerInvocation="929" maxMicrosecondsPerInvocation="10248" standardDeviationMircosecondsPerInvocation="1678"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="105" invocations="392" avgMicrosecondsPerInvocation="269" maxMicrosecondsPerInvocation="9119" standardDeviationMircosecondsPerInvocation="672"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="101" invocations="140" avgMicrosecondsPerInvocation="728" maxMicrosecondsPerInvocation="7405" standardDeviationMircosecondsPerInvocation="1205"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="95" invocations="417" avgMicrosecondsPerInvocation="230" maxMicrosecondsPerInvocation="4143" standardDeviationMircosecondsPerInvocation="380"/>
-      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="92" invocations="656" avgMicrosecondsPerInvocation="141" maxMicrosecondsPerInvocation="1488" standardDeviationMircosecondsPerInvocation="209"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="90" invocations="764" avgMicrosecondsPerInvocation="118" maxMicrosecondsPerInvocation="3472" standardDeviationMircosecondsPerInvocation="129"/>
-      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="55" invocations="711" avgMicrosecondsPerInvocation="78" maxMicrosecondsPerInvocation="2870" standardDeviationMircosecondsPerInvocation="162"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="48" invocations="417" avgMicrosecondsPerInvocation="116" maxMicrosecondsPerInvocation="3707" standardDeviationMircosecondsPerInvocation="260"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="34" invocations="61" avgMicrosecondsPerInvocation="571" maxMicrosecondsPerInvocation="2623" standardDeviationMircosecondsPerInvocation="639"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="32" invocations="61" avgMicrosecondsPerInvocation="532" maxMicrosecondsPerInvocation="2573" standardDeviationMircosecondsPerInvocation="487"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="30" invocations="417" avgMicrosecondsPerInvocation="73" maxMicrosecondsPerInvocation="2918" standardDeviationMircosecondsPerInvocation="199"/>
-      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="29" invocations="217" avgMicrosecondsPerInvocation="137" maxMicrosecondsPerInvocation="1651" standardDeviationMircosecondsPerInvocation="179"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="29" invocations="140" avgMicrosecondsPerInvocation="207" maxMicrosecondsPerInvocation="2265" standardDeviationMircosecondsPerInvocation="307"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="28" invocations="61" avgMicrosecondsPerInvocation="474" maxMicrosecondsPerInvocation="1600" standardDeviationMircosecondsPerInvocation="416"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="27" invocations="140" avgMicrosecondsPerInvocation="196" maxMicrosecondsPerInvocation="2222" standardDeviationMircosecondsPerInvocation="318"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="25" invocations="61" avgMicrosecondsPerInvocation="418" maxMicrosecondsPerInvocation="4193" standardDeviationMircosecondsPerInvocation="583"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="24" invocations="417" avgMicrosecondsPerInvocation="57" maxMicrosecondsPerInvocation="683" standardDeviationMircosecondsPerInvocation="82"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="24" invocations="140" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="2538" standardDeviationMircosecondsPerInvocation="374"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="24" invocations="140" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="2251" standardDeviationMircosecondsPerInvocation="279"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="21" invocations="61" avgMicrosecondsPerInvocation="350" maxMicrosecondsPerInvocation="1445" standardDeviationMircosecondsPerInvocation="343"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="20" invocations="61" avgMicrosecondsPerInvocation="332" maxMicrosecondsPerInvocation="1285" standardDeviationMircosecondsPerInvocation="287"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="20" invocations="140" avgMicrosecondsPerInvocation="144" maxMicrosecondsPerInvocation="1771" standardDeviationMircosecondsPerInvocation="241"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildStringPassthruGraph" totalMilliseconds="19" invocations="140" avgMicrosecondsPerInvocation="142" maxMicrosecondsPerInvocation="2011" standardDeviationMircosecondsPerInvocation="269"/>
-      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="19" invocations="7496" avgMicrosecondsPerInvocation="2" maxMicrosecondsPerInvocation="1892" standardDeviationMircosecondsPerInvocation="21"/>
-      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="18" invocations="140" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="6417" standardDeviationMircosecondsPerInvocation="703"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="297" invocations="770" avgMicrosecondsPerInvocation="386" maxMicrosecondsPerInvocation="35218" standardDeviationMircosecondsPerInvocation="1393"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="236" invocations="424" avgMicrosecondsPerInvocation="558" maxMicrosecondsPerInvocation="32924" standardDeviationMircosecondsPerInvocation="1789"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="173" invocations="424" avgMicrosecondsPerInvocation="408" maxMicrosecondsPerInvocation="17112" standardDeviationMircosecondsPerInvocation="1013"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="172" invocations="479" avgMicrosecondsPerInvocation="360" maxMicrosecondsPerInvocation="11374" standardDeviationMircosecondsPerInvocation="849"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="169" invocations="448" avgMicrosecondsPerInvocation="377" maxMicrosecondsPerInvocation="8962" standardDeviationMircosecondsPerInvocation="819"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="146" invocations="424" avgMicrosecondsPerInvocation="346" maxMicrosecondsPerInvocation="10159" standardDeviationMircosecondsPerInvocation="741"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="144" invocations="2" avgMicrosecondsPerInvocation="72078" maxMicrosecondsPerInvocation="95281" standardDeviationMircosecondsPerInvocation="23204"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="101" invocations="399" avgMicrosecondsPerInvocation="254" maxMicrosecondsPerInvocation="7898" standardDeviationMircosecondsPerInvocation="642"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="100" invocations="424" avgMicrosecondsPerInvocation="235" maxMicrosecondsPerInvocation="4563" standardDeviationMircosecondsPerInvocation="357"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="98" invocations="142" avgMicrosecondsPerInvocation="692" maxMicrosecondsPerInvocation="6912" standardDeviationMircosecondsPerInvocation="1207"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="89" invocations="142" avgMicrosecondsPerInvocation="632" maxMicrosecondsPerInvocation="6261" standardDeviationMircosecondsPerInvocation="1050"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="89" invocations="773" avgMicrosecondsPerInvocation="115" maxMicrosecondsPerInvocation="6378" standardDeviationMircosecondsPerInvocation="229"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="83" invocations="663" avgMicrosecondsPerInvocation="126" maxMicrosecondsPerInvocation="1258" standardDeviationMircosecondsPerInvocation="175"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="39" invocations="720" avgMicrosecondsPerInvocation="55" maxMicrosecondsPerInvocation="1148" standardDeviationMircosecondsPerInvocation="103"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="39" invocations="424" avgMicrosecondsPerInvocation="93" maxMicrosecondsPerInvocation="1909" standardDeviationMircosecondsPerInvocation="178"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="38" invocations="61" avgMicrosecondsPerInvocation="636" maxMicrosecondsPerInvocation="2960" standardDeviationMircosecondsPerInvocation="731"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="38" invocations="61" avgMicrosecondsPerInvocation="628" maxMicrosecondsPerInvocation="4272" standardDeviationMircosecondsPerInvocation="663"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="31" invocations="61" avgMicrosecondsPerInvocation="518" maxMicrosecondsPerInvocation="1813" standardDeviationMircosecondsPerInvocation="474"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="29" invocations="424" avgMicrosecondsPerInvocation="69" maxMicrosecondsPerInvocation="1141" standardDeviationMircosecondsPerInvocation="107"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="28" invocations="225" avgMicrosecondsPerInvocation="127" maxMicrosecondsPerInvocation="964" standardDeviationMircosecondsPerInvocation="142"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="27" invocations="142" avgMicrosecondsPerInvocation="195" maxMicrosecondsPerInvocation="1542" standardDeviationMircosecondsPerInvocation="281"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="27" invocations="61" avgMicrosecondsPerInvocation="445" maxMicrosecondsPerInvocation="1762" standardDeviationMircosecondsPerInvocation="444"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReadReturnShouldBeChecked" totalMilliseconds="27" invocations="61" avgMicrosecondsPerInvocation="442" maxMicrosecondsPerInvocation="22730" standardDeviationMircosecondsPerInvocation="2878"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="26" invocations="142" avgMicrosecondsPerInvocation="184" maxMicrosecondsPerInvocation="1706" standardDeviationMircosecondsPerInvocation="275"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="24" invocations="61" avgMicrosecondsPerInvocation="400" maxMicrosecondsPerInvocation="1616" standardDeviationMircosecondsPerInvocation="350"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="23" invocations="142" avgMicrosecondsPerInvocation="166" maxMicrosecondsPerInvocation="1963" standardDeviationMircosecondsPerInvocation="239"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="22" invocations="61" avgMicrosecondsPerInvocation="366" maxMicrosecondsPerInvocation="1517" standardDeviationMircosecondsPerInvocation="392"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="21" invocations="61" avgMicrosecondsPerInvocation="347" maxMicrosecondsPerInvocation="2001" standardDeviationMircosecondsPerInvocation="553"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="20" invocations="424" avgMicrosecondsPerInvocation="48" maxMicrosecondsPerInvocation="1030" standardDeviationMircosecondsPerInvocation="89"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="20" invocations="61" avgMicrosecondsPerInvocation="331" maxMicrosecondsPerInvocation="1180" standardDeviationMircosecondsPerInvocation="323"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="20" invocations="61" avgMicrosecondsPerInvocation="330" maxMicrosecondsPerInvocation="1432" standardDeviationMircosecondsPerInvocation="397"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="19" invocations="61" avgMicrosecondsPerInvocation="321" maxMicrosecondsPerInvocation="1220" standardDeviationMircosecondsPerInvocation="289"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="19" invocations="61" avgMicrosecondsPerInvocation="316" maxMicrosecondsPerInvocation="1234" standardDeviationMircosecondsPerInvocation="312"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="18" invocations="142" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="1873" standardDeviationMircosecondsPerInvocation="275"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="18" invocations="61" avgMicrosecondsPerInvocation="308" maxMicrosecondsPerInvocation="1173" standardDeviationMircosecondsPerInvocation="316"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="18" invocations="61" avgMicrosecondsPerInvocation="305" maxMicrosecondsPerInvocation="1160" standardDeviationMircosecondsPerInvocation="315"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="18" invocations="61" avgMicrosecondsPerInvocation="301" maxMicrosecondsPerInvocation="969" standardDeviationMircosecondsPerInvocation="300"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CrossSiteScripting" totalMilliseconds="18" invocations="61" avgMicrosecondsPerInvocation="299" maxMicrosecondsPerInvocation="1007" standardDeviationMircosecondsPerInvocation="304"/>
     </FindBugsProfile>
   </FindBugsSummary>
   <ClassFeatures></ClassFeatures>
@@ -662,5 +710,8 @@
     <AppVersion sequence="5" timestamp="1436307043000" release="" codeSize="2801" numClasses="61"/>
     <AppVersion sequence="6" timestamp="1436307401000" release="" codeSize="2805" numClasses="61"/>
     <AppVersion sequence="7" timestamp="1436307769000" release="" codeSize="2805" numClasses="61"/>
+    <AppVersion sequence="8" timestamp="1436307850000" release="" codeSize="2805" numClasses="61"/>
+    <AppVersion sequence="9" timestamp="1436366473000" release="" codeSize="2986" numClasses="61"/>
+    <AppVersion sequence="10" timestamp="1436366473000" release="" codeSize="2986" numClasses="61"/>
   </History>
 </BugCollection>
