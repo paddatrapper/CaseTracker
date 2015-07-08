@@ -20,7 +20,7 @@ public class UserRepository implements IUserRepository {
         this.db = db;
     }
 
-    public long getPasswordSaltedHash(String username) throws RowToModelParseException {
+    public long getPasswordSaltedHash(String username) throws RowToModelParseException, AuthenticationException {
         try {
             logger.info("Fetching password salted hash for {}", username);
             String sql = "SELECT passwordHash FROM staff WHERE username=?;";
@@ -31,16 +31,14 @@ public class UserRepository implements IUserRepository {
                 throw new AuthenticationException();
             }
             return Long.parseLong(rs.get(0).get("passwordHash"));
-        } catch(RuntimeException e){
-            throw e;
-        } catch(Exception e){
+        } catch (SQLException | NumberFormatException e) {
             logger.error("Error retrieving password salted hash for {}", username, e);
             throw new RowToModelParseException("Error retrieving password " +
                     "salted hash from database for username: " + username, e);
         }
     }
 
-    public long getSalt(String username) throws RowToModelParseException {
+    public long getSalt(String username) throws RowToModelParseException, AuthenticationException {
         try {
             logger.info("Fetching salt for {}", username);
             String sql = "SELECT salt FROM staff WHERE username=?;";
@@ -52,16 +50,14 @@ public class UserRepository implements IUserRepository {
             }
 
             return Long.parseLong(rs.get(0).get("salt"));
-        } catch(RuntimeException e){
-            throw e;
-        } catch(Exception e){
+        } catch (SQLException | NumberFormatException e) {
             logger.error("Error retrieving salt for {}", username, e);
             throw new RowToModelParseException("Error retrieving salt from " +
                     "database for username: " + username, e);
         }
     }
 
-    public Staff getUserDetails(String username) throws RowToModelParseException {
+    public Staff getUserDetails(String username) throws RowToModelParseException, AuthenticationException {
         try {
             logger.info("Fetching details for {}", username);
             String sql = "SELECT firstName, lastName, department, position, " +
@@ -79,9 +75,7 @@ public class UserRepository implements IUserRepository {
 
             return new Staff(username, details.get("firstName"), details.get("lastName"),
                              details.get("department"), details.get("position"), permission);
-        } catch(RuntimeException e){
-            throw e;
-        } catch(Exception e){
+        } catch (SQLException e) {
             logger.error("Error retrieving details for {}", username, e);
             throw new RowToModelParseException("Error retrieving user details " +
                     "from database for username: " + username, e);
@@ -92,7 +86,7 @@ public class UserRepository implements IUserRepository {
         try {
             logger.info("Fetching investigating officer for case {}", caseNumber);
             String sql = "SELECT username FROM staff INNER JOIN(cases) " +
-                "WHERE staff.id=cases.staffID AND cases.caseNumber=?;";
+                "WHERE staff.username=cases.staffID AND cases.caseNumber=?;";
             List<Map<String, String>> rs = db.executeQuery(sql, caseNumber);
 
             if(rs == null || rs.isEmpty()) {
@@ -102,7 +96,7 @@ public class UserRepository implements IUserRepository {
 
             String username = rs.get(0).get("username");
             return getUserDetails(username);
-        } catch(Exception e){
+        } catch (SQLException | AuthenticationException e) {
             logger.error("Error retrieving investigating officer for case {}", caseNumber, e);
             throw new RowToModelParseException("Error retrieving investigating " +
                     "officer from database for case: " + caseNumber, e);
@@ -125,7 +119,7 @@ public class UserRepository implements IUserRepository {
                 inspectors.add(getUserDetails(inspector.get("username")));
             }
             return inspectors;
-        } catch (SQLException e) {
+        } catch (SQLException | AuthenticationException e) {
             logger.error("Error retrieving inspectors");
             throw new RowToModelParseException("Error retrieving inspectors", e);
         }

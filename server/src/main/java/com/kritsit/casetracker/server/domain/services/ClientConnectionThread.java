@@ -47,20 +47,24 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         break;
                     }
                     case "login" : {
-                        logger.debug("Login requested");
+                        try {
+                            logger.debug("Login requested");
 
-                        IUserRepository repository = RepositoryFactory.getUserRepository();
-                        ILoginService login = new Login(repository);
-                        Staff user = login.login(request.getArguments().get(0).toString(), 
-                                Integer.parseInt(request.getArguments().get(1).toString()));
+                            IUserRepository repository = RepositoryFactory.getUserRepository();
+                            ILoginService login = new Login(repository);
+                            Staff user = login.login(request.getArguments().get(0).toString(),
+                                    Integer.parseInt(request.getArguments().get(1).toString()));
 
-                        //This probably needs to be demanded to a factory method
-                        Response dto = new Response(200, user);
-                        writeResponse(dto);
+                            Response dto = new Response(200, user);
+                            writeResponse(dto);
+                        } catch (AuthenticationException ex){
+                            Response dto = new Response(401, null);
+                            writeResponse(dto);
+                        }
                         break;
                     }
                     case "getCases" : {
-                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository(); 
+                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository();
 
                         List<Case> cases;
                         if (request.getArguments().size() == 0) {
@@ -85,40 +89,30 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     }
                     case "getLastCaseNumber" : {
                         logger.debug("Last case number requested");
-                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository(); 
+                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository();
                         String caseNumber = caseRepo.getLastCaseNumber();
                         Response dto = new Response(200, caseNumber);
                         writeResponse(dto);
                         break;
                     }
-                    case "addCase" : { 
+                    case "addCase" : {
                         Case c = (Case) request.getArguments().get(0);
                         logger.debug("Requested to add case: {}", c);
-                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository(); 
+                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository();
                         caseRepo.insertCase(c);
                         Response dto = new Response(200, "Case added");
                         writeResponse(dto);
                         break;
                     }
-                    case "close" : { 
+                    case "close" : {
                         close();
                         logger.info("{} has disconnected", connectedClient);
                         return;
                     }
                 }
             }
-        } 
-        catch (AuthenticationException ex){
-            Response dto = new Response(401, null);
-            try {
-                writeResponse(dto);
-            } catch (IOException e) {
-                logger.error("Unable to write to client", e);
-            }
-        }
-        catch (IOException | RowToModelParseException | ClassNotFoundException ex) {
+        } catch (IOException | RowToModelParseException | ClassNotFoundException ex) {
             logger.error("An error occured", ex);
-            //Either deal with exception generically here or specifically in each call
             Response dto = new Response(500, ex.getMessage());
             try {
                 writeResponse(dto);

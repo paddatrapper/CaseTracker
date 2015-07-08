@@ -25,7 +25,8 @@ public class UserRepositoryTest extends TestCase {
 
 	public void testGetUserDetails() throws Exception {
         String username = "inspector";
-        String sql = "SELECT firstName, lastName, department, position, permissions FROM staff WHERE username=?;";
+        String sql = "SELECT firstName, lastName, department, position, " +
+            "permissions FROM staff WHERE username=?;";
 
 		IPersistenceService db = mock(IPersistenceService.class);
 		UserRepository repo = new UserRepository(db);
@@ -87,8 +88,10 @@ public class UserRepositoryTest extends TestCase {
 	public void testGetInvestigatingOfficer() throws Exception {
         String caseNumber = "1";
         String username = "inspector";
-        String investigatingOfficerSql = "SELECT username FROM staff INNER JOIN(cases) WHERE staff.id=cases.staffID AND cases.caseNumber=?;";
-        String detailsSql = "SELECT firstName, lastName, department, position, permissions FROM staff WHERE username=?;";
+        String investigatingOfficerSql = "SELECT username FROM staff " +
+            "INNER JOIN(cases) WHERE staff.username=cases.staffID AND cases.caseNumber=?;";
+        String detailsSql = "SELECT firstName, lastName, department, position, " +
+            "permissions FROM staff WHERE username=?;";
 
 		IPersistenceService db = mock(IPersistenceService.class);
 		UserRepository repo = new UserRepository(db);
@@ -120,8 +123,10 @@ public class UserRepositoryTest extends TestCase {
         String username = "inspector";
         String anotherUsername = "AnotherInspector";
         String usernameListSql = "SELECT username FROM staff WHERE permissions=?;";
-        String inspectorDetailsSql = "SELECT firstName, lastName, department, position, permissions FROM staff WHERE username=?;";
-        String anotherInspectorDetailsSql = "SELECT firstName, lastName, department, position, permissions FROM staff WHERE username=?;";
+        String inspectorDetailsSql = "SELECT firstName, lastName, department, " +
+            "position, permissions FROM staff WHERE username=?;";
+        String anotherInspectorDetailsSql = "SELECT firstName, lastName, " +
+            "department, position, permissions FROM staff WHERE username=?;";
 
         IPersistenceService db = mock(IPersistenceService.class);
 		UserRepository repo = new UserRepository(db);
