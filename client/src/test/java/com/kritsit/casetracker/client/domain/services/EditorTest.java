@@ -379,9 +379,9 @@ public class EditorTest extends TestCase {
         boolean isReturnVisit = false;
         List<Evidence> evidence = new ArrayList<>();
         Staff investigatingOfficer = new Staff("inspector", "test", "inspector", "department", "position", Permission.EDITOR);
-        Person complainant = new Person("0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com");
-        Defendant defendant = new Defendant("0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com", false);
-        Incident incident = new Incident(longitude, latitude, region, incidentDate, Incident.getDefaultFollowUpDate(incidentDate), false);
+        Person complainant = new Person(-1, "0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com");
+        Defendant defendant = new Defendant(-1, "0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com", false);
+        Incident incident = new Incident(-1, longitude, latitude, region, incidentDate, Incident.getDefaultFollowUpDate(incidentDate), false);
         Case c = new Case(caseNumber, caseName, details, animalsInvolved, user, incident, defendant, complainant, null, evidence, isReturnVisit, null, caseType, null);
 
         inputMap.put("caseNumber", caseNumber);

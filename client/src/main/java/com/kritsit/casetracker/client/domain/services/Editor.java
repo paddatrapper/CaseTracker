@@ -285,10 +285,10 @@ public class Editor implements IEditorService {
         if (address == null || address.isEmpty()) {
             double longitude = Double.parseDouble(inputMap.get("longitude").toString());
             double latitude = Double.parseDouble(inputMap.get("latitude").toString());
-            incident = new Incident(longitude, latitude, region, incidentDate,
+            incident = new Incident(-1, longitude, latitude, region, incidentDate,
                     Incident.getDefaultFollowUpDate(incidentDate), false);
         } else {
-            incident = new Incident(address, region, incidentDate,
+            incident = new Incident(-1, address, region, incidentDate,
                     Incident.getDefaultFollowUpDate(incidentDate), false);
         }
         Case c = new Case(caseNumber, caseName, details, animalsInvolved,
