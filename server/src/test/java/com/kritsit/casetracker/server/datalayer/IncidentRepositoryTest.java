@@ -30,6 +30,7 @@ public class IncidentRepositoryTest extends TestCase {
     public void setUp() {
         incidentList = new ArrayList<>();
         Map<String, String> incident = new HashMap<>();
+        incident.put("id", "1");
         incident.put("address", "Byte Bridge");
         incident.put("region", "Eastern Cape");
         incident.put("incidentDate", "2015-02-05");
@@ -55,6 +56,7 @@ public class IncidentRepositoryTest extends TestCase {
     public void testGetIncidents_Coordinates() throws SQLException, RowToModelParseException {
         incidentList = new ArrayList<>();
         Map<String, String> i = new HashMap<>();
+        i.put("id", "1");
         i.put("longitude", "-25.001");
         i.put("latitude", "10.221");
         i.put("region", "Eastern Cape");
@@ -103,42 +105,74 @@ public class IncidentRepositoryTest extends TestCase {
     }
 
     public void testInsertIncident_Address() throws SQLException, RowToModelParseException {
+        int indexId = 1;
         String address = "Test Address";
         String region = "Western Cape";
         LocalDate date = LocalDate.parse("2015-02-14");
         LocalDate followUpDate = LocalDate.parse("2015-02-21");
         boolean booleanIsFollowedUp = false;
-        Incident incident = new Incident(address, region, date, followUpDate, booleanIsFollowedUp);
+        Incident incident = new Incident(indexId, address, region, date, followUpDate,
+                booleanIsFollowedUp);
         IPersistenceService db = mock(IPersistenceService.class);
         IIncidentRepository incidentRepo = new IncidentRepository(db);
         String sql = "INSERT INTO incidents VALUES (NULL, NULL, NULL, ?, ?, ?, ?, ?);";
         String isFollowedUp = incident.isFollowedUp() ? "1" : "0";
+        String query = "SELECT id FROM incidents WHERE address=? AND region=? AND " +
+            "incidentDate=? AND followUpDate=?;";
+        List<Map<String, String>> idList = new ArrayList<>();
+        Map<String, String> id = new HashMap<>();
+        id.put("id", String.valueOf(indexId));
+        idList.add(id);
 
-        incidentRepo.insertIncident(incident);
+        when(db.executeQuery(query, incident.getAddress(), incident.getRegion(),
+                    incident.getDate().toString(), incident.getFollowUpDate().toString()))
+            .thenReturn(idList);
 
+        int returnIndexId = incidentRepo.insertIncident(incident);
+
+        assertTrue(indexId == indexId);
         verify(db).executeUpdate(sql, incident.getAddress(), incident.getRegion(), 
                 incident.getDate().toString(), incident.getFollowUpDate().toString(), 
                 isFollowedUp);
+        verify(db).executeQuery(query, incident.getAddress(), incident.getRegion(),
+                    incident.getDate().toString(), incident.getFollowUpDate().toString());
     }
 
     public void testInsertIncident_Coordinates() throws SQLException, RowToModelParseException {
+        int indexId = 1;
         double longitude = 35.2543;
         double latitude = -12.2543;
         String region = "Western Cape";
         LocalDate date = LocalDate.parse("2015-02-14");
         LocalDate followUpDate = LocalDate.parse("2015-02-21");
         boolean booleanIsFollowedUp = false;
-        Incident incident = new Incident(longitude, latitude, region, date, followUpDate, booleanIsFollowedUp);
+        Incident incident = new Incident(indexId, longitude, latitude, region, 
+                date, followUpDate, booleanIsFollowedUp);
         IPersistenceService db = mock(IPersistenceService.class);
         IIncidentRepository incidentRepo = new IncidentRepository(db);
         String sql = "INSERT INTO incidents VALUES (NULL, ?, ?, NULL, ?, ?, ?, ?);";
         String isFollowedUp = incident.isFollowedUp() ? "1" : "0";
+        String query = "SELECT id FROM incidents WHERE longitude=? AND latitude=? " +
+            "AND region=? AND incidentDate=? AND followUpDate=?;";
+        List<Map<String, String>> idList = new ArrayList<>();
+        Map<String, String> id = new HashMap<>();
+        id.put("id", String.valueOf(indexId));
+        idList.add(id);
 
-        incidentRepo.insertIncident(incident);
+        when(db.executeQuery(query, String.valueOf(incident.getLongitude()), 
+                String.valueOf(incident.getLatitude()), incident.getRegion(),
+                incident.getDate().toString(), incident.getFollowUpDate().toString()))
+            .thenReturn(idList);
 
+        int returnIndexId = incidentRepo.insertIncident(incident);
+
+        assertTrue(returnIndexId == indexId);
         verify(db).executeUpdate(sql, String.valueOf(incident.getLongitude()), 
                 String.valueOf(incident.getLatitude()), incident.getRegion(), 
                 incident.getDate().toString(), incident.getFollowUpDate().toString(), 
                 isFollowedUp);
+        verify(db).executeQuery(query, String.valueOf(incident.getLongitude()), 
+                String.valueOf(incident.getLatitude()), incident.getRegion(),
+                incident.getDate().toString(), incident.getFollowUpDate().toString());
     }
 }

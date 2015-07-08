@@ -6,6 +6,7 @@ import com.kritsit.casetracker.shared.domain.model.Case;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Evidence;
 import com.kritsit.casetracker.shared.domain.model.Incident;
+import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Person;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
@@ -14,6 +15,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +47,7 @@ public class CaseRepositoryTest extends TestCase {
         c.put("returnVisit", "0");
         caseList.add(c);
     }
-    
+
     public void testGetCases() throws SQLException, RowToModelParseException {
             String sql = "SELECT caseNumber, reference, caseType, details, " +
                 "animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate " +
@@ -90,7 +92,7 @@ public class CaseRepositoryTest extends TestCase {
         String caseNumber = "1";
         String sql = "SELECT caseNumber, reference, caseType, details, " +
             "animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate " +
-            "FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.id " +
+            "FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.username " +
             "AND staff.username=?;";
         Incident incident = mock(Incident.class);
         Defendant defendant = mock(Defendant.class);
@@ -114,7 +116,7 @@ public class CaseRepositoryTest extends TestCase {
         when(userRepo.getInvestigatingOfficer(caseNumber)).thenReturn(investigatingOfficer);
         when(evidenceRepo.getEvidence(caseNumber)).thenReturn(evidence);
 
-        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo, 
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo,
                 userRepo, evidenceRepo);
 
         List<Case> cases = caseRepo.getCases(investigatingOfficer);
@@ -142,10 +144,10 @@ public class CaseRepositoryTest extends TestCase {
         IPersonRepository personRepo = mock(IPersonRepository.class);
         IUserRepository userRepo = mock(IUserRepository.class);
         IEvidenceRepository evidenceRepo = mock(IEvidenceRepository.class);
-        
+
         when(db.executeQuery(sql)).thenReturn(caseNumbers);
 
-        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo, 
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo,
                 userRepo, evidenceRepo);
 
         assertTrue(caseNumber.equals(caseRepo.getLastCaseNumber()));
@@ -153,22 +155,23 @@ public class CaseRepositoryTest extends TestCase {
     }
 
     public void testInsertCase() throws SQLException, RowToModelParseException {
-        String sql = "INSERT INTO cases VALUES(NULL, ?, ?, ?, ?, " +
-            "(SELECT indexID FROM staff WHERE firstName=? AND lastName=? " +
-            "AND username=?), (SELECT indexID FROM incidents WHERE latitude=? " +
-            "AND longitude=? AND latitude=? AND address=? AND incidentDate=?), " +
-            "(SELECT indexID FROM defendants WHERE firstName=? AND lastName=? " +
-            "AND address=? AND telephoneNumber=?), (SELECT indexID FROM complainants " +
-            "WHERE firstName=? AND lastName=? AND address=? AND telephoneNumber=?), " +
-            "?, ?, ?, ?);";
+        String sql = "INSERT INTO cases VALUES(?, ?, ?, ?, ?, " +
+            "?, ?, ?, ?, ?, ?, ?, ?);";
+
         String caseNumber = "2015-02-0001";
         String caseName = "test case";
         String description = "Something happened";
         String animalsInvolved = "Some animals";
-        Staff investigatingOfficer = mock(Staff.class);
-        Incident incident = mock(Incident.class);
-        Defendant defendant = mock(Defendant.class);
-        Person complainant = mock(Person.class);
+        Staff investigatingOfficer = new Staff("inspector", "inspector",
+                "inspector", "department","position", Permission.EDITOR);
+        LocalDate incidentDate = LocalDate.parse("2015-03-02");
+        LocalDate followUpDate = LocalDate.parse("2015-03-08");
+        Incident incident = new Incident(1, "Some address", "Western Cape", 
+                incidentDate, followUpDate, true);
+        Defendant defendant = new Defendant(1, null, "Mr", "Test", "some address", 
+                null, null, false);
+        Person complainant = new Person(1, null, "Mrs", "Test", "sad s", null, 
+                null);
         boolean isReturnVisit = false;
         String strIsReturnVisit = isReturnVisit ? "1" : "0";
         String caseType = "testing";
@@ -177,18 +180,22 @@ public class CaseRepositoryTest extends TestCase {
         IPersonRepository personRepo = mock(IPersonRepository.class);
         IUserRepository userRepo = mock(IUserRepository.class);
         IEvidenceRepository evidenceRepo = mock(IEvidenceRepository.class);
-        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo, 
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo,
                 userRepo, evidenceRepo);
 
-        Case c = new Case(caseNumber, caseName, description, animalsInvolved, 
+        Case c = new Case(caseNumber, caseName, description, animalsInvolved,
                 investigatingOfficer, incident, defendant, complainant, null,
                 null, isReturnVisit, null, caseType, null);
 
         caseRepo.insertCase(c);
 
         verify(db).executeUpdate(sql, c.getNumber(), c.getName(), c.getType(),
-                c.getDescription(), c.getAnimalsInvolved(), "NULL", 
-                c.getRuling(), strIsReturnVisit, "NULL");
+                c.getDescription(), c.getAnimalsInvolved(),
+                investigatingOfficer.getUsername(), 
+                String.valueOf(incident.getIndexId()),
+                String.valueOf(defendant.getIndexId()), 
+                String.valueOf(complainant.getIndexId()), null, 
+                null, strIsReturnVisit, null);
         verify(incidentRepo).insertIncident(incident);
         verify(personRepo).insertDefendant(defendant);
         verify(personRepo).insertComplainant(complainant);

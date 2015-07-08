@@ -72,8 +72,8 @@ public class EvidenceRepository implements IEvidenceRepository {
             String clientFileName = evidence.getLocalFile().getName();
             fileName += clientFileName.substring(clientFileName.lastIndexOf("."));
         }
-        fileName.replaceAll("/", "");
-        fileName.replaceAll(" ", "_");
+        fileName = fileName.replaceAll("/", "");
+        fileName = fileName.replaceAll(" ", "_");
         String fileLocation = "data/evidence/" + caseNumber + "/" + fileName;
         File f = new File(fileLocation);
         serializer.write(f, evidence.getByteFile());

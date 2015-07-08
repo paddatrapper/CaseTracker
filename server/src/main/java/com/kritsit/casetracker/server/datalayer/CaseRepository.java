@@ -62,7 +62,7 @@ public class CaseRepository implements ICaseRepository {
             logger.info("Fetching cases for user {}", inspector.getUsername());
             String sql = "SELECT caseNumber, reference, caseType, details, " +
                 "animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate " +
-                "FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.id " +
+                "FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.username " +
                 "AND staff.username=?;";
             List<Map<String, String>> rs = db.executeQuery(sql, inspector.getUsername());
 
@@ -135,20 +135,23 @@ public class CaseRepository implements ICaseRepository {
     }
 
     public void insertCase(Case c) throws RowToModelParseException {
-        incidentRepo.insertIncident(c.getIncident());
-        personRepo.insertDefendant(c.getDefendant());
-        personRepo.insertComplainant(c.getComplainant());
+        int incidentId = incidentRepo.insertIncident(c.getIncident());
+        int defendantId = personRepo.insertDefendant(c.getDefendant());
+        int complainantId = personRepo.insertComplainant(c.getComplainant());
+
+        c.getIncident().setIndexId(incidentId);
+        c.getDefendant().setIndexId(defendantId);
+        c.getComplainant().setIndexId(complainantId);
 
         try {
             logger.info("Inserting case {}", c.toString());
-            String sql = "INSERT INTO cases VALUES(NULL, ?, ?, ?, ?, " +
-                "(SELECT indexID FROM staff WHERE firstName=? AND lastName=? " +
-                "AND username=?), (SELECT indexID FROM incidents WHERE latitude=? " +
-                "AND longitude=? AND latitude=? AND address=? AND incidentDate=?), " +
-                "(SELECT indexID FROM defendants WHERE firstName=? AND lastName=? " +
-                "AND address=? AND telephoneNumber=?), (SELECT indexID FROM complainants " +
-                "WHERE firstName=? AND lastName=? AND address=? AND telephoneNumber=?), " +
-                "?, ?, ?, ?);";
+            String sql = "INSERT INTO cases VALUES(?, ?, ?, ?, ?, " +
+                "?, ?, ?, ?, ?, ?, ?, ?);";
+            Staff investigatingOfficer = c.getInvestigatingOfficer();
+            Incident incident = c.getIncident();
+            Defendant defendant = c.getDefendant();
+            Person complainant = c.getComplainant();
+
             String isReturnVisit;
             String returnDate;
             if (c.isReturnVisit()) {
@@ -156,13 +159,17 @@ public class CaseRepository implements ICaseRepository {
                 returnDate = c.getReturnDate().toString();
             } else {
                 isReturnVisit = "0";
-                returnDate = "NULL";
+                returnDate = null;
             }
-            String nextCourtDate = c.getNextCourtDate() == null ? "NULL" :
+            String nextCourtDate = (c.getNextCourtDate() == null) ? null :
                 c.getNextCourtDate().toString();
 
             db.executeUpdate(sql, c.getNumber(), c.getName(), c.getType(),
-                    c.getDescription(), c.getAnimalsInvolved(), nextCourtDate,
+                    c.getDescription(), c.getAnimalsInvolved(),
+                    investigatingOfficer.getUsername(), 
+                    String.valueOf(incident.getIndexId()),
+                    String.valueOf(defendant.getIndexId()), 
+                    String.valueOf(complainant.getIndexId()), nextCourtDate, 
                     c.getRuling(), isReturnVisit, returnDate);
 
             RowToModelParseException evidenceException = null;

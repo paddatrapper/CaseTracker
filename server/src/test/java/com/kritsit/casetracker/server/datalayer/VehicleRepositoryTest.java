@@ -45,7 +45,7 @@ public class VehicleRepositoryTest extends TestCase {
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql, id)).thenReturn(vehicleList);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+        Defendant defendant = new Defendant(1, id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
@@ -61,7 +61,7 @@ public class VehicleRepositoryTest extends TestCase {
             "AND defendants.id=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+        Defendant defendant = new Defendant(1, id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
@@ -78,7 +78,7 @@ public class VehicleRepositoryTest extends TestCase {
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql, id)).thenReturn(new ArrayList<Map<String, String>>());
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+        Defendant defendant = new Defendant(1, id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
@@ -89,7 +89,7 @@ public class VehicleRepositoryTest extends TestCase {
     
     public void testInsertVehicle() throws SQLException, RowToModelParseException{
         String id = "9802245849032";
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+        Defendant defendant = new Defendant(1, id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
         Vehicle vehicle = new Vehicle("ZSZ1234", "Citroen", "silver", false);
         String isTrailer = (vehicle.isTrailer()) ? "1" : "0";

@@ -1,7 +1,9 @@
 package com.kritsit.casetracker.client.domain.services;
 
 import com.kritsit.casetracker.shared.domain.model.Case;
+import com.kritsit.casetracker.shared.domain.model.Evidence;
 import com.kritsit.casetracker.shared.domain.model.Staff;
+import com.kritsit.casetracker.shared.domain.FileSerializer;
 import com.kritsit.casetracker.shared.domain.Request;
 import com.kritsit.casetracker.shared.domain.Response;
 
@@ -30,7 +32,7 @@ public class ServerConnection implements IConnectionService {
     public ServerConnection() {
         open = false;
     }
-    
+
     public boolean open(String host, int port) throws IllegalArgumentException {
         if (port < 0 || port > 65535) {
             logger.debug("Port {} out of bounds", String.valueOf(port));
@@ -115,14 +117,14 @@ public class ServerConnection implements IConnectionService {
             } else {
                 List<Staff> argument = new ArrayList<>();
                 argument.add(user);
-                request = new Request("getCases", argument); 
+                request = new Request("getCases", argument);
             }
             Response response = getResponse(request);
             if (response.isSuccessful()) {
                 return (List<Case>) response.getBody();
             } else {
-                logger.error("Unable to get cases. Code {} - {}", 
-                        response.getStatus(), 
+                logger.error("Unable to get cases. Code {} - {}",
+                        response.getStatus(),
                         response.getBody().toString());
                 return null;
             }
@@ -167,13 +169,14 @@ public class ServerConnection implements IConnectionService {
 
     public boolean addCase(Case c) {
         try {
+            serializeEvidence(c.getEvidence());
             List<Case> arguments = new ArrayList<>();
             arguments.add(c);
-            Request request = new Request("addCase", arguments); 
+            Request request = new Request("addCase", arguments);
             Response response = getResponse(request);
             if (!response.isSuccessful()) {
-                logger.error("Unable to upload cases. Code {} - {}", 
-                        response.getStatus(), 
+                logger.error("Unable to upload cases. Code {} - {}",
+                        response.getStatus(),
                         response.getBody().toString());
             }
             return response.isSuccessful();
@@ -181,5 +184,13 @@ public class ServerConnection implements IConnectionService {
             logger.error("Unable to upload case", ex);
             return false;
         }
-    } 
+    }
+
+    private void serializeEvidence(List<Evidence> evidence) throws IOException {
+        FileSerializer serializer = new FileSerializer();
+        for (Evidence e : evidence) {
+            byte[] file = serializer.serialize(e.getLocalFile());
+            e.setByteFile(file);
+        }
+    }
 }
