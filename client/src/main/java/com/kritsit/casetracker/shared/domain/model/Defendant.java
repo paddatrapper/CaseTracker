@@ -20,8 +20,10 @@ public class Defendant extends Person {
         vehicleProperty = new SimpleObjectProperty<List<Vehicle>>(new ArrayList<Vehicle>());
     }
 
-    public Defendant(String id, String firstName, String lastName, String address, String telephoneNumber, String emailAddress, boolean secondOffence) {
-        super(id, firstName, lastName, address, telephoneNumber, emailAddress);
+    public Defendant(int indexId, String id, String firstName, String lastName, 
+            String address, String telephoneNumber, String emailAddress, 
+            boolean secondOffence) {
+        super(indexId, id, firstName, lastName, address, telephoneNumber, emailAddress);
         secondOffenceProperty = new SimpleBooleanProperty(secondOffence);
         vehicleProperty = new SimpleObjectProperty<List<Vehicle>>(new ArrayList<Vehicle>());
     }

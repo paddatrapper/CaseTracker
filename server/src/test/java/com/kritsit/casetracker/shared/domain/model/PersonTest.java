@@ -16,10 +16,11 @@ public class PersonTest extends TestCase {
     }
 
     public void setUp() {
-        person = new Person("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        person = new Person(1, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
     }
 
     public void testAccessors() {
+        assertTrue(1 == person.getIndexId());
         assertTrue("0002225094081".equals(person.getId()));
         assertTrue("John".equals(person.getFirstName()));
         assertTrue("Smith".equals(person.getLastName()));
@@ -30,6 +31,7 @@ public class PersonTest extends TestCase {
     }
 
     public void testMutators() {
+        person.setIndexId(2);
         person.setId("1234567890123");
         person.setFirstName("Bob");
         person.setLastName("van der Merwe");
@@ -37,6 +39,7 @@ public class PersonTest extends TestCase {
         person.setTelephoneNumber("123456789");
         person.setEmailAddress("second@email.net");
 
+        assertTrue(2 == person.getIndexId());
         assertTrue("1234567890123".equals(person.getId()));
         assertTrue("Bob".equals(person.getFirstName()));
         assertTrue("van der Merwe".equals(person.getLastName()));
@@ -58,8 +61,8 @@ public class PersonTest extends TestCase {
     }
 
     public void testEquals() {
-        Person p = new Person("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
-        Person anotherPerson = new Person("000255843834", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Person p = new Person(2, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Person anotherPerson = new Person(2, "000255843834", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
 
         assertTrue(person.equals(p));
         assertFalse(person.equals(anotherPerson));

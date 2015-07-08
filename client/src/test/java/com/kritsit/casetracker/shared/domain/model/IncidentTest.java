@@ -20,12 +20,14 @@ public class IncidentTest extends TestCase {
     public void setUp() {
         LocalDate date = LocalDate.parse("2015-01-19");
         LocalDate followUpDate = LocalDate.parse("2015-02-19");
-        incident = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
+        incident = new Incident(1, "100 Long Street, Cape Town", "Western Cape", 
+                date, followUpDate, false);
     }
 
     public void testCreation() {
         assertTrue(incident.getClass() == Incident.class);
-        Incident i = new Incident(-25.0001, 10.11, "Western Cape", LocalDate.now(), LocalDate.now(), false);
+        Incident i = new Incident(1, -25.0001, 10.11, "Western Cape", 
+                LocalDate.now(), LocalDate.now(), false);
         assertTrue(i.getClass() == Incident.class);
     }
 
@@ -33,6 +35,7 @@ public class IncidentTest extends TestCase {
         LocalDate date = LocalDate.parse("2015-01-19");
         LocalDate followUpDate = LocalDate.parse("2015-02-19");
 
+        assertTrue(1 == incident.getIndexId());
         assertTrue("100 Long Street, Cape Town".equals(incident.getAddress()));
         assertTrue("Western Cape".equals(incident.getRegion()));
         assertTrue(date.equals(incident.getDate()));
@@ -45,6 +48,7 @@ public class IncidentTest extends TestCase {
         LocalDate followUpDate = LocalDate.now();
         LocalDate date = LocalDate.now();
 
+        incident.setIndexId(2);
         incident.setLongitude(-25.993);
         incident.setLatitude(10.26653);
         incident.setAddress("20 Aderly Street, Cape Town");
@@ -53,6 +57,7 @@ public class IncidentTest extends TestCase {
         incident.setFollowUpDate(followUpDate);
         incident.setFollowedUp(true);
 
+        assertTrue(2 == incident.getIndexId());
         assertTrue(Math.abs(-25.993 - incident.getLongitude()) < 0.00001);
         assertTrue(Math.abs(10.26653 - incident.getLatitude()) < 0.00001);
         assertTrue("20 Aderly Street, Cape Town".equals(incident.getAddress()));
@@ -79,8 +84,10 @@ public class IncidentTest extends TestCase {
     public void testEquals() {
         LocalDate date = LocalDate.parse("2015-01-19");
         LocalDate followUpDate = LocalDate.parse("2015-02-19");
-        Incident i = new Incident("100 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
-        Incident differentIncident = new Incident("230 Long Street, Cape Town", "Western Cape", date, followUpDate, false);
+        Incident i = new Incident(1, "100 Long Street, Cape Town", "Western Cape", 
+                date, followUpDate, false);
+        Incident differentIncident = new Incident(2, "230 Long Street, Cape Town", 
+                "Western Cape", date, followUpDate, false);
         
         assertTrue(incident.equals(i));
         assertFalse(incident.equals(differentIncident));
@@ -96,7 +103,8 @@ public class IncidentTest extends TestCase {
         String incidentString = "Incident: 20.221, -12.776 (2015-01-19)";
         LocalDate date = LocalDate.parse("2015-01-19");
         LocalDate followUpDate = LocalDate.parse("2015-02-19");
-        Incident i = new Incident(20.221, -12.776, "Western Cape", date, followUpDate, false);
+        Incident i = new Incident(1, 20.221, -12.776, "Western Cape", date, 
+                followUpDate, false);
 
         assertTrue(incidentString.equals(i.toString()));
     }
