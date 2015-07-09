@@ -19,4 +19,8 @@ public class Response implements Serializable {
 	public Object getBody(){
 		return body;
 	}
+
+    public boolean isSuccessful() {
+        return statusCode == 200;
+    }
 }

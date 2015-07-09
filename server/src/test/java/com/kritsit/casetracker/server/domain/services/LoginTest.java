@@ -26,7 +26,7 @@ public class LoginTest extends TestCase {
         return new TestSuite(LoginTest.class);
     }
 
-    public void setUp() throws RowToModelParseException {
+    public void setUp() throws RowToModelParseException, AuthenticationException {
         repo = mock(IUserRepository.class);
         when(repo.getPasswordSaltedHash("inspector")).thenReturn(-5922475058343094375L);
         when(repo.getSalt("inspector")).thenReturn(-5922475058261058398L);
@@ -37,7 +37,7 @@ public class LoginTest extends TestCase {
         login = new Login(repo);
     }
 
-    public void testLoginAttempt_IncorrectUser() throws RowToModelParseException {
+    public void testLoginAttempt_IncorrectUser() throws RowToModelParseException, AuthenticationException {
     	try {
             int password = "inspector".hashCode();
             String username = "wrongInspector";
@@ -49,7 +49,7 @@ public class LoginTest extends TestCase {
         } 
     }
 
-    public void testLoginAttempt_IncorrectPassword() throws RowToModelParseException {
+    public void testLoginAttempt_IncorrectPassword() throws RowToModelParseException, AuthenticationException {
     	try {
             int password = "wrong inspector".hashCode();
             String username = "inspector";

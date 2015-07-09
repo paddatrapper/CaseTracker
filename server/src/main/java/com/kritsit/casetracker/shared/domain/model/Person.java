@@ -1,6 +1,8 @@
 package com.kritsit.casetracker.shared.domain.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import java.io.Externalizable;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.util.Objects;
 
 public class Person implements Externalizable {
     private static final long serialVersionUID = 10L;
+    private IntegerProperty indexIdProperty;
     private StringProperty idProperty;
     private StringProperty firstNameProperty;
     private StringProperty lastNameProperty;
@@ -18,6 +21,7 @@ public class Person implements Externalizable {
     private StringProperty emailAddressProperty;
 
     public Person() {
+        indexIdProperty = new SimpleIntegerProperty();
         idProperty = new SimpleStringProperty();
         firstNameProperty = new SimpleStringProperty();
         lastNameProperty = new SimpleStringProperty();
@@ -26,7 +30,9 @@ public class Person implements Externalizable {
         emailAddressProperty = new SimpleStringProperty();
     }
 
-    public Person(String id, String firstName, String lastName, String address, String telephoneNumber, String emailAddress) {
+    public Person(int indexId, String id, String firstName, String lastName, 
+            String address, String telephoneNumber, String emailAddress) {
+        indexIdProperty = new SimpleIntegerProperty(indexId);
         idProperty = new SimpleStringProperty(id);
         firstNameProperty = new SimpleStringProperty(firstName);
         lastNameProperty = new SimpleStringProperty(lastName);
@@ -36,6 +42,10 @@ public class Person implements Externalizable {
     }
 
     // Accessor methods:
+    public int getIndexId() {
+        return indexIdProperty.get();
+    }
+
     public String getId() {
         return idProperty.get();
     }
@@ -65,6 +75,10 @@ public class Person implements Externalizable {
     }
 
     // Mutator methods:
+    public void setIndexId(int indexId) {
+        indexIdProperty.set(indexId);
+    }
+
     public void setId(String id) {
         idProperty.set(id);
     }
@@ -91,7 +105,9 @@ public class Person implements Externalizable {
 
     @Override
     public int hashCode() {
-        return (getId() + getFirstName() + getLastName() + getAddress() + getTelephoneNumber() + getEmailAddress()).hashCode() / 3;
+        return ((getId() + getFirstName() + getLastName() + getAddress() + 
+                getTelephoneNumber() + getEmailAddress()).hashCode() +
+                getIndexId()) / 3;
     }
 
     @Override
@@ -113,6 +129,7 @@ public class Person implements Externalizable {
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(getIndexId());
         out.writeObject(getId());
         out.writeObject(getFirstName());
         out.writeObject(getLastName());
@@ -123,6 +140,7 @@ public class Person implements Externalizable {
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        setIndexId((int) in.readObject());
         setId((String) in.readObject());
         setFirstName((String) in.readObject());
         setLastName((String) in.readObject());

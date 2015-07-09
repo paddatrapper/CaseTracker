@@ -22,3 +22,6 @@ server/target/
 
 # Distribution archives
 CaseTracker.zip
+
+# Data files
+server/data/

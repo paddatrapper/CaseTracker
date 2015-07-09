@@ -4,6 +4,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.IOException;
+
 public class RowToModelParseExceptionTest extends TestCase {
 
     public RowToModelParseExceptionTest(String name) {
@@ -15,7 +17,8 @@ public class RowToModelParseExceptionTest extends TestCase {
     }
 
     public void testGetMessage() {
-        RowToModelParseException ex = new RowToModelParseException("This is a test");
+        IOException e = new IOException("test cause");
+        RowToModelParseException ex = new RowToModelParseException("This is a test", e);
         assertTrue("This is a test".equals(ex.getMessage()));
     }
 }

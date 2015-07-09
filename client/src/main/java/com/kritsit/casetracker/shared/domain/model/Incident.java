@@ -3,8 +3,10 @@ package com.kritsit.casetracker.shared.domain.model;
 import javafx.beans.property.Property;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.ObjectProperty;
@@ -19,6 +21,7 @@ import java.util.GregorianCalendar;
 
 public class Incident implements Externalizable {
     private static final long serialVersionUID = 10L;
+    private IntegerProperty indexIdProperty;
     private StringProperty addressProperty;
     private DoubleProperty longitudeProperty;
     private DoubleProperty latitudeProperty;
@@ -28,6 +31,7 @@ public class Incident implements Externalizable {
     private BooleanProperty followedUpProperty;
 
     public Incident() {
+        indexIdProperty = new SimpleIntegerProperty();
         addressProperty = new SimpleStringProperty();
         regionProperty = new SimpleStringProperty();
         dateProperty = new SimpleObjectProperty<>();
@@ -37,7 +41,9 @@ public class Incident implements Externalizable {
         latitudeProperty = new SimpleDoubleProperty();
     }
 
-    public Incident(String address, String region, LocalDate date, LocalDate followUpDate, boolean followedUp) {
+    public Incident(int indexId, String address, String region, LocalDate date, 
+            LocalDate followUpDate, boolean followedUp) {
+        indexIdProperty = new SimpleIntegerProperty(indexId);
         addressProperty = new SimpleStringProperty(address);
         regionProperty = new SimpleStringProperty(region);
         dateProperty = new SimpleObjectProperty<>(date);
@@ -47,7 +53,9 @@ public class Incident implements Externalizable {
         latitudeProperty = new SimpleDoubleProperty();
     }
 
-    public Incident(double longitude, double latitude, String region, LocalDate date, LocalDate followUpDate, boolean followedUp) {
+    public Incident(int indexId, double longitude, double latitude, String region, 
+            LocalDate date, LocalDate followUpDate, boolean followedUp) {
+        indexIdProperty = new SimpleIntegerProperty(indexId);
         longitudeProperty = new SimpleDoubleProperty(longitude);
         latitudeProperty = new SimpleDoubleProperty(latitude);
         regionProperty = new SimpleStringProperty(region);
@@ -55,6 +63,10 @@ public class Incident implements Externalizable {
         followUpDateProperty = new SimpleObjectProperty<>(followUpDate);
         followedUpProperty = new SimpleBooleanProperty(followedUp);
         addressProperty = new SimpleStringProperty();
+    }
+
+    public int getIndexId() {
+        return indexIdProperty.get();
     }
 
     public double getLatitude() {
@@ -87,6 +99,10 @@ public class Incident implements Externalizable {
 
     public boolean isFollowedUp() {
         return followedUpProperty.get();
+    }
+
+    public void setIndexId(int indexId) {
+        indexIdProperty.set(indexId);
     }
 
     public void setLongitude(double longitude) {

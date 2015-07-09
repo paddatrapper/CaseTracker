@@ -36,10 +36,11 @@ public class DatabasePersistenceIT extends TestCase {
         String lastName = "test";
         String username = "test";
         String passwordHash = "-1";
-        String insert = "INSERT INTO staff VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String insert = "INSERT INTO staff VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         String select = "SELECT * FROM staff WHERE firstName=? AND lastName=? " +
             "AND username=? AND passwordHash=?;";
-        db.executeUpdate(insert, firstName, lastName, "test", "test", username, 
+
+        db.executeUpdate(insert, username, firstName, lastName, "test", "test",  
                 passwordHash, "-1", "-1");
         List<Map<String, String>> result = db.executeQuery(select, firstName, 
                 lastName, username, passwordHash);
@@ -51,9 +52,8 @@ public class DatabasePersistenceIT extends TestCase {
         String lastName = "test";
         String username = "test";
         String passwordHash = "-1";
-        String delete = "DELETE FROM staff WHERE firstName=? AND lastName=? " +
-            "AND username=? AND passwordHash=?;";
-        db.executeUpdate(delete, firstName, lastName, username, passwordHash);
+        String delete = "DELETE FROM staff WHERE username=? AND passwordHash=?;";
+        db.executeUpdate(delete, username, passwordHash);
         db.close();
     }
 }

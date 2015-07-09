@@ -60,7 +60,9 @@ public class Case implements Externalizable {
         complainantProperty = new SimpleObjectProperty<>(complainant);
         nextCourtDateProperty = new SimpleObjectProperty<>(nextCourtDate);
         outcomeProperty = new SimpleStringProperty(outcome);
-        evidenceProperty = new SimpleObjectProperty<>(evidence);
+        evidenceProperty = (evidence == null) ? 
+           new SimpleObjectProperty<List<Evidence>>(new ArrayList<Evidence>()) :
+           new SimpleObjectProperty<>(evidence);
         returnVisitProperty = new SimpleBooleanProperty(returnVisit);
         returnDateProperty = new SimpleObjectProperty<>(returnDate);
         caseTypeProperty = new SimpleStringProperty(caseType);
@@ -232,7 +234,8 @@ public class Case implements Externalizable {
         out.writeObject(getComplainant());
         out.writeObject(getNextCourtDate());
         out.writeObject(getRuling());
-        out.writeObject(getEvidence());
+        ArrayList<Evidence> writeableList = new ArrayList<>(getEvidence());
+        out.writeObject(writeableList);
         out.writeBoolean(isReturnVisit());
         out.writeObject(getReturnDate());
         out.writeObject(getType());

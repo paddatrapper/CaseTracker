@@ -19,7 +19,7 @@ public class DefendantTest extends TestCase {
     }
 
     public void setUp() {
-        defendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
+        defendant = new Defendant(1, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
     }
 
     public void testAddVehicle() {
@@ -66,8 +66,8 @@ public class DefendantTest extends TestCase {
     }
 
     public void testEquals() {
-        Defendant testDefendant = new Defendant("0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
-        Defendant anotherDefendant = new Defendant("0273822728339", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
+        Defendant testDefendant = new Defendant(1, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
+        Defendant anotherDefendant = new Defendant(2, "0273822728339", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
         assertTrue(defendant.equals(testDefendant));
         assertFalse(defendant.equals(anotherDefendant));
     }

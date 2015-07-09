@@ -1,6 +1,7 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
 import com.kritsit.casetracker.client.domain.services.IEditorService;
+import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
 import com.kritsit.casetracker.shared.domain.model.Case;
@@ -87,7 +88,8 @@ public class EditorController implements IController {
     @SuppressWarnings("unchecked")
     private void initCasesTable() {
         logger.info("Initiating case list table");
-        cases = FXCollections.observableArrayList(editorService.getCases());
+        cases = FXCollections.observableArrayList(editorService.refreshCases());
+        cbxFilterCaseType.getItems().clear();
         cbxFilterCaseType.getItems().add("All");
         cbxFilterCaseType.setValue("All");
         ObservableList<String> caseTypes = FXCollections.observableArrayList(editorService.getCaseTypes());
@@ -128,8 +130,10 @@ public class EditorController implements IController {
         colCaseNumber.setCellValueFactory(new PropertyValueFactory("caseNumber"));
         colCaseName.setCellValueFactory(new PropertyValueFactory("caseName"));
         colCaseType.setCellValueFactory(new PropertyValueFactory("caseType"));
-        colInvestigatingOfficer.setCellValueFactory((CellDataFeatures<Case, String> c) -> c.getValue().getInvestigatingOfficer().nameProperty());       
-        colIncidentDate.setCellValueFactory((CellDataFeatures<Case, String> c) -> c.getValue().getIncident().dateProperty());
+        colInvestigatingOfficer.setCellValueFactory((CellDataFeatures<Case, String> c) -> 
+                c.getValue().getInvestigatingOfficer().nameProperty());       
+        colIncidentDate.setCellValueFactory((CellDataFeatures<Case, String> c) -> 
+                c.getValue().getIncident().dateProperty());
         
         double numberWidthPercent = 0.15;
         double nameWidthPercent = 0.25;
@@ -434,7 +438,66 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleAddCaseAction(ActionEvent e) {
+        logger.info("Creating new case");
+        Map<String, Object> inputMap = new HashMap<>();
+        inputMap.put("caseNumber", txfAddCaseNumber.getText());
+        inputMap.put("incidentDate", dpkAddIncidentDate.getValue());
+        inputMap.put("investigatingOfficer", cmbAddInvestigatingOfficer.getSelectionModel().getSelectedItem());
+        inputMap.put("caseType", cmbAddCaseType.getSelectionModel().getSelectedItem()); 
+        inputMap.put("isReturnVisit", cbxAddIsReturnVisit.isSelected());
+        inputMap.put("returnDate", dpkAddReturnDate.getValue());
+        inputMap.put("caseName", txfAddCaseName.getText());
+        inputMap.put("defendant", cmbAddDefendant.getSelectionModel().getSelectedItem());
+        inputMap.put("complainant", cmbAddComplainant.getSelectionModel().getSelectedItem());
+        inputMap.put("address", txfAddAddress.getText());
+        inputMap.put("longitude", txfAddLongitude.getText());
+        inputMap.put("latitude", txfAddLatitude.getText());
+        inputMap.put("region", txfAddRegion.getText());
+        inputMap.put("details", txaAddDetails.getText());
+        inputMap.put("animalsInvolved", txaAddAnimalsInvolved.getText());
+        inputMap.put("evidence", lstAddEvidence.getItems());
+
+        InputToModelParseResult result = editorService.addCase(inputMap);
+        if (result.isSuccessful()) {
+            logger.info("Case added successfully");
+            resetAddCaseTab();
+            refreshCaseList();
+            Alert info = new Alert(AlertType.INFORMATION);
+            info.setTitle("Case Added");
+            info.setContentText("Case added successfully");
+            info.showAndWait();
+        } else {
+            logger.error("Unable to add case. {}", result.getReason());
+            Alert error = new Alert(AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText("Unable to add case");
+            error.setContentText(result.getReason());
+            error.showAndWait();
+        }
     }
+
+    private void resetAddCaseTab() {
+        txfAddCaseNumber.setText("");
+        cmbAddInvestigatingOfficer.setValue(editorService.getUser());
+        cmbAddCaseType.setValue("");
+        cbxAddIsReturnVisit.setSelected(false);
+        txfAddCaseName.setText("");
+        txfAddAddress.setText("");
+        txfAddLongitude.setText("");
+        txfAddLatitude.setText("");
+        txfAddRegion.setText("");
+        txaAddDetails.setText("");
+        txaAddAnimalsInvolved.setText("");
+        lstAddEvidence.setItems(FXCollections.observableList(new ArrayList<Evidence>()));
+    }
+
+    private void refreshCaseList() {
+/*        cases = FXCollections.observableArrayList(editorService.refreshCases());
+        SortedList<Case> sortedCases = new SortedList<>(filteredCases);
+        sortedCases.comparatorProperty().bind(tblCases.comparatorProperty());
+        tblCases.setItems(sortedCases);*/
+        initCasesTable();
+    } 
 
     @FXML private Button btnCalendarNext;
     @FXML private Button btnCalendarPrevious;
@@ -473,6 +536,7 @@ public class EditorController implements IController {
     @FXML private TextField txfAddCaseNumber;
     @FXML private TextField txfAddLatitude;
     @FXML private TextField txfAddLongitude;
+    @FXML private TextField txfAddRegion;
     @FXML private TextField txfFilterCases;
     @FXML private Text txtCalendarMonth;
     @FXML private Text txtSummaryDefendant;

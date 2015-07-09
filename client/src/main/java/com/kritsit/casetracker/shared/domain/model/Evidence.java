@@ -1,8 +1,12 @@
 package com.kritsit.casetracker.shared.domain.model;
 
+import com.kritsit.casetracker.shared.domain.FileSerializer;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Evidence implements Serializable {
@@ -10,13 +14,13 @@ public class Evidence implements Serializable {
     private String description;
     private File serverFile;
     private File localFile;
-    private transient BufferedImage image;
+    private byte[] file;
 
     public Evidence(String description, File serverFile, File localFile) {
         this.description = description;
         this.serverFile = serverFile;
         this.localFile = localFile;
-        this.image = null;
+        this.file = null;
     }
 
     public Evidence(String description, File serverFile) {
@@ -44,8 +48,13 @@ public class Evidence implements Serializable {
         return localFile.getAbsolutePath();
     }
 
-    public BufferedImage getImage() {
-        return image;
+    public byte[] getByteFile() {
+        if (file == null) {
+            return new byte[0];
+        } else {
+            byte[] buffer = Arrays.copyOf(file, file.length);
+            return buffer;
+        }
     }
 
     // Mutator methods:
@@ -61,8 +70,18 @@ public class Evidence implements Serializable {
         this.localFile = localFile;
     }
 
-    public void setImage(BufferedImage image) {
-        this.image = image;
+    public void setByteFile(byte[] file) {
+        if (file == null) {
+            this.file = new byte[0];
+        } else {
+            byte[] buffer = Arrays.copyOf(file, file.length);
+            this.file = buffer;
+        }
+    }
+
+    public void setByteFile(File file) throws IOException {
+        FileSerializer serializer = new FileSerializer();
+        this.file = serializer.serialize(file);
     }
 
     @Override
@@ -87,7 +106,7 @@ public class Evidence implements Serializable {
         }
         return obj.hashCode() == hashCode();
     }
-    
+
     @Override
     public String toString() {
         String result = description + " ";

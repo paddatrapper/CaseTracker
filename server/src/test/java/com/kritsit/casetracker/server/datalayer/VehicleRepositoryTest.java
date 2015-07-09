@@ -45,7 +45,7 @@ public class VehicleRepositoryTest extends TestCase {
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql, id)).thenReturn(vehicleList);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+        Defendant defendant = new Defendant(1, id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
@@ -61,7 +61,7 @@ public class VehicleRepositoryTest extends TestCase {
             "AND defendants.id=?;";
         IPersistenceService db = mock(IPersistenceService.class);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+        Defendant defendant = new Defendant(1, id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
@@ -78,29 +78,30 @@ public class VehicleRepositoryTest extends TestCase {
         IPersistenceService db = mock(IPersistenceService.class);
         when(db.executeQuery(sql, id)).thenReturn(new ArrayList<Map<String, String>>());
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+        Defendant defendant = new Defendant(1, id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
 
         List<Vehicle> vehicles = vehicleRepo.getVehicles(defendant);
-        
+
         assertTrue(vehicles == null);
         verify(db).executeQuery(sql, id);
     }
     
     public void testInsertVehicle() throws SQLException, RowToModelParseException{
         String id = "9802245849032";
-        Defendant defendant = new Defendant(id, "Bob", "Dylan", "1 address road", 
+        Defendant defendant = new Defendant(1, id, "Bob", "Dylan", "1 address road", 
                 "0212221233", "test@testing.co.za", false);
         Vehicle vehicle = new Vehicle("ZSZ1234", "Citroen", "silver", false);
-        int isTrailer = (vehicle.isTrailer()) ? 1 : 0;
-        String sql = "INSERT INTO vehicles SELECT FROM defendants ?, indexID, " +
-            "?, ?, ? WHERE id=?;";
+        String isTrailer = (vehicle.isTrailer()) ? "1" : "0";
+        String sql = "INSERT INTO vehicles VALUES(?, ( " +
+            "SELECT indexID FROM defendants WHERE firstName=? AND lastName=? " +
+            " AND address=?), ?, ?, ?);";
          
         IPersistenceService db = mock(IPersistenceService.class);
         IVehicleRepository vehicleRepo = new VehicleRepository(db);
         vehicleRepo.insertVehicle(vehicle, defendant);
-        verify(db).executeUpdate(sql, vehicle.getRegistration(), vehicle.getMake(),
-                vehicle.getColour(), String.valueOf(isTrailer), defendant.getId());
-        
+        verify(db).executeUpdate(sql, vehicle.getRegistration(), defendant.getFirstName(),
+                defendant.getLastName(), defendant.getAddress(), vehicle.getMake(),
+                vehicle.getColour(), isTrailer);
     }
 }

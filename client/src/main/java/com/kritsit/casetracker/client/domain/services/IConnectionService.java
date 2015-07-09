@@ -15,4 +15,5 @@ public interface IConnectionService {
     List<Case> getCases(Staff user);
     List<Staff> getInspectors();
     String getLastCaseNumber();
+    boolean addCase(Case c);
 }
