@@ -234,7 +234,7 @@ public class Case implements Externalizable {
         out.writeObject(getComplainant());
         out.writeObject(getNextCourtDate());
         out.writeObject(getRuling());
-        out.writeObject(getEvidence());
+        out.writeObject((ArrayList<Evidence>) getEvidence());
         out.writeBoolean(isReturnVisit());
         out.writeObject(getReturnDate());
         out.writeObject(getType());

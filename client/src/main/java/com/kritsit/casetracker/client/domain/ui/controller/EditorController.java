@@ -88,7 +88,8 @@ public class EditorController implements IController {
     @SuppressWarnings("unchecked")
     private void initCasesTable() {
         logger.info("Initiating case list table");
-        cases = FXCollections.observableArrayList(editorService.getCases());
+        cases = FXCollections.observableArrayList(editorService.refreshCases());
+        cbxFilterCaseType.getItems().clear();
         cbxFilterCaseType.getItems().add("All");
         cbxFilterCaseType.setValue("All");
         ObservableList<String> caseTypes = FXCollections.observableArrayList(editorService.getCaseTypes());
@@ -129,8 +130,10 @@ public class EditorController implements IController {
         colCaseNumber.setCellValueFactory(new PropertyValueFactory("caseNumber"));
         colCaseName.setCellValueFactory(new PropertyValueFactory("caseName"));
         colCaseType.setCellValueFactory(new PropertyValueFactory("caseType"));
-        colInvestigatingOfficer.setCellValueFactory((CellDataFeatures<Case, String> c) -> c.getValue().getInvestigatingOfficer().nameProperty());       
-        colIncidentDate.setCellValueFactory((CellDataFeatures<Case, String> c) -> c.getValue().getIncident().dateProperty());
+        colInvestigatingOfficer.setCellValueFactory((CellDataFeatures<Case, String> c) -> 
+                c.getValue().getInvestigatingOfficer().nameProperty());       
+        colIncidentDate.setCellValueFactory((CellDataFeatures<Case, String> c) -> 
+                c.getValue().getIncident().dateProperty());
         
         double numberWidthPercent = 0.15;
         double nameWidthPercent = 0.25;
@@ -458,6 +461,7 @@ public class EditorController implements IController {
         if (result.isSuccessful()) {
             logger.info("Case added successfully");
             resetAddCaseTab();
+            refreshCaseList();
             Alert info = new Alert(AlertType.INFORMATION);
             info.setTitle("Case Added");
             info.setContentText("Case added successfully");
@@ -486,6 +490,14 @@ public class EditorController implements IController {
         txaAddAnimalsInvolved.setText("");
         lstAddEvidence.setItems(FXCollections.observableList(new ArrayList<Evidence>()));
     }
+
+    private void refreshCaseList() {
+/*        cases = FXCollections.observableArrayList(editorService.refreshCases());
+        SortedList<Case> sortedCases = new SortedList<>(filteredCases);
+        sortedCases.comparatorProperty().bind(tblCases.comparatorProperty());
+        tblCases.setItems(sortedCases);*/
+        initCasesTable();
+    } 
 
     @FXML private Button btnCalendarNext;
     @FXML private Button btnCalendarPrevious;

@@ -12,6 +12,7 @@ import java.util.Map;
 public interface IEditorService {
     Staff getUser();
     List<Case> getCases();
+    List<Case> refreshCases();
     List<List<Day>> getBlankMonth();
     List<List<Day>> getMonthAppointments(int month, int year);
     List<Staff> getInspectors();

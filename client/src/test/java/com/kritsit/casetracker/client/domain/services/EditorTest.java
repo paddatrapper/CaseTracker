@@ -185,13 +185,27 @@ public class EditorTest extends TestCase {
         verify(c, times(3)).getComplainant();
     }
 
-    public void testGetNextCaseNumber() {
+    public void testGetNextCaseNumber_Reset() {
         String lastCaseNumber = "2015-02-0001";
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
         IEditorService editor = new Editor(user, connection);
         LocalDate today = LocalDate.now();
         String nextCaseNumber = today.getYear() + "-" + String.format("%02d", today.getMonthValue()) + "-0001";
+        
+        when(connection.getLastCaseNumber()).thenReturn(lastCaseNumber);
+
+        assertTrue(nextCaseNumber.equals(editor.getNextCaseNumber()));
+        verify(connection).getLastCaseNumber();
+    }
+
+    public void testGetNextCaseNumber_Continue() {
+        LocalDate today = LocalDate.now();
+        String lastCaseNumber = today.getYear() + "-" + String.format("%02d", today.getMonthValue()) + "-0001";
+        String nextCaseNumber = today.getYear() + "-" + String.format("%02d", today.getMonthValue()) + "-0002";
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
         
         when(connection.getLastCaseNumber()).thenReturn(lastCaseNumber);
 
