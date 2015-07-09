@@ -135,7 +135,6 @@ public class ServerConnectionIT extends TestCase {
             connection.close();
         }
         File evidenceFile = new File("../server/data/");
-        System.out.println(evidenceFile.getAbsolutePath());
         if (evidenceFile.exists()) {
             delete(evidenceFile);
         }
