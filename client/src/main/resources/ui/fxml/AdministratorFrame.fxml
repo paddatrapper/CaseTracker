@@ -35,7 +35,7 @@
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <TableView fx:id="staffTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
                      <bottom>
                         <BorderPane prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -43,17 +43,17 @@
                               <AnchorPane prefHeight="200.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                                  <children>
                                     <Label layoutX="14.0" layoutY="13.0" text="Search:" />
-                                    <TextField layoutX="74.0" layoutY="8.0" prefWidth="315.0" />
-                                    <ComboBox layoutX="404.0" layoutY="8.0" prefWidth="100.0" />
+                                    <TextField fx:id="serachField" layoutX="74.0" layoutY="8.0" prefWidth="315.0" />
+                                    <ComboBox fx:id="searchCombobox" layoutX="404.0" layoutY="8.0" prefWidth="100.0" />
                                  </children>
                               </AnchorPane>
                            </center>
                            <right>
                               <AnchorPane prefHeight="200.0" prefWidth="260.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button layoutX="186.0" layoutY="8.0" mnemonicParsing="false" text="Delete" />
-                                    <Button layoutX="132.0" layoutY="8.0" mnemonicParsing="false" text="Edit" />
-                                    <Button layoutY="8.0" mnemonicParsing="false" text="Reset Password" />
+                                    <Button fx:id="deleteButton" layoutX="186.0" layoutY="8.0" mnemonicParsing="false" text="Delete" />
+                                    <Button fx:id="editButton" layoutX="132.0" layoutY="8.0" mnemonicParsing="false" text="Edit" />
+                                    <Button fx:id="resetPasswordButton" layoutY="8.0" mnemonicParsing="false" text="Reset Password" />
                                  </children>
                               </AnchorPane>
                            </right>
@@ -70,17 +70,17 @@
                            <children>
                               <Label layoutX="14.0" layoutY="19.0" text="First Name:" />
                               <Label layoutX="14.0" layoutY="59.0" text="Last Name:" />
-                              <TextField layoutX="115.0" layoutY="14.0" prefWidth="180.0" />
-                              <TextField layoutX="115.0" layoutY="54.0" prefWidth="180.0" />
-                              <TextField layoutX="115.0" layoutY="143.0" prefWidth="180.0" />
+                              <TextField fx:id="firstNameField" layoutX="115.0" layoutY="14.0" prefWidth="180.0" />
+                              <TextField fx:id="lastNameField" layoutX="115.0" layoutY="54.0" prefWidth="180.0" />
+                              <TextField fx:id="positionField" layoutX="115.0" layoutY="143.0" prefWidth="180.0" />
                               <Label layoutX="14.0" layoutY="148.0" text="Position:" />
                               <Label layoutX="14.0" layoutY="108.0" text="Department:" />
-                              <TextField layoutX="115.0" layoutY="196.0" prefWidth="180.0" />
+                              <TextField fx:id="usernameField" layoutX="115.0" layoutY="196.0" prefWidth="180.0" />
                               <Label layoutX="14.0" layoutY="241.0" text="Permissions:" />
                               <Label layoutX="14.0" layoutY="201.0" text="Username:" />
-                              <ComboBox editable="true" layoutX="115.0" layoutY="103.0" prefWidth="180.0" />
-                              <ComboBox layoutX="115.0" layoutY="236.0" prefWidth="180.0" />
-                              <Button layoutX="115.0" layoutY="280.0" mnemonicParsing="false" text="Add User" />
+                              <ComboBox fx:id="departmentCombobox" editable="true" layoutX="115.0" layoutY="103.0" prefWidth="180.0" />
+                              <ComboBox fx:id="permissionCombobox" layoutX="115.0" layoutY="236.0" prefWidth="180.0" />
+                              <Button fx:id="addUserButton" layoutX="115.0" layoutY="280.0" mnemonicParsing="false" text="Add User" />
                            </children>
                         </AnchorPane>
                      </children>

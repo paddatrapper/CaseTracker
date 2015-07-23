@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
 import com.kritsit.casetracker.client.domain.services.ServerConnection;
@@ -40,7 +42,6 @@ public class AdministratorController implements IController {
     public void initFrame(){
         logger.info("Initiating frame");
         if (administratorService.getUser().getPermission() == Permission.ADMIN) {
-            initialize();
             initStaffTable();
             initPermissionCombobox();
         } else {
@@ -61,11 +62,9 @@ public class AdministratorController implements IController {
                     positionField.getText(), 
                     permission);
             
-            List<Staff> list = new ArrayList<Staff>();
-            list.add(staff);
-            Request request = new Request("addUser", list);
-           
-            // sernding serialized request through socket
+            Map<String, Object> inputMap = new HashMap<String, Object>();
+            inputMap.put("addUser", staff);
+            administratorService.addUser(inputMap);
             
             resetAddUserTab();
         });

@@ -1,5 +1,7 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,12 @@ public class Administrator implements IAdministratorService {
     
     public Staff getUser() {
         return user;    
+    }
+
+    
+    public InputToModelParseResult addUser(Map<String, Object> inputMap) {
+        //to be implemented
+        return new InputToModelParseResult(false);
     }
 
 }
