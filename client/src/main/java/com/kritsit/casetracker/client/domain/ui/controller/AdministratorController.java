@@ -1,5 +1,9 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import com.kritsit.casetracker.shared.domain.Request;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
@@ -16,20 +20,27 @@ import javafx.fxml.FXML;
 
 public class AdministratorController implements IController {
     
-    @FXML private TextField searchField;
-    @FXML private ComboBox<String> searchCombobox;
-    @FXML private Button resetPasswordButton;
-    @FXML private Button editButton;
-    @FXML private Button deleteButton;
-    @FXML private TableView staffTable;
-    private ObservableList<Staff> staffList;
-    @FXML private TextField firstNameField;
-    @FXML private TextField lastNameField;
-    @FXML private ComboBox<String> departmentCombobox;
-    @FXML private TextField positionField;
-    @FXML private TextField usernameField;
-    @FXML private ComboBox<String> permissionCombobox;
-    @FXML private Button addUserButton;
+    
+    public void initialize(){
+        
+        addUserButton.setOnAction(event->{
+            Permission permission = Permission.valueOf(permissionCombobox.getValue());
+            
+            Staff staff = new Staff(usernameField.getText(), 
+                    firstNameField.getText(), 
+                    lastNameField.getText(), 
+                    departmentCombobox.getValue(), 
+                    positionField.getText(), 
+                    permission);
+            
+            List<Staff> list = new ArrayList<Staff>();
+            list.add(staff);
+            Request request = new Request("addUser", list);
+            // need a socket to send serialized request through
+            resetAddUserTab();
+        });
+        
+    }
 
     private void initStaffTable(){
         TableColumn firstNameColumn = new TableColumn("First name");
@@ -70,4 +81,20 @@ public class AdministratorController implements IController {
                Permission.EDITOR.toString(), Permission.VIEWER.toString());
        permissionCombobox = new ComboBox<String>(permissions);
     }
+    
+    @FXML private TextField searchField;
+    @FXML private ComboBox<String> searchCombobox;
+    @FXML private Button resetPasswordButton;
+    @FXML private Button editButton;
+    @FXML private Button deleteButton;
+    @FXML private TableView staffTable;
+    private ObservableList<Staff> staffList;
+    @FXML private TextField firstNameField;
+    @FXML private TextField lastNameField;
+    @FXML private ComboBox<String> departmentCombobox;
+    @FXML private TextField positionField;
+    @FXML private TextField usernameField;
+    @FXML private ComboBox<String> permissionCombobox;
+    @FXML private Button addUserButton;
+    
 }
