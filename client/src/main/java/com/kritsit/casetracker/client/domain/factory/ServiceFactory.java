@@ -1,6 +1,8 @@
 package com.kritsit.casetracker.client.domain.factory;
 
+import com.kritsit.casetracker.client.domain.services.Administrator;
 import com.kritsit.casetracker.client.domain.services.Editor;
+import com.kritsit.casetracker.client.domain.services.IAdministratorService;
 import com.kritsit.casetracker.client.domain.services.IConnectionService;
 import com.kritsit.casetracker.client.domain.services.IEditorService;
 import com.kritsit.casetracker.client.domain.services.ILoginService;
@@ -37,4 +39,10 @@ public class ServiceFactory {
         logger.debug("Creating new editor service");
         return new Editor(user, getServerConnection());
     }
+    
+    public static IAdministratorService getAdministratorService(Staff user) {
+        logger.debug("Creating new administrator service");
+        return new Administrator(user, getServerConnection());
+    }
+    
 }

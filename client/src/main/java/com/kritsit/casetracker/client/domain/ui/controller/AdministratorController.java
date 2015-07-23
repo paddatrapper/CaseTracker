@@ -1,8 +1,14 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 
+import com.kritsit.casetracker.client.domain.services.IAdministratorService;
+import com.kritsit.casetracker.client.domain.services.ServerConnection;
 import com.kritsit.casetracker.shared.domain.Request;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
@@ -16,9 +22,31 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.fxml.FXML;
 
 public class AdministratorController implements IController {
+    
+    private ObservableList<Staff> staffList;
+    private IAdministratorService administratorService;
+    private Stage stage;
+    private final Logger logger = LoggerFactory.getLogger(AdministratorController.class);
+    
+    public void setAdministratorService(IAdministratorService administratorService) {
+        this.administratorService = administratorService;
+        
+    }
+    
+    public void initFrame(){
+        logger.info("Initiating frame");
+        if (administratorService.getUser().getPermission() == Permission.ADMIN) {
+            initialize();
+            initStaffTable();
+            initPermissionCombobox();
+        } else {
+            logger.debug("Administrator view disabled");
+        } 
+    }
     
     
     public void initialize(){
@@ -36,10 +64,16 @@ public class AdministratorController implements IController {
             List<Staff> list = new ArrayList<Staff>();
             list.add(staff);
             Request request = new Request("addUser", list);
-            // need a socket to send serialized request through
+           
+            // sernding serialized request through socket
+            
             resetAddUserTab();
         });
         
+    }
+    
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     private void initStaffTable(){
@@ -88,7 +122,6 @@ public class AdministratorController implements IController {
     @FXML private Button editButton;
     @FXML private Button deleteButton;
     @FXML private TableView staffTable;
-    private ObservableList<Staff> staffList;
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private ComboBox<String> departmentCombobox;
@@ -96,5 +129,6 @@ public class AdministratorController implements IController {
     @FXML private TextField usernameField;
     @FXML private ComboBox<String> permissionCombobox;
     @FXML private Button addUserButton;
+    
     
 }
