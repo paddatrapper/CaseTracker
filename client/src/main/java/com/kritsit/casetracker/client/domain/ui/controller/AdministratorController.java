@@ -1,22 +1,20 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
-import com.kritsit.casetracker.client.domain.services.ServerConnection;
-import com.kritsit.casetracker.shared.domain.Request;
+import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
@@ -62,7 +60,21 @@ public class AdministratorController implements IController {
             inputMap.put("position", positionField.getText());
             inputMap.put("permission", Permission.valueOf(permissionCombobox.getValue()));
             
-            administratorService.addUser(inputMap);
+            InputToModelParseResult result = administratorService.addUser(inputMap);
+            if(result.isSuccessful()){
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Adding a new user");
+            alert.setHeaderText("New user added succesfully");
+            alert.setContentText("Click OK to proceed");
+            alert.showAndWait();
+            }
+            else{
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error adding new user");
+            alert.setContentText(result.getReason());
+            alert.showAndWait();
+            }
             
             resetAddUserTab();
         });

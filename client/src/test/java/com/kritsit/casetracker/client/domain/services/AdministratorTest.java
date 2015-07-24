@@ -127,7 +127,7 @@ public class AdministratorTest extends TestCase {
         assertTrue("permission and lastname required".equals(result.getReason()));
     }
     
-    public void testAddUser_succesCoordinates() {
+    public void testAddUser_allFieldsFilled() {
         Map<String, Object> inputMap = new HashMap<>();
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
