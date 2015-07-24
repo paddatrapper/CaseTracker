@@ -85,12 +85,13 @@ public class AdministratorController implements IController {
         this.stage = stage;
     }
 
+    @SuppressWarnings("unchecked")
     private void initStaffTable(){
-        TableColumn firstNameColumn = new TableColumn("First name");
-        TableColumn lastNameColumn = new TableColumn("Last name");
-        TableColumn usernameColumn = new TableColumn("Username");
-        TableColumn departmentColumn = new TableColumn("Department");
-        TableColumn positionColumn = new TableColumn("Position");
+        TableColumn<Staff, String>  firstNameColumn = new TableColumn<Staff, String>("First name");
+        TableColumn<Staff, String> lastNameColumn = new TableColumn<Staff, String>("Last name");
+        TableColumn<Staff, String> usernameColumn = new TableColumn<Staff, String>("Username");
+        TableColumn<Staff, String> departmentColumn = new TableColumn<Staff, String>("Department");
+        TableColumn<Staff, String> positionColumn = new TableColumn<Staff, String>("Position");
         
         staffTable.getColumns().addAll(firstNameColumn, lastNameColumn,
                 usernameColumn, departmentColumn, positionColumn);
@@ -130,7 +131,7 @@ public class AdministratorController implements IController {
     @FXML private Button resetPasswordButton;
     @FXML private Button editButton;
     @FXML private Button deleteButton;
-    @FXML private TableView staffTable;
+    @FXML private TableView<Staff> staffTable;
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private ComboBox<String> departmentCombobox;
