@@ -50,7 +50,7 @@ public class Administrator implements IAdministratorService {
                  continue;
              }
              else{
-                 result.addFailedInput(entry.getKey()+" missing");
+                 result.addFailedInput(entry.getKey());
              }
              
         }
@@ -78,7 +78,7 @@ public class Administrator implements IAdministratorService {
         String lastname = (String) inputMap.get("lastname");
         String department = (String) inputMap.get("department");
         String position = (String) inputMap.get("position");
-        Permission permission = (Permission) Permission.valueOf(String.valueOf(inputMap.get("position")));
+        Permission permission = (Permission) Permission.valueOf(String.valueOf(inputMap.get("permission")));
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         return staff;
     }
