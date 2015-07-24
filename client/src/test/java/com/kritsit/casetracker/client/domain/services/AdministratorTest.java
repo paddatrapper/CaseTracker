@@ -1,6 +1,9 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +63,7 @@ public class AdministratorTest extends TestCase {
         inputMap.put("username", "");
         inputMap.put("firstname", "John");
         inputMap.put("lastname", "Doe");
+        inputMap.put("department", "IT");
         inputMap.put("position", "admin");
         inputMap.put("permission", "ADMIN");
         
@@ -77,6 +81,7 @@ public class AdministratorTest extends TestCase {
         inputMap.put("username", "johndoe");
         inputMap.put("firstname", "John");
         inputMap.put("lastname", "");
+        inputMap.put("department", "IT");
         inputMap.put("position", "admin");
         inputMap.put("permission", "ADMIN");
         
@@ -95,6 +100,7 @@ public class AdministratorTest extends TestCase {
         inputMap.put("firstname", "John");
         inputMap.put("lastname", "Doe");
         inputMap.put("position", "admin");
+        inputMap.put("department", "IT");
         inputMap.put("permission", "");
         
         InputToModelParseResult result = administrator.addUser(inputMap);          
@@ -112,6 +118,7 @@ public class AdministratorTest extends TestCase {
         inputMap.put("firstname", "John");
         inputMap.put("lastname", "");
         inputMap.put("position", "admin");
+        inputMap.put("department", "IT");
         inputMap.put("permission", "");
         
         InputToModelParseResult result = administrator.addUser(inputMap);          
@@ -119,7 +126,34 @@ public class AdministratorTest extends TestCase {
         assertFalse(result.isSuccessful());
         assertTrue("permission and lastname required".equals(result.getReason()));
     }
-   
+    
+    public void testAddUser_succesCoordinates() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IAdministratorService administrator = new Administrator(user, connection);
+        
+        String username = "johndoe";
+        String firstname = "John";
+        String lastname = "Doe";
+        String department = "IT";
+        String position = "admin";
+        Permission permission = Permission.ADMIN;
+        
+        Staff staff = new Staff(username, firstname, lastname, department, position, permission);
+        
+        inputMap.put("username", username);
+        inputMap.put("firstname", firstname);
+        inputMap.put("lastname", lastname);
+        inputMap.put("position", position);
+        inputMap.put("permission", permission.toString());
+
+        when(connection.addUser(any())).thenReturn(true);
+        InputToModelParseResult result = administrator.addUser(inputMap);   
+        
+        assertTrue(result.isSuccessful());
+        verify(connection).addUser(any());
+    }
 
     
 }

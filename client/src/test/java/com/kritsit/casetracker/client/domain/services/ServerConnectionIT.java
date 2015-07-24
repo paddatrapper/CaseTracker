@@ -128,6 +128,19 @@ public class ServerConnectionIT extends TestCase {
             evidence, isReturnVisit, null, caseType, null);
         assertTrue(connection.addCase(c));
     }
+    
+    public void testAddUser(){
+        connection.open(host, port);
+        String username = "johndoe";
+        String firstname = "John";
+        String lastname = "Doe";
+        String department = "IT";
+        String position = "admin";
+        Permission permission = Permission.ADMIN;
+        
+        Staff staff = new Staff(username, firstname, lastname, department, position, permission);
+        assertTrue(connection.addUser(staff));
+    }
 
     public void tearDown() throws IOException {
         ServiceFactory.resetServerConnection();
