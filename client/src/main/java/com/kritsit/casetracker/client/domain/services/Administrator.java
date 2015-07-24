@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import com.kritsit.casetracker.client.validation.IValidator;
 import com.kritsit.casetracker.client.validation.StringValidator;
-import com.kritsit.casetracker.client.validation.StringValidatorTest;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
