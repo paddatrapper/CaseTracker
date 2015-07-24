@@ -185,6 +185,23 @@ public class ServerConnection implements IConnectionService {
             return false;
         }
     }
+    
+    public boolean addUser(Staff s){
+        List<Case> arguments = new ArrayList<>();
+        arguments.add(s);
+        Request request = new Request("addUser", arguments);
+        Response response = getResponse(request);
+        if (!response.isSuccessful()) {
+            logger.error("Unable to add user. Code {} - {}",
+                    response.getStatus(),
+                    response.getBody().toString());
+        }
+        return response.isSuccessful();
+    } catch (IOException | ClassNotFoundException ex) {
+        logger.error("Unable to add user", ex);
+        return false;
+    }
+    }
 
     private void serializeEvidence(List<Evidence> evidence) throws IOException {
         FileSerializer serializer = new FileSerializer();

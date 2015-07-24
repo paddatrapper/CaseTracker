@@ -53,17 +53,15 @@ public class AdministratorController implements IController {
     public void initialize(){
         
         addUserButton.setOnAction(event->{
-            Permission permission = Permission.valueOf(permissionCombobox.getValue());
-            
-            Staff staff = new Staff(usernameField.getText(), 
-                    firstNameField.getText(), 
-                    lastNameField.getText(), 
-                    departmentCombobox.getValue(), 
-                    positionField.getText(), 
-                    permission);
-            
+           
             Map<String, Object> inputMap = new HashMap<String, Object>();
-            inputMap.put("addUser", staff);
+            inputMap.put("username", usernameField.getText());
+            inputMap.put("firstname", firstNameField.getText());
+            inputMap.put("lastname", lastNameField.getText());
+            inputMap.put("department", departmentCombobox.getValue());
+            inputMap.put("position", positionField.getText());
+            inputMap.put("permission", Permission.valueOf(permissionCombobox.getValue()));
+            
             administratorService.addUser(inputMap);
             
             resetAddUserTab();
