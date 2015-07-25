@@ -105,7 +105,7 @@ CREATE TABLE CaseTracker.evidence (
 	CONSTRAINT fk_CaseNumber FOREIGN KEY (caseNumber) REFERENCES CaseTracker.cases (caseNumber) ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
-INSERT INTO CaseTracker.staff VALUES ('root', 'root', 'root', 'System', 'Admin', -634923903, 3227621176210808074, 0);
+INSERT INTO CaseTracker.staff VALUES ('root', 'root', 'root', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 0);
 INSERT INTO CaseTracker.staff VALUES ('inspector', 'inspector', 'inspector', 'inspector', 'inspector', -5922475058343094375, -5922475058261058398, 1);
 
 INSERT INTO CaseTracker.defendants VALUES (1, NULL, 'Test', 'Defendant', NULL, NULL, NULL, 0);
