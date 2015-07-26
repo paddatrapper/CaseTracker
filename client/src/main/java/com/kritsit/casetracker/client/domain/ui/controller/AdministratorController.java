@@ -12,6 +12,7 @@ import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -103,21 +104,7 @@ public class AdministratorController implements IController {
         departmentColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Department"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Position"));
         
-        List<Staff> users = administratorService.getInspectors();
-        if(users!=null){
-            for(Staff s : users){
-                staffList.add(s);
-            }
-            
-            staffTable.setItems(staffList);
-        }
-        else{
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error downloading users list");
-            alert.setContentText("Check logs for details");
-            alert.showAndWait();
-        }
+       populateTable();
         
     }
     
@@ -140,7 +127,33 @@ public class AdministratorController implements IController {
                FXCollections.observableArrayList(Permission.ADMIN.toString(),
                Permission.EDITOR.toString(), Permission.VIEWER.toString());
        permissionCombobox.setItems(permissions);
-    }   
+    }
+    
+    public void populateTable(){
+        Platform.runLater(new Runnable() {
+            
+            @Override
+            public void run() {
+                staffList = FXCollections.observableArrayList();
+                List<Staff> users = administratorService.getInspectors();
+                if(users!=null){
+                    for(Staff s : users){
+                        staffList.add(s);
+                    }
+                    
+                    staffTable.setItems(staffList);
+                }
+                else{
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error downloading users list");
+                    alert.setContentText("Check logs for details");
+                    alert.showAndWait();
+                }
+                
+            }
+        });
+    }
     
     @FXML private TextField searchField;
     @FXML private ComboBox<String> searchCombobox;
