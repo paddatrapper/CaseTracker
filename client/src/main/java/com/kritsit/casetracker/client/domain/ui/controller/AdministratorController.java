@@ -139,7 +139,7 @@ public class AdministratorController implements IController {
        ObservableList<String> permissions = 
                FXCollections.observableArrayList(Permission.ADMIN.toString(),
                Permission.EDITOR.toString(), Permission.VIEWER.toString());
-       permissionCombobox = new ComboBox<String>(permissions);
+       permissionCombobox.setItems(permissions);
     }   
     
     @FXML private TextField searchField;
