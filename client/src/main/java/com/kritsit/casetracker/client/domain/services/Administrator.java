@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -26,7 +27,6 @@ public class Administrator implements IAdministratorService {
         return user;    
     }
 
-    
     public InputToModelParseResult addUser(Map<String, Object> inputMap) {
         if (inputMap == null || inputMap.isEmpty()) {
             logger.debug("InputMap empty or null. Aborting");
@@ -81,6 +81,11 @@ public class Administrator implements IAdministratorService {
         Permission permission = (Permission) Permission.valueOf(String.valueOf(inputMap.get("permission")));
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         return staff;
+    }
+
+   
+    public List<Staff> getInspectors() {
+        return connection.getInspectors();
     }
 
 }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
@@ -101,6 +102,12 @@ public class AdministratorController implements IController {
         usernameColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Username"));
         departmentColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Department"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Position"));
+        
+        List<Staff> users = administratorService.getInspectors();
+        
+        for(Staff s : users){
+            staffList.add(s);
+        }
         
         staffTable.setItems(staffList);
     }
