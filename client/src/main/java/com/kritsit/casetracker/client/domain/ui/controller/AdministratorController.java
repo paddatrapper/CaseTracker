@@ -15,6 +15,8 @@ import com.kritsit.casetracker.shared.domain.model.Staff;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -24,6 +26,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 
@@ -80,6 +84,34 @@ public class AdministratorController implements IController {
             }
            
             resetAddUserTab();
+        });
+        
+        searchField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode()==KeyCode.ENTER){
+                    Platform.runLater(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                           if(!searchField.getText().equals("")){ 
+                                ObservableList<Staff> staffListTemp = searchForPattern(searchField.getText());
+                                staffTable.getItems().removeAll(staffList);
+                                staffList = staffListTemp;
+                                staffTable.setItems(staffList);
+                           }
+                           else{
+                               staffTable.getItems().removeAll(staffList);
+                               staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+                               staffTable.setItems(staffList);
+                           }
+                        }
+                    });
+                }
+                
+            }
+            
         });
         
     }
@@ -139,28 +171,25 @@ public class AdministratorController implements IController {
     
     private void populateTable(){
         Platform.runLater(new Runnable() {
-            
             @Override
             public void run() {
-                staffList = FXCollections.observableArrayList();
-                List<Staff> users = administratorService.getInspectors();
-                if(users!=null){
-                    for(Staff s : users){
-                        staffList.add(s);
-                    }
-                    
-                    staffTable.setItems(staffList);
-                }
-                else{
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Error downloading users list");
-                    alert.setContentText("Check logs for details");
-                    alert.showAndWait();
-                }
-                
+                staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+                staffTable.setItems(staffList);
             }
         });
+    }
+    
+    private ObservableList<Staff> searchForPattern(String searchPattern){
+        ObservableList<Staff> results = FXCollections.observableArrayList();
+        for(Staff s : staffList){
+            if(s.getUsername().contains(searchPattern)) results.add(s);
+                
+            
+        }
+        
+        
+        
+        return results;
     }
     
     @FXML private TextField searchField;

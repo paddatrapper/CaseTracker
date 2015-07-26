@@ -46,7 +46,7 @@
                               <AnchorPane prefHeight="200.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                                  <children>
                                     <Label layoutX="14.0" layoutY="13.0" text="Search:" />
-                                    <TextField fx:id="serachField" layoutX="74.0" layoutY="8.0" prefWidth="315.0" />
+                                    <TextField fx:id="searchField" layoutX="74.0" layoutY="8.0" prefWidth="315.0" />
                                     <ComboBox fx:id="searchCombobox" layoutX="404.0" layoutY="8.0" prefWidth="100.0" />
                                  </children>
                               </AnchorPane>
