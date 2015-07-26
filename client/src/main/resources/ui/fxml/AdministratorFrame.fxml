@@ -35,7 +35,10 @@
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <TableView fx:id="staffTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <TableView fx:id="staffTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy></TableView>
                      </center>
                      <bottom>
                         <BorderPane prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">

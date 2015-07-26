@@ -44,6 +44,7 @@ public class AdministratorController implements IController {
         if (administratorService.getUser().getPermission() == Permission.ADMIN) {
             initStaffTable();
             initPermissionCombobox();
+            initSearchCombobox();
         } else {
             logger.debug("Administrator view disabled");
         } 
@@ -129,7 +130,14 @@ public class AdministratorController implements IController {
        permissionCombobox.setItems(permissions);
     }
     
-    public void populateTable(){
+    private void initSearchCombobox(){
+        ObservableList<String> permissions = 
+                FXCollections.observableArrayList(Permission.ADMIN.toString(),
+                Permission.EDITOR.toString(), Permission.VIEWER.toString());
+        searchCombobox.setItems(permissions);
+     }
+    
+    private void populateTable(){
         Platform.runLater(new Runnable() {
             
             @Override
