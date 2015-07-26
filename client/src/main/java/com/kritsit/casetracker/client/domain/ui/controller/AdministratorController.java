@@ -104,12 +104,20 @@ public class AdministratorController implements IController {
         positionColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Position"));
         
         List<Staff> users = administratorService.getInspectors();
-        
-        for(Staff s : users){
-            staffList.add(s);
+        if(users!=null){
+            for(Staff s : users){
+                staffList.add(s);
+            }
+            
+            staffTable.setItems(staffList);
         }
-        
-        staffTable.setItems(staffList);
+        else{
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error downloading users list");
+            alert.setContentText("Check logs for details");
+            alert.showAndWait();
+        }
     }
     
     private void resetAddUserTab(){

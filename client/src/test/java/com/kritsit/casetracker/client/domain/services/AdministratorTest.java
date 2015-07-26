@@ -154,6 +154,16 @@ public class AdministratorTest extends TestCase {
         assertTrue(result.isSuccessful());
         verify(connection).addUser(any());
     }
+    
+    public void testGetInspectors() {
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IAdministratorService administrator = new Administrator(user, connection);
+        
+        administrator.getInspectors(); 
+
+        verify(connection).getInspectors();
+    }
 
     
 }
