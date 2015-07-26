@@ -100,6 +100,7 @@ public class AdministratorController implements IController {
                                 staffTable.getItems().removeAll(staffList);
                                 staffList = staffListTemp;
                                 staffTable.setItems(staffList);
+                                searchField.setText("");
                            }
                            else{
                                staffTable.getItems().removeAll(staffList);
