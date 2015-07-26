@@ -12,6 +12,7 @@ import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -76,8 +77,7 @@ public class AdministratorController implements IController {
             alert.setContentText(result.getReason());
             alert.showAndWait();
             }
-            
-            resetAddUserTab();
+           
         });
         
     }
@@ -118,6 +118,7 @@ public class AdministratorController implements IController {
             alert.setContentText("Check logs for details");
             alert.showAndWait();
         }
+        
     }
     
     private void resetAddUserTab(){
@@ -139,7 +140,7 @@ public class AdministratorController implements IController {
                FXCollections.observableArrayList(Permission.ADMIN.toString(),
                Permission.EDITOR.toString(), Permission.VIEWER.toString());
        permissionCombobox = new ComboBox<String>(permissions);
-    }
+    }   
     
     @FXML private TextField searchField;
     @FXML private ComboBox<String> searchCombobox;
