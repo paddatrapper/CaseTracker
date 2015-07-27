@@ -112,12 +112,27 @@ public class AdministratorController implements IController {
                 String lowerCaseFilter = newValue.toLowerCase();
                 if (s.getUsername().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } /*else if (c.getNumber().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }*/
+                }
+                
                 return false;
             });
         });
+        
+        searchCombobox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            filteredStaff.setPredicate(s -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+               
+                if (s.getPermission().toString().equals(newValue)) {
+                    return true;
+                }
+                
+                return false;
+            });
+        });
+        
+        
         
         SortedList<Staff> sortedStaff = new SortedList<>(filteredStaff);
         sortedStaff.comparatorProperty().bind(staffTable.comparatorProperty());
