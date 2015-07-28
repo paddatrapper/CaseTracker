@@ -24,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
@@ -57,6 +58,37 @@ public class AdministratorController implements IController {
     }
     
     public void initialize(){
+        
+        deleteButton.setOnAction(event->{
+          TableViewSelectionModel<Staff> selection =  staffTable.getSelectionModel();
+          String selectedUsername = selection.getSelectedItem().getUsername();
+          Map<String, Object> inputMap = new HashMap<String, Object>();
+          inputMap.put("username", selectedUsername);
+          int result = administratorService.deleteUser(inputMap);
+          if(result==200){
+              staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+              Alert alert = new Alert(AlertType.INFORMATION);
+              alert.setTitle("Deleting user");
+              alert.setHeaderText("User deleted succesfully");
+              alert.setContentText("Click OK to proceed");
+              alert.showAndWait();
+              }
+          else if(result==400){
+              Alert alert = new Alert(AlertType.INFORMATION);
+              alert.setTitle("Deleting user");
+              alert.setHeaderText("Information");
+              alert.setContentText("Select a user to delete");
+              alert.showAndWait(); 
+          }
+          
+          else if(result==500){
+              Alert alert = new Alert(AlertType.ERROR);
+              alert.setTitle("Deleting user");
+              alert.setHeaderText("Error while deleting user");
+              alert.setContentText("Error occured on the server side");
+              alert.showAndWait();
+              }
+        });
         
         addUserButton.setOnAction(event->{
            

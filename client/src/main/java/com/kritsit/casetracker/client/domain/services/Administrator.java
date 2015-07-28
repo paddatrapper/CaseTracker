@@ -37,11 +37,6 @@ public class Administrator implements IAdministratorService {
         
         InputToModelParseResult result = new InputToModelParseResult(true);
         
-        if (inputMap == null || inputMap.isEmpty()) {
-            logger.debug("InputMap empty or null. Aborting");
-            return new InputToModelParseResult(false, "Required information missing");
-        }
-        
         for(Map.Entry<String, Object> entry : inputMap.entrySet()){
              if(entry.getKey().equals("firstname")) continue;
              if(entry.getKey().equals("position")) continue;
@@ -79,6 +74,19 @@ public class Administrator implements IAdministratorService {
         Permission permission = (Permission) Permission.valueOf(String.valueOf(inputMap.get("permission")));
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         return staff;
+    }
+    
+    public int deleteUser(Map<String, Object> inputMap){
+        if (inputMap == null || inputMap.isEmpty()) {
+            logger.debug("InputMap empty or null. Aborting");
+            return 400;
+        }
+        logger.info("Delete user {}", inputMap.get("username"));
+        
+        boolean isDeleted = connection.deleteUser(inputMap.get("username").toString());
+        
+        if(isDeleted) return 200; 
+        else return 500;
     }
 
     public List<Staff> getInspectors() {

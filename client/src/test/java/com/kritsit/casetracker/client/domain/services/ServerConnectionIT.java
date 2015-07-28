@@ -142,6 +142,12 @@ public class ServerConnectionIT extends TestCase {
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         assertTrue(connection.addUser(staff));
     }
+    
+    public void testDeleteUser(){
+        connection.open(host, port);
+        String username = "johndoe";
+        assertTrue(connection.deleteUser(username));
+    }
     */
     
     public void tearDown() throws IOException {
