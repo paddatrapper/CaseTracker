@@ -164,6 +164,4 @@ public class AdministratorTest extends TestCase {
 
         verify(connection).getInspectors();
     }
-
-    
 }

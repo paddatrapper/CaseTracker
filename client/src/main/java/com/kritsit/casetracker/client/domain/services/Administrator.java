@@ -53,7 +53,6 @@ public class Administrator implements IAdministratorService {
              else{
                  result.addFailedInput(entry.getKey());
              }
-             
         }
         
         if (!result.isSuccessful()) {
@@ -68,8 +67,6 @@ public class Administrator implements IAdministratorService {
         
         InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
         return uploaded;
-        
-        
     }
     
     private Staff parseUser(Map<String, Object> inputMap){
@@ -84,7 +81,6 @@ public class Administrator implements IAdministratorService {
         return staff;
     }
 
-   
     public List<Staff> getInspectors() {
         return connection.getInspectors();
     }

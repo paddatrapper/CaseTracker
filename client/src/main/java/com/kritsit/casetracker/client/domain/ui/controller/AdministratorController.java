@@ -56,7 +56,6 @@ public class AdministratorController implements IController {
         } 
     }
     
-    
     public void initialize(){
         
         addUserButton.setOnAction(event->{
@@ -87,10 +86,6 @@ public class AdministratorController implements IController {
            
             resetAddUserTab();
         });
-        
-        
-         
-        
     }
     
     public void setStage(Stage stage) {
@@ -132,8 +127,6 @@ public class AdministratorController implements IController {
             });
         });
         
-        
-        
         SortedList<Staff> sortedStaff = new SortedList<>(filteredStaff);
         sortedStaff.comparatorProperty().bind(staffTable.comparatorProperty());
         staffTable.setItems(sortedStaff);
@@ -143,7 +136,6 @@ public class AdministratorController implements IController {
         usernameColumn.setCellValueFactory(new PropertyValueFactory("username"));
         departmentColumn.setCellValueFactory(new PropertyValueFactory("department"));
         permissionColumn.setCellValueFactory(new PropertyValueFactory("permission"));
-        
     }
     
     private void resetAddUserTab(){
@@ -154,7 +146,6 @@ public class AdministratorController implements IController {
         usernameField.setText("");
         permissionCombobox.setValue("");
     }
-    
     
     private void initPermissionCombobox(){
        ObservableList<String> permissions = 
@@ -170,11 +161,6 @@ public class AdministratorController implements IController {
         searchCombobox.setItems(permissions);
      }
 
-    
-     
-    
-
-    
     @FXML private TextField searchField;
     @FXML private ComboBox<String> searchCombobox;
     @FXML private Button resetPasswordButton;
@@ -193,7 +179,5 @@ public class AdministratorController implements IController {
     @FXML private TableColumn<Staff, String> usernameColumn;
     @FXML private TableColumn<Staff, String> departmentColumn;
     @FXML private TableColumn<Staff, String> permissionColumn;
-    
-    
-    
+
 }
