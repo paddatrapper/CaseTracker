@@ -59,8 +59,46 @@ public class AdministratorController implements IController {
     public void initialize(){
         
         deleteButton.setOnAction(event->{
+          deleteUser();
+        });
+        
+        addUserButton.setOnAction(event->{
+           addUser();
+        });
+    }
+
+    private void addUser() {
+        Map<String, Object> inputMap = new HashMap<String, Object>();
+        inputMap.put("username", usernameField.getText());
+        inputMap.put("firstname", firstNameField.getText());
+        inputMap.put("lastname", lastNameField.getText());
+        inputMap.put("department", departmentCombobox.getValue());
+        inputMap.put("position", positionField.getText());
+        inputMap.put("permission", Permission.valueOf(permissionCombobox.getValue()));
+        
+        InputToModelParseResult result = administratorService.addUser(inputMap);
+        if(result.isSuccessful()){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Adding a new user");
+        alert.setHeaderText("New user added succesfully");
+        alert.setContentText("Click OK to proceed");
+        alert.showAndWait();
+        }
+        else{
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error adding new user");
+        alert.setContentText(result.getReason());
+        alert.showAndWait();
+        }
+        resetAddUserTab();
+    }
+
+    private void deleteUser() {
+        TableViewSelectionModel<Staff> selection =  staffTable.getSelectionModel();
+          String selectedUsername = selection.getSelectedItem().getUsername();
           Map<String, Object> inputMap = new HashMap<String, Object>();
-          inputMap.put("username", selectedUsername());
+          inputMap.put("username", selectedUsername);
           int result = administratorService.deleteUser(inputMap);
           Alert alert;
           switch(result){
@@ -87,45 +125,8 @@ public class AdministratorController implements IController {
               alert.showAndWait();
               break;
             }
-        
-        });
-        
-        addUserButton.setOnAction(event->{
-           
-            Map<String, Object> inputMap = new HashMap<String, Object>();
-            inputMap.put("username", usernameField.getText());
-            inputMap.put("firstname", firstNameField.getText());
-            inputMap.put("lastname", lastNameField.getText());
-            inputMap.put("department", departmentCombobox.getValue());
-            inputMap.put("position", positionField.getText());
-            inputMap.put("permission", Permission.valueOf(permissionCombobox.getValue()));
-            
-            InputToModelParseResult result = administratorService.addUser(inputMap);
-            if(result.isSuccessful()){
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Adding a new user");
-            alert.setHeaderText("New user added succesfully");
-            alert.setContentText("Click OK to proceed");
-            alert.showAndWait();
-            }
-            else{
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error adding new user");
-            alert.setContentText(result.getReason());
-            alert.showAndWait();
-            }
-           
-            resetAddUserTab();
-        });
     }
 
-    private String selectedUsername() {
-        TableViewSelectionModel<Staff> selection =  staffTable.getSelectionModel();
-        String selectedUsername = selection.getSelectedItem().getUsername();
-        return selectedUsername;
-    }
-    
     public void setStage(Stage stage) {
         this.stage = stage;
     }
