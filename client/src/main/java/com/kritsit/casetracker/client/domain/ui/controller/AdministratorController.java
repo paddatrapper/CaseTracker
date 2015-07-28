@@ -43,7 +43,6 @@ public class AdministratorController implements IController {
     
     public void setAdministratorService(IAdministratorService administratorService) {
         this.administratorService = administratorService;
-        
     }
     
     public void initFrame(){
@@ -60,34 +59,35 @@ public class AdministratorController implements IController {
     public void initialize(){
         
         deleteButton.setOnAction(event->{
-          TableViewSelectionModel<Staff> selection =  staffTable.getSelectionModel();
-          String selectedUsername = selection.getSelectedItem().getUsername();
           Map<String, Object> inputMap = new HashMap<String, Object>();
-          inputMap.put("username", selectedUsername);
+          inputMap.put("username", selectedUsername());
           int result = administratorService.deleteUser(inputMap);
-          if(result==200){
+          Alert alert;
+          switch(result){
+          case 200 :
               staffList = FXCollections.observableArrayList(administratorService.getInspectors());
-              Alert alert = new Alert(AlertType.INFORMATION);
+              alert = new Alert(AlertType.INFORMATION);
               alert.setTitle("Deleting user");
               alert.setHeaderText("User deleted succesfully");
               alert.setContentText("Click OK to proceed");
               alert.showAndWait();
-              }
-          else if(result==400){
-              Alert alert = new Alert(AlertType.INFORMATION);
+              break;
+          case 400 :
+              alert = new Alert(AlertType.INFORMATION);
               alert.setTitle("Deleting user");
               alert.setHeaderText("Information");
               alert.setContentText("Select a user to delete");
-              alert.showAndWait(); 
-          }
-          
-          else if(result==500){
-              Alert alert = new Alert(AlertType.ERROR);
+              alert.showAndWait();
+              break;
+          case 500 :
+              alert = new Alert(AlertType.ERROR);
               alert.setTitle("Deleting user");
               alert.setHeaderText("Error while deleting user");
               alert.setContentText("Error occured on the server side");
               alert.showAndWait();
-              }
+              break;
+            }
+        
         });
         
         addUserButton.setOnAction(event->{
@@ -118,6 +118,12 @@ public class AdministratorController implements IController {
            
             resetAddUserTab();
         });
+    }
+
+    private String selectedUsername() {
+        TableViewSelectionModel<Staff> selection =  staffTable.getSelectionModel();
+        String selectedUsername = selection.getSelectedItem().getUsername();
+        return selectedUsername;
     }
     
     public void setStage(Stage stage) {
