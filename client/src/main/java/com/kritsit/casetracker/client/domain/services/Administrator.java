@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -26,7 +27,6 @@ public class Administrator implements IAdministratorService {
         return user;    
     }
 
-    
     public InputToModelParseResult addUser(Map<String, Object> inputMap) {
         if (inputMap == null || inputMap.isEmpty()) {
             logger.debug("InputMap empty or null. Aborting");
@@ -45,6 +45,7 @@ public class Administrator implements IAdministratorService {
         for(Map.Entry<String, Object> entry : inputMap.entrySet()){
              if(entry.getKey().equals("firstname")) continue;
              if(entry.getKey().equals("position")) continue;
+             if(entry.getKey().equals("permission")&&entry.getValue() instanceof Permission) continue;
              IValidator validator = new StringValidator();
              if(validator.validate(entry.getValue())){
                  continue;
@@ -52,7 +53,6 @@ public class Administrator implements IAdministratorService {
              else{
                  result.addFailedInput(entry.getKey());
              }
-             
         }
         
         if (!result.isSuccessful()) {
@@ -67,8 +67,6 @@ public class Administrator implements IAdministratorService {
         
         InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
         return uploaded;
-        
-        
     }
     
     private Staff parseUser(Map<String, Object> inputMap){
@@ -81,6 +79,10 @@ public class Administrator implements IAdministratorService {
         Permission permission = (Permission) Permission.valueOf(String.valueOf(inputMap.get("permission")));
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         return staff;
+    }
+
+    public List<Staff> getInspectors() {
+        return connection.getInspectors();
     }
 
 }

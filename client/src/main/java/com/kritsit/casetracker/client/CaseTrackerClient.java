@@ -44,7 +44,9 @@ public class CaseTrackerClient extends Application {
     private void launchUI(Staff user, Stage stage) throws IOException {
         IUserInterface ui = null;
         switch (user.getPermission()) {
-            case ADMIN: throw new UnsupportedOperationException("Not yet implemented");
+            case ADMIN: logger.debug("User admin. Opening administrator frame");
+                        ui = UserInterfaceFactory.getAdministratorFrame(); 
+                        break;
             case EDITOR: 
             case VIEWER:
                         logger.debug("User editor/viewer. Opening editor frame");

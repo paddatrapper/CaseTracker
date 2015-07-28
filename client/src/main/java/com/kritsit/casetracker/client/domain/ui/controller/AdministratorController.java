@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
@@ -11,8 +12,13 @@ import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -22,6 +28,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
 
@@ -42,11 +50,11 @@ public class AdministratorController implements IController {
         if (administratorService.getUser().getPermission() == Permission.ADMIN) {
             initStaffTable();
             initPermissionCombobox();
+            initSearchCombobox();
         } else {
             logger.debug("Administrator view disabled");
         } 
     }
-    
     
     public void initialize(){
         
@@ -75,10 +83,9 @@ public class AdministratorController implements IController {
             alert.setContentText(result.getReason());
             alert.showAndWait();
             }
-            
+           
             resetAddUserTab();
         });
-        
     }
     
     public void setStage(Stage stage) {
@@ -87,22 +94,48 @@ public class AdministratorController implements IController {
 
     @SuppressWarnings("unchecked")
     private void initStaffTable(){
-        TableColumn<Staff, String>  firstNameColumn = new TableColumn<Staff, String>("First name");
-        TableColumn<Staff, String> lastNameColumn = new TableColumn<Staff, String>("Last name");
-        TableColumn<Staff, String> usernameColumn = new TableColumn<Staff, String>("Username");
-        TableColumn<Staff, String> departmentColumn = new TableColumn<Staff, String>("Department");
-        TableColumn<Staff, String> positionColumn = new TableColumn<Staff, String>("Position");
+       
+        logger.info("Initiating staff list table");
+        staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+    
+        FilteredList<Staff> filteredStaff = new FilteredList<>(staffList, p -> true);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredStaff.setPredicate(s -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (s.getUsername().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                
+                return false;
+            });
+        });
         
-        staffTable.getColumns().addAll(firstNameColumn, lastNameColumn,
-                usernameColumn, departmentColumn, positionColumn);
+        searchCombobox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            filteredStaff.setPredicate(s -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+               
+                if (s.getPermission().toString().equals(newValue)) {
+                    return true;
+                }
+                
+                return false;
+            });
+        });
         
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("First name"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Last name"));
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Username"));
-        departmentColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Department"));
-        positionColumn.setCellValueFactory(new PropertyValueFactory<Staff, String>("Position"));
+        SortedList<Staff> sortedStaff = new SortedList<>(filteredStaff);
+        sortedStaff.comparatorProperty().bind(staffTable.comparatorProperty());
+        staffTable.setItems(sortedStaff);
         
-        staffTable.setItems(staffList);
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory("lastName"));
+        usernameColumn.setCellValueFactory(new PropertyValueFactory("username"));
+        departmentColumn.setCellValueFactory(new PropertyValueFactory("department"));
+        permissionColumn.setCellValueFactory(new PropertyValueFactory("permission"));
     }
     
     private void resetAddUserTab(){
@@ -114,18 +147,20 @@ public class AdministratorController implements IController {
         permissionCombobox.setValue("");
     }
     
-    private void resetSearch(){
-        searchField.setText("");
-        searchCombobox.setValue("");
-    }
-    
     private void initPermissionCombobox(){
        ObservableList<String> permissions = 
                FXCollections.observableArrayList(Permission.ADMIN.toString(),
                Permission.EDITOR.toString(), Permission.VIEWER.toString());
-       permissionCombobox = new ComboBox<String>(permissions);
+       permissionCombobox.setItems(permissions);
     }
     
+    private void initSearchCombobox(){
+        ObservableList<String> permissions = 
+                FXCollections.observableArrayList(Permission.ADMIN.toString(),
+                Permission.EDITOR.toString(), Permission.VIEWER.toString());
+        searchCombobox.setItems(permissions);
+     }
+
     @FXML private TextField searchField;
     @FXML private ComboBox<String> searchCombobox;
     @FXML private Button resetPasswordButton;
@@ -139,6 +174,10 @@ public class AdministratorController implements IController {
     @FXML private TextField usernameField;
     @FXML private ComboBox<String> permissionCombobox;
     @FXML private Button addUserButton;
-    
-    
+    @FXML private TableColumn<Staff, String> firstNameColumn;
+    @FXML private TableColumn<Staff, String> lastNameColumn;
+    @FXML private TableColumn<Staff, String> usernameColumn;
+    @FXML private TableColumn<Staff, String> departmentColumn;
+    @FXML private TableColumn<Staff, String> permissionColumn;
+
 }
