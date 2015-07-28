@@ -95,12 +95,20 @@ public class AdministratorController implements IController {
     }
 
     private void deleteUser() {
+        Alert alert;
         TableViewSelectionModel<Staff> selection =  staffTable.getSelectionModel();
+        if(selection.getSelectedItem()==null){
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Deleting user");
+            alert.setHeaderText("Information");
+            alert.setContentText("Select a user to delete");
+            alert.showAndWait();   
+            return;
+        }
           String selectedUsername = selection.getSelectedItem().getUsername();
           Map<String, Object> inputMap = new HashMap<String, Object>();
           inputMap.put("username", selectedUsername);
           int result = administratorService.deleteUser(inputMap);
-          Alert alert;
           switch(result){
           case 200 :
               staffList = FXCollections.observableArrayList(administratorService.getInspectors());
@@ -110,13 +118,7 @@ public class AdministratorController implements IController {
               alert.setContentText("Click OK to proceed");
               alert.showAndWait();
               break;
-          case 400 :
-              alert = new Alert(AlertType.INFORMATION);
-              alert.setTitle("Deleting user");
-              alert.setHeaderText("Information");
-              alert.setContentText("Select a user to delete");
-              alert.showAndWait();
-              break;
+          
           case 500 :
               alert = new Alert(AlertType.ERROR);
               alert.setTitle("Deleting user");
