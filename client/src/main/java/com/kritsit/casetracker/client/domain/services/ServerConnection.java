@@ -202,9 +202,27 @@ public class ServerConnection implements IConnectionService {
      catch (IOException | ClassNotFoundException ex) {
         logger.error("Unable to add user", ex);
         return false;
+       }
     }
-}
     
+    public boolean deleteUser(String username){
+        try{
+           List<Object> arguments = new ArrayList<>();
+           arguments.add(username);
+           Request request = new Request("deleteUser", arguments);
+           Response response = getResponse(request);
+           if (!response.isSuccessful()) {
+               logger.error("Unable to delete user. Code {} - {}",
+                       response.getStatus(),
+                       response.getBody().toString());
+           }
+           return response.isSuccessful();
+        }
+        catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to delete user", ex);
+            return false;
+           }
+    }
     
     private void serializeEvidence(List<Evidence> evidence) throws IOException {
         FileSerializer serializer = new FileSerializer();

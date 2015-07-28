@@ -164,4 +164,18 @@ public class AdministratorTest extends TestCase {
 
         verify(connection).getInspectors();
     }
+    
+    public void testDeletUser(){
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IAdministratorService administrator = new Administrator(user, connection);
+        assertTrue(administrator.deleteUser(null)==400);
+        when(connection.deleteUser("johndoe")).thenReturn(true);
+        Map<String, Object> inputMap = new HashMap<>();
+        inputMap.put("username", "johndoe");
+        assertTrue(administrator.deleteUser(inputMap)==200);
+        Map<String, Object> inputMap2 = new HashMap<>();
+        inputMap.put("username", "other");
+        assertTrue(administrator.deleteUser(inputMap)==500);
+    }
 }
