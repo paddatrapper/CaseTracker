@@ -123,11 +123,11 @@ public class Administrator implements IAdministratorService {
         
         Staff s = parseUser(inputMap);
         logger.debug("Updating user on server");
-        boolean isAdded = connection.editUser(s);
-        String reason = (isAdded) ? "User updated successfully" :
+        boolean isUpdated = connection.editUser(s);
+        String reason = (isUpdated) ? "User updated successfully" :
             "Unable to update user. Please see log for details";
         
-        InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
+        InputToModelParseResult uploaded = new InputToModelParseResult(isUpdated, reason);
         return uploaded;
     
     }
