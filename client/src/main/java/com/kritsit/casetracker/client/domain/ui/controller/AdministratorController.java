@@ -114,7 +114,7 @@ public class AdministratorController implements IController {
         }
         
         Staff s = selection.getSelectedItem();
-        EditUserController c = new EditUserController(s);
+        EditUserController c = new EditUserController(s,administratorService);
         AnchorPane EditUserPane = null;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/ui/fxml/EditUser.fxml"));
