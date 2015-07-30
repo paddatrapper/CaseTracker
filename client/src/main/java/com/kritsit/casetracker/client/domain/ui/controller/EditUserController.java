@@ -67,6 +67,7 @@ public class EditUserController {
         alert.setTitle("Editing user");
         alert.setHeaderText("User "+usernameField.getText()+" edited successfully");
         alert.setContentText("Click OK to proceed");
+        c.updateTable();
         alert.showAndWait();
         }
         else{
