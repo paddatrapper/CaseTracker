@@ -93,4 +93,43 @@ public class Administrator implements IAdministratorService {
         return connection.getInspectors();
     }
 
+    @Override
+    public InputToModelParseResult editUser(Map<String, Object> inputMap) {
+        if (inputMap == null || inputMap.isEmpty()) {
+            logger.debug("InputMap empty or null. Aborting");
+            return new InputToModelParseResult(false, "Required information missing");
+        }
+        
+        logger.info("Edit user {}", inputMap.get("username"));
+        
+        InputToModelParseResult result = new InputToModelParseResult(true);
+        
+        for(Map.Entry<String, Object> entry : inputMap.entrySet()){
+             if(entry.getKey().equals("firstname")) continue;
+             if(entry.getKey().equals("position")) continue;
+             if(entry.getKey().equals("permission")&&entry.getValue() instanceof Permission) continue;
+             IValidator validator = new StringValidator();
+             if(validator.validate(entry.getValue())){
+                 continue;
+             }
+             else{
+                 result.addFailedInput(entry.getKey());
+             }
+        }
+        
+        if (!result.isSuccessful()) {
+            return result;
+        }
+        
+        Staff s = parseUser(inputMap);
+        logger.debug("Updating user on server");
+        boolean isAdded = connection.editUser(s);
+        String reason = (isAdded) ? "User updated successfully" :
+            "Unable to update user. Please see log for details";
+        
+        InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
+        return uploaded;
+    
+    }
+
 }
