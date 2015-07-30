@@ -82,7 +82,7 @@ public class AdministratorController implements IController {
         inputMap.put("lastname", lastNameField.getText());
         inputMap.put("department", departmentCombobox.getValue());
         inputMap.put("position", positionField.getText());
-        inputMap.put("permission", Permission.valueOf(permissionCombobox.getValue()));
+        inputMap.put("permission", permissionCombobox.getValue());
         
         InputToModelParseResult result = administratorService.addUser(inputMap);
         if(result.isSuccessful()){
