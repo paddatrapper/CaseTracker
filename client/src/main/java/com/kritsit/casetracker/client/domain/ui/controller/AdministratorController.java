@@ -114,7 +114,7 @@ public class AdministratorController implements IController {
         }
         
         Staff s = selection.getSelectedItem();
-        EditUserController c = new EditUserController(s,administratorService);
+        EditUserController c = new EditUserController(s, administratorService, this);
         AnchorPane EditUserPane = null;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/ui/fxml/EditUser.fxml"));
@@ -246,6 +246,12 @@ public class AdministratorController implements IController {
         searchCombobox.setItems(permissions);
      }
 
+    public void updateTable(){
+        logger.info("Updating the table");
+        staffList.clear();
+        staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+    }
+    
     @FXML private TextField searchField;
     @FXML private ComboBox<String> searchCombobox;
     @FXML private Button resetPasswordButton;

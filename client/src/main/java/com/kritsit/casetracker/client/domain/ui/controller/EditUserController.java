@@ -21,10 +21,12 @@ public class EditUserController {
 
     private Staff s;
     private IAdministratorService administratorService;
+    private AdministratorController c;
     
-    public EditUserController(Staff s, IAdministratorService a){
+    public EditUserController(Staff s, IAdministratorService a, AdministratorController c){
         this.s = s;
         administratorService = a;
+        this.c=c;
     }
     
     public void initialize(){
