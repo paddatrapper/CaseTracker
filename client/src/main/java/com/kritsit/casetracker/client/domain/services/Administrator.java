@@ -35,20 +35,7 @@ public class Administrator implements IAdministratorService {
         
         logger.info("Add user {}", inputMap.get("username"));
         
-        InputToModelParseResult result = new InputToModelParseResult(true);
-        
-        for(Map.Entry<String, Object> entry : inputMap.entrySet()){
-             if(entry.getKey().equals("firstname")) continue;
-             if(entry.getKey().equals("position")) continue;
-             if(entry.getKey().equals("permission")&& entry.getValue() instanceof Permission) continue;
-             IValidator validator = new StringValidator();
-             if(validator.validate(entry.getValue())){
-                 continue;
-             }
-             else{
-                 result.addFailedInput(entry.getKey());
-             }
-        }
+        InputToModelParseResult result = validate(inputMap);
         
         if (!result.isSuccessful()) {
             return result;
@@ -101,20 +88,7 @@ public class Administrator implements IAdministratorService {
         
         logger.info("Edit user {}", inputMap.get("username"));
         
-        InputToModelParseResult result = new InputToModelParseResult(true);
-        
-        for(Map.Entry<String, Object> entry : inputMap.entrySet()){
-             if(entry.getKey().equals("firstname")) continue;
-             if(entry.getKey().equals("position")) continue;
-             if(entry.getKey().equals("permission")&& entry.getValue() instanceof Permission) continue;
-             IValidator validator = new StringValidator();
-             if(validator.validate(entry.getValue())){
-                 continue;
-             }
-             else{
-                 result.addFailedInput(entry.getKey());
-             }
-        }
+        InputToModelParseResult result = validate(inputMap);
         
         if (!result.isSuccessful()) {
             return result;
@@ -130,5 +104,24 @@ public class Administrator implements IAdministratorService {
         return uploaded;
     }
 
+    private InputToModelParseResult validate(Map<String, Object> inputMap){
 
+        InputToModelParseResult result = new InputToModelParseResult(true);
+
+       for(Map.Entry<String, Object> entry : inputMap.entrySet()){
+                    if(entry.getKey().equals("firstname")) continue;
+                    if(entry.getKey().equals("position")) continue;
+                    if(entry.getKey().equals("permission")&& entry.getValue() instanceof Permission) continue;
+                    IValidator validator = new StringValidator();
+                    if(validator.validate(entry.getValue())){
+                        continue;
+                    }
+                    else{
+                        result.addFailedInput(entry.getKey());
+                    }
+               }
+
+       return result;
+    }
+    
 }
