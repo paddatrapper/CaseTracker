@@ -126,7 +126,7 @@ public class AdministratorController implements IController {
             EditUserPane= (AnchorPane) fxmlLoader.load();
         }
         catch(IOException e){
-            e.printStackTrace();
+            logger.debug("Error loading frame to edit user " + e.toString());
             return;
         }
         

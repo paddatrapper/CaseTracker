@@ -212,7 +212,7 @@ public class ServerConnection implements IConnectionService {
             Request request = new Request("editUser", arguments);
             Response response = getResponse(request);
             if (!response.isSuccessful()) {
-                logger.error("Unable to udpate user. Code {} - {}",
+                logger.error("Unable to update user. Code {} - {}",
                         response.getStatus(),
                         response.getBody().toString());
             }
