@@ -10,6 +10,7 @@ public interface IAdministratorService {
     Staff getUser();
     List<Staff> getInspectors();
     InputToModelParseResult addUser(Map<String, Object> inputMap);
+    InputToModelParseResult editUser(Map<String, Object> inputMap);
     int deleteUser(Map<String, Object> inputMap);
 
 }

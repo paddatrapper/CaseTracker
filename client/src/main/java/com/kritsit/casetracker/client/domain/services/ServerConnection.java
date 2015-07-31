@@ -205,6 +205,25 @@ public class ServerConnection implements IConnectionService {
        }
     }
     
+    public boolean editUser(Staff s) {
+        try{
+            List<Staff> arguments = new ArrayList<>();
+            arguments.add(s);
+            Request request = new Request("editUser", arguments);
+            Response response = getResponse(request);
+            if (!response.isSuccessful()) {
+                logger.error("Unable to update user. Code {} - {}",
+                        response.getStatus(),
+                        response.getBody().toString());
+            }
+            return response.isSuccessful();
+           }
+         catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to update user", ex);
+            return false;
+           }
+    }
+    
     public boolean deleteUser(String username){
         try{
            List<Object> arguments = new ArrayList<>();
@@ -231,4 +250,5 @@ public class ServerConnection implements IConnectionService {
             e.setByteFile(file);
         }
     }
+
 }

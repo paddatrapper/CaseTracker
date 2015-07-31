@@ -35,20 +35,7 @@ public class Administrator implements IAdministratorService {
         
         logger.info("Add user {}", inputMap.get("username"));
         
-        InputToModelParseResult result = new InputToModelParseResult(true);
-        
-        for(Map.Entry<String, Object> entry : inputMap.entrySet()){
-             if(entry.getKey().equals("firstname")) continue;
-             if(entry.getKey().equals("position")) continue;
-             if(entry.getKey().equals("permission")&&entry.getValue() instanceof Permission) continue;
-             IValidator validator = new StringValidator();
-             if(validator.validate(entry.getValue())){
-                 continue;
-             }
-             else{
-                 result.addFailedInput(entry.getKey());
-             }
-        }
+        InputToModelParseResult result = validate(inputMap);
         
         if (!result.isSuccessful()) {
             return result;
@@ -71,7 +58,7 @@ public class Administrator implements IAdministratorService {
         String lastname = (String) inputMap.get("lastname");
         String department = (String) inputMap.get("department");
         String position = (String) inputMap.get("position");
-        Permission permission = (Permission) Permission.valueOf(String.valueOf(inputMap.get("permission")));
+        Permission permission = (Permission) inputMap.get("permission");
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         return staff;
     }
@@ -93,4 +80,48 @@ public class Administrator implements IAdministratorService {
         return connection.getInspectors();
     }
 
+    public InputToModelParseResult editUser(Map<String, Object> inputMap) {
+        if (inputMap == null || inputMap.isEmpty()) {
+            logger.debug("InputMap empty or null. Aborting");
+            return new InputToModelParseResult(false, "Required information missing");
+        }
+        
+        logger.info("Edit user {}", inputMap.get("username"));
+        
+        InputToModelParseResult result = validate(inputMap);
+        
+        if (!result.isSuccessful()) {
+            return result;
+        }
+        
+        Staff s = parseUser(inputMap);
+        logger.debug("Updating user on server");
+        boolean isUpdated = connection.editUser(s);
+        String reason = (isUpdated) ? "User updated successfully" :
+            "Unable to update user. Please see log for details";
+        
+        InputToModelParseResult uploaded = new InputToModelParseResult(isUpdated, reason);
+        return uploaded;
+    }
+
+    private InputToModelParseResult validate(Map<String, Object> inputMap){
+
+        InputToModelParseResult result = new InputToModelParseResult(true);
+
+       for(Map.Entry<String, Object> entry : inputMap.entrySet()){
+                    if(entry.getKey().equals("firstname")) continue;
+                    if(entry.getKey().equals("position")) continue;
+                    if(entry.getKey().equals("permission")&& entry.getValue() instanceof Permission) continue;
+                    IValidator validator = new StringValidator();
+                    if(validator.validate(entry.getValue())){
+                        continue;
+                    }
+                    else{
+                        result.addFailedInput(entry.getKey());
+                    }
+               }
+
+       return result;
+    }
+    
 }
