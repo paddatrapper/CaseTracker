@@ -19,4 +19,5 @@ public interface IConnectionService {
     boolean addUser(Staff s);
     boolean editUser(Staff s);
     boolean deleteUser(String username);
+    boolean resetPassword(String username, int hashedRandomPass);
 }

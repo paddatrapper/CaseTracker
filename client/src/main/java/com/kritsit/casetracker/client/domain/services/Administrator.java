@@ -123,5 +123,19 @@ public class Administrator implements IAdministratorService {
 
        return result;
     }
+
+    public int resetPassword(Map<String, Object> inputMap) {
+        logger.info("Reseting password for user {}", inputMap.get("username").toString());
+        boolean result = connection.resetPassword((String) inputMap.get("username"),
+                (Integer) inputMap.get("hashedRandomPass"));
+        if(result){
+            logger.info("Password reset succesfully");
+            return 200;
+        }
+        else{
+            logger.error("Error reseting user's password");
+            return 500;
+        }
+    }
     
 }

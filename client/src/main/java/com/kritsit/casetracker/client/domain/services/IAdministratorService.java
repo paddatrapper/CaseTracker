@@ -12,5 +12,6 @@ public interface IAdministratorService {
     InputToModelParseResult addUser(Map<String, Object> inputMap);
     InputToModelParseResult editUser(Map<String, Object> inputMap);
     int deleteUser(Map<String, Object> inputMap);
+    int resetPassword(Map<String, Object> inputMap);
 
 }

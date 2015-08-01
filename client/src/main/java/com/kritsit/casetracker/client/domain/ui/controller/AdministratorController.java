@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +31,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -61,6 +65,10 @@ public class AdministratorController implements IController {
     }
     
     public void initialize(){
+        
+        resetPasswordButton.setOnAction(event->{
+            resetPassword();
+        });
         
         deleteButton.setOnAction(event->{
           deleteUser();
@@ -126,7 +134,7 @@ public class AdministratorController implements IController {
             EditUserPane= (AnchorPane) fxmlLoader.load();
         }
         catch(IOException e){
-            logger.debug("Error loading frame to edit user " + e.toString());
+            logger.error("Error loading frame to edit user " + e.toString());
             return;
         }
         
@@ -250,6 +258,49 @@ public class AdministratorController implements IController {
         logger.info("Updating the table");
         staffList.clear();
         staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+    }
+    
+    private void resetPassword(){
+        SelectionModel<Staff> selection = staffTable.getSelectionModel();
+        Alert alert;
+        if(selection.getSelectedItem()==null){
+            alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Reseting password");
+            alert.setHeaderText("Information");
+            alert.setContentText("Select a user");
+            alert.showAndWait();   
+            return;
+        }
+        String username = selection.getSelectedItem().getUsername();
+        String randomPass = randomPassword();
+        int hashedRandomPass = randomPass.hashCode();
+        Map<String, Object> inputMap = new HashMap<String, Object>();
+        inputMap.put("username", username);
+        inputMap.put("hashedRandomPass", hashedRandomPass);
+        
+        int result = administratorService.resetPassword(inputMap);
+        switch(result){
+        case 200 :
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Password reset");
+            alert.setHeaderText("Password reset succesfully");
+            alert.setContentText("new password: "+randomPass);
+            alert.showAndWait();
+            break;
+        
+        case 500 :
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Password reset");
+            alert.setHeaderText("Error during password reset");
+            alert.setContentText("Error occured on the server side");
+            alert.showAndWait();
+            break;
+          }  
+    }
+    
+    private String randomPassword() {
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(40, random).toString(32);
     }
     
     @FXML private TextField searchField;
