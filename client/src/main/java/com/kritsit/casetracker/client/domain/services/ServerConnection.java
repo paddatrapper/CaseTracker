@@ -250,5 +250,25 @@ public class ServerConnection implements IConnectionService {
             e.setByteFile(file);
         }
     }
+    
+    public boolean resetPassword(String username, int hashedRandomPass) {
+        try{
+            List<Object> arguments = new ArrayList<>();
+            arguments.add(username);
+            arguments.add(hashedRandomPass);
+            Request request = new Request("resetPassword", arguments);
+            Response response = getResponse(request);
+            if (!response.isSuccessful()) {
+                logger.error("Unable to reset password. Code {} - {}",
+                        response.getStatus(),
+                        response.getBody().toString());
+            }
+            return response.isSuccessful();
+         }
+         catch (IOException | ClassNotFoundException ex) {
+             logger.error("Unable to reset password", ex);
+             return false;
+            }
+    }
 
 }

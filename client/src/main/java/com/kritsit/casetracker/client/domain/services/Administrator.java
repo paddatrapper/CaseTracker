@@ -1,5 +1,7 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
@@ -120,8 +122,25 @@ public class Administrator implements IAdministratorService {
                         result.addFailedInput(entry.getKey());
                     }
                }
-
        return result;
+    }
+
+    public int resetPassword(String username, int hashedRandomPass) {
+        logger.info("Reseting password for user {}", username);
+        boolean result = connection.resetPassword(username, hashedRandomPass);
+        if(result){
+            logger.info("Password reset succesfully");
+            return 200;
+        }
+        else{
+            logger.error("Error reseting user's password");
+            return 500;
+        }
+    }
+    
+    public String randomPassword() {
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(40, random).toString(32);
     }
     
 }

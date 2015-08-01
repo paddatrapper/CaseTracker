@@ -301,4 +301,13 @@ public class AdministratorTest extends TestCase {
         inputMap.put("username", "other");
         assertTrue(administrator.deleteUser(inputMap)==500);
     }
+    
+    public void testResetPassword(){
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IAdministratorService administrator = new Administrator(user, connection);
+        when(connection.resetPassword("johndoe", 1234)).thenReturn(true);
+        assertTrue(administrator.resetPassword("johndoe", 1234)==200);
+        assertTrue(administrator.resetPassword("johndoe", 4321)==500);
+    }
 }

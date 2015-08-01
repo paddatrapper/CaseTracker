@@ -161,6 +161,13 @@ public class ServerConnectionIT extends TestCase {
         String username = "johndoe";
         assertTrue(connection.deleteUser(username));
     }
+    
+     public void testResetPass(){
+        connection.open(host, port);
+        String username = "johndoe";
+        int hashedRandomPass = 1234;
+        assertTrue(connection.resetPassword(username, hashedRandomPass));
+    }
     */
     
     public void tearDown() throws IOException {
