@@ -122,14 +122,12 @@ public class Administrator implements IAdministratorService {
                         result.addFailedInput(entry.getKey());
                     }
                }
-
        return result;
     }
 
-    public int resetPassword(Map<String, Object> inputMap) {
-        logger.info("Reseting password for user {}", inputMap.get("username").toString());
-        boolean result = connection.resetPassword((String) inputMap.get("username"),
-                (Integer) inputMap.get("hashedRandomPass"));
+    public int resetPassword(String username, int hashedRandomPass) {
+        logger.info("Reseting password for user {}", username);
+        boolean result = connection.resetPassword(username, hashedRandomPass);
         if(result){
             logger.info("Password reset succesfully");
             return 200;

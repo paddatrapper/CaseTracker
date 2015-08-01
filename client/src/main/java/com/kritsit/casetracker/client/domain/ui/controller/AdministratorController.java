@@ -274,11 +274,8 @@ public class AdministratorController implements IController {
         String username = selection.getSelectedItem().getUsername();
         String randomPass = administratorService.randomPassword();
         int hashedRandomPass = randomPass.hashCode();
-        Map<String, Object> inputMap = new HashMap<String, Object>();
-        inputMap.put("username", username);
-        inputMap.put("hashedRandomPass", hashedRandomPass);
-        
-        int result = administratorService.resetPassword(inputMap);
+        int result = administratorService.resetPassword(
+                username, hashedRandomPass);
         switch(result){
         case 200 :
             alert = new Alert(AlertType.INFORMATION);

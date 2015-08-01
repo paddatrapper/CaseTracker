@@ -307,13 +307,7 @@ public class AdministratorTest extends TestCase {
         Staff user = mock(Staff.class);
         IAdministratorService administrator = new Administrator(user, connection);
         when(connection.resetPassword("johndoe", 1234)).thenReturn(true);
-        Map<String, Object> inputMap = new HashMap<>();
-        inputMap.put("username", "johndoe");
-        inputMap.put("hashedRandomPass", 1234);
-        assertTrue(administrator.resetPassword(inputMap)==200);
-        Map<String, Object> inputMap2 = new HashMap<>();
-        inputMap2.put("username", "johndoe");
-        inputMap2.put("hashedRandomPass", 4321);
-        assertTrue(administrator.resetPassword(inputMap2)==500);
+        assertTrue(administrator.resetPassword("johndoe", 1234)==200);
+        assertTrue(administrator.resetPassword("johndoe", 4321)==500);
     }
 }
