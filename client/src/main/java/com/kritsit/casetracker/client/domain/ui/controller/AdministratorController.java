@@ -134,7 +134,7 @@ public class AdministratorController implements IController {
             EditUserPane= (AnchorPane) fxmlLoader.load();
         }
         catch(IOException e){
-            logger.error("Error loading frame to edit user " + e.toString());
+            logger.error("Error loading frame to edit user " + e);
             return;
         }
         
@@ -272,7 +272,7 @@ public class AdministratorController implements IController {
             return;
         }
         String username = selection.getSelectedItem().getUsername();
-        String randomPass = randomPassword();
+        String randomPass = administratorService.randomPassword();
         int hashedRandomPass = randomPass.hashCode();
         Map<String, Object> inputMap = new HashMap<String, Object>();
         inputMap.put("username", username);
@@ -296,11 +296,6 @@ public class AdministratorController implements IController {
             alert.showAndWait();
             break;
           }  
-    }
-    
-    private String randomPassword() {
-        SecureRandom random = new SecureRandom();
-        return new BigInteger(40, random).toString(32);
     }
     
     @FXML private TextField searchField;

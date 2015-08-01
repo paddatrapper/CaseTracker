@@ -1,5 +1,7 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
@@ -136,6 +138,11 @@ public class Administrator implements IAdministratorService {
             logger.error("Error reseting user's password");
             return 500;
         }
+    }
+    
+    public String randomPassword() {
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(40, random).toString(32);
     }
     
 }
