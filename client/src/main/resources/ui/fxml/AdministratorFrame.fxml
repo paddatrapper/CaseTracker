@@ -12,24 +12,31 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="reportItem" mnemonicParsing="false" text="Report" />
+                  <MenuItem fx:id="changePasswordItem" mnemonicParsing="false" text="Change password" />
+                  <MenuItem fx:id="logoutItem" mnemonicParsing="false" text="Logout" />
+              <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="newUserItem" mnemonicParsing="false" text="New user" />
+                  <MenuItem fx:id="editUserItem" mnemonicParsing="false" text="Edit user" />
+              <MenuItem fx:id="deleteUserItem" mnemonicParsing="false" text="Delete user" />
+                  <MenuItem fx:id="resetPasswordItem" mnemonicParsing="false" text="Reset password" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="aboutItem" mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="helpItem" mnemonicParsing="false" text="Help" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Users">
                <content>
@@ -72,7 +79,7 @@
                   </BorderPane>
                </content>
           </Tab>
-          <Tab text="Add User">
+          <Tab fx:id="addUserTab" text="Add User">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

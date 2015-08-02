@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import java.net.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kritsit.casetracker.client.domain.ui.controller.EditorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kritsit.casetracker.client.domain.ui.controller.EditorController">
   <stylesheets>
     <URL value="@../css/EditorFrame.css" />
   </stylesheets>
@@ -16,17 +16,23 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="reportItem" mnemonicParsing="false" text="Report" />
+                  <MenuItem fx:id="changePasswordItem" mnemonicParsing="false" text="Change password" />
+            <MenuItem fx:id="logoutItem" mnemonicParsing="false" text="Logout" />
+                  <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-            <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="newCaseItem" mnemonicParsing="false" text="New case" />
+            <MenuItem fx:id="editCaseItem" mnemonicParsing="false" text="Edit case" />
+                  <MenuItem fx:id="addEvidenceItem" mnemonicParsing="false" text="Add evidence" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem fx:id="aboutItem" mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="helpItem" mnemonicParsing="false" text="Help" />
           </items>
         </Menu>
       </menus>

@@ -32,6 +32,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionModel;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -65,6 +68,23 @@ public class AdministratorController implements IController {
     }
     
     public void initialize(){
+        
+        newUserItem.setOnAction(event->{
+            SingleSelectionModel<Tab> selection = tabPane.getSelectionModel();
+            selection.select(addUserTab);
+        });
+        
+        editUserItem.setOnAction(event->{
+            editUser();
+        });
+        
+        deleteUserItem.setOnAction(event->{
+            deleteUser();
+        });
+        
+        resetPasswordItem.setOnAction(event->{
+            resetPassword();
+        });
         
         resetPasswordButton.setOnAction(event->{
             resetPassword();
@@ -264,7 +284,7 @@ public class AdministratorController implements IController {
         SelectionModel<Staff> selection = staffTable.getSelectionModel();
         Alert alert;
         if(selection.getSelectedItem()==null){
-            alert = new Alert(AlertType.WARNING);
+            alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Reseting password");
             alert.setHeaderText("Information");
             alert.setContentText("Select a user");
@@ -313,5 +333,17 @@ public class AdministratorController implements IController {
     @FXML private TableColumn<Staff, String> usernameColumn;
     @FXML private TableColumn<Staff, String> departmentColumn;
     @FXML private TableColumn<Staff, String> permissionColumn;
+    @FXML private MenuItem reportItem;
+    @FXML private MenuItem changePasswordItem;
+    @FXML private MenuItem logoutItem;
+    @FXML private MenuItem exitItem;
+    @FXML private MenuItem newUserItem;
+    @FXML private MenuItem editUserItem;
+    @FXML private MenuItem deleteUserItem;
+    @FXML private MenuItem resetPasswordItem;
+    @FXML private MenuItem aboutItem;
+    @FXML private MenuItem helpItem;
+    @FXML private TabPane tabPane;
+    @FXML private Tab addUserTab;
 
 }

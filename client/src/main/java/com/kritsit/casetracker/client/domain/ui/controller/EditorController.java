@@ -33,6 +33,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.Tab;
@@ -551,4 +552,13 @@ public class EditorController implements IController {
     @FXML private Text txtSummaryIncidentDate;
     @FXML private Text txtSummaryInvestigatingOfficer;
     @FXML private Text txtSummaryReturnDate;
+    @FXML private MenuItem reportItem;
+    @FXML private MenuItem changePasswordItem;
+    @FXML private MenuItem logoutItem;
+    @FXML private MenuItem exitItem;
+    @FXML private MenuItem newCaseItem;
+    @FXML private MenuItem editCaseItem;
+    @FXML private MenuItem addEvideneceItem;
+    @FXML private MenuItem aboutItem;
+    @FXML private MenuItem helpItem;
 }
