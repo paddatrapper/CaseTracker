@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
+import com.kritsit.casetracker.client.domain.services.IMenuService;
 import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
@@ -49,11 +50,16 @@ public class AdministratorController implements IController {
     
     private ObservableList<Staff> staffList;
     private IAdministratorService administratorService;
+    private IMenuService menuService;
     private Stage stage;
     private final Logger logger = LoggerFactory.getLogger(AdministratorController.class);
     
     public void setAdministratorService(IAdministratorService administratorService) {
         this.administratorService = administratorService;
+    }
+    
+    public void setMenuService(IMenuService menuService){
+        this.menuService = menuService;
     }
     
     public void initFrame(){

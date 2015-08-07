@@ -1,6 +1,7 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
 import com.kritsit.casetracker.client.domain.services.IEditorService;
+import com.kritsit.casetracker.client.domain.services.IMenuService;
 import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
@@ -61,6 +62,7 @@ import java.util.Optional;
 public class EditorController implements IController {
     private final Logger logger = LoggerFactory.getLogger(EditorController.class);
     private IEditorService editorService;
+    private IMenuService menuService;
     private Stage stage;
     private ObservableList<Case> cases;
     private int calendarCurrentYear;
@@ -68,6 +70,10 @@ public class EditorController implements IController {
 
     public void setEditorService(IEditorService editorService) {
         this.editorService = editorService;
+    }
+    
+    public void setMenuService(IMenuService menuService){
+        this.menuService = menuService;
     }
 
     public void setStage(Stage stage) {
