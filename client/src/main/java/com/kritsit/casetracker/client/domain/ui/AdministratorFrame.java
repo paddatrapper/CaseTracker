@@ -2,6 +2,7 @@ package com.kritsit.casetracker.client.domain.ui;
 
 import com.kritsit.casetracker.client.domain.factory.ServiceFactory;
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
+import com.kritsit.casetracker.client.domain.services.IMenuService;
 import com.kritsit.casetracker.client.domain.ui.controller.AdministratorController;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
@@ -43,7 +44,9 @@ public final class AdministratorFrame implements IUserInterface {
     private void setUpController() {
         logger.debug("Setting up controller");
         IAdministratorService administratorService = ServiceFactory.getAdministratorService(user);
+        IMenuService menuService = ServiceFactory.getMenuService(user);
         controller.setAdministratorService(administratorService);
+        controller.setMenuService(menuService);
         controller.setStage(stage);
         controller.initFrame(); 
         logger.debug("Controller set up");

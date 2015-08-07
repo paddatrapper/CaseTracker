@@ -271,4 +271,25 @@ public class ServerConnection implements IConnectionService {
             }
     }
 
+    public boolean changePassword(String username, int currentHashedPass, int newHashedPass) {
+        try{
+            List<Object> arguments = new ArrayList<>();
+            arguments.add(username);
+            arguments.add(currentHashedPass);
+            arguments.add(newHashedPass);
+            Request request = new Request("changePassword", arguments);
+            Response response = getResponse(request);
+            if (!response.isSuccessful()) {
+                logger.error("Unable to change password. Code {} - {}",
+                        response.getStatus(),
+                        response.getBody().toString());
+            }
+            return response.isSuccessful();
+         }
+         catch (IOException | ClassNotFoundException ex) {
+             logger.error("Unable to change password", ex);
+             return false;
+            }
+    }
+
 }
