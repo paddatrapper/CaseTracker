@@ -1,6 +1,7 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
 import com.kritsit.casetracker.client.domain.services.IEditorService;
+import com.kritsit.casetracker.client.domain.services.IMenuService;
 import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
@@ -33,6 +34,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.Tab;
@@ -60,6 +62,7 @@ import java.util.Optional;
 public class EditorController implements IController {
     private final Logger logger = LoggerFactory.getLogger(EditorController.class);
     private IEditorService editorService;
+    private IMenuService menuService;
     private Stage stage;
     private ObservableList<Case> cases;
     private int calendarCurrentYear;
@@ -67,6 +70,10 @@ public class EditorController implements IController {
 
     public void setEditorService(IEditorService editorService) {
         this.editorService = editorService;
+    }
+    
+    public void setMenuService(IMenuService menuService){
+        this.menuService = menuService;
     }
 
     public void setStage(Stage stage) {
@@ -83,6 +90,12 @@ public class EditorController implements IController {
             logger.debug("Add case tab disabled");
             tabAddCase.setDisable(true);
         } 
+    }
+    
+    public void initialize(){
+        changePasswordItem.setOnAction(event->{
+            menuService.changePasswordFrame();
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -551,4 +564,13 @@ public class EditorController implements IController {
     @FXML private Text txtSummaryIncidentDate;
     @FXML private Text txtSummaryInvestigatingOfficer;
     @FXML private Text txtSummaryReturnDate;
+    @FXML private MenuItem reportItem;
+    @FXML private MenuItem changePasswordItem;
+    @FXML private MenuItem logoutItem;
+    @FXML private MenuItem exitItem;
+    @FXML private MenuItem newCaseItem;
+    @FXML private MenuItem editCaseItem;
+    @FXML private MenuItem addEvideneceItem;
+    @FXML private MenuItem aboutItem;
+    @FXML private MenuItem helpItem;
 }

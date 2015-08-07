@@ -168,8 +168,15 @@ public class ServerConnectionIT extends TestCase {
         int hashedRandomPass = 1234;
         assertTrue(connection.resetPassword(username, hashedRandomPass));
     }
-    */
     
+     public void testChangePass(){
+         connection.open(host, port);
+         String username = "johndoe";
+         int currentHashedPass = 1234;
+         int newHashedPass = 4321;
+         assertTrue(connection.changePassword(username, currentHashedPass, newHashedPass));
+     }
+    */
     public void tearDown() throws IOException {
         ServiceFactory.resetServerConnection();
         if (connection.isOpen()) {

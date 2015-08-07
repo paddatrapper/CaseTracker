@@ -6,6 +6,8 @@ import com.kritsit.casetracker.client.domain.services.IAdministratorService;
 import com.kritsit.casetracker.client.domain.services.IConnectionService;
 import com.kritsit.casetracker.client.domain.services.IEditorService;
 import com.kritsit.casetracker.client.domain.services.ILoginService;
+import com.kritsit.casetracker.client.domain.services.IMenuService;
+import com.kritsit.casetracker.client.domain.services.Menu;
 import com.kritsit.casetracker.client.domain.services.ServerConnection;
 import com.kritsit.casetracker.client.domain.services.ServerLogin;
 import com.kritsit.casetracker.shared.domain.model.Staff;
@@ -43,6 +45,11 @@ public class ServiceFactory {
     public static IAdministratorService getAdministratorService(Staff user) {
         logger.debug("Creating new administrator service");
         return new Administrator(user, getServerConnection());
+    }
+    
+    public static IMenuService getMenuService(Staff user){
+        logger.debug("Creating new menu service");
+        return new Menu(user, getServerConnection());
     }
     
 }
