@@ -91,6 +91,12 @@ public class EditorController implements IController {
             tabAddCase.setDisable(true);
         } 
     }
+    
+    public void initialize(){
+        changePasswordItem.setOnAction(event->{
+            menuService.changePasswordFrame();
+        });
+    }
 
     @SuppressWarnings("unchecked")
     private void initCasesTable() {

@@ -75,6 +75,10 @@ public class AdministratorController implements IController {
     
     public void initialize(){
         
+        changePasswordItem.setOnAction(event->{
+            menuService.changePasswordFrame();
+        });
+        
         newUserItem.setOnAction(event->{
             SingleSelectionModel<Tab> selection = tabPane.getSelectionModel();
             selection.select(addUserTab);
