@@ -28,7 +28,7 @@ public class ChangePasswordController {
 
     private void changePassword(Staff user, IMenuService menuService){
         Alert alert;
-        if(currentPasswordField.getText().equals("")||newPasswordField.getText().equals("")){
+        if(currentPasswordField.getText().trim().isEmpty()||newPasswordField.getText().trim().isEmpty()){
             alert = new Alert(AlertType.WARNING);
             alert.setTitle("Changing password");
             alert.setHeaderText("Information");
