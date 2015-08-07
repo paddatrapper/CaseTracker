@@ -34,6 +34,16 @@ public class ServiceFactoryTest extends TestCase {
         Staff user = mock(Staff.class);
         assertTrue(ServiceFactory.getEditorService(user) != null);
     }
+    
+    public void testGetAdministratorService() {
+        Staff user = mock(Staff.class);
+        assertTrue(ServiceFactory.getAdministratorService(user) != null);
+    }
+    
+    public void testGetMenuService() {
+        Staff user = mock(Staff.class);
+        assertTrue(ServiceFactory.getMenuService(user) != null);
+    }
 
     public void tearDown() {
         ServiceFactory.resetServerConnection();
