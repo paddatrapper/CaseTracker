@@ -34,6 +34,7 @@ public class Configuration {
     }
 
     private static String getDatabaseProperty(String key) {
+        logger.info("Retriving property {}", key);
         if (database == null) {
             readConfiguration();
         }
@@ -41,6 +42,7 @@ public class Configuration {
     }
 
     private static void readConfiguration() {
+        logger.info("Reading configuration file");
         Properties config = new Properties();
         try {
             InputStream in = Configuration.class.getResourceAsStream("/config.properties");

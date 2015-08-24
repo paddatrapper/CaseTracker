@@ -21,6 +21,7 @@ public class Configuration {
         return Integer.parseInt(getProperty("port"));
     }
     private static String getProperty(String key) {
+        logger.info("Retriving property {}", key);
         if (configuration == null) {
             readConfiguration();
         }
@@ -28,6 +29,7 @@ public class Configuration {
     }
 
     private static void readConfiguration() {
+        logger.info("Reading configuration file");
         Properties config = new Properties();
         try {
             InputStream in = Configuration.class.getResourceAsStream("/config.properties");
