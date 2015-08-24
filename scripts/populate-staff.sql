@@ -1,0 +1,17 @@
+INSERT INTO CaseTracker.staff VALUES ('test1', 'test1', 'test1', 'test1', 'test1', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('test2', 'test2', 'test2', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 2);
+INSERT INTO CaseTracker.staff VALUES ('test3', 'test3', 'test3', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 0);
+INSERT INTO CaseTracker.staff VALUES ('test5', 'test5', 'test5', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 0);
+INSERT INTO CaseTracker.staff VALUES ('test6', 'test6', 'test6', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 2);
+INSERT INTO CaseTracker.staff VALUES ('test7', 'test7', 'test7', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 0);
+INSERT INTO CaseTracker.staff VALUES ('test8', 'test8', 'test8', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 0);
+INSERT INTO CaseTracker.staff VALUES ('test9', 'test9', 'test9', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 2);
+INSERT INTO CaseTracker.staff VALUES ('test10', 'test10', 'test10', 'System', 'Admin', 5652982620818979993, 5652982620815473591, 0);
+INSERT INTO CaseTracker.staff VALUES ('test11', 'test11', 'test11', 'test11', 'test11', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('test12', 'test12', 'test12', 'test12', 'test12', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('test13', 'test13', 'test13', 'test13', 'test13', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('test14', 'test14', 'test14', 'test14', 'test14', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('test15', 'test15', 'test15', 'test15', 'test15', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('test16', 'test16', 'test16', 'test16', 'test16', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('test17', 'test17', 'test17', 'test17', 'test17', -5922475058343094375, -5922475058261058398, 1);
+INSERT INTO CaseTracker.staff VALUES ('test18', 'test18', 'test18', 'test18', 'test18', -5922475058343094375, -5922475058261058398, 1);
