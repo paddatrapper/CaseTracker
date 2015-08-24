@@ -2,7 +2,6 @@ package com.kritsit.casetracker.client.domain.services;
 
 import static org.mockito.Mockito.*;
 
-import com.kritsit.casetracker.client.domain.Domain;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import junit.framework.Test;

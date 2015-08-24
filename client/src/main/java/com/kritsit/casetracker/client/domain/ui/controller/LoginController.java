@@ -1,6 +1,5 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
-import com.kritsit.casetracker.client.domain.Domain;
 import com.kritsit.casetracker.client.domain.services.ILoginService;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 

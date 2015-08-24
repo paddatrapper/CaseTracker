@@ -1,6 +1,6 @@
 package com.kritsit.casetracker.client.domain.services;
 
-import com.kritsit.casetracker.client.domain.Domain;
+import com.kritsit.casetracker.client.domain.Configuration;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class ServerLogin implements ILoginService {
 
     private boolean openConnection() {
         if (!connection.isOpen()) {
-            if (!connection.open(Domain.getServerAddress(), Domain.getServerConnectionPort())) {
+            if (!connection.open(Configuration.getServer(), Configuration.getPort())) {
                 logger.warn("Unable to open connection with server");
                 return false;
             }
