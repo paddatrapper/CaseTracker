@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.server.datalayer;
 
+import com.kritsit.casetracker.server.domain.Configuration;
 import com.kritsit.casetracker.server.domain.Domain;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -28,11 +29,11 @@ public class DatabasePersistence implements IPersistenceService {
 
     public boolean open() {
         logger.debug("Retrieving database connection details");
-        String host = Domain.getDbHostName();
-        int port = Domain.getDbPort();
-        String schema = Domain.getDbSchema();
-        String username = Domain.getDbUsername();
-        String password = Domain.getDbPassword();
+        String host = Configuration.getDbHost();
+        int port = Configuration.getDbPort();
+        String schema = Configuration.getDbSchema();
+        String username = Configuration.getDbUsername();
+        String password = Configuration.getDbPassword();
 
         try {
             logger.info("Opening database connection: {}@{}:{}/{}", username, host, port, schema);
