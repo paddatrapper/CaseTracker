@@ -113,6 +113,15 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         writeResponse(dto);
                         break;
                     }
+                    case "deleteUser" : {
+                        String username = (String) request.getArguments().get(0);
+                        logger.debug("Requested to delete user: {}", username);
+                        IUserRepository userRepo = RepositoryFactory.getUserRepository();
+                        userRepo.deleteUser(username);
+                        Response dto = new Response(200, "User deleted");
+                        writeResponse(dto);
+                        break;
+                    }
                     case "close" : {
                         close();
                         logger.info("{} has disconnected", connectedClient);

@@ -155,6 +155,7 @@ public class ServerConnectionIT extends TestCase {
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         assertTrue(connection.editUser(staff));
     }
+    */
     
     public void testDeleteUser(){
         connection.open(host, port);
@@ -162,7 +163,8 @@ public class ServerConnectionIT extends TestCase {
         assertTrue(connection.deleteUser(username));
     }
     
-     public void testResetPass(){
+    /*
+    public void testResetPass(){
         connection.open(host, port);
         String username = "johndoe";
         int hashedRandomPass = 1234;
@@ -180,6 +182,7 @@ public class ServerConnectionIT extends TestCase {
     public void tearDown() throws IOException {
         ServiceFactory.resetServerConnection();
         if (connection.isOpen()) {
+            connection.deleteUser("johndoe");
             connection.close();
         }
         File evidenceFile = new File("../server/data/");

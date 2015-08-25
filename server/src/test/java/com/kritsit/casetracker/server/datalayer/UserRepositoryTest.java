@@ -190,4 +190,16 @@ public class UserRepositoryTest extends TestCase {
         verify(db).executeUpdate(sql, username, firstName, lastName, department,
                 position, strPermission);
     }
+
+    public void testDeleteUser() throws Exception {
+        String sql = "DELETE FROM staff WHERE username=?;";
+        String username = "testUser";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+    
+        repo.deleteUser(username);
+
+        verify(db).executeUpdate(sql, username);
+    }
 }

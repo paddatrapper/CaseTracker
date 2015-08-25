@@ -155,4 +155,16 @@ public class UserRepository implements IUserRepository {
             throw new RowToModelParseException("Error inserting user", e);
         }
    }
+
+   public void deleteUser(String username) throws RowToModelParseException {
+       try {
+           logger.info("Deleting user {}", username);
+           String sql = "DELETE FROM staff WHERE username=?;";
+
+           db.executeUpdate(sql, username);
+       } catch (SQLException e) {
+           logger.error("Error deleting user {}", username, e);
+           throw new RowToModelParseException("Error deleting user", e);
+       }
+   }
 }
