@@ -49,7 +49,6 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     case "login" : {
                         try {
                             logger.debug("Login requested");
-
                             IUserRepository repository = RepositoryFactory.getUserRepository();
                             ILoginService login = new Login(repository);
                             Staff user = login.login(request.getArguments().get(0).toString(),
@@ -65,7 +64,6 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                     }
                     case "getCases" : {
                         ICaseRepository caseRepo = RepositoryFactory.getCaseRepository();
-
                         List<Case> cases;
                         if (request.getArguments().size() == 0) {
                             logger.debug("All cases requested");
@@ -119,6 +117,16 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         IUserRepository userRepo = RepositoryFactory.getUserRepository();
                         userRepo.deleteUser(username);
                         Response dto = new Response(200, "User deleted");
+                        writeResponse(dto);
+                        break;
+                    }
+                    case "changePassword" : {
+                        String username = (String) request.getArguments().get(0);
+                        int passHash = (int) request.getArguments().get(1);
+                        logger.debug("Requested to change password for {}", username);
+                        IUserRepository userRepo = RepositoryFactory.getUserRepository();
+                        userRepo.setPassword(username, passHash);
+                        Response dto = new Response(200, "Password changed");
                         writeResponse(dto);
                         break;
                     }

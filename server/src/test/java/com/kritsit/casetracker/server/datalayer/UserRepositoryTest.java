@@ -171,7 +171,7 @@ public class UserRepositoryTest extends TestCase {
     }
 
     public void testInsertUser() throws Exception {
-        String sql = "INSERT INTO staff VALUES(?, ?, ?, ?, ?, 0, 0, ?);";
+        String sql = "INSERT INTO staff VALUES(?, ?, ?, ?, ?, -1, 0, ?);";
         String username = "testUser";
         String firstName = "test";
         String lastName = "user";
@@ -201,5 +201,18 @@ public class UserRepositoryTest extends TestCase {
         repo.deleteUser(username);
 
         verify(db).executeUpdate(sql, username);
+    }
+
+    public void testSetPassword() throws Exception {
+        String sql = "UPDATE staff SET passwordHash=? AND salt=? WHERE username=?;";
+        String username = "testUser";
+        int passwordHash = 1234;
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+    
+        repo.setPassword(username, passwordHash);
+
+        verify(db).executeUpdate(eq(sql), anyString(), anyString(), eq(username));
     }
 }

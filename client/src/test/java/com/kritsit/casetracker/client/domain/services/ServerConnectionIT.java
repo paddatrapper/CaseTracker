@@ -163,22 +163,35 @@ public class ServerConnectionIT extends TestCase {
         assertTrue(connection.deleteUser(username));
     }
     
-    /*
     public void testResetPass(){
         connection.open(host, port);
         String username = "johndoe";
         int hashedRandomPass = 1234;
         assertTrue(connection.resetPassword(username, hashedRandomPass));
+        assertTrue(connection.login(username, hashedRandomPass));
     }
     
-     public void testChangePass(){
-         connection.open(host, port);
-         String username = "johndoe";
-         int currentHashedPass = 1234;
-         int newHashedPass = 4321;
-         assertTrue(connection.changePassword(username, currentHashedPass, newHashedPass));
-     }
-    */
+    public void testChangePass(){
+        connection.open(host, port);
+        setUpUser("johndoe", 1234);
+        String username = "johndoe";
+        int currentHashedPass = 1234;
+        int newHashedPass = 4321;
+        assertTrue(connection.changePassword(username, currentHashedPass, newHashedPass));
+    }
+
+    private void setUpUser(String username, int passwordHash) {
+        String firstname = "John";
+        String lastname = "Doe";
+        String department = "IT";
+        String position = "admin";
+        Permission permission = Permission.ADMIN;
+        
+        Staff staff = new Staff(username, firstname, lastname, department, position, permission);
+        connection.addUser(staff);
+        connection.resetPassword(username, passwordHash);
+    }
+   
     public void tearDown() throws IOException {
         ServiceFactory.resetServerConnection();
         if (connection.isOpen()) {

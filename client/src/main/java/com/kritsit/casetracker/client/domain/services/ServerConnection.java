@@ -217,11 +217,10 @@ public class ServerConnection implements IConnectionService {
                         response.getBody().toString());
             }
             return response.isSuccessful();
-           }
-         catch (IOException | ClassNotFoundException ex) {
+         } catch (IOException | ClassNotFoundException ex) {
             logger.error("Unable to update user", ex);
             return false;
-           }
+         }
     }
     
     public boolean deleteUser(String username){
@@ -240,7 +239,7 @@ public class ServerConnection implements IConnectionService {
         catch (IOException | ClassNotFoundException ex) {
             logger.error("Unable to delete user", ex);
             return false;
-           }
+        }
     }
     
     private void serializeEvidence(List<Evidence> evidence) throws IOException {
@@ -256,7 +255,7 @@ public class ServerConnection implements IConnectionService {
             List<Object> arguments = new ArrayList<>();
             arguments.add(username);
             arguments.add(hashedRandomPass);
-            Request request = new Request("resetPassword", arguments);
+            Request request = new Request("changePassword", arguments);
             Response response = getResponse(request);
             if (!response.isSuccessful()) {
                 logger.error("Unable to reset password. Code {} - {}",
@@ -264,32 +263,19 @@ public class ServerConnection implements IConnectionService {
                         response.getBody().toString());
             }
             return response.isSuccessful();
+         } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to reset password", ex);
+            return false;
          }
-         catch (IOException | ClassNotFoundException ex) {
-             logger.error("Unable to reset password", ex);
-             return false;
-            }
     }
 
     public boolean changePassword(String username, int currentHashedPass, int newHashedPass) {
-        try{
-            List<Object> arguments = new ArrayList<>();
-            arguments.add(username);
-            arguments.add(currentHashedPass);
-            arguments.add(newHashedPass);
-            Request request = new Request("changePassword", arguments);
-            Response response = getResponse(request);
-            if (!response.isSuccessful()) {
-                logger.error("Unable to change password. Code {} - {}",
-                        response.getStatus(),
-                        response.getBody().toString());
-            }
-            return response.isSuccessful();
-         }
-         catch (IOException | ClassNotFoundException ex) {
-             logger.error("Unable to change password", ex);
-             return false;
-            }
+        if (login(username, currentHashedPass)) {
+            return resetPassword(username, newHashedPass);
+        } else {
+            logger.info("Unable to change password - incorrect login attempt");
+            return false;
+        }
     }
 
 }
