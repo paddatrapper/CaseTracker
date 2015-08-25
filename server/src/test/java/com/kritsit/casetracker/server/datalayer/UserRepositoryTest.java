@@ -3,6 +3,7 @@ package com.kritsit.casetracker.server.datalayer;
 import static org.mockito.Mockito.*;
 
 import com.kritsit.casetracker.shared.domain.model.Staff;
+import com.kritsit.casetracker.shared.domain.model.Permission;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -23,13 +24,13 @@ public class UserRepositoryTest extends TestCase {
         return new TestSuite(UserRepositoryTest.class);
     }
 
-	public void testGetUserDetails() throws Exception {
+    public void testGetUserDetails() throws Exception {
         String username = "inspector";
         String sql = "SELECT firstName, lastName, department, position, " +
             "permissions FROM staff WHERE username=?;";
 
-		IPersistenceService db = mock(IPersistenceService.class);
-		UserRepository repo = new UserRepository(db);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
         Map<String, String> details = new HashMap<>();
         details.put("firstName", "Inspector");
         details.put("lastName", "Inspector");
@@ -38,7 +39,7 @@ public class UserRepositoryTest extends TestCase {
         details.put("permissions", "1");
         List<Map<String, String>> result = new ArrayList<>();
         result.add(details);
-	    when(db.executeQuery(sql, username)).thenReturn(result);	
+        when(db.executeQuery(sql, username)).thenReturn(result);    
 
         Staff response = repo.getUserDetails(username);
 
@@ -46,46 +47,46 @@ public class UserRepositoryTest extends TestCase {
         verify(db).executeQuery(sql, username);
     }
 
-	public void testGetSalt() throws Exception{
-		String username = "inspector";
+    public void testGetSalt() throws Exception{
+        String username = "inspector";
         String sql = "SELECT salt FROM staff WHERE username=?;";
-		long expectedSalt = -5922475058261058398L;
-		
-		IPersistenceService db = mock(IPersistenceService.class);
-		UserRepository repo = new UserRepository(db);
+        long expectedSalt = -5922475058261058398L;
+        
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
         Map<String, String> details = new HashMap<>();
         details.put("salt", expectedSalt + "");
         List<Map<String, String>> result = new ArrayList<>();
         result.add(details);
-	    when(db.executeQuery(sql, username)).thenReturn(result);	
+        when(db.executeQuery(sql, username)).thenReturn(result);    
 
-		long actualSalt = repo.getSalt(username);
-		
-		assertTrue(expectedSalt == actualSalt);
-	    verify(db).executeQuery(sql, username);
-	}
-	
+        long actualSalt = repo.getSalt(username);
+        
+        assertTrue(expectedSalt == actualSalt);
+        verify(db).executeQuery(sql, username);
+    }
+    
     public void testGetPasswordSaltedHash() throws Exception {
         String username = "inspector";
         String sql = "SELECT passwordHash FROM staff WHERE username=?;";
         long expectedSalt = -5922475058261058398L;
         long expectedPasswordSaltedHash = "inspector".hashCode() + expectedSalt;
         
-		IPersistenceService db = mock(IPersistenceService.class);
-		UserRepository repo = new UserRepository(db);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
         Map<String, String> details = new HashMap<>();
         details.put("passwordHash", expectedPasswordSaltedHash + "");
         List<Map<String, String>> result = new ArrayList<>();
         result.add(details);
-	    when(db.executeQuery(sql, username)).thenReturn(result);	
+        when(db.executeQuery(sql, username)).thenReturn(result);    
 
         long passwordSaltedHash = repo.getPasswordSaltedHash(username);
         
         assertTrue(expectedPasswordSaltedHash == passwordSaltedHash);
-	    verify(db).executeQuery(sql, username);
+        verify(db).executeQuery(sql, username);
     }
 
-	public void testGetInvestigatingOfficer() throws Exception {
+    public void testGetInvestigatingOfficer() throws Exception {
         String caseNumber = "1";
         String username = "inspector";
         String investigatingOfficerSql = "SELECT username FROM staff " +
@@ -93,8 +94,8 @@ public class UserRepositoryTest extends TestCase {
         String detailsSql = "SELECT firstName, lastName, department, position, " +
             "permissions FROM staff WHERE username=?;";
 
-		IPersistenceService db = mock(IPersistenceService.class);
-		UserRepository repo = new UserRepository(db);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
         Map<String, String> details = new HashMap<>();
         details.put("firstName", "Inspector");
         details.put("lastName", "Inspector");
@@ -109,8 +110,8 @@ public class UserRepositoryTest extends TestCase {
         List<Map<String, String>> usernameList = new ArrayList<>();
         usernameList.add(usernameMap);
 
-	    when(db.executeQuery(investigatingOfficerSql, caseNumber)).thenReturn(usernameList);
-	    when(db.executeQuery(detailsSql, username)).thenReturn(detailsList);
+        when(db.executeQuery(investigatingOfficerSql, caseNumber)).thenReturn(usernameList);
+        when(db.executeQuery(detailsSql, username)).thenReturn(detailsList);
 
         Staff response = repo.getInvestigatingOfficer(caseNumber);
 
@@ -129,7 +130,7 @@ public class UserRepositoryTest extends TestCase {
             "department, position, permissions FROM staff WHERE username=?;";
 
         IPersistenceService db = mock(IPersistenceService.class);
-		UserRepository repo = new UserRepository(db);
+        IUserRepository repo = new UserRepository(db);
         List<Map<String, String>> inspector = new ArrayList<>();
         Map<String, String> user1 = new HashMap<>();
         user1.put("firstName", "Inspector");
@@ -157,7 +158,7 @@ public class UserRepositoryTest extends TestCase {
         anotherUsernameMap.put("username", anotherUsername);
         usernameList.add(anotherUsernameMap);
         
-	    when(db.executeQuery(usernameListSql, "1")).thenReturn(usernameList);
+        when(db.executeQuery(usernameListSql, "1")).thenReturn(usernameList);
         when(db.executeQuery(inspectorDetailsSql, username)).thenReturn(inspector);
         when(db.executeQuery(anotherInspectorDetailsSql, anotherUsername)).thenReturn(anotherInspector);
 
@@ -167,5 +168,26 @@ public class UserRepositoryTest extends TestCase {
         verify(db).executeQuery(usernameListSql, "1");
         verify(db).executeQuery(inspectorDetailsSql, username);
         verify(db).executeQuery(anotherInspectorDetailsSql, anotherUsername);
+    }
+
+    public void testInsertUser() throws Exception {
+        String sql = "INSERT INTO staff VALUES(?, ?, ?, ?, ?, 0, 0, ?);";
+        String username = "testUser";
+        String firstName = "test";
+        String lastName = "user";
+        String department = "IT";
+        String position = "Test";
+        Permission permission = Permission.ADMIN;
+        String strPermission = "0";
+
+        Staff user = new Staff(username, firstName, lastName, department,
+                position, permission);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+    
+        repo.insertUser(user);
+
+        verify(db).executeUpdate(sql, username, firstName, lastName, department,
+                position, strPermission);
     }
 }

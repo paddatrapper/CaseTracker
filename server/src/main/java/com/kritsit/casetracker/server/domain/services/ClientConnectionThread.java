@@ -104,6 +104,15 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         writeResponse(dto);
                         break;
                     }
+                    case "addUser" : {
+                        Staff user = (Staff) request.getArguments().get(0);
+                        logger.debug("Requested to add user: {}", user);
+                        IUserRepository userRepo = RepositoryFactory.getUserRepository();
+                        userRepo.insertUser(user);
+                        Response dto = new Response(200, "User added");
+                        writeResponse(dto);
+                        break;
+                    }
                     case "close" : {
                         close();
                         logger.info("{} has disconnected", connectedClient);

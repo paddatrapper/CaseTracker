@@ -124,4 +124,35 @@ public class UserRepository implements IUserRepository {
             throw new RowToModelParseException("Error retrieving inspectors", e);
         }
    }
+
+   public void insertUser(Staff user) throws RowToModelParseException {
+        try {
+            logger.info("Adding user {}", user);
+            // Password set after user is added
+            String sql = "INSERT INTO staff VALUES(?, ?, ?, ?, ?, 0, 0, ?);";
+            String username = user.getUsername();
+            String firstName = user.getFirstName();
+            String lastName = user.getLastName();
+            String department = user.getDepartment();
+            String position = user.getPosition();
+            int permission = -1;
+            switch (user.getPermission()) {
+                case ADMIN :
+                    permission = 0;
+                    break;
+                case EDITOR :
+                    permission = 1;
+                    break;
+                default :
+                    permission = 2;
+                    break;
+            }
+
+            db.executeUpdate(sql, username, firstName, lastName, department,
+                    position, String.valueOf(permission));
+        } catch (SQLException e) {
+            logger.error("Error inserting user {}", user, e);
+            throw new RowToModelParseException("Error inserting user", e);
+        }
+   }
 }
