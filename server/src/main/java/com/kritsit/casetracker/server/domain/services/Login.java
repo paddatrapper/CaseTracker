@@ -24,7 +24,6 @@ public class Login implements ILoginService {
         boolean isAuthenticated = !(passwordSaltedHash == -1 || testPasswordSaltedHash != passwordSaltedHash);
         
         if(!isAuthenticated) {
-            System.out.println("NO " + username + " - Expected:\n" + passwordSaltedHash + "\n" + testPasswordSaltedHash + " actual");
             logger.debug("Log in failed");
         	throw new AuthenticationException();
         }

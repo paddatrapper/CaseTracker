@@ -175,7 +175,7 @@ public class UserRepository implements IUserRepository {
             SecureRandom rand = new SecureRandom();
             long salt = rand.nextLong();
             long saltedHashPassword = salt + hashPassword;
-            String sql = "UPDATE staff SET passwordHash=? AND salt=? WHERE username=?;";
+            String sql = "UPDATE staff SET passwordHash=?, salt=? WHERE username=?;";
             db.executeUpdate(sql, String.valueOf(saltedHashPassword),
                     String.valueOf(salt), username);
         } catch (SQLException e) {

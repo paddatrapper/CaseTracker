@@ -165,6 +165,7 @@ public class ServerConnectionIT extends TestCase {
     
     public void testResetPass(){
         connection.open(host, port);
+        setUpUser("johndoe", 1234);
         String username = "johndoe";
         int hashedRandomPass = 1234;
         assertTrue(connection.resetPassword(username, hashedRandomPass));

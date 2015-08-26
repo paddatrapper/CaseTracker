@@ -204,7 +204,7 @@ public class UserRepositoryTest extends TestCase {
     }
 
     public void testSetPassword() throws Exception {
-        String sql = "UPDATE staff SET passwordHash=? AND salt=? WHERE username=?;";
+        String sql = "UPDATE staff SET passwordHash=?, salt=? WHERE username=?;";
         String username = "testUser";
         int passwordHash = 1234;
 

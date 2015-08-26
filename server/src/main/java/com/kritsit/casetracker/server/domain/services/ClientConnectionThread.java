@@ -135,6 +135,11 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         logger.info("{} has disconnected", connectedClient);
                         return;
                     }
+                    default : {
+                        Response dto = new Response(404, "Request not found");
+                        writeResponse(dto);
+                        break;
+                    }
                 }
             }
         } catch (IOException | RowToModelParseException | ClassNotFoundException ex) {
