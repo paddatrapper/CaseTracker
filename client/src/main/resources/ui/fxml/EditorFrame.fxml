@@ -16,23 +16,23 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-                  <MenuItem fx:id="reportItem" mnemonicParsing="false" text="Report" />
-                  <MenuItem fx:id="changePasswordItem" mnemonicParsing="false" text="Change password" />
+            <MenuItem fx:id="reportItem" mnemonicParsing="false" text="Report" />
+            <MenuItem fx:id="changePasswordItem" mnemonicParsing="false" text="Change password" />
             <MenuItem fx:id="logoutItem" mnemonicParsing="false" text="Logout" />
-                  <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" />
+            <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-                  <MenuItem fx:id="newCaseItem" mnemonicParsing="false" text="New case" />
+            <MenuItem fx:id="newCaseItem" mnemonicParsing="false" text="New case" />
             <MenuItem fx:id="editCaseItem" mnemonicParsing="false" text="Edit case" />
-                  <MenuItem fx:id="addEvidenceItem" mnemonicParsing="false" text="Add evidence" />
+            <MenuItem fx:id="addEvidenceItem" mnemonicParsing="false" text="Add evidence" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
             <MenuItem fx:id="aboutItem" mnemonicParsing="false" text="About" />
-                  <MenuItem fx:id="helpItem" mnemonicParsing="false" text="Help" />
+            <MenuItem fx:id="helpItem" mnemonicParsing="false" text="Help" />
           </items>
         </Menu>
       </menus>

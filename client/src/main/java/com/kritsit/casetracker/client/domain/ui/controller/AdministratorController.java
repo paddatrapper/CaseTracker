@@ -96,31 +96,31 @@ public class AdministratorController implements IController {
             resetPassword();
         });
         
-        resetPasswordButton.setOnAction(event->{
+        btnResetPassword.setOnAction(event->{
             resetPassword();
         });
         
-        deleteButton.setOnAction(event->{
+        btnDelete.setOnAction(event->{
           deleteUser();
         });
         
-        addUserButton.setOnAction(event->{
+        btnAddUser.setOnAction(event->{
            addUser();
         });
         
-        editButton.setOnAction(event->{
+        btnEdit.setOnAction(event->{
            editUser();
         });
     }
 
     private void addUser() {
         Map<String, Object> inputMap = new HashMap<String, Object>();
-        inputMap.put("username", usernameField.getText());
-        inputMap.put("firstname", firstNameField.getText());
-        inputMap.put("lastname", lastNameField.getText());
-        inputMap.put("department", departmentCombobox.getValue());
-        inputMap.put("position", positionField.getText());
-        inputMap.put("permission", permissionCombobox.getValue());
+        inputMap.put("username", txfAddUsername.getText());
+        inputMap.put("firstname", txfAddFirstName.getText());
+        inputMap.put("lastname", txfAddLastName.getText());
+        inputMap.put("department", cbxAddDepartment.getValue());
+        inputMap.put("position", txfAddPosition.getText());
+        inputMap.put("permission", cbxAddPermission.getValue());
         
         InputToModelParseResult result = administratorService.addUser(inputMap);
         if(result.isSuccessful()){
@@ -141,7 +141,7 @@ public class AdministratorController implements IController {
     }
     
     private void editUser(){
-        TableViewSelectionModel<Staff> selection =  staffTable.getSelectionModel();
+        TableViewSelectionModel<Staff> selection =  tblStaff.getSelectionModel();
         if(selection.getSelectedItem()==null){
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Editing user");
@@ -178,7 +178,7 @@ public class AdministratorController implements IController {
 
     private void deleteUser() {
         Alert alert;
-        TableViewSelectionModel<Staff> selection =  staffTable.getSelectionModel();
+        TableViewSelectionModel<Staff> selection =  tblStaff.getSelectionModel();
         if(selection.getSelectedItem()==null){
             alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Deleting user");
@@ -222,66 +222,64 @@ public class AdministratorController implements IController {
         staffList = FXCollections.observableArrayList(administratorService.getInspectors());
     
         FilteredList<Staff> filteredStaff = new FilteredList<>(staffList, p -> true);
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+        txfFilterUsers.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredStaff.setPredicate(s -> {
-                if (newValue == null || newValue.isEmpty()) {
+                if (newValue == null || newValue.isEmpty() || newValue.equals("All")) {
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
                 if (s.getUsername().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
-                
                 return false;
             });
         });
         
-        searchCombobox.valueProperty().addListener((observable, oldValue, newValue) -> {
+        cbxFilterPermissions.valueProperty().addListener((observable, oldValue, newValue) -> {
             filteredStaff.setPredicate(s -> {
-                if (newValue == null || newValue.isEmpty()) {
+                if (newValue == null || newValue.isEmpty() || newValue.equals("All")) {
                     return true;
                 }
-               
                 if (s.getPermission().toString().equals(newValue)) {
                     return true;
                 }
-                
                 return false;
             });
         });
         
         SortedList<Staff> sortedStaff = new SortedList<>(filteredStaff);
-        sortedStaff.comparatorProperty().bind(staffTable.comparatorProperty());
-        staffTable.setItems(sortedStaff);
+        sortedStaff.comparatorProperty().bind(tblStaff.comparatorProperty());
+        tblStaff.setItems(sortedStaff);
         
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory("firstName"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory("lastName"));
-        usernameColumn.setCellValueFactory(new PropertyValueFactory("username"));
-        departmentColumn.setCellValueFactory(new PropertyValueFactory("department"));
-        permissionColumn.setCellValueFactory(new PropertyValueFactory("permission"));
+        colFirstName.setCellValueFactory(new PropertyValueFactory("firstName"));
+        colLastName.setCellValueFactory(new PropertyValueFactory("lastName"));
+        colUsername.setCellValueFactory(new PropertyValueFactory("username"));
+        colDepartment.setCellValueFactory(new PropertyValueFactory("department"));
+        colPermission.setCellValueFactory(new PropertyValueFactory("permission"));
     }
     
     private void resetAddUserTab(){
-        firstNameField.setText("");
-        lastNameField.setText("");
-        departmentCombobox.setValue("");
-        positionField.setText("");
-        usernameField.setText("");
-        permissionCombobox.setValue("");
+        txfAddFirstName.setText("");
+        txfAddLastName.setText("");
+        cbxAddDepartment.setValue("");
+        txfAddPosition.setText("");
+        txfAddUsername.setText("");
+        cbxAddPermission.setValue("");
     }
     
     private void initPermissionCombobox(){
        ObservableList<String> permissions = 
-               FXCollections.observableArrayList(Permission.ADMIN.toString(),
+               FXCollections.observableArrayList("All", Permission.ADMIN.toString(),
                Permission.EDITOR.toString(), Permission.VIEWER.toString());
-       permissionCombobox.setItems(permissions);
+       cbxAddPermission.setItems(permissions);
     }
     
     private void initSearchCombobox(){
         ObservableList<String> permissions = 
-                FXCollections.observableArrayList(Permission.ADMIN.toString(),
+                FXCollections.observableArrayList("All", Permission.ADMIN.toString(),
                 Permission.EDITOR.toString(), Permission.VIEWER.toString());
-        searchCombobox.setItems(permissions);
+        cbxFilterPermissions.setItems(permissions);
+        cbxFilterPermissions.setValue("All");
      }
 
     public void updateTable(){
@@ -291,7 +289,7 @@ public class AdministratorController implements IController {
     }
     
     private void resetPassword(){
-        SelectionModel<Staff> selection = staffTable.getSelectionModel();
+        SelectionModel<Staff> selection = tblStaff.getSelectionModel();
         Alert alert;
         if(selection.getSelectedItem()==null){
             alert = new Alert(AlertType.INFORMATION);
@@ -325,24 +323,24 @@ public class AdministratorController implements IController {
           }  
     }
     
-    @FXML private TextField searchField;
-    @FXML private ComboBox<String> searchCombobox;
-    @FXML private Button resetPasswordButton;
-    @FXML private Button editButton;
-    @FXML private Button deleteButton;
-    @FXML private TableView<Staff> staffTable;
-    @FXML private TextField firstNameField;
-    @FXML private TextField lastNameField;
-    @FXML private ComboBox<String> departmentCombobox;
-    @FXML private TextField positionField;
-    @FXML private TextField usernameField;
-    @FXML private ComboBox<String> permissionCombobox;
-    @FXML private Button addUserButton;
-    @FXML private TableColumn<Staff, String> firstNameColumn;
-    @FXML private TableColumn<Staff, String> lastNameColumn;
-    @FXML private TableColumn<Staff, String> usernameColumn;
-    @FXML private TableColumn<Staff, String> departmentColumn;
-    @FXML private TableColumn<Staff, String> permissionColumn;
+    @FXML private TextField txfFilterUsers;
+    @FXML private ComboBox<String> cbxFilterPermissions;
+    @FXML private Button btnResetPassword;
+    @FXML private Button btnEdit;
+    @FXML private Button btnDelete;
+    @FXML private TableView<Staff> tblStaff;
+    @FXML private TextField txfAddFirstName;
+    @FXML private TextField txfAddLastName;
+    @FXML private ComboBox<String> cbxAddDepartment;
+    @FXML private TextField txfAddPosition;
+    @FXML private TextField txfAddUsername;
+    @FXML private ComboBox<String> cbxAddPermission;
+    @FXML private Button btnAddUser;
+    @FXML private TableColumn<Staff, String> colFirstName;
+    @FXML private TableColumn<Staff, String> colLastName;
+    @FXML private TableColumn<Staff, String> colUsername;
+    @FXML private TableColumn<Staff, String> colDepartment;
+    @FXML private TableColumn<Staff, String> colPermission;
     @FXML private MenuItem reportItem;
     @FXML private MenuItem changePasswordItem;
     @FXML private MenuItem logoutItem;
@@ -355,5 +353,4 @@ public class AdministratorController implements IController {
     @FXML private MenuItem helpItem;
     @FXML private TabPane tabPane;
     @FXML private Tab addUserTab;
-
 }
