@@ -142,7 +142,6 @@ public class ServerConnectionIT extends TestCase {
         assertTrue(connection.addUser(staff));
     }
 
-   /* 
     public void testEditUser(){
         connection.open(host, port);
         String username = "johndoe";
@@ -155,7 +154,6 @@ public class ServerConnectionIT extends TestCase {
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         assertTrue(connection.editUser(staff));
     }
-    */
     
     public void testDeleteUser(){
         connection.open(host, port);

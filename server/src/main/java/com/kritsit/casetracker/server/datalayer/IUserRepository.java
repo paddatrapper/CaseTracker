@@ -12,6 +12,7 @@ public interface IUserRepository {
     Staff getInvestigatingOfficer(String caseNumber) throws RowToModelParseException;
     List<Staff> getInspectors() throws RowToModelParseException;
     void insertUser(Staff user) throws RowToModelParseException;
+    void updateUser(Staff user) throws RowToModelParseException;
     void deleteUser(String username) throws RowToModelParseException;
     void setPassword(String username, int hashPassword) throws RowToModelParseException;
 }

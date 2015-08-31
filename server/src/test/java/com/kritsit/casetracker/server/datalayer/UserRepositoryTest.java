@@ -191,6 +191,28 @@ public class UserRepositoryTest extends TestCase {
                 position, strPermission);
     }
 
+    public void testUpdateUser() throws Exception {
+        String sql = "UPDATE staff SET firstName=?, lastName=?, department=?, " +
+            "position=?, permissions=? WHERE username=?;";
+        String username = "testUser";
+        String firstName = "test";
+        String lastName = "user";
+        String department = "IT";
+        String position = "Test";
+        Permission permission = Permission.ADMIN;
+        String strPermission = "0";
+
+        Staff user = new Staff(username, firstName, lastName, department,
+                position, permission);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+    
+        repo.updateUser(user);
+
+        verify(db).executeUpdate(sql, firstName, lastName, department, position, 
+                strPermission, username);
+    }
+
     public void testDeleteUser() throws Exception {
         String sql = "DELETE FROM staff WHERE username=?;";
         String username = "testUser";

@@ -157,6 +157,37 @@ public class UserRepository implements IUserRepository {
          }
     }
 
+    public void updateUser(Staff user) throws RowToModelParseException {
+        try {
+            logger.info("Updating user {}", user.toString());
+            String sql = "UPDATE staff SET firstName=?, lastName=?, department=?, " +
+                "position=?, permissions=? WHERE username=?;";
+             String username = user.getUsername();
+             String firstName = user.getFirstName();
+             String lastName = user.getLastName();
+             String department = user.getDepartment();
+             String position = user.getPosition();
+             int permission = -1;
+             switch (user.getPermission()) {
+                 case ADMIN :
+                     permission = 0;
+                     break;
+                 case EDITOR :
+                     permission = 1;
+                     break;
+                 default :
+                     permission = 2;
+                     break;
+             }
+
+            db.executeUpdate(sql, firstName, lastName, department, position,
+                    String.valueOf(permission), username);
+        } catch (SQLException e) {
+            logger.error("Unable to update user {}", user.toString(), e);
+            throw new RowToModelParseException("Error updating user", e);
+        }
+    }
+
     public void deleteUser(String username) throws RowToModelParseException {
         try {
             logger.info("Deleting user {}", username);
