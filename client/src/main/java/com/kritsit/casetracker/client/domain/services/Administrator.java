@@ -48,7 +48,7 @@ public class Administrator implements IAdministratorService {
         boolean isAdded = connection.addUser(s);
         String reason = (isAdded) ? "User added successfully" :
             "Unable to add user. Please see log for details";
-        
+         
         InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
         return uploaded;
     }
@@ -107,22 +107,19 @@ public class Administrator implements IAdministratorService {
     }
 
     private InputToModelParseResult validate(Map<String, Object> inputMap){
-
         InputToModelParseResult result = new InputToModelParseResult(true);
-
-       for(Map.Entry<String, Object> entry : inputMap.entrySet()){
-                    if(entry.getKey().equals("firstname")) continue;
-                    if(entry.getKey().equals("position")) continue;
-                    if(entry.getKey().equals("permission")&& entry.getValue() instanceof Permission) continue;
-                    IValidator validator = new StringValidator();
-                    if(validator.validate(entry.getValue())){
-                        continue;
-                    }
-                    else{
-                        result.addFailedInput(entry.getKey());
-                    }
-               }
-       return result;
+        for(Map.Entry<String, Object> entry : inputMap.entrySet()){
+            if(entry.getKey().equals("firstname")) continue;
+            if(entry.getKey().equals("position")) continue;
+            if(entry.getKey().equals("permission")&& entry.getValue() instanceof Permission) continue;
+            IValidator validator = new StringValidator();
+            if(validator.validate(entry.getValue())){
+                continue;
+            } else{
+                result.addFailedInput(entry.getKey());
+            }
+        }
+        return result;
     }
 
     public int resetPassword(String username, int hashedRandomPass) {
@@ -131,8 +128,7 @@ public class Administrator implements IAdministratorService {
         if(result){
             logger.info("Password reset succesfully");
             return 200;
-        }
-        else{
+        } else{
             logger.error("Error reseting user's password");
             return 500;
         }

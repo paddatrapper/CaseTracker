@@ -124,18 +124,17 @@ public class AdministratorController implements IController {
         
         InputToModelParseResult result = administratorService.addUser(inputMap);
         if(result.isSuccessful()){
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Adding a new user");
-        alert.setHeaderText("New user added succesfully");
-        alert.setContentText("Click OK to proceed");
-        alert.showAndWait();
-        }
-        else{
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Error adding new user");
-        alert.setContentText(result.getReason());
-        alert.showAndWait();
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Adding a new user");
+            alert.setHeaderText("New user added succesfully");
+            alert.setContentText("Click OK to proceed");
+            alert.showAndWait();
+        } else{
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error adding new user");
+            alert.setContentText(result.getReason());
+            alert.showAndWait();
         }
         resetAddUserTab();
     }
@@ -162,8 +161,7 @@ public class AdministratorController implements IController {
         
         try{
             EditUserPane= (AnchorPane) fxmlLoader.load();
-        }
-        catch(IOException e){
+        } catch(IOException e){
             logger.error("Error loading frame to edit user " + e);
             return;
         }
@@ -187,28 +185,28 @@ public class AdministratorController implements IController {
             alert.showAndWait();   
             return;
         }
-          String selectedUsername = selection.getSelectedItem().getUsername();
-          Map<String, Object> inputMap = new HashMap<String, Object>();
-          inputMap.put("username", selectedUsername);
-          int result = administratorService.deleteUser(inputMap);
-          switch(result){
-          case 200 :
-              staffList = FXCollections.observableArrayList(administratorService.getInspectors());
-              alert = new Alert(AlertType.INFORMATION);
-              alert.setTitle("Deleting user");
-              alert.setHeaderText("User deleted succesfully");
-              alert.setContentText("Click OK to proceed");
-              alert.showAndWait();
-              break;
-          
-          case 500 :
-              alert = new Alert(AlertType.ERROR);
-              alert.setTitle("Deleting user");
-              alert.setHeaderText("Error while deleting user");
-              alert.setContentText("Error occured on the server side");
-              alert.showAndWait();
-              break;
-            }
+        String selectedUsername = selection.getSelectedItem().getUsername();
+        Map<String, Object> inputMap = new HashMap<String, Object>();
+        inputMap.put("username", selectedUsername);
+        int result = administratorService.deleteUser(inputMap);
+        switch(result){
+        case 200 :
+          staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+          alert = new Alert(AlertType.INFORMATION);
+          alert.setTitle("Deleting user");
+          alert.setHeaderText("User deleted succesfully");
+          alert.setContentText("Click OK to proceed");
+          alert.showAndWait();
+          break;
+
+        case 500 :
+          alert = new Alert(AlertType.ERROR);
+          alert.setTitle("Deleting user");
+          alert.setHeaderText("Error while deleting user");
+          alert.setContentText("Error occured on the server side");
+          alert.showAndWait();
+          break;
+        }
     }
 
     public void setStage(Stage stage) {
