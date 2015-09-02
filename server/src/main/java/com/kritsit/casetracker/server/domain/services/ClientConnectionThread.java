@@ -111,6 +111,15 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         writeResponse(dto);
                         break;
                     }
+                    case "editCase" : {
+                        Case c = (Case) request.getArguments().get(0);
+                        logger.debug("Edit case requested for: {}", c.toString());
+                        ICaseRepository caseRepo = RepositoryFactory.getCaseRepository();
+                        caseRepo.updateCase(c);
+                        Response dto = new Response(200, "Case edited");
+                        writeResponse(dto);
+                        break;
+                    }
                     case "editUser" : {
                         Staff user = (Staff) request.getArguments().get(0);
                         logger.debug("Edit user requested for: {}", user.toString());

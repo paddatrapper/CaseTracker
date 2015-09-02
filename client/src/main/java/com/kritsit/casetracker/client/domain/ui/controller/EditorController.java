@@ -24,6 +24,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,14 +38,19 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -52,6 +58,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import java.time.LocalDate;
 import java.io.File;
+import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,12 +96,22 @@ public class EditorController implements IController {
         } else {
             logger.debug("Add case tab disabled");
             tabAddCase.setDisable(true);
+            newCaseItem.setDisable(true);
         } 
     }
     
     public void initialize(){
         changePasswordItem.setOnAction(event->{
             menuService.changePasswordFrame();
+        });
+        
+        newCaseItem.setOnAction(event->{
+            SingleSelectionModel<Tab> selection = tabPane.getSelectionModel();
+            selection.select(tabAddCase);
+        });
+        
+        editCaseItem.setOnAction(event->{
+            handleEditCaseAction(null);
         });
     }
 
@@ -216,19 +233,23 @@ public class EditorController implements IController {
 
     private void initAddCaseTab() {
         logger.info("Initiating add case tab");
-        ObservableList<Staff> inspectors = FXCollections.observableArrayList(editorService.getInspectors());
+        ObservableList<Staff> inspectors = FXCollections.observableArrayList(
+                editorService.getInspectors());
         cmbAddInvestigatingOfficer.setItems(inspectors);
         if (editorService.getUser().getPermission() == Permission.EDITOR) {
             cmbAddInvestigatingOfficer.setValue(editorService.getUser());
         }
 
-        ObservableList<String> caseTypes = FXCollections.observableArrayList(editorService.getCaseTypes());
+        ObservableList<String> caseTypes = FXCollections.observableArrayList(
+                editorService.getCaseTypes());
         cmbAddCaseType.setItems(caseTypes);
 
-        ObservableList<Defendant> defendants = FXCollections.observableArrayList(editorService.getDefendants());
+        ObservableList<Defendant> defendants = FXCollections.observableArrayList(
+                editorService.getDefendants());
         cmbAddDefendant.setItems(defendants);
 
-        ObservableList<Person> complainants = FXCollections.observableArrayList(editorService.getComplainants());
+        ObservableList<Person> complainants = FXCollections.observableArrayList(
+                editorService.getComplainants());
         cmbAddComplainant.setItems(complainants);
 
         tabAddCase.setOnSelectionChanged(t -> {
@@ -346,7 +367,40 @@ public class EditorController implements IController {
         txfFilterCases.setText("");
     }
 
-    @FXML protected void handleSummaryEditAction(ActionEvent e) {
+    @FXML protected void handleEditCaseAction(ActionEvent e) {
+        TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
+        if(selection.getSelectedItem()==null){
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Editing case");
+            alert.setHeaderText("Information");
+            alert.setContentText("Select a case to edit");
+            alert.showAndWait();   
+            return;
+        }
+        
+        Case c = selection.getSelectedItem();
+        EditCaseController controller = new EditCaseController(c, editorService, this);
+        AnchorPane EditCasePane = null;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                .getResource("/ui/fxml/EditCase.fxml"));
+        
+        fxmlLoader.setController(controller);
+        fxmlLoader.setRoot(EditCasePane);
+        
+        try{
+            EditCasePane= (AnchorPane) fxmlLoader.load();
+        } catch(IOException ex){
+            logger.error("Error loading frame to edit case.", ex);
+            return;
+        }
+        
+        Scene scene = new Scene(EditCasePane);
+        Stage stage = new Stage();
+        stage.setTitle("Editing case " + c.getNumber());
+        stage.setResizable(false);
+        stage.setScene(scene);
+        controller.setStage(stage);
+        stage.show();
     }
 
     @FXML protected void handleCalendarPreviousAction(ActionEvent e) {
@@ -382,9 +436,11 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleAddNewDefendantAction(ActionEvent e) {
+        //TODO
     }
 
     @FXML protected void handleAddNewComplainantAction(ActionEvent e) {
+        //TODO
     }
 
     @FXML protected void handleAddEvidenceAction(ActionEvent e) {
@@ -400,7 +456,7 @@ public class EditorController implements IController {
         if (evidenceFile != null) {
             logger.debug("Adding selected evidence to new case");
             String name = evidenceFile.getName();
-            Evidence evidence = new Evidence(name, null, evidenceFile);
+            Evidence evidence = new Evidence(-1, name, null, evidenceFile);
             lstAddEvidence.getItems().add(evidence);
         }
     }
@@ -455,7 +511,8 @@ public class EditorController implements IController {
         Map<String, Object> inputMap = new HashMap<>();
         inputMap.put("caseNumber", txfAddCaseNumber.getText());
         inputMap.put("incidentDate", dpkAddIncidentDate.getValue());
-        inputMap.put("investigatingOfficer", cmbAddInvestigatingOfficer.getSelectionModel().getSelectedItem());
+        inputMap.put("investigatingOfficer", cmbAddInvestigatingOfficer
+                .getSelectionModel().getSelectedItem());
         inputMap.put("caseType", cmbAddCaseType.getSelectionModel().getSelectedItem()); 
         inputMap.put("isReturnVisit", cbxAddIsReturnVisit.isSelected());
         inputMap.put("returnDate", dpkAddReturnDate.getValue());
@@ -504,11 +561,7 @@ public class EditorController implements IController {
         lstAddEvidence.setItems(FXCollections.observableList(new ArrayList<Evidence>()));
     }
 
-    private void refreshCaseList() {
-/*        cases = FXCollections.observableArrayList(editorService.refreshCases());
-        SortedList<Case> sortedCases = new SortedList<>(filteredCases);
-        sortedCases.comparatorProperty().bind(tblCases.comparatorProperty());
-        tblCases.setItems(sortedCases);*/
+    public void refreshCaseList() {
         initCasesTable();
     } 
 
@@ -526,6 +579,7 @@ public class EditorController implements IController {
     @FXML private GridPane panCaseSummary;
     @FXML private ListView<Evidence> lstSummaryEvidence;
     @FXML private ListView<Evidence> lstAddEvidence;
+    @FXML private TabPane tabPane;
     @FXML private Tab tabAddCase;
     @FXML private TableView<Case> tblCases;
     @FXML private TableView<List<Day>> tblCalendar;

@@ -421,4 +421,167 @@ public class EditorTest extends TestCase {
         assertTrue(result.isSuccessful());
         verify(connection).addCase(any());
     }
+
+    public void testAddCase_SuccessAddress() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+
+        String caseNumber = "2015-02-0001";
+        String caseName = "Developers vs Testing";
+        String caseType = "Battle to the death";
+        String details = "Last man standing survives";
+        String animalsInvolved = "1 Developer and 1 AI";
+        LocalDate incidentDate = LocalDate.parse("2014-05-14");
+        String address = "Pluto";
+        String region = "Outer space";
+        boolean isReturnVisit = false;
+        List<Evidence> evidence = new ArrayList<>();
+        Staff investigatingOfficer = new Staff("inspector", "test", "inspector", "department", "position", Permission.EDITOR);
+        Person complainant = new Person(-1, "0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com");
+        Defendant defendant = new Defendant(-1, "0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com", false);
+        Incident incident = new Incident(-1, address, region, incidentDate, Incident.getDefaultFollowUpDate(incidentDate), false);
+        Case c = new Case(caseNumber, caseName, details, animalsInvolved, user, incident, defendant, complainant, null, evidence, isReturnVisit, null, caseType, null);
+
+        inputMap.put("caseNumber", caseNumber);
+        inputMap.put("caseName", caseName);
+        inputMap.put("caseType", caseType);
+        inputMap.put("details", details);
+        inputMap.put("animalsInvolved", animalsInvolved);
+        inputMap.put("investigatingOfficer", investigatingOfficer);
+        inputMap.put("incidentDate", incidentDate);
+        inputMap.put("address", address);
+        inputMap.put("longitude", "");
+        inputMap.put("latitude", "");
+        inputMap.put("region", region);
+        inputMap.put("isReturnVisit", isReturnVisit);
+        inputMap.put("defendant", defendant);
+        inputMap.put("complainant", complainant);
+        inputMap.put("evidence", evidence);
+
+        when(connection.addCase(any())).thenReturn(true);
+
+        InputToModelParseResult result = editor.addCase(inputMap);
+        
+        assertTrue(result.isSuccessful());
+        verify(connection).addCase(any());
+    }
+
+    public void testEditCase_Null() {
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+
+        InputToModelParseResult result = editor.editCase(null); 
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Required information missing".equals(result.getReason()));
+    }
+
+    public void testEditCase_NoData() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+
+        InputToModelParseResult result = editor.editCase(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Required information missing".equals(result.getReason()));
+    }
+
+    public void testEditCase_SuccessCoordinates() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+
+        String caseNumber = "2015-02-0001";
+        String caseName = "Developers vs Testing";
+        String caseType = "Battle to the death";
+        String details = "Last man standing survives";
+        String animalsInvolved = "1 Developer and 1 AI";
+        LocalDate incidentDate = LocalDate.parse("2014-05-14");
+        String address = "";
+        double longitude = -12.9880;
+        double latitude = 9.82203;
+        String region = "Outer space";
+        boolean isReturnVisit = false;
+        List<Evidence> evidence = new ArrayList<>();
+        Staff investigatingOfficer = new Staff("inspector", "test", "inspector", "department", "position", Permission.EDITOR);
+        Person complainant = new Person(-1, "0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com");
+        Defendant defendant = new Defendant(-1, "0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com", false);
+        Incident incident = new Incident(-1, longitude, latitude, region, incidentDate, Incident.getDefaultFollowUpDate(incidentDate), false);
+        Case c = new Case(caseNumber, caseName, details, animalsInvolved, user, incident, defendant, complainant, null, evidence, isReturnVisit, null, caseType, null);
+
+        inputMap.put("caseNumber", caseNumber);
+        inputMap.put("caseName", caseName);
+        inputMap.put("caseType", caseType);
+        inputMap.put("details", details);
+        inputMap.put("animalsInvolved", animalsInvolved);
+        inputMap.put("investigatingOfficer", investigatingOfficer);
+        inputMap.put("incidentDate", incidentDate);
+        inputMap.put("address", address);
+        inputMap.put("longitude", longitude);
+        inputMap.put("latitude", latitude);
+        inputMap.put("region", region);
+        inputMap.put("isReturnVisit", isReturnVisit);
+        inputMap.put("defendant", defendant);
+        inputMap.put("complainant", complainant);
+        inputMap.put("evidence", evidence);
+
+        when(connection.editCase(any())).thenReturn(true);
+
+        InputToModelParseResult result = editor.editCase(inputMap);
+        
+        assertTrue(result.isSuccessful());
+        verify(connection).editCase(any());
+    }
+
+    public void testEditCase_SuccessAddress() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+
+        String caseNumber = "2015-02-0001";
+        String caseName = "Developers vs Testing";
+        String caseType = "Battle to the death";
+        String details = "Last man standing survives";
+        String animalsInvolved = "1 Developer and 1 AI";
+        LocalDate incidentDate = LocalDate.parse("2014-05-14");
+        String address = "Pluto";
+        String region = "Outer space";
+        boolean isReturnVisit = false;
+        List<Evidence> evidence = new ArrayList<>();
+        Staff investigatingOfficer = new Staff("inspector", "test", "inspector", "department", "position", Permission.EDITOR);
+        Person complainant = new Person(-1, "0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com");
+        Defendant defendant = new Defendant(-1, "0212202", "test", "complainant", "Somewhere", "0299222", "test@test.com", false);
+        Incident incident = new Incident(-1, address, region, incidentDate, Incident.getDefaultFollowUpDate(incidentDate), false);
+        Case c = new Case(caseNumber, caseName, details, animalsInvolved, user, incident, defendant, complainant, null, evidence, isReturnVisit, null, caseType, null);
+
+        inputMap.put("caseNumber", caseNumber);
+        inputMap.put("caseName", caseName);
+        inputMap.put("caseType", caseType);
+        inputMap.put("details", details);
+        inputMap.put("animalsInvolved", animalsInvolved);
+        inputMap.put("investigatingOfficer", investigatingOfficer);
+        inputMap.put("incidentDate", incidentDate);
+        inputMap.put("address", address);
+        inputMap.put("longitude", "");
+        inputMap.put("latitude", "");
+        inputMap.put("region", region);
+        inputMap.put("isReturnVisit", isReturnVisit);
+        inputMap.put("defendant", defendant);
+        inputMap.put("complainant", complainant);
+        inputMap.put("evidence", evidence);
+
+        when(connection.editCase(any())).thenReturn(true);
+
+        InputToModelParseResult result = editor.editCase(inputMap);
+        
+        assertTrue(result.isSuccessful());
+        verify(connection).editCase(any());
+    }
 }

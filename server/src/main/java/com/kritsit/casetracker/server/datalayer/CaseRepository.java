@@ -191,4 +191,39 @@ public class CaseRepository implements ICaseRepository {
             throw new RowToModelParseException("Error inserting case", e);
         }
     }
+
+    public void updateCase(Case c) throws RowToModelParseException {
+        incidentRepo.updateIncident(c.getIncident());
+        try {
+            logger.info("Updating case {}", c.toString());
+            String sql = "UPDATE cases SET reference=?, caseType=?, details=?, " + 
+                "animalsInvolved=?, staffID=?, nextCourtDate=?, outcome=?, " +
+                "returnVisit=?, returnDate=? WHERE caseNumber=?;";
+            Staff investigatingOfficer = c.getInvestigatingOfficer();
+            Incident incident = c.getIncident();
+
+            String isReturnVisit;
+            String returnDate;
+            if (c.isReturnVisit()) {
+                isReturnVisit = "1";
+                returnDate = c.getReturnDate().toString();
+            } else {
+                isReturnVisit = "0";
+                returnDate = null;
+            }
+            String nextCourtDate = (c.getNextCourtDate() == null) ? null :
+                c.getNextCourtDate().toString();
+
+            db.executeUpdate(sql, c.getName(), c.getType(),
+                    c.getDescription(), c.getAnimalsInvolved(),
+                    investigatingOfficer.getUsername(), nextCourtDate, 
+                    c.getRuling(), isReturnVisit, returnDate, c.getNumber());
+
+            evidenceRepo.updateEvidence(c.getEvidence(), c.getNumber());
+        } catch(SQLException | RowToModelParseException e){
+            logger.error("Error updating case {} - {}", c.getNumber(),
+                    c.getDescription(), e);
+            throw new RowToModelParseException("Error updating case", e);
+        }
+    }
 }

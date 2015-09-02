@@ -10,4 +10,5 @@ public interface ICaseRepository {
     List<Case> getCases(Staff inspector) throws RowToModelParseException;
     String getLastCaseNumber() throws RowToModelParseException;
     void insertCase(Case c) throws RowToModelParseException;
+    void updateCase(Case c) throws RowToModelParseException;
 }

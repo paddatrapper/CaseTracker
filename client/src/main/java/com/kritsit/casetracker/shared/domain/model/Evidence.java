@@ -11,23 +11,29 @@ import java.util.Objects;
 
 public class Evidence implements Serializable {
     private static final long serialVersionUID = 10L;
+    private int id;
     private String description;
     private File serverFile;
     private File localFile;
     private byte[] file;
 
-    public Evidence(String description, File serverFile, File localFile) {
+    public Evidence(int id, String description, File serverFile, File localFile) {
+        this.id = id;
         this.description = description;
         this.serverFile = serverFile;
         this.localFile = localFile;
         this.file = null;
     }
 
-    public Evidence(String description, File serverFile) {
-        this(description, serverFile, null);
+    public Evidence(int id, String description, File serverFile) {
+        this(id, description, serverFile, null);
     }
 
     // Accessor methods:
+    public int getId() {
+        return id;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -58,6 +64,10 @@ public class Evidence implements Serializable {
     }
 
     // Mutator methods:
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -93,7 +103,7 @@ public class Evidence implements Serializable {
         if (getLocalFile() != null) {
             fileHash += getLocalFile().hashCode();
         }
-        return (description.hashCode() + fileHash) / 3;
+        return (id + description.hashCode() + fileHash) / 3;
     }
 
     @Override

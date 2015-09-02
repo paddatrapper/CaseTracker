@@ -121,12 +121,42 @@ public class ServerConnectionIT extends TestCase {
         String caseType = "testing";
         File evidenceFile = new File("src/test/resources/file-test.txt");
         List<Evidence> evidence = new ArrayList<>();
-        evidence.add(new Evidence("Test evidence", null, evidenceFile));
+        evidence.add(new Evidence(-1, "Test evidence", null, evidenceFile));
 
         Case c = new Case(caseNumber, caseName, description, animalsInvolved, 
             investigatingOfficer, incident, defendant, complainant, null, 
             evidence, isReturnVisit, null, caseType, null);
         assertTrue(connection.addCase(c));
+    }
+
+    public void testEditCase() {
+        connection.open(host, port);
+
+        String caseNumber = connection.getLastCaseNumber();
+        int number = Integer.parseInt(caseNumber.charAt(caseNumber.length() - 1) + "") + 1;
+        caseNumber = caseNumber.substring(0, caseNumber.length() - 1) + number;
+        String caseName = "test case";
+        String description = "Something happened";
+        String animalsInvolved = "Some animals";
+        Staff investigatingOfficer = new Staff("inspector", "inspector", 
+                "inspector", "department","position", Permission.EDITOR);
+        LocalDate incidentDate = LocalDate.parse("2015-03-02");
+        LocalDate followUpDate = LocalDate.parse("2015-03-08");
+        Incident incident = new Incident(-1, "some address", "Western Cape", 
+                incidentDate, followUpDate, true);
+        Defendant defendant = new Defendant(-1, null, "Mr", "Test", "asd s", 
+                null, null, false);
+        Person complainant = new Person(-1, null, "Mrs", "Test", "sad s", null, null);
+        boolean isReturnVisit = false;
+        String caseType = "testing";
+        File evidenceFile = new File("src/test/resources/file-test.txt");
+        List<Evidence> evidence = new ArrayList<>();
+        evidence.add(new Evidence(2, "Test evidence", null, evidenceFile));
+
+        Case c = new Case(caseNumber, caseName, description, animalsInvolved, 
+            investigatingOfficer, incident, defendant, complainant, null, 
+            evidence, isReturnVisit, null, caseType, null);
+        assertTrue(connection.editCase(c));
     }
     
     public void testAddUser(){

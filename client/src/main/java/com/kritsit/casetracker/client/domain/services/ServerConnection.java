@@ -186,6 +186,24 @@ public class ServerConnection implements IConnectionService {
         }
     }
     
+    public boolean editCase(Case c) {
+        try{
+            List<Case> arguments = new ArrayList<>();
+            arguments.add(c);
+            Request request = new Request("editCase", arguments);
+            Response response = getResponse(request);
+            if (!response.isSuccessful()) {
+                logger.error("Unable to update case. Code {} - {}",
+                        response.getStatus(),
+                        response.getBody().toString());
+            }
+            return response.isSuccessful();
+         } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to update user", ex);
+            return false;
+         }
+    }
+    
     public boolean addUser(Staff s){
        try{
         List<Staff> arguments = new ArrayList<>();

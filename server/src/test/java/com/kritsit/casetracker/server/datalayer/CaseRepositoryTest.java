@@ -200,4 +200,46 @@ public class CaseRepositoryTest extends TestCase {
         verify(personRepo).insertDefendant(defendant);
         verify(personRepo).insertComplainant(complainant);
     }
+
+    public void testUpdateCase() throws SQLException, RowToModelParseException {
+        String sql = "UPDATE cases SET reference=?, caseType=?, details=?, " +
+            "animalsInvolved=?, staffID=?, nextCourtDate=?, outcome=?, " +
+            "returnVisit=?, returnDate=? WHERE caseNumber=?;";
+        String caseNumber = "2015-02-0001";
+        String caseName = "test case";
+        String description = "Something happened";
+        String animalsInvolved = "Some animals";
+        Staff investigatingOfficer = new Staff("inspector", "inspector",
+                "inspector", "department","position", Permission.EDITOR);
+        LocalDate incidentDate = LocalDate.parse("2015-03-02");
+        LocalDate followUpDate = LocalDate.parse("2015-03-08");
+        Incident incident = new Incident(1, "Some address", "Western Cape", 
+                incidentDate, followUpDate, true);
+        Defendant defendant = new Defendant(1, null, "Mr", "Test", "some address", 
+                null, null, false);
+        Person complainant = new Person(1, null, "Mrs", "Test", "sad s", null, 
+                null);
+        boolean isReturnVisit = false;
+        String strIsReturnVisit = isReturnVisit ? "1" : "0";
+        String caseType = "testing";
+        IPersistenceService db = mock(IPersistenceService.class);
+        IIncidentRepository incidentRepo = mock(IIncidentRepository.class);
+        IPersonRepository personRepo = mock(IPersonRepository.class);
+        IUserRepository userRepo = mock(IUserRepository.class);
+        IEvidenceRepository evidenceRepo = mock(IEvidenceRepository.class);
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo,
+                userRepo, evidenceRepo);
+
+        Case c = new Case(caseNumber, caseName, description, animalsInvolved,
+                investigatingOfficer, incident, defendant, complainant, null,
+                null, isReturnVisit, null, caseType, null);
+
+        caseRepo.updateCase(c);
+
+        verify(db).executeUpdate(sql, c.getName(), c.getType(),
+                c.getDescription(), c.getAnimalsInvolved(),
+                investigatingOfficer.getUsername(), null, null, strIsReturnVisit,
+                null, c.getNumber());
+        verify(incidentRepo).updateIncident(incident);
+    }
 }

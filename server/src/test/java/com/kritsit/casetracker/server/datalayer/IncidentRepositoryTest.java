@@ -175,4 +175,52 @@ public class IncidentRepositoryTest extends TestCase {
                 String.valueOf(incident.getLatitude()), incident.getRegion(),
                 incident.getDate().toString(), incident.getFollowUpDate().toString());
     }
+
+    public void testUpdateIncident_Address() throws SQLException, RowToModelParseException {
+        int indexId = 1;
+        String address = "Test Address";
+        String region = "Western Cape";
+        LocalDate date = LocalDate.parse("2015-02-14");
+        LocalDate followUpDate = LocalDate.parse("2015-02-21");
+        boolean booleanIsFollowedUp = false;
+        Incident incident = new Incident(indexId, address, region, date, followUpDate,
+                booleanIsFollowedUp);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IIncidentRepository incidentRepo = new IncidentRepository(db);
+        String sql = "UPDATE incidents SET latitude=NULL, longitude=NULL, " +
+            "address=?, region=?, incidentDate=?, followUpDate=?, " +
+            "followedUp=? WHERE id=?;";
+        String isFollowedUp = incident.isFollowedUp() ? "1" : "0";
+
+        incidentRepo.updateIncident(incident);
+
+        verify(db).executeUpdate(sql, incident.getAddress(), incident.getRegion(), 
+                incident.getDate().toString(), incident.getFollowUpDate().toString(), 
+                isFollowedUp, String.valueOf(incident.getIndexId()));
+    }
+
+    public void testUpdateIncident_Coordinates() throws SQLException, RowToModelParseException {
+        int indexId = 1;
+        double longitude = 35.2543;
+        double latitude = -12.2543;
+        String region = "Western Cape";
+        LocalDate date = LocalDate.parse("2015-02-14");
+        LocalDate followUpDate = LocalDate.parse("2015-02-21");
+        boolean booleanIsFollowedUp = false;
+        Incident incident = new Incident(indexId, longitude, latitude, region, 
+                date, followUpDate, booleanIsFollowedUp);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IIncidentRepository incidentRepo = new IncidentRepository(db);
+        String sql = "UPDATE incidents SET latitude=?, longitude=?, " +
+            "address=NULL, region=?, incidentDate=?, followUpDate=?, " +
+            "followedUp=? WHERE id=?;";
+        String isFollowedUp = incident.isFollowedUp() ? "1" : "0";
+
+        incidentRepo.updateIncident(incident);
+
+        verify(db).executeUpdate(sql, String.valueOf(incident.getLongitude()), 
+                String.valueOf(incident.getLatitude()), incident.getRegion(), 
+                incident.getDate().toString(), incident.getFollowUpDate().toString(), 
+                isFollowedUp, String.valueOf(incident.getIndexId()));
+    }
 }

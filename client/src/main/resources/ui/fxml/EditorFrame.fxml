@@ -136,7 +136,7 @@
                                   <Insets top="10.0" />
                                 </padding>
                               </HBox>
-                                <Button mnemonicParsing="false" onAction="#handleSummaryEditAction" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                                <Button mnemonicParsing="false" onAction="#handleEditCaseAction" text="Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                                    <GridPane.margin>
                                       <Insets />
                                    </GridPane.margin>

@@ -21,4 +21,5 @@ public interface IEditorService {
     List<Person> getComplainants();
     String getNextCaseNumber();
     InputToModelParseResult addCase(Map<String, Object> inputMap);
+    InputToModelParseResult editCase(Map<String, Object> inputMap);
 }

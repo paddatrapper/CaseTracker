@@ -23,12 +23,19 @@ public class CaseTest extends TestCase {
     public void setUp() {
         LocalDate date = LocalDate.now();
         Incident incident = new Incident(1, "100 Long Street, Cape Town", "Western Cape", date, date, false);
-        Defendant defendant = new Defendant(1, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
-        Person complainant = new Person(1, "000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
-        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", Permission.EDITOR); 
+        Defendant defendant = new Defendant(1, "0002225094081", "John", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com",
+                false);
+        Person complainant = new Person(1, "000222507686", "John", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Staff investigatingOfficer = new Staff("testUser", "Test", "User", 
+                "Inspectorate", "Manager", Permission.EDITOR); 
         List<Evidence> evidence = new ArrayList<>();
-        evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
-        testCase = new Case("1234/15", "SPCA vs Defendant", "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, defendant, complainant, date, evidence, false, null, "Malnutrition", "R4500 fine");
+        evidence.add(new Evidence(1, "A test evidence file", new File("server.file"), 
+                    new File("local.file")));
+        testCase = new Case("1234/15", "SPCA vs Defendant", "3 dogs kept locked up", 
+                "3 dogs", investigatingOfficer, incident, defendant, complainant, 
+                date, evidence, false, null, "Malnutrition", "R4500 fine");
     }
 
     public void testCreation() {
@@ -37,7 +44,8 @@ public class CaseTest extends TestCase {
 
 
     public void testAddEvidence() {
-        Evidence e = new Evidence("Second piece of evidence", new File("second.file"), new File("third.file"));
+        Evidence e = new Evidence(1, "Second piece of evidence", new File("second.file"), 
+                new File("third.file"));
         testCase.addEvidence(e);
 
         assertTrue(e.equals(testCase.getEvidence().get(1)));
@@ -45,12 +53,18 @@ public class CaseTest extends TestCase {
 
     public void testAccessors() {
         LocalDate date = LocalDate.now();
-        Person complainant = new Person(1, "000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
-        Incident incident = new Incident(1, "100 Long Street, Cape Town", "Western Cape", date, date, false);
+        Person complainant = new Person(1, "000222507686", "John", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Incident incident = new Incident(1, "100 Long Street, Cape Town", 
+                "Western Cape", date, date, false);
         List<Evidence> evidence = new ArrayList<>();
-        evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
-        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", Permission.EDITOR); 
-        Defendant defendant = new Defendant(1, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
+        evidence.add(new Evidence(1, "A test evidence file", new File("server.file"), 
+                    new File("local.file")));
+        Staff investigatingOfficer = new Staff("testUser", "Test", "User", 
+                "Inspectorate", "Manager", Permission.EDITOR); 
+        Defendant defendant = new Defendant(1, "0002225094081", "John", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com", 
+                false);
 
         assertTrue("3 dogs".equals(testCase.getAnimalsInvolved()));
         assertTrue("1234/15".equals(testCase.getNumber()));
@@ -73,12 +87,18 @@ public class CaseTest extends TestCase {
 
     public void testMutators() {
         LocalDate date = LocalDate.now();
-        Person complainant = new Person(1, "000222507645", "Sam", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
-        Incident incident = new Incident(1, "100 Long Street, Cape Town", "Eastern Cape", date, date, false);
-        Staff investigatingOfficer = new Staff("user", "Another", "User", "Inspectorate", "Manager", Permission.EDITOR); 
-        Defendant defendant = new Defendant(1, "0002225094573", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", true);
+        Person complainant = new Person(1, "000222507645", "Sam", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Incident incident = new Incident(1, "100 Long Street, Cape Town", 
+                "Eastern Cape", date, date, false);
+        Staff investigatingOfficer = new Staff("user", "Another", 
+                "User", "Inspectorate", "Manager", Permission.EDITOR); 
+        Defendant defendant = new Defendant(1, "0002225094573", "John", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com",
+                true);
         List<Evidence> evidence = new ArrayList<>();
-        evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
+        evidence.add(new Evidence(1, "A test evidence file", new File("server.file"),
+                    new File("local.file")));
 
         testCase.setAnimalsInvolved("1 cat");
         testCase.setNumber("112/15");
@@ -126,14 +146,25 @@ public class CaseTest extends TestCase {
 
     public void testEquals() {
         LocalDate date = LocalDate.now();
-        Incident incident = new Incident(1, "100 Long Street, Cape Town", "Western Cape", date, date, false);
-        Defendant defendant = new Defendant(1, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com", false);
-        Person complainant = new Person(1, "000222507686", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
-        Staff investigatingOfficer = new Staff("testUser", "Test", "User", "Inspectorate", "Manager", Permission.EDITOR); 
+        Incident incident = new Incident(1, "100 Long Street, Cape Town", 
+                "Western Cape", date, date, false);
+        Defendant defendant = new Defendant(1, "0002225094081", "John", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com", 
+                false);
+        Person complainant = new Person(1, "000222507686", "John", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Staff investigatingOfficer = new Staff("testUser", "Test", "User", 
+                "Inspectorate", "Manager", Permission.EDITOR); 
         List<Evidence> evidence = new ArrayList<>();
-        evidence.add(new Evidence("A test evidence file", new File("server.file"), new File("local.file")));
-        Case c = new Case("1234/15", "SPCA vs Defendant", "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, defendant, complainant, date, evidence, false, null, "Malnutrition", "R4500 fine");
-        Case anotherCase = new Case("1234/15", "SPCA vs Another Defendant", "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, defendant, complainant, date, evidence, false, null, "Malnutrition", "R4500 fine");
+        evidence.add(new Evidence(1, "A test evidence file", new File("server.file"), 
+                    new File("local.file")));
+        Case c = new Case("1234/15", "SPCA vs Defendant", "3 dogs kept locked up", 
+                "3 dogs", investigatingOfficer, incident, defendant, complainant, 
+                date, evidence, false, null, "Malnutrition", "R4500 fine");
+        Case anotherCase = new Case("1234/15", "SPCA vs Another Defendant", 
+                "3 dogs kept locked up", "3 dogs", investigatingOfficer, incident, 
+                defendant, complainant, date, evidence, false, null, "Malnutrition", 
+                "R4500 fine");
 
         assertTrue(testCase.equals(c));
         assertFalse(testCase.equals(anotherCase));

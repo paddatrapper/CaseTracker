@@ -88,8 +88,34 @@ public class IncidentRepository implements IIncidentRepository {
             }
             return Integer.parseInt(rs.get(0).get("id"));
         } catch (SQLException e) {
-            logger.error("Error inserting {}", incident.toString());
+            logger.error("Error inserting {}", incident.toString(), e);
             throw new RowToModelParseException("Error inserting " + incident.toString(), e);
+        }
+    }
+
+    public void updateIncident(Incident incident) throws RowToModelParseException {
+        try {
+            logger.info("Updating {}", incident.toString());
+            String isFollowedUp = incident.isFollowedUp() ? "1" : "0";
+            if (incident.getAddress() == null || incident.getAddress().isEmpty()) {
+                String update = "UPDATE incidents SET latitude=?, longitude=?, " +
+                    "address=NULL, region=?, incidentDate=?, followUpDate=?, " +
+                    "followedUp=? WHERE id=?;";
+                db.executeUpdate(update, String.valueOf(incident.getLongitude()),
+                        String.valueOf(incident.getLatitude()), incident.getRegion(),
+                        incident.getDate().toString(), incident.getFollowUpDate().toString(),
+                        isFollowedUp, String.valueOf(incident.getIndexId()));
+            } else {
+                String update = "UPDATE incidents SET latitude=NULL, longitude=NULL, " +
+                    "address=?, region=?, incidentDate=?, followUpDate=?, " +
+                    "followedUp=? WHERE id=?;";
+                db.executeUpdate(update, incident.getAddress(), incident.getRegion(),
+                        incident.getDate().toString(), incident.getFollowUpDate().toString(),
+                        isFollowedUp, String.valueOf(incident.getIndexId()));
+            }
+        } catch (SQLException e) {
+            logger.error("Error updating {}", incident.toString(), e);
+            throw new RowToModelParseException("Error updating " + incident.toString(), e);
         }
     }
 }

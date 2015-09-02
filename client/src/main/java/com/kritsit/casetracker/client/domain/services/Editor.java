@@ -174,6 +174,39 @@ public class Editor implements IEditorService {
             return new InputToModelParseResult(false, "Required information missing");
         }
         logger.info("Add case {}", inputMap.get("caseName"));
+        InputToModelParseResult result = validate(inputMap);
+        if (!result.isSuccessful()) {
+            return result;
+        }
+        Case c = parseCase(inputMap);
+        logger.debug("Adding case to server");
+        boolean isAdded = connection.addCase(c);
+        String reason = (isAdded) ? "Case uploaded successfully" :
+            "Unable to upload case to server. Please see log for details";
+        InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
+        return uploaded;
+    }
+
+    public InputToModelParseResult editCase(Map<String, Object> inputMap) {
+        if (inputMap == null || inputMap.isEmpty()) {
+            logger.debug("InputMap empty or null. Aborting");
+            return new InputToModelParseResult(false, "Required information missing");
+        }
+        logger.info("Edit case {}", inputMap.get("caseName"));
+        InputToModelParseResult result = validate(inputMap);
+        if (!result.isSuccessful()) {
+            return result;
+        }
+        Case c = parseCase(inputMap);
+        logger.debug("Uploading case to server");
+        boolean isAdded = connection.editCase(c);
+        String reason = (isAdded) ? "Case updated successfully" :
+            "Unable to update case. Please see log for details";
+        InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
+        return uploaded;
+    }
+
+    private InputToModelParseResult validate(Map<String, Object> inputMap) {
         InputToModelParseResult result = new InputToModelParseResult(true);
         for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
             String inputKey = getHumanReadableName(entry.getKey());
@@ -241,16 +274,7 @@ public class Editor implements IEditorService {
                 }
             }
         }
-        if (!result.isSuccessful()) {
-            return result;
-        }
-        Case c = parseCase(inputMap);
-        logger.debug("Adding case to server");
-        boolean isAdded = connection.addCase(c);
-        String reason = (isAdded) ? "Case uploaded successfully" :
-            "Unable to upload case to server. Please see log for details";
-        InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
-        return uploaded;
+        return result;
     }
 
     private String getHumanReadableName(String camelCaseString) {

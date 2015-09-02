@@ -7,4 +7,5 @@ import java.util.List;
 public interface IIncidentRepository {
     Incident getIncident(String caseId) throws RowToModelParseException;
     int insertIncident(Incident incident) throws RowToModelParseException;
+    void updateIncident(Incident incident) throws RowToModelParseException;
 }

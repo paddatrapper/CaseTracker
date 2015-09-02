@@ -23,8 +23,8 @@ public class EvidenceTest extends TestCase {
     public void setUp() {
         File serverFile = new File("test.file");
         File localFile = new File("local.file");
-        evidence = new Evidence("Test file", serverFile, localFile);
-        Evidence e = new Evidence("Test file", serverFile);
+        evidence = new Evidence(1, "Test file", serverFile, localFile);
+        Evidence e = new Evidence(2, "Test file", serverFile);
         assertNull(e.getLocalFile());
     }
 
@@ -59,7 +59,7 @@ public class EvidenceTest extends TestCase {
         String serverString = "Test file (" + serverFile.getAbsolutePath() + ")";
         File localFile = new File("local.file");
         String localString = "Test file (" + localFile.getAbsolutePath() + ")";
-        Evidence e = new Evidence("Test file", null, localFile);
+        Evidence e = new Evidence(1, "Test file", null, localFile);
 
         assertTrue(serverString.equals(evidence.toString()));
         assertTrue(localString.equals(e.toString()));
@@ -76,8 +76,8 @@ public class EvidenceTest extends TestCase {
     public void testEquals() {
         File serverFile = new File("test.file");
         File localFile = new File("local.file");
-        Evidence e = new Evidence("Test file", serverFile, localFile);
-        Evidence otherEvidence = new Evidence("Another file", serverFile, localFile);
+        Evidence e = new Evidence(1, "Test file", serverFile, localFile);
+        Evidence otherEvidence = new Evidence(-1, "Another file", serverFile, localFile);
         assertTrue(evidence.equals(e));
         assertFalse(evidence.equals(otherEvidence));
     }
