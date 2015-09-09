@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public final class EditorFrame implements IUserInterface {
-    private static final Logger logger = LoggerFactory.getLogger(EditorFrame.class);
+    private final Logger logger = LoggerFactory.getLogger(EditorFrame.class);
     private EditorController controller;
     private Staff user;
     private Stage stage;
@@ -25,10 +25,14 @@ public final class EditorFrame implements IUserInterface {
         this.user = user;
         this.stage = stage;
         logger.info("Starting the editor's user interface");
+        LoadingDialog splashScreen = new LoadingDialog();
+        splashScreen.run();
+        
         Parent root = loadFXML("/ui/fxml/EditorFrame.fxml");
         setUpController();
         this.stage.setTitle("CaseTracker");
         this.stage.setScene(new Scene(root, 1200, 600));
+        splashScreen.exit();
         this.stage.showAndWait();
     }
 
@@ -48,7 +52,7 @@ public final class EditorFrame implements IUserInterface {
         controller.setEditorService(editorService);
         controller.setMenuService(menuService);
         controller.setStage(stage);
-        controller.initFrame(); 
+        controller.initFrame();
         logger.debug("Controller set up");
     }
 }

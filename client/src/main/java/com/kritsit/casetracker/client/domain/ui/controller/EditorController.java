@@ -96,7 +96,7 @@ public class EditorController implements IController {
         } else {
             logger.debug("Add case tab disabled");
             tabAddCase.setDisable(true);
-            newCaseItem.setDisable(true);
+            addCaseItem.setDisable(true);
         } 
     }
     
@@ -105,7 +105,7 @@ public class EditorController implements IController {
             menuService.changePasswordFrame();
         });
         
-        newCaseItem.setOnAction(event->{
+        addCaseItem.setOnAction(event->{
             SingleSelectionModel<Tab> selection = tabPane.getSelectionModel();
             selection.select(tabAddCase);
         });
@@ -622,7 +622,7 @@ public class EditorController implements IController {
     @FXML private MenuItem changePasswordItem;
     @FXML private MenuItem logoutItem;
     @FXML private MenuItem exitItem;
-    @FXML private MenuItem newCaseItem;
+    @FXML private MenuItem addCaseItem;
     @FXML private MenuItem editCaseItem;
     @FXML private MenuItem addEvideneceItem;
     @FXML private MenuItem aboutItem;

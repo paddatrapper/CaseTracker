@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public final class LoginDialog {
-    private static final Logger logger = LoggerFactory.getLogger(LoginDialog.class);
+    private final Logger logger = LoggerFactory.getLogger(LoginDialog.class);
 
     public Staff run(Stage stage) throws IOException {
         logger.info("Starting the login interface");

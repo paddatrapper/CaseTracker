@@ -24,7 +24,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-            <MenuItem fx:id="newCaseItem" mnemonicParsing="false" text="New case" />
+            <MenuItem fx:id="addCaseItem" mnemonicParsing="false" text="New case" />
             <MenuItem fx:id="editCaseItem" mnemonicParsing="false" text="Edit case" />
             <MenuItem fx:id="addEvidenceItem" mnemonicParsing="false" text="Add evidence" />
           </items>

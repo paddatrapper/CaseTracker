@@ -6,10 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <BorderPane xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
-     <ProgressBar prefHeight="20.0" prefWidth="200.0" progress="0.0" BorderPane.alignment="CENTER" />
+     <ProgressBar prefHeight="20.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
       <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
