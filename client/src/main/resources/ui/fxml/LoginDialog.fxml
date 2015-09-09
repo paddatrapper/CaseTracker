@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
@@ -7,8 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane fx:controller="com.kritsit.casetracker.client.domain.ui.controller.LoginController" alignment="center" hgap="10" vgap="10"
-  styleClass="root" xmlns:fx="http://javafx.com/fxml">
+<GridPane alignment="center" hgap="10" styleClass="root" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.45" fx:controller="com.kritsit.casetracker.client.domain.ui.controller.LoginController">
   <stylesheets>
     <URL value="@../css/LoginDialog.css" />
   </stylesheets>
@@ -16,29 +16,28 @@
   <padding>
     <Insets bottom="25" left="25" right="25" top="25" />
   </padding>
-
-  <Label id="label-image" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <image>
+         <Image url="@../icons/login.jpg" />
+      </image>
+   </ImageView>
 
   <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-  <TextField fx:id="txtUsername"
-    GridPane.columnIndex="1" GridPane.rowIndex="1" />
+  <TextField fx:id="txtUsername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
   <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
-  <PasswordField fx:id="pwdPassword"
-    GridPane.columnIndex="1" GridPane.rowIndex="2" />
+  <PasswordField fx:id="pwdPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
   <HBox alignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
     <children>
-      <Button alignment="CENTER" mnemonicParsing="false" text="Login" textAlignment="CENTER"
-        onAction="#handleLoginButtonAction">
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleLoginButtonAction" text="Login" textAlignment="CENTER">
         <HBox.margin>
           <Insets left="10.0" right="10.0" />
         </HBox.margin>
       </Button>
 
-      <Button alignment="CENTER" mnemonicParsing="false" text="Cancel" textAlignment="CENTER"
-        onAction="#handleCancelButtonAction">
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleCancelButtonAction" text="Cancel" textAlignment="CENTER">
         <HBox.margin>
           <Insets left="10.0" right="10.0" />
         </HBox.margin>
