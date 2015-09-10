@@ -4,7 +4,7 @@
   <groupId>com.kritsit.casetracker</groupId>
   <artifactId>case-tracker</artifactId>
   <packaging>pom</packaging>
-  <version>0.1a-SNAPSHOT</version>
+  <version>0.1-RELEASE</version>
   <name>CaseTracker</name>
   <description>
     CaseTracker is a case tracking system for the South African NSPCA.
