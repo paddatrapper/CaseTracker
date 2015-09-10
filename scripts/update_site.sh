@@ -3,6 +3,7 @@
 # Updates the site documentation on http://kritsit.ddns.net/casetracker/
 #
 # Create updated site documentation
+mvn clean site
 # Remove old files from server
 echo "Removing old site files"
 ssh kyle@kritsit.ddns.net "rm -rf /var/www/kritsit.ddns.net/public_html/casetracker; mkdir -p /var/www/kritsit.ddns.net/public_html/casetracker/{client,server};"
