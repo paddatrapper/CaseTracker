@@ -59,7 +59,7 @@ public class LoginController implements IController {
         if (loginService.login(username, password)) {
             logger.debug("User {} logged in", username);
             user = loginService.getUser(username, password);
-            stage.close();
+            stage.hide();
         } else {
             Alert failedLogin = new Alert(AlertType.WARNING);
             failedLogin.setTitle("Incorrect Login");

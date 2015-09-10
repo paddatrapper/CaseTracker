@@ -5,6 +5,7 @@ import com.kritsit.casetracker.client.domain.services.IMenuService;
 import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.client.domain.model.Appointment;
 import com.kritsit.casetracker.client.domain.model.Day;
+import com.kritsit.casetracker.client.domain.ui.LoadingDialog;
 import com.kritsit.casetracker.shared.domain.model.Case;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Evidence;
@@ -377,7 +378,7 @@ public class EditorController implements IController {
             alert.showAndWait();   
             return;
         }
-        
+
         Case c = selection.getSelectedItem();
         EditCaseController controller = new EditCaseController(c, editorService, this);
         AnchorPane EditCasePane = null;
@@ -388,7 +389,7 @@ public class EditorController implements IController {
         fxmlLoader.setRoot(EditCasePane);
         
         try{
-            EditCasePane= (AnchorPane) fxmlLoader.load();
+            EditCasePane = (AnchorPane) fxmlLoader.load();
         } catch(IOException ex){
             logger.error("Error loading frame to edit case.", ex);
             return;
@@ -508,6 +509,8 @@ public class EditorController implements IController {
 
     @FXML protected void handleAddCaseAction(ActionEvent e) {
         logger.info("Creating new case");
+        LoadingDialog loadingDialog = new LoadingDialog();
+        loadingDialog.run();
         Map<String, Object> inputMap = new HashMap<>();
         inputMap.put("caseNumber", txfAddCaseNumber.getText());
         inputMap.put("incidentDate", dpkAddIncidentDate.getValue());
@@ -528,6 +531,8 @@ public class EditorController implements IController {
         inputMap.put("evidence", lstAddEvidence.getItems());
 
         InputToModelParseResult result = editorService.addCase(inputMap);
+        loadingDialog.exit();
+
         if (result.isSuccessful()) {
             logger.info("Case added successfully");
             resetAddCaseTab();

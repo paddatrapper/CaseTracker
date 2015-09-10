@@ -18,12 +18,16 @@ public final class LoadingDialog {
     private Stage stage;
     private Parent root;
 
-    public void run() throws IOException {
-        stage = new Stage(StageStyle.UNDECORATED);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        logger.info("Starting splash screen");
-        root = loadFXML("/ui/fxml/LoadingDialog.fxml");
-        show();
+    public void run() {
+        try {
+            stage = new Stage(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            logger.info("Starting splash screen");
+            root = loadFXML("/ui/fxml/LoadingDialog.fxml");
+            show();
+        } catch (IOException e) {
+            logger.error("Unable to load dialog", e);
+        }
     }
 
     private Parent loadFXML(String resourceURL) throws IOException {
@@ -41,10 +45,12 @@ public final class LoadingDialog {
     }
 
     public void exit() {
-        FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), root);
-        fadeSplash.setFromValue(1.0);
-        fadeSplash.setToValue(0.0);
-        fadeSplash.setOnFinished(actionEvent -> stage.close());
-        fadeSplash.play();
+        if (stage != null) {
+            FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), root);
+            fadeSplash.setFromValue(1.0);
+            fadeSplash.setToValue(0.0);
+            fadeSplash.setOnFinished(actionEvent -> stage.close());
+            fadeSplash.play();
+        }
     }
 }
