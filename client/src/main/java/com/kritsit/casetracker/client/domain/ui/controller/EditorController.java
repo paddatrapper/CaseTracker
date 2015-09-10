@@ -114,6 +114,20 @@ public class EditorController implements IController {
         editCaseItem.setOnAction(event->{
             handleEditCaseAction(null);
         });
+
+        logoutItem.setOnAction(event->{
+            stage.close();
+            menuService.restart();
+        });
+
+        exitItem.setOnAction(event->{
+            menuService.closeConnection();
+            stage.close();
+        });
+        //TODO
+        reportItem.setDisable(true);
+        helpItem.setDisable(true);
+        aboutItem.setDisable(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -629,7 +643,6 @@ public class EditorController implements IController {
     @FXML private MenuItem exitItem;
     @FXML private MenuItem addCaseItem;
     @FXML private MenuItem editCaseItem;
-    @FXML private MenuItem addEvideneceItem;
     @FXML private MenuItem aboutItem;
     @FXML private MenuItem helpItem;
 }

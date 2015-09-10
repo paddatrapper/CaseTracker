@@ -1,6 +1,9 @@
 package com.kritsit.casetracker.client.domain.services;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,4 +67,52 @@ public class Menu implements IMenuService {
         }
     }
 
+    public void closeConnection() {
+        try {
+            connectionService.close();
+        } catch (IOException e) {
+            logger.error("Unable to close connection", e);
+        }
+    }
+    
+    public void restart() {
+        closeConnection();
+       try {
+           String java = System.getProperty("java.home") + "/bin/java";
+           List<String> vmArguments = ManagementFactory.getRuntimeMXBean()
+               .getInputArguments();
+           StringBuffer vmArgsOneLine = new StringBuffer();
+           for (String arg : vmArguments) {
+               if (!arg.contains("-agentlib")) {
+                   vmArgsOneLine.append(arg);
+                   vmArgsOneLine.append(" ");
+               }
+           }
+           final StringBuffer cmd = new StringBuffer(java + " " + vmArgsOneLine);
+           String[] mainCommand = System.getProperty("sun.java.command").split(" ");
+           if (mainCommand[0].endsWith(".jar")) {
+               cmd.append("-jar " + new File(mainCommand[0]).getPath());
+           } else {
+               cmd.append("-cp \"" + System.getProperty("java.class.path") 
+                       + "\"" + mainCommand[0]);
+           }
+           for (int i = 1; i < mainCommand.length; i++) {
+               cmd.append(" ");
+               cmd.append(mainCommand[i]);
+           }
+           Runtime.getRuntime().addShutdownHook(new Thread() {
+               @Override
+               public void run() {
+                   try {
+                       Runtime.getRuntime().exec(cmd.toString());
+                   } catch (IOException e) {
+                       logger.error("Unable to start application", e);
+                   }
+               }
+           });
+           System.exit(0);
+       } catch (Exception e) {
+           logger.error("Unable to restart the application", e);
+       }
+    }
 }

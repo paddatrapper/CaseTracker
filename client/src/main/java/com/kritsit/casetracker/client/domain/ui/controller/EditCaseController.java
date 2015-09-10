@@ -122,9 +122,17 @@ public class EditCaseController {
         cmbComplainant.setValue(c.getComplainant());
         cmbDefendant.getItems().add(c.getDefendant());
         cmbDefendant.setValue(c.getDefendant());
-        txfAddress.setText(c.getIncident().getAddress());
-        txfLongitude.setText("" + c.getIncident().getLongitude());
-        txfLatitude.setText("" + c.getIncident().getLatitude());
+        if (c.getIncident().getAddress() == null || 
+                c.getIncident().getAddress().isEmpty()) {
+            txfAddress.setText("");
+            txfLongitude.setText("" + c.getIncident().getLongitude());
+            txfLatitude.setText("" + c.getIncident().getLatitude());
+        } else {
+            txfAddress.setText(c.getIncident().getAddress());
+            txfLongitude.setText("");
+            txfLatitude.setText("");
+        }
+
         txfRegion.setText(c.getIncident().getRegion());
         txaDetails.setText(c.getDescription());
         txaAnimalsInvolved.setText(c.getAnimalsInvolved());

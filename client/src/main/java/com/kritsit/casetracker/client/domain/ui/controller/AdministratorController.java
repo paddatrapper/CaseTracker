@@ -95,6 +95,18 @@ public class AdministratorController implements IController {
             resetPassword();
         });
         
+        logoutItem.setOnAction(event->{
+            stage.close();
+            menuService.restart();
+        });
+        exitItem.setOnAction(event->{
+            menuService.closeConnection();
+            stage.close();
+        });
+        //TODO
+        helpItem.setDisable(true);
+        aboutItem.setDisable(true);
+        
         btnResetPassword.setOnAction(event->{
             resetPassword();
         });
@@ -338,7 +350,6 @@ public class AdministratorController implements IController {
     @FXML private TableColumn<Staff, String> colUsername;
     @FXML private TableColumn<Staff, String> colDepartment;
     @FXML private TableColumn<Staff, String> colPermission;
-    @FXML private MenuItem reportItem;
     @FXML private MenuItem changePasswordItem;
     @FXML private MenuItem logoutItem;
     @FXML private MenuItem exitItem;
