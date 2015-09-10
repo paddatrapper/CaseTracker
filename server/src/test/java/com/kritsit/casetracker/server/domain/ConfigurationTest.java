@@ -6,6 +6,8 @@ import junit.framework.TestSuite;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Map;
@@ -30,7 +32,7 @@ public class ConfigurationTest extends TestCase {
 
     private Map<String, String> readConfiguration() throws IOException {
         Properties config = new Properties();
-        InputStream in = this.getClass().getResourceAsStream("/config.properties");
+        InputStream in = new FileInputStream(new File("config.properties"));
         config.load(in);
         in.close();
         Map<String, String> database = new HashMap<>();

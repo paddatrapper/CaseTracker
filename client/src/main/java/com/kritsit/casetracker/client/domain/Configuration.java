@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Map;
@@ -32,7 +34,7 @@ public class Configuration {
         logger.info("Reading configuration file");
         Properties config = new Properties();
         try {
-            InputStream in = Configuration.class.getResourceAsStream("/config.properties");
+            InputStream in = new FileInputStream(new File("config.properties"));
             config.load(in);
             in.close();
             configuration = new HashMap<String, String>();
