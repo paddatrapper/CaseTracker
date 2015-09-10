@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="320.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <GridPane layoutX="52.0" layoutY="207.0" prefHeight="533.0" prefWidth="1090.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <columnConstraints>
@@ -26,7 +27,7 @@
         <children>
           <Label text="Case Number:">
             <HBox.margin>
-              <Insets right="2.0" />
+                        <Insets right="2.0" />
             </HBox.margin>
           </Label>
           <TextField fx:id="txfCaseNumber" editable="false" prefHeight="26.0" prefWidth="124.0">
@@ -119,12 +120,12 @@
     </HBox>
     <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.rowIndex="2">
       <children>
-        <Label text="ress:">
+        <Label text="Address:">
           <HBox.margin>
             <Insets right="2.0" />
           </HBox.margin>
          </Label>
-         <TextField fx:id="txfAddress" prefHeight="26.0" prefWidth="460.0">
+         <TextField fx:id="txfAddress" prefHeight="26.0" prefWidth="376.0">
            <HBox.margin>
               <Insets right="10.0" />
            </HBox.margin>

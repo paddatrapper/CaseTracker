@@ -2,6 +2,7 @@ package com.kritsit.casetracker.client.domain.ui.controller;
 
 import com.kritsit.casetracker.client.domain.services.IEditorService;
 import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
+import com.kritsit.casetracker.client.domain.ui.LoadingDialog;
 import com.kritsit.casetracker.shared.domain.model.Case;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
 import com.kritsit.casetracker.shared.domain.model.Evidence;
@@ -193,8 +194,10 @@ public class EditCaseController {
         }
     }
     
-    private void updateCase(){
+    private void updateCase() {
         logger.info("Creating new case");
+        LoadingDialog loadingDialog = new LoadingDialog();
+        loadingDialog.run();
         Map<String, Object> inputMap = new HashMap<>();
         inputMap.put("caseNumber", txfCaseNumber.getText());
         inputMap.put("incidentDate", dpkIncidentDate.getValue());
@@ -214,7 +217,8 @@ public class EditCaseController {
         inputMap.put("animalsInvolved", txaAnimalsInvolved.getText());
         inputMap.put("evidence", lstEvidence.getItems());
 
-        InputToModelParseResult result = editorService.addCase(inputMap);
+        InputToModelParseResult result = editorService.editCase(inputMap);
+        loadingDialog.exit();
 
         if(result.isSuccessful()){
             Alert alert = new Alert(AlertType.INFORMATION);
