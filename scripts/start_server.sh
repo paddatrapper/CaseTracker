@@ -4,4 +4,4 @@
 #
 
 cd $1/server
-java -jar target/server-0.1-RELEASE-jar-with-dependencies.jar > /dev/null 2>&1 &
+java -jar target/server-0.1.1-ALPHA-jar-with-dependencies.jar > /dev/null 2>&1 &
