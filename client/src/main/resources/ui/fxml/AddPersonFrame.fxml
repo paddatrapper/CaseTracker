@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.45" fx:controller="com.casetracker.client.domain.ui.controller.AddPersonController">
+  <columnConstraints>
+    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="-Infinity" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
+    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="-Infinity" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+  </rowConstraints>
+  <children>
+    <Label text="ID:">
+     <GridPane.margin>
+      <Insets left="5.0" right="5.0" top="5.0" />
+     </GridPane.margin>
+    </Label>
+    <Label text="First Name:" GridPane.rowIndex="1">
+     <GridPane.margin>
+      <Insets left="5.0" right="5.0" top="5.0" />
+     </GridPane.margin>
+    </Label>
+    <Label text="Telephone Number:" GridPane.rowIndex="2">
+     <GridPane.margin>
+      <Insets left="5.0" right="5.0" top="5.0" />
+     </GridPane.margin>
+    </Label>
+    <Label text="Address:" GridPane.columnIndex="2">
+     <GridPane.margin>
+      <Insets right="5.0" top="5.0" />
+     </GridPane.margin>
+    </Label>
+    <Label text="Last Name:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+     <GridPane.margin>
+      <Insets right="5.0" top="5.0" />
+     </GridPane.margin>
+    </Label>
+    <Label text="Email Address:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+     <GridPane.margin>
+      <Insets left="5.0" right="5.0" top="5.0" />
+     </GridPane.margin>
+    </Label>
+    <TextField fx:id="txfId" GridPane.columnIndex="1">
+     <GridPane.margin>
+      <Insets top="5.0" />
+     </GridPane.margin>
+    </TextField>
+    <TextField fx:id="txfFirstName" GridPane.columnIndex="1" GridPane.rowIndex="1">
+     <GridPane.margin>
+      <Insets top="5.0" />
+     </GridPane.margin>
+    </TextField>
+    <TextField fx:id="txfTelephoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="2">
+     <GridPane.margin>
+      <Insets top="5.0" />
+     </GridPane.margin>
+    </TextField>
+    <TextField fx:id="txfAddress" GridPane.columnIndex="3">
+     <GridPane.margin>
+      <Insets right="5.0" top="5.0" />
+     </GridPane.margin>
+    </TextField>
+    <TextField fx:id="txfLastName" GridPane.columnIndex="3" GridPane.rowIndex="1">
+     <GridPane.margin>
+      <Insets right="5.0" top="5.0" />
+     </GridPane.margin>
+    </TextField>
+    <TextField fx:id="txfEmailAddress" GridPane.columnIndex="3" GridPane.rowIndex="2">
+     <GridPane.margin>
+      <Insets right="5.0" top="5.0" />
+     </GridPane.margin>
+    </TextField>
+    <Button mnemonicParsing="false" onAction="#handleOkAction" prefWidth="65.0" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="3">
+     <GridPane.margin>
+      <Insets bottom="5.0" top="5.0" />
+     </GridPane.margin>
+    </Button>
+    <Button mnemonicParsing="false" onAction="#handleCancelAction" prefWidth="65.0" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="3">
+     <GridPane.margin>
+      <Insets bottom="5.0" top="5.0" />
+     </GridPane.margin>
+    </Button>
+  </children>
+</GridPane>
