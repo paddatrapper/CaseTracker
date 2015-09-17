@@ -23,7 +23,7 @@ function run_server
 {
 	if [ "$JavaPID" == "" ]; then
 		cd ./server
-		java -jar ./target/server-0.1.1-ALPHA-jar-with-dependencies.jar &
+		java -jar ./target/server-0.2.1-ALPHA-jar-with-dependencies.jar &
 		JavaPID=$!
 		cd ..
 	fi
