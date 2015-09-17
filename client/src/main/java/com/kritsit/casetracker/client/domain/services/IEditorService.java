@@ -20,6 +20,7 @@ public interface IEditorService {
     List<Defendant> getDefendants();
     List<Person> getComplainants();
     String getNextCaseNumber();
-    InputToModelParseResult addCase(Map<String, Object> inputMap);
-    InputToModelParseResult editCase(Map<String, Object> inputMap);
+    InputToModelParseResult<Case> addCase(Map<String, Object> inputMap);
+    InputToModelParseResult<Case> editCase(Map<String, Object> inputMap);
+    InputToModelParseResult<Person> createPerson(Map<String, Object> inputMap);
 }

@@ -3,4 +3,4 @@
 # Stops the server
 #
 
-pkill -f "java -jar target/server-0.1.1-ALPHA-jar-with-dependencies.jar"
+pkill -f "java -jar target/server-0.2.1-ALPHA-jar-with-dependencies.jar"

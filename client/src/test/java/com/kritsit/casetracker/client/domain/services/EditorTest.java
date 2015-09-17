@@ -584,4 +584,122 @@ public class EditorTest extends TestCase {
         assertTrue(result.isSuccessful());
         verify(connection).editCase(any());
     }
+
+    public void testCreatePerson_Null() {
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+
+        InputToModelParseResult result = editor.createPerson(null); 
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Required information missing".equals(result.getReason()));
+    }
+
+    public void testCreatePerson_NoData() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+
+        InputToModelParseResult result = editor.createPerson(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Required information missing".equals(result.getReason()));
+    }
+
+    public void testCreatePerson_OneBlankData() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+        inputMap.put("firstName", "John Smith");
+        inputMap.put("lastName", "");
+
+        InputToModelParseResult result = editor.createPerson(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Last name required".equals(result.getReason()));
+    }
+
+    public void testCreatePerson_IdValidator() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+        inputMap.put("id", "98733459720");
+
+        InputToModelParseResult result = editor.createPerson(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Id required".equals(result.getReason()));
+    }
+
+    public void testCreatePerson_TelephoneValidator() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+        inputMap.put("telephoneNumber", "9873457684");
+
+        InputToModelParseResult result = editor.createPerson(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Telephone number required".equals(result.getReason()));
+    }
+
+    public void testCreatePerson_EmailValidator() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+        inputMap.put("emailAddress", "test@bob");
+
+        InputToModelParseResult result = editor.createPerson(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Email address required".equals(result.getReason()));
+    }
+
+    public void testCreatePerson_LastName() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+        inputMap.put("lastName", "");
+
+        InputToModelParseResult result = editor.createPerson(inputMap);            
+
+        assertFalse(result.isSuccessful());
+        assertTrue("Last name required".equals(result.getReason()));
+    }
+
+    public void testCreatePerson_Success() {
+        Map<String, Object> inputMap = new HashMap<>();
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IEditorService editor = new Editor(user, connection);
+
+        String id = "9602215094081";
+        String telephoneNumber = "0211234567";
+        String emailAddress = "test@casetracker.com";
+        String firstName = "John";
+        String lastName = "Smith";
+        String address = "1 Kerkstraat, Cape Town";
+
+        inputMap.put("id", id);
+        inputMap.put("telephoneNumber", telephoneNumber);
+        inputMap.put("emailAddress", emailAddress);
+        inputMap.put("firstName", firstName);
+        inputMap.put("lastName", lastName);
+        inputMap.put("address", address);
+
+        Person person = new Person(-1, id, firstName, lastName, address, 
+                telephoneNumber, emailAddress);
+
+        InputToModelParseResult<Person> result = editor.createPerson(inputMap);
+        
+        assertTrue(result.isSuccessful());
+        assertTrue(person.equals(result.getResult()));
+    }
 }

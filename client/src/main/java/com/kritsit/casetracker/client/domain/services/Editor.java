@@ -6,8 +6,11 @@ import com.kritsit.casetracker.client.domain.model.Period;
 import com.kritsit.casetracker.client.validation.BooleanValidator;
 import com.kritsit.casetracker.client.validation.DateValidator;
 import com.kritsit.casetracker.client.validation.DoubleValidator;
+import com.kritsit.casetracker.client.validation.EmailValidator;
+import com.kritsit.casetracker.client.validation.IdValidator;
 import com.kritsit.casetracker.client.validation.IValidator;
 import com.kritsit.casetracker.client.validation.StringValidator;
+import com.kritsit.casetracker.client.validation.TelephoneValidator;
 import com.kritsit.casetracker.client.validation.Validator;
 import com.kritsit.casetracker.shared.domain.model.Case;
 import com.kritsit.casetracker.shared.domain.model.Defendant;
@@ -168,46 +171,47 @@ public class Editor implements IEditorService {
         return today.getYear() + "-" + nextMonth + "-" + nextSequence;
     }
 
-    public InputToModelParseResult addCase(Map<String, Object> inputMap) {
-        if (inputMap == null || inputMap.isEmpty()) {
-            logger.debug("InputMap empty or null. Aborting");
-            return new InputToModelParseResult(false, "Required information missing");
+    public InputToModelParseResult<Case> addCase(Map<String, Object> inputMap) {
+        InputToModelParseResult<Case> result = createCase(inputMap);
+        if (result.isSuccessful()) {
+            logger.debug("Adding case to server");
+            boolean isAdded = connection.addCase(result.getResult());
+            String reason = (isAdded) ? "Case uploaded successfully" :
+                "Unable to upload case to server. Please see log for details";
+            result = new InputToModelParseResult<Case>(isAdded, reason, result.getResult());
         }
-        logger.info("Add case {}", inputMap.get("caseName"));
-        InputToModelParseResult result = validate(inputMap);
-        if (!result.isSuccessful()) {
-            return result;
-        }
-        Case c = parseCase(inputMap);
-        logger.debug("Adding case to server");
-        boolean isAdded = connection.addCase(c);
-        String reason = (isAdded) ? "Case uploaded successfully" :
-            "Unable to upload case to server. Please see log for details";
-        InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
-        return uploaded;
+        return result;
     }
 
-    public InputToModelParseResult editCase(Map<String, Object> inputMap) {
+    public InputToModelParseResult<Case> editCase(Map<String, Object> inputMap) {
+        InputToModelParseResult<Case> result = createCase(inputMap);
+        if (result.isSuccessful()) {
+            logger.debug("Requesting case update from server");
+            boolean isAdded = connection.editCase(result.getResult());
+            String reason = (isAdded) ? "Case updated successfully" :
+                "Unable to update case. Please see log for details";
+            result = new InputToModelParseResult<Case>(isAdded, reason, result.getResult());
+        }
+        return result;
+    }
+
+    private InputToModelParseResult<Case> createCase(Map<String, Object> inputMap) {
         if (inputMap == null || inputMap.isEmpty()) {
             logger.debug("InputMap empty or null. Aborting");
-            return new InputToModelParseResult(false, "Required information missing");
+            return new InputToModelParseResult<Case>(false, "Required information missing");
         }
         logger.info("Edit case {}", inputMap.get("caseName"));
-        InputToModelParseResult result = validate(inputMap);
+        InputToModelParseResult<Case> result = validateCase(inputMap);
         if (!result.isSuccessful()) {
             return result;
         }
         Case c = parseCase(inputMap);
-        logger.debug("Uploading case to server");
-        boolean isAdded = connection.editCase(c);
-        String reason = (isAdded) ? "Case updated successfully" :
-            "Unable to update case. Please see log for details";
-        InputToModelParseResult uploaded = new InputToModelParseResult(isAdded, reason);
-        return uploaded;
+        result.setResult(c);
+        return result;
     }
 
-    private InputToModelParseResult validate(Map<String, Object> inputMap) {
-        InputToModelParseResult result = new InputToModelParseResult(true);
+    private InputToModelParseResult<Case> validateCase(Map<String, Object> inputMap) {
+        InputToModelParseResult<Case> result = new InputToModelParseResult<>(true);
         for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
             String inputKey = getHumanReadableName(entry.getKey());
             IValidator validator = null;
@@ -277,22 +281,6 @@ public class Editor implements IEditorService {
         return result;
     }
 
-    private String getHumanReadableName(String camelCaseString) {
-        String result = "";
-        for (int i = 0; i < camelCaseString.length(); i++) {
-            char letter = camelCaseString.charAt(i);
-            if (Character.isUpperCase(letter)) {
-                result += " " + letter;
-            } else {
-                result += letter;
-            }
-        }
-
-        String firstLetter = result.substring(0, 1).toUpperCase();
-        result = firstLetter + result.substring(1).toLowerCase();
-        return result;
-    }
-
     private Case parseCase(Map<String, Object> inputMap) {
         logger.info("Parsing case {}", inputMap.get("caseName"));
         String caseNumber = (String) inputMap.get("caseNumber");
@@ -324,5 +312,97 @@ public class Editor implements IEditorService {
                 investigatingOfficer, incident, defendant, complainant, null,
                 evidence, isReturnVisit, returnDate, caseType, null);
         return c;
+    }
+
+    public InputToModelParseResult<Person> createPerson(Map<String, Object> inputMap) {
+        if (inputMap == null || inputMap.isEmpty()) {
+            logger.debug("InputMap empty or null. Aborting");
+            return new InputToModelParseResult<Person>(false, "Required information missing");
+        }
+        logger.info("Creating person {} {}", inputMap.get("firstName"),
+                inputMap.get("lastName"));
+        InputToModelParseResult<Person> result = validatePerson(inputMap);
+        if (!result.isSuccessful()) {
+            return result;
+        }
+        Person p = parsePerson(inputMap);
+        result.setResult(p);
+        return result;
+    }
+
+    private InputToModelParseResult<Person> validatePerson(Map<String, Object> inputMap) {
+        InputToModelParseResult<Person> result = new InputToModelParseResult<>(true);
+        for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
+            String inputKey = getHumanReadableName(entry.getKey());
+            IValidator validator = null;
+            switch (entry.getKey()) {
+                case "id" :
+                    String id = (String) inputMap.get("id");
+                    if (id != null && !id.isEmpty()) {
+                        validator = new IdValidator();
+                    }
+                    break;
+                case "telephoneNumber" :
+                    String telephoneNumber = (String) inputMap.get("telephoneNumber");
+                    if (telephoneNumber != null && !telephoneNumber.isEmpty()) {
+                        validator = new TelephoneValidator();
+                    }
+                    break;
+                case "emailAddress" :
+                    String emailAddress = (String) inputMap.get("emailAddress");
+                    if (emailAddress != null && !emailAddress.isEmpty()) {
+                        validator = new EmailValidator();
+                    }
+                    break;
+                case "firstName" :
+                    String firstName = (String) inputMap.get("firstName");
+                    if (firstName == null || firstName.isEmpty()) {
+                        break;
+                    }
+                case "address" :
+                    String address = (String) inputMap.get("address");
+                    if (address == null || address.isEmpty()) {
+                        break;
+                    }
+                case "lastName" :
+                    validator = new StringValidator();
+                    break;
+            }
+            if (validator != null && !validator.validate(entry.getValue())) {
+                logger.debug("Input failed parsing: {}", inputKey);
+                result.addFailedInput(inputKey);
+            }
+        }
+        return result;
+    }
+
+    private Person parsePerson(Map<String, Object> inputMap) {
+        logger.info("Parsing person {}", inputMap.get("lastName"));
+        int indexId = -1;
+        String id = (String) inputMap.get("id");
+        String firstName = (String) inputMap.get("firstName");
+        String lastName = (String) inputMap.get("lastName");
+        String address = (String) inputMap.get("address");
+        String telephoneNumber = (String) inputMap.get("telephoneNumber");
+        String emailAddress = (String) inputMap.get("emailAddress");
+        
+        return new Person(indexId, id, firstName, lastName, address, 
+                telephoneNumber, emailAddress);
+    }
+
+    private String getHumanReadableName(String camelCaseString) {
+        String result = "";
+        for (int i = 0; i < camelCaseString.length(); i++) {
+            char letter = camelCaseString.charAt(i);
+            if (Character.isUpperCase(letter)) {
+                result += " " + letter;
+            } else {
+                result += letter;
+            }
+        }
+
+        String firstLetter = result.substring(0, 1).toUpperCase();
+        result = firstLetter + result.substring(1).toLowerCase();
+        return result;
     }
 }

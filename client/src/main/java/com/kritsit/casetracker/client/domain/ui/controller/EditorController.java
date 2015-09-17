@@ -451,11 +451,63 @@ public class EditorController implements IController {
     }
 
     @FXML protected void handleAddNewDefendantAction(ActionEvent e) {
-        //TODO
+        AddPersonController c = new AddPersonController(editorService, true);
+        GridPane addPersonPane = null;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                .getResource("/ui/fxml/AddPersonFrame.fxml"));
+        
+        fxmlLoader.setController(c);
+        fxmlLoader.setRoot(addPersonPane);
+        
+        try {
+            addPersonPane = (GridPane) fxmlLoader.load();
+        } catch (IOException ex) {
+            logger.error("Error loading frame to add defendant", ex);
+            return;
+        }
+        
+        Scene scene = new Scene(addPersonPane);
+        Stage stage = new Stage();
+        stage.setTitle("Add Defendant");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        c.setStage(stage);
+        stage.showAndWait();
+        Defendant defendant = c.getDefendant();
+        if (defendant != null) {
+            cmbAddDefendant.getItems().add(defendant);
+            cmbAddDefendant.setValue(defendant);
+        }
     }
 
     @FXML protected void handleAddNewComplainantAction(ActionEvent e) {
-        //TODO
+        Stage stage = new Stage();
+        AddPersonController c = new AddPersonController(editorService, false);
+        GridPane addPersonPane = null;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                .getResource("/ui/fxml/AddPersonFrame.fxml"));
+        
+        fxmlLoader.setController(c);
+        fxmlLoader.setRoot(addPersonPane);
+        
+        try {
+            addPersonPane = (GridPane) fxmlLoader.load();
+        } catch (IOException ex) {
+            logger.error("Error loading frame to add defendant", ex);
+            return;
+        }
+        
+        Scene scene = new Scene(addPersonPane);
+        stage.setTitle("Add Complainant");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        c.setStage(stage);
+        stage.showAndWait();
+        Person complainant = c.getComplainant();
+        if (complainant != null) {
+            cmbAddComplainant.getItems().add(complainant);
+            cmbAddComplainant.setValue(complainant);
+        }
     }
 
     @FXML protected void handleAddEvidenceAction(ActionEvent e) {
