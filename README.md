@@ -21,16 +21,16 @@ Usage
 
 CaseTracker consists of two applications - namely the client and the server. 
 Most domain logic happens on the client side of the connection with the server
-focusing on interfacing with the persistence system (currently a MySQL 
-database).
+focusing on interfacing with the persistence system (a MySQL database).
 
 Maven is being used to manage the project life cycle. This includes compiling,
-packaging, testing and documentation. All maven commands must be run from
-within the client or server root directories.
+packaging, testing and documentation. All maven commands can be run from the 
+root of the project or in the client or server directories for specific client
+or server tests, etc.
 
-Builing and running can be done through [scripts/project,sh](https://github.com/paddatrapper/CaseTracker/blob/master/scripts/project.sh):
+Running can be done through [scripts/project.sh](https://github.com/paddatrapper/CaseTracker/blob/master/scripts/project.sh):
 
-    scripts/project.sh -a -r
+    scripts/project.sh -r
 
 The project documentation can be viewed on the [CaseTracker website](http://kritsit.ddns.net/casetracker).
 
