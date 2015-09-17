@@ -13,14 +13,21 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class CaseTrackerClient extends Application {
-    private static final String VERSION = "0.1a";
-    private final Logger logger = LoggerFactory.getLogger(CaseTrackerClient.class);
+    private static final String VERSION = "0.2.1-ALPHA";
+    private static final Logger logger = LoggerFactory.getLogger(CaseTrackerClient.class);
 
     public static void main(String[] args) {
-        Application.launch(args);
+        if (args[0].equals("-v") || args[0].equals("--version")) {
+            logger.debug("Printing version information");
+            logger.info("CaseTracker Client (GPLv3)\nVersion: " + getVersion());
+            System.out.println("CaseTracker Client (GPLv3)\nVersion: " + getVersion());
+            System.exit(0);
+        } else {
+            Application.launch(args);
+        }
     }
 
-    public String getVersion() {
+    public static String getVersion() {
         return VERSION;
     }
 

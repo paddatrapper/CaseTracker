@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class CaseTrackerServer {
-    private static final String VERSION = "0.1a";
+    private static final String VERSION = "0.2.1-ALPHA";
     private static final Logger logger = LoggerFactory.getLogger(CaseTrackerServer.class);
     private IListeningService listener;
 
@@ -24,8 +24,8 @@ public class CaseTrackerServer {
             server.listen(1244);
         } else if ("-v".equals(args[0]) || "--version".equals(args[0])) {
             logger.debug("Printing version information");
-            logger.info("Version: {}", getVersion());
-            System.out.println("Version: " + getVersion());
+            logger.info("CaseTracker Server (GPLv3)\nVersion: {}", getVersion());
+            System.out.println("CaseTracker Server (GPLv3)\nVersion: " + getVersion());
         } else {
             try {
                 String arg = args[0].trim().replace("-", "");
