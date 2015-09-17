@@ -3,19 +3,28 @@ package com.kritsit.casetracker.client.domain.services;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputToModelParseResult {
+public class InputToModelParseResult<T> {
     boolean isSuccessful;
     String reason;
     List<String> failedInputs;
+    T result;
 
     public InputToModelParseResult(boolean isSuccessful) {
-        this.isSuccessful = isSuccessful;
-        failedInputs = new ArrayList<>();
+        this(isSuccessful, null, null);
+    }
+
+    public InputToModelParseResult(boolean isSuccessful, T result) {
+        this(isSuccessful, null, result);
     }
 
     public InputToModelParseResult(boolean isSuccessful, String reason) {
+        this(isSuccessful, reason, null);
+    }
+
+    public InputToModelParseResult(boolean isSuccessful, String reason, T result) {
         this.isSuccessful = isSuccessful;
         this.reason = reason;
+        this.result = result;
         failedInputs = new ArrayList<>();
     }
 
@@ -28,6 +37,10 @@ public class InputToModelParseResult {
         return failedInputs.contains(input);
     }
 
+    public T getResult() {
+        return result;
+    }
+
     public boolean isSuccessful() {
         return isSuccessful;
     }
@@ -36,9 +49,13 @@ public class InputToModelParseResult {
         this.isSuccessful = isSuccessful;
     }
 
+    public void setResult(T result) {
+        this.result = result;
+    }
+
     public String getReason() {
         if (isSuccessful()) {
-            return "Case created successfully";
+            return reason;
         }
         if (reason != null && !reason.isEmpty() && failedInputs.isEmpty()) {
             return reason;

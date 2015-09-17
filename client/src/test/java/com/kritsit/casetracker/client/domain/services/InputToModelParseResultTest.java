@@ -17,8 +17,13 @@ public class InputToModelParseResultTest extends TestCase {
     public void testCreation() {
         InputToModelParseResult blank = new InputToModelParseResult(false);
         InputToModelParseResult message = new InputToModelParseResult(false, "Test message");
+        InputToModelParseResult<Boolean> result = new InputToModelParseResult(false, false);
+        InputToModelParseResult<Boolean> complete = new InputToModelParseResult(false, "Test message", true);
         assertTrue("Input failed to parse into model".equals(blank.getReason()));
         assertTrue("Test message".equals(message.getReason()));
+        assertFalse(result.getResult());
+        assertTrue(complete.getResult());
+        assertTrue("Test message".equals(complete.getReason()));
     }
 
     public void testGetMessage_ConstructorParameter() {
@@ -39,7 +44,7 @@ public class InputToModelParseResultTest extends TestCase {
     }
 
     public void testGetMessage_Successful() {
-        InputToModelParseResult result = new InputToModelParseResult(true);
+        InputToModelParseResult result = new InputToModelParseResult(true, "Case created successfully");
         assertTrue("Case created successfully".equals(result.getReason()));
     }
 
@@ -62,5 +67,16 @@ public class InputToModelParseResultTest extends TestCase {
         result.addFailedInput("Case type");
         result.addFailedInput("Incident date");
         assertTrue("Case name, Case type and Incident date required".equals(result.getReason()));
+    }
+
+    public void testGetResult() {
+        InputToModelParseResult<Integer> result = new InputToModelParseResult<>(true, 1);
+        assertTrue(1 == result.getResult());
+    }
+
+    public void testSetResult() {
+        InputToModelParseResult<String> result = new InputToModelParseResult<>(true);
+        result.setResult("This String");
+        assertTrue("This String".equals(result.getResult()));
     }
 }
