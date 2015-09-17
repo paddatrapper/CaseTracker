@@ -39,6 +39,10 @@ public class EmailValidatorTest extends TestCase {
         assertFalse(validator.validate("test@testing."));
     }
 
+    public void test_ValidateNoDot() {
+        assertFalse(validator.validate("test@testing"));
+    }
+
     public void test_ValidateNoAt() {
         assertFalse(validator.validate("testtesting"));
     }
