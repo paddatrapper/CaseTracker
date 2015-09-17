@@ -18,4 +18,8 @@ public class UserInterfaceFactoryTest extends TestCase {
     public void testGetEditorFrame() {
         assertTrue(UserInterfaceFactory.getEditorFrame() != null);
     }
+
+    public void testGetAdministratorFrame() {
+        assertTrue(UserInterfaceFactory.getAdministratorFrame() != null);
+    }
 }

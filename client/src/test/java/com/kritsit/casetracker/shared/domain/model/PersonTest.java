@@ -19,6 +19,11 @@ public class PersonTest extends TestCase {
         person = new Person(1, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
     }
 
+    public void testCreation() {
+        Person p = new Person();
+        assertTrue(p != null);
+    }
+
     public void testAccessors() {
         assertTrue(1 == person.getIndexId());
         assertTrue("0002225094081".equals(person.getId()));

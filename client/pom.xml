@@ -45,6 +45,7 @@
           <excludes>
             <exclude>**/ui/*</exclude>
             <exclude>**/ui/controller/*</exclude>
+            <exclude>**/client/CaseTrackerClient.*</exclude>
           </excludes>
         </configuration>
       </plugin>

@@ -4,6 +4,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class StaffTest extends TestCase {
     Staff staff;
 
@@ -21,6 +24,8 @@ public class StaffTest extends TestCase {
 
     public void testCreation() {
         assertTrue(staff.getClass() == Staff.class);
+        Staff s = new Staff();
+        assertTrue(s != null);
     }
 
     public void testAccessors() {

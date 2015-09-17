@@ -60,6 +60,8 @@
         <configuration>
           <excludes>
             <exclude>**/domain/services/ClientConnectionThread.*</exclude>
+            <exclude>**/domain/services/SocketListener.*</exclude>
+            <exclude>**/server/CaseTrackerServer.*</exclude>
           </excludes>
         </configuration>
       </plugin>

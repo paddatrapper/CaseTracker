@@ -2,6 +2,7 @@ package com.kritsit.casetracker.server.datalayer;
 
 import static org.mockito.Mockito.*;
 
+import com.kritsit.casetracker.server.domain.model.AuthenticationException;
 import com.kritsit.casetracker.shared.domain.model.Staff;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 
@@ -66,6 +67,24 @@ public class UserRepositoryTest extends TestCase {
         verify(db).executeQuery(sql, username);
     }
     
+    public void testGetPasswordSaltedHash_Null() throws Exception {
+        String username = "inspector";
+        String sql = "SELECT passwordHash FROM staff WHERE username=?;";
+        
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+        when(db.executeQuery(sql, username)).thenReturn(null);    
+
+        boolean exceptionCalled = false;
+        try {
+            long passwordSaltedHash = repo.getPasswordSaltedHash(username);
+        } catch (AuthenticationException ex) {
+            exceptionCalled = true;
+        } 
+        assertTrue(exceptionCalled);
+        verify(db).executeQuery(sql, username);
+    }
+
     public void testGetPasswordSaltedHash() throws Exception {
         String username = "inspector";
         String sql = "SELECT passwordHash FROM staff WHERE username=?;";
