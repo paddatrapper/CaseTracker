@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.45" fx:controller="com.casetracker.client.domain.ui.controller.AddPersonController">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.45">
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="-Infinity" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
@@ -79,12 +79,12 @@
       <Insets right="5.0" top="5.0" />
      </GridPane.margin>
     </TextField>
-    <Button mnemonicParsing="false" onAction="#handleOkAction" prefWidth="65.0" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="3">
+    <Button fx:id="btnOK" mnemonicParsing="false" prefWidth="65.0" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="3">
      <GridPane.margin>
       <Insets bottom="5.0" top="5.0" />
      </GridPane.margin>
     </Button>
-    <Button mnemonicParsing="false" onAction="#handleCancelAction" prefWidth="65.0" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="3">
+    <Button fx:id="btnCancel" mnemonicParsing="false" prefWidth="65.0" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="3">
      <GridPane.margin>
       <Insets bottom="5.0" top="5.0" />
      </GridPane.margin>
