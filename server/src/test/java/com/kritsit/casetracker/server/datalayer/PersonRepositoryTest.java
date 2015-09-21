@@ -52,6 +52,20 @@ public class PersonRepositoryTest extends TestCase {
         defendantList.add(defendant);
     }
 
+    public void testGetComplainant_Null() throws SQLException, RowToModelParseException {
+        String caseNumber = "1";
+        String sql = "SELECT indexID, id, firstName, lastName, address, telephoneNumber, " +
+            "emailAddress FROM complainants INNER JOIN(cases) " +
+            "WHERE complainants.indexId=cases.complainantId AND cases.caseNumber=?;";
+        IPersistenceService db = mock(IPersistenceService.class);
+        IPersonRepository personRepo = new PersonRepository(db);
+
+        Person complainant = personRepo.getComplainant(caseNumber);
+
+        assertTrue(complainant == null);
+        verify(db).executeQuery(sql, caseNumber);
+    }
+
     public void testGetComplainant() throws SQLException, RowToModelParseException {
         String caseNumber = "1";
         String sql = "SELECT indexID, id, firstName, lastName, address, telephoneNumber, " +
@@ -64,6 +78,20 @@ public class PersonRepositoryTest extends TestCase {
         Person complainant = personRepo.getComplainant(caseNumber);
 
         assertTrue(complainant != null);
+        verify(db).executeQuery(sql, caseNumber);
+    }
+
+    public void testGetDefendant_Null() throws SQLException, RowToModelParseException {
+        String caseNumber = "1";
+        String sql = "SELECT indexID, id, firstName, lastName, address, telephoneNumber, " +
+            "emailAddress, secondOffence FROM defendants INNER JOIN(cases) " +
+            "WHERE defendants.indexId=cases.defendantId AND cases.caseNumber=?;";
+        IPersistenceService db = mock(IPersistenceService.class);
+        IPersonRepository personRepo = new PersonRepository(db);
+
+        Defendant defendant = personRepo.getDefendant(caseNumber);
+
+        assertTrue(defendant == null);
         verify(db).executeQuery(sql, caseNumber);
     }
 
@@ -80,6 +108,38 @@ public class PersonRepositoryTest extends TestCase {
 
         assertTrue(defendant != null);
         verify(db).executeQuery(sql, caseNumber);
+    }
+
+    public void testInsertDefendant_New_Null() throws SQLException, RowToModelParseException{
+        int indexId = 1;
+        String id = "9802245849032";
+        Defendant defendant = new Defendant(indexId, id, "Bob", "Dylan", "1 address road",
+                "0212221233", "test@testing.co.za", false);
+        String isSecondOffence = (defendant.isSecondOffence()) ? "1" : "0";
+        String sql = "INSERT INTO defendants VALUES (NULL, ?, ?, ?, ?, ?, " +
+            "?, ?);";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IPersonRepository personRepo = new PersonRepository(db);
+        String query = "SELECT indexID FROM defendants WHERE lastName=? AND " +
+            "id=? AND firstName=? AND address=? AND telephoneNumber=? AND " +
+            "emailAddress=?;";
+
+        RowToModelParseException ex = null;
+        try {
+            int resultIndexId = personRepo.insertDefendant(defendant);
+        } catch (RowToModelParseException e) {
+            ex = e;
+        }
+
+        assertNotNull(ex);
+        verify(db).executeUpdate(sql, defendant.getId(), defendant.getFirstName(),
+                defendant.getLastName(), defendant.getAddress(),
+                defendant.getTelephoneNumber(), defendant.getEmailAddress(),
+                isSecondOffence);
+        verify(db, times(2)).executeQuery(query, defendant.getLastName(),
+                defendant.getId(), defendant.getFirstName(), defendant.getAddress(),
+                defendant.getTelephoneNumber(), defendant.getEmailAddress());
     }
 
     public void testInsertDefendant_New() throws SQLException, RowToModelParseException{
@@ -149,6 +209,36 @@ public class PersonRepositoryTest extends TestCase {
         verify(db).executeQuery(query, defendant.getLastName(),
                 defendant.getId(), defendant.getFirstName(), defendant.getAddress(),
                 defendant.getTelephoneNumber(), defendant.getEmailAddress());
+    }
+
+    public void testInsertComplainant_New_Null() throws SQLException, RowToModelParseException{
+        int indexId = 1;
+        String id = "9802245849032";
+        Person complainant = new Person(indexId, id, "Bob", "Dylan", "1 address road",
+                "0212221233", "test@testing.co.za");
+        String sql = "INSERT INTO complainants VALUES (NULL, ?, ?, ?, ?, ?, " +
+            "?);";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IPersonRepository personRepo = new PersonRepository(db);
+        String query = "SELECT indexID FROM complainants WHERE lastName=? AND " +
+            "id=? AND firstName=? AND address=? AND telephoneNumber=? AND " +
+            "emailAddress=?;";
+
+        RowToModelParseException ex = null;
+        try {
+            int returnIndexId = personRepo.insertComplainant(complainant);
+        } catch (RowToModelParseException e) {
+            ex = e;
+        }
+
+        assertNotNull(ex);
+        verify(db).executeUpdate(sql, complainant.getId(), complainant.getFirstName(),
+                complainant.getLastName(), complainant.getAddress(),
+                complainant.getTelephoneNumber(), complainant.getEmailAddress());
+        verify(db, times(2)).executeQuery(query, complainant.getLastName(), complainant.getId(),
+                complainant.getFirstName(), complainant.getAddress(),
+                complainant.getTelephoneNumber(), complainant.getEmailAddress());
     }
 
     public void testInsertComplainant_New() throws SQLException, RowToModelParseException{

@@ -16,11 +16,14 @@ public class StaffTest extends TestCase {
     }
 
     public void setUp() {
-        staff = new Staff("testUsername", "firstName", "lastName", "department", "position", Permission.EDITOR);
+        staff = new Staff("testUsername", "firstName", "lastName", "department", 
+                "position", Permission.EDITOR);
     }
 
     public void testCreation() {
         assertTrue(staff.getClass() == Staff.class);
+        Staff s = new Staff();
+        assertTrue(s.getUsername() == null);
     }
 
     public void testAccessors() {

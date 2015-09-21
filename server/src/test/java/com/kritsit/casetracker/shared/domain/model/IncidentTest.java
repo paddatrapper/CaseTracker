@@ -29,6 +29,8 @@ public class IncidentTest extends TestCase {
         Incident i = new Incident(1, -25.0001, 10.11, "Western Cape", 
                 LocalDate.now(), LocalDate.now(), false);
         assertTrue(i.getClass() == Incident.class);
+        i = new Incident();
+        assertTrue(i.getAddress() == null);
     }
 
     public void testAccessors() {

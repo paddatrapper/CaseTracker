@@ -16,7 +16,10 @@ public class PersonTest extends TestCase {
     }
 
     public void setUp() {
-        person = new Person(1, "0002225094081", "John", "Smith", "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        person = new Person(1, "0002225094081", "John", "Smith", 
+                "20 Church Road, Cape Town", "0211234567", "email@address.com");
+        Person p = new Person();
+        assertTrue(p.getId() == null);
     }
 
     public void testAccessors() {

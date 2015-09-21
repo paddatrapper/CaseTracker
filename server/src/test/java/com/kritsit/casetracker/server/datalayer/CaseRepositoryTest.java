@@ -48,6 +48,25 @@ public class CaseRepositoryTest extends TestCase {
         caseList.add(c);
     }
 
+    public void testGetCasesNull() throws SQLException, RowToModelParseException {
+        String sql = "SELECT caseNumber, reference, caseType, details, " +
+                "animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate " +
+                "FROM cases;";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IIncidentRepository incidentRepo = mock(IIncidentRepository.class);
+        IPersonRepository personRepo = mock(IPersonRepository.class);
+        IUserRepository userRepo = mock(IUserRepository.class);
+        IEvidenceRepository evidenceRepo = mock(IEvidenceRepository.class);
+
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo, userRepo, evidenceRepo);
+
+        List<Case> cases = caseRepo.getCases();
+
+        assertTrue(cases == null);
+        verify(db).executeQuery(sql);
+    }
+
     public void testGetCases() throws SQLException, RowToModelParseException {
             String sql = "SELECT caseNumber, reference, caseType, details, " +
                 "animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate " +
@@ -85,6 +104,32 @@ public class CaseRepositoryTest extends TestCase {
         verify(personRepo).getDefendant(caseNumber);
         verify(userRepo).getInvestigatingOfficer(caseNumber);
         verify(evidenceRepo).getEvidence(caseNumber);
+    }
+
+    public void testGetCases_ForUser_Null() throws SQLException, RowToModelParseException {
+        String username = "testUser";
+        String sql = "SELECT caseNumber, reference, caseType, details, " +
+            "animalsInvolved, nextCourtDate, outcome, returnVisit, returnDate " +
+            "FROM cases INNER JOIN(staff) WHERE cases.staffId=staff.username " +
+            "AND staff.username=?;";
+        Staff investigatingOfficer = mock(Staff.class);
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IIncidentRepository incidentRepo = mock(IIncidentRepository.class);
+        IPersonRepository personRepo = mock(IPersonRepository.class);
+        IUserRepository userRepo = mock(IUserRepository.class);
+        IEvidenceRepository evidenceRepo = mock(IEvidenceRepository.class);
+
+        when(investigatingOfficer.getUsername()).thenReturn(username);
+
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo,
+                userRepo, evidenceRepo);
+
+        List<Case> cases = caseRepo.getCases(investigatingOfficer);
+
+        assertTrue(cases == null);
+        verify(investigatingOfficer, atLeast(2)).getUsername();
+        verify(db).executeQuery(sql, username);
     }
 
     public void testGetCases_ForUser() throws SQLException, RowToModelParseException {
@@ -129,6 +174,22 @@ public class CaseRepositoryTest extends TestCase {
         verify(personRepo).getDefendant(caseNumber);
         verify(userRepo).getInvestigatingOfficer(caseNumber);
         verify(evidenceRepo).getEvidence(caseNumber);
+    }
+
+    public void testGetLastCaseNumber_Null() throws SQLException, RowToModelParseException {
+        String sql = "SELECT caseNumber FROM cases ORDER BY caseNumber DESC LIMIT 1;";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IIncidentRepository incidentRepo = mock(IIncidentRepository.class);
+        IPersonRepository personRepo = mock(IPersonRepository.class);
+        IUserRepository userRepo = mock(IUserRepository.class);
+        IEvidenceRepository evidenceRepo = mock(IEvidenceRepository.class);
+
+        ICaseRepository caseRepo = new CaseRepository(db, incidentRepo, personRepo,
+                userRepo, evidenceRepo);
+
+        assertTrue("0000-00-0000".equals(caseRepo.getLastCaseNumber()));
+        verify(db).executeQuery(sql);
     }
 
     public void testGetLastCaseNumber() throws SQLException, RowToModelParseException {

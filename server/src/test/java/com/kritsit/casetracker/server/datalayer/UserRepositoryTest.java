@@ -48,6 +48,23 @@ public class UserRepositoryTest extends TestCase {
         verify(db).executeQuery(sql, username);
     }
 
+    public void testGetSalt_Null() throws Exception{
+        String username = "inspector";
+        String sql = "SELECT salt FROM staff WHERE username=?;";
+        
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+
+        AuthenticationException ex = null;
+        try {
+            long actualSalt = repo.getSalt(username);
+        } catch (AuthenticationException e) {
+            ex = e;
+        }
+        assertNotNull(ex);
+        verify(db).executeQuery(sql, username);
+    }
+
     public void testGetSalt() throws Exception{
         String username = "inspector";
         String sql = "SELECT salt FROM staff WHERE username=?;";
@@ -75,13 +92,13 @@ public class UserRepositoryTest extends TestCase {
         IUserRepository repo = new UserRepository(db);
         when(db.executeQuery(sql, username)).thenReturn(null);    
 
-        boolean exceptionCalled = false;
+        AuthenticationException ex = null;
         try {
             long passwordSaltedHash = repo.getPasswordSaltedHash(username);
-        } catch (AuthenticationException ex) {
-            exceptionCalled = true;
+        } catch (AuthenticationException e) {
+            ex = e;
         } 
-        assertTrue(exceptionCalled);
+        assertNotNull(ex);
         verify(db).executeQuery(sql, username);
     }
 
@@ -103,6 +120,21 @@ public class UserRepositoryTest extends TestCase {
         
         assertTrue(expectedPasswordSaltedHash == passwordSaltedHash);
         verify(db).executeQuery(sql, username);
+    }
+
+    public void testGetInvestigatingOfficer_Null() throws Exception {
+        String caseNumber = "1";
+        String username = "inspector";
+        String investigatingOfficerSql = "SELECT username FROM staff " +
+            "INNER JOIN(cases) WHERE staff.username=cases.staffID AND cases.caseNumber=?;";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+
+        Staff response = repo.getInvestigatingOfficer(caseNumber);
+
+        assertTrue(response == null);
+        verify(db).executeQuery(investigatingOfficerSql, caseNumber);
     }
 
     public void testGetInvestigatingOfficer() throws Exception {
@@ -137,6 +169,20 @@ public class UserRepositoryTest extends TestCase {
         assertTrue(response != null);
         verify(db).executeQuery(investigatingOfficerSql, caseNumber);
         verify(db).executeQuery(detailsSql, username);
+    }
+
+    public void testGetGetInspectors_Null() throws Exception {
+        String username = "inspector";
+        String anotherUsername = "AnotherInspector";
+        String usernameListSql = "SELECT username FROM staff WHERE permissions=?;";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+
+        List<Staff> response = repo.getInspectors();
+
+        assertTrue(response == null);
+        verify(db).executeQuery(usernameListSql, "1");
     }
 
     public void testGetGetInspectors() throws Exception {
@@ -189,7 +235,7 @@ public class UserRepositoryTest extends TestCase {
         verify(db).executeQuery(anotherInspectorDetailsSql, anotherUsername);
     }
 
-    public void testInsertUser() throws Exception {
+    public void testInsertUser_Admin() throws Exception {
         String sql = "INSERT INTO staff VALUES(?, ?, ?, ?, ?, -1, 0, ?);";
         String username = "testUser";
         String firstName = "test";
@@ -210,7 +256,49 @@ public class UserRepositoryTest extends TestCase {
                 position, strPermission);
     }
 
-    public void testUpdateUser() throws Exception {
+    public void testInsertUser_Editor() throws Exception {
+        String sql = "INSERT INTO staff VALUES(?, ?, ?, ?, ?, -1, 0, ?);";
+        String username = "testUser";
+        String firstName = "test";
+        String lastName = "user";
+        String department = "IT";
+        String position = "Test";
+        Permission permission = Permission.EDITOR;
+        String strPermission = "1";
+
+        Staff user = new Staff(username, firstName, lastName, department,
+                position, permission);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+    
+        repo.insertUser(user);
+
+        verify(db).executeUpdate(sql, username, firstName, lastName, department,
+                position, strPermission);
+    }
+
+    public void testInsertUser_Viewer() throws Exception {
+        String sql = "INSERT INTO staff VALUES(?, ?, ?, ?, ?, -1, 0, ?);";
+        String username = "testUser";
+        String firstName = "test";
+        String lastName = "user";
+        String department = "IT";
+        String position = "Test";
+        Permission permission = Permission.VIEWER;
+        String strPermission = "2";
+
+        Staff user = new Staff(username, firstName, lastName, department,
+                position, permission);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+    
+        repo.insertUser(user);
+
+        verify(db).executeUpdate(sql, username, firstName, lastName, department,
+                position, strPermission);
+    }
+
+    public void testUpdateUser_Admin() throws Exception {
         String sql = "UPDATE staff SET firstName=?, lastName=?, department=?, " +
             "position=?, permissions=? WHERE username=?;";
         String username = "testUser";
@@ -220,6 +308,50 @@ public class UserRepositoryTest extends TestCase {
         String position = "Test";
         Permission permission = Permission.ADMIN;
         String strPermission = "0";
+
+        Staff user = new Staff(username, firstName, lastName, department,
+                position, permission);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+    
+        repo.updateUser(user);
+
+        verify(db).executeUpdate(sql, firstName, lastName, department, position, 
+                strPermission, username);
+    }
+
+    public void testUpdateUser_Editor() throws Exception {
+        String sql = "UPDATE staff SET firstName=?, lastName=?, department=?, " +
+            "position=?, permissions=? WHERE username=?;";
+        String username = "testUser";
+        String firstName = "test";
+        String lastName = "user";
+        String department = "IT";
+        String position = "Test";
+        Permission permission = Permission.EDITOR;
+        String strPermission = "1";
+
+        Staff user = new Staff(username, firstName, lastName, department,
+                position, permission);
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+    
+        repo.updateUser(user);
+
+        verify(db).executeUpdate(sql, firstName, lastName, department, position, 
+                strPermission, username);
+    }
+
+    public void testUpdateUser_Viewer() throws Exception {
+        String sql = "UPDATE staff SET firstName=?, lastName=?, department=?, " +
+            "position=?, permissions=? WHERE username=?;";
+        String username = "testUser";
+        String firstName = "test";
+        String lastName = "user";
+        String department = "IT";
+        String position = "Test";
+        Permission permission = Permission.VIEWER;
+        String strPermission = "2";
 
         Staff user = new Staff(username, firstName, lastName, department,
                 position, permission);
