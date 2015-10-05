@@ -107,7 +107,7 @@ public class ServerConnectionIT extends TestCase {
         int nextNumber = Integer.parseInt(parts[2]) + 1;
         String nextSequenceNumber = String.format("%04d", nextNumber);
         caseNumber = parts[0] + "-" + parts[1] + "-" + nextSequenceNumber;
-        
+
         String caseName = "test case";
         String description = "Something happened";
         String animalsInvolved = "Some animals";
@@ -136,8 +136,6 @@ public class ServerConnectionIT extends TestCase {
         connection.open(host, port);
 
         String caseNumber = connection.getLastCaseNumber();
-        int number = Integer.parseInt(caseNumber.charAt(caseNumber.length() - 1) + "") + 1;
-        caseNumber = caseNumber.substring(0, caseNumber.length() - 1) + number;
         String caseName = "test case";
         String description = "Something happened";
         String animalsInvolved = "Some animals";
