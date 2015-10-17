@@ -1,10 +1,13 @@
 language: java
-sudo: required
+sudo: false
 jdk:
     - oraclejdk8
 install: true
+addons:
+    apt:
+        packages:
+            - oracle-java8-installer
 script: 
-    - sudo apt-get update && sudo apt-get install oracle-java8-installer
     - mvn clean verify
 after_success:
-        - mvn jacoco:report jacoco:report-integration coveralls:report
+    - mvn jacoco:report jacoco:report-integration coveralls:report
