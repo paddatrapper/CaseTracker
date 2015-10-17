@@ -17,6 +17,10 @@ public class CaseTrackerClient extends Application {
     private static final Logger logger = LoggerFactory.getLogger(CaseTrackerClient.class);
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            Application.launch(args);
+            return;
+        }
         if (args[0].equals("-v") || args[0].equals("--version")) {
             logger.debug("Printing version information");
             logger.info("CaseTracker Client (GPLv3)\nVersion: " + getVersion());
