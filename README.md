@@ -30,7 +30,7 @@ or server tests, etc.
 
 Running can be done through [scripts/project.sh](https://github.com/paddatrapper/CaseTracker/blob/master/scripts/project.sh):
 
-    scripts/project.sh -r
+    scripts/project.sh run
 
 The project documentation can be viewed on the [CaseTracker website](http://kritsit.ddns.net/casetracker).
 
