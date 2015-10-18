@@ -141,15 +141,15 @@ public class AdministratorController implements IController {
             alert.setContentText("Click OK to proceed");
             alert.showAndWait();
             resetPassword(txfAddUsername.getText());
+            resetAddUserTab();
+            initStaffTable();
         } else{
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error adding new user");
             alert.setContentText(result.getReason());
             alert.showAndWait();
-        }
-        resetAddUserTab();
-        initStaffTable();
+        }   
         
     }
     
