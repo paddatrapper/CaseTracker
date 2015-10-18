@@ -84,8 +84,8 @@ public class Administrator implements IAdministratorService {
         else return 500;
     }
 
-    public List<Staff> getInspectors() {
-        return connection.getInspectors();
+    public List<Staff> getStaff() {
+        return connection.getStaff();
     }
 
     public InputToModelParseResult editUser(Map<String, Object> inputMap) {

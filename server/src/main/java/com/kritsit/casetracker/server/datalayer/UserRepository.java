@@ -126,6 +126,28 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    public List<Staff> getStaff() throws RowToModelParseException {
+        try {
+            logger.info("Fetching staff");
+            String sql = "SELECT username FROM staff WHERE username!=?;";
+            List<Map<String, String>> rs = db.executeQuery(sql, "root");
+
+            if (rs == null || rs.isEmpty()) {
+                logger.debug("No staff found");
+                return null;
+            }
+
+            List<Staff> staff = new ArrayList<>();
+            for (Map<String, String> inspector : rs) {
+                staff.add(getUserDetails(inspector.get("username")));
+            }
+            return staff;
+        } catch (SQLException | AuthenticationException e) {
+            logger.error("Error retrieving staff");
+            throw new RowToModelParseException("Error retrieving staff", e);
+        }
+    }
+
     public void insertUser(Staff user) throws RowToModelParseException {
          try {
              logger.info("Adding user {}", user);

@@ -278,14 +278,14 @@ public class AdministratorTest extends TestCase {
         verify(connection).editUser(any());
     }
     
-    public void testGetInspectors() {
+    public void testGetStaff() {
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
         IAdministratorService administrator = new Administrator(user, connection);
         
-        administrator.getInspectors(); 
+        administrator.getStaff(); 
 
-        verify(connection).getInspectors();
+        verify(connection).getStaff();
     }
     
     public void testDeletUser(){

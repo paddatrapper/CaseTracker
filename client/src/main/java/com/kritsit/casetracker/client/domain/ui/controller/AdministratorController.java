@@ -205,7 +205,7 @@ public class AdministratorController implements IController {
         int result = administratorService.deleteUser(inputMap);
         switch(result){
         case 200 :
-          staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+          staffList = FXCollections.observableArrayList(administratorService.getStaff());
           alert = new Alert(AlertType.INFORMATION);
           alert.setTitle("Deleting user");
           alert.setHeaderText("User deleted succesfully");
@@ -232,7 +232,7 @@ public class AdministratorController implements IController {
     protected void initStaffTable(){
        
         logger.info("Initiating staff list table");
-        staffList = FXCollections.observableArrayList(administratorService.getInspectors());
+        staffList = FXCollections.observableArrayList(administratorService.getStaff());
     
         FilteredList<Staff> filteredStaff = new FilteredList<>(staffList, p -> true);
         txfFilterUsers.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -294,12 +294,6 @@ public class AdministratorController implements IController {
         cbxFilterPermissions.setItems(permissions);
         cbxFilterPermissions.setValue("All");
      }
-
-    public void updateTable(){
-        logger.info("Updating the table");
-        staffList.clear();
-        staffList = FXCollections.observableArrayList(administratorService.getInspectors());
-    }
     
     private void resetPassword(){
         SelectionModel<Staff> selection = tblStaff.getSelectionModel();

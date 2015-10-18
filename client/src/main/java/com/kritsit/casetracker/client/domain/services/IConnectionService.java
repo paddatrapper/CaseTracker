@@ -14,6 +14,7 @@ public interface IConnectionService {
     Staff getUser(String username, int hash);
     List<Case> getCases(Staff user);
     List<Staff> getInspectors();
+    List<Staff> getStaff();
     String getLastCaseNumber();
     boolean addCase(Case c);
     boolean editCase(Case c);

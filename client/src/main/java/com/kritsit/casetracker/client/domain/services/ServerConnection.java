@@ -156,6 +156,17 @@ public class ServerConnection implements IConnectionService {
         }
     }
 
+    public List<Staff> getStaff() {
+        try {
+            Request request = new Request("getStaff");
+            Response response = getResponse(request);
+            return (List<Staff>) response.getBody();
+        } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to get staff", ex);
+            return null;
+        }
+    }
+
     public String getLastCaseNumber() {
         try {
             Request request = new Request("getLastCaseNumber");

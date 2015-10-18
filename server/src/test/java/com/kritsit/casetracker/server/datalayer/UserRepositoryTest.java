@@ -235,6 +235,56 @@ public class UserRepositoryTest extends TestCase {
         verify(db).executeQuery(anotherInspectorDetailsSql, anotherUsername);
     }
 
+    public void testGetGetStaff() throws Exception {
+        String username = "inspector";
+        String anotherUsername = "AnotherInspector";
+        String usernameListSql = "SELECT username FROM staff WHERE username!=?;";
+        String inspectorDetailsSql = "SELECT firstName, lastName, department, " +
+            "position, permissions FROM staff WHERE username=?;";
+        String anotherInspectorDetailsSql = "SELECT firstName, lastName, " +
+            "department, position, permissions FROM staff WHERE username=?;";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+        List<Map<String, String>> inspector = new ArrayList<>();
+        Map<String, String> user1 = new HashMap<>();
+        user1.put("firstName", "Inspector");
+        user1.put("lastName", "Inspector");
+        user1.put("department", "Inspectorate");
+        user1.put("position", "inspector");
+        user1.put("permissions", "0");
+        inspector.add(user1);
+
+        List<Map<String, String>> anotherInspector = new ArrayList<>();
+        Map<String, String> user2 = new HashMap<>();
+        user2.put("firstName", "Another");
+        user2.put("lastName", "Inspector");
+        user2.put("department", "Inspectorate");
+        user2.put("position", "manager");
+        user2.put("permissions", "2");
+        anotherInspector.add(user2);
+
+        Map<String, String> usernameMap = new HashMap<>();
+        usernameMap.put("username", username);
+        List<Map<String, String>> usernameList = new ArrayList<>();
+        usernameList.add(usernameMap);
+
+        Map<String, String> anotherUsernameMap = new HashMap<>();
+        anotherUsernameMap.put("username", anotherUsername);
+        usernameList.add(anotherUsernameMap);
+        
+        when(db.executeQuery(usernameListSql, "root")).thenReturn(usernameList);
+        when(db.executeQuery(inspectorDetailsSql, username)).thenReturn(inspector);
+        when(db.executeQuery(anotherInspectorDetailsSql, anotherUsername)).thenReturn(anotherInspector);
+
+        List<Staff> response = repo.getStaff();
+
+        assertTrue(response != null);
+        verify(db).executeQuery(usernameListSql, "root");
+        verify(db).executeQuery(inspectorDetailsSql, username);
+        verify(db).executeQuery(anotherInspectorDetailsSql, anotherUsername);
+    }
+
     public void testInsertUser_Admin() throws Exception {
         String sql = "INSERT INTO staff VALUES(?, ?, ?, ?, ?, -1, 0, ?);";
         String username = "testUser";

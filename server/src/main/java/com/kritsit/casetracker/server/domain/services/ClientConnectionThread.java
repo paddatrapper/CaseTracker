@@ -85,6 +85,14 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         writeResponse(dto);
                         break;
                     }
+                    case "getStaff" : {
+                        logger.debug("Staff requested");
+                        IUserRepository userRepo = RepositoryFactory.getUserRepository();
+                        List<Staff> staff = userRepo.getStaff();
+                        Response dto = new Response(200, staff);
+                        writeResponse(dto);
+                        break;
+                    }
                     case "getLastCaseNumber" : {
                         logger.debug("Last case number requested");
                         ICaseRepository caseRepo = RepositoryFactory.getCaseRepository();
