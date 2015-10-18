@@ -35,14 +35,14 @@ public class DayTest extends TestCase {
     public void testAddAppointment() {
         Appointment appointment = new Appointment(LocalDate.now(), "Meet John");
         day.addAppointment(appointment);
-        assertTrue(appointment.equals(day.getAppointments().get(0)));
+        assertEquals(appointment, day.getAppointments().get(0));
     }
 
     public void testAccessors() {
-        assertTrue("1".equals(day.getNumber()));
-        assertTrue(day.getAppointments() != null);
-        assertTrue(day.dayNumberProperty() != null);
-        assertTrue(day.appointmentsProperty() != null);
+        assertEquals("1", day.getNumber());
+        assertNotNull(day.getAppointments());
+        assertNotNull(day.dayNumberProperty());
+        assertNotNull(day.appointmentsProperty());
     }
 
     public void testMutators() {
@@ -51,15 +51,15 @@ public class DayTest extends TestCase {
         day.setNumber("2");
         day.setAppointments(appointments);
 
-        assertTrue("2".equals(day.getNumber()));
-        assertTrue(appointments.equals(day.getAppointments()));
+        assertEquals("2", day.getNumber());
+        assertEquals(appointments, day.getAppointments());
     }
 
     public void testToString() {
         Appointment appointment = new Appointment(LocalDate.now(), "Meet John");
         day.addAppointment(appointment);
         String toString = "1\nMeet John\n";
-        assertTrue(toString.equals(day.toString()));
+        assertEquals(toString, day.toString());
     }
 
     public void testEquals_Null() {

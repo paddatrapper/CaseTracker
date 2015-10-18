@@ -23,12 +23,12 @@ public class ConfigurationTest extends TestCase {
 
     public void testHostSetting() throws IOException {
         Map<String, String> config = readConfiguration();
-        assertTrue(config.get("server").equals(Configuration.getServer()));
+        assertEquals(config.get("server"), Configuration.getServer());
     }
 
     public void testPortSetting() throws IOException {
         Map<String, String> config = readConfiguration();
-        assertTrue(config.get("port").equals("" + Configuration.getPort()));
+        assertEquals(config.get("port"), "" + Configuration.getPort());
     }
 
     private Map<String, String> readConfiguration() throws IOException {

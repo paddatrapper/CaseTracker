@@ -15,11 +15,16 @@ public class UserInterfaceFactoryTest extends TestCase {
 
     public void setUp(){}
 
+    public void testCreation() {
+        UserInterfaceFactory uiFactory = new UserInterfaceFactory();
+        assertNotNull(uiFactory);
+    }
+
     public void testGetEditorFrame() {
-        assertTrue(UserInterfaceFactory.getEditorFrame() != null);
+        assertNotNull(UserInterfaceFactory.getEditorFrame());
     }
 
     public void testGetAdministratorFrame() {
-        assertTrue(UserInterfaceFactory.getAdministratorFrame() != null);
+        assertNotNull(UserInterfaceFactory.getAdministratorFrame());
     }
 }

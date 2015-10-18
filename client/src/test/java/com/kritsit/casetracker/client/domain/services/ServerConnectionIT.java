@@ -43,16 +43,18 @@ public class ServerConnectionIT extends TestCase {
     public void testConnection_PortOutOfBounds() {
         try {
             connection.open(host, 65555);
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            assertTrue("Port must be in range".equals(ex.getMessage()));
+            assertEquals("Port must be in range", ex.getMessage());
         }
     }
 
     public void testConnection_UnknownHostException() {
         try {
             connection.open("ThisIsNotAValidHost", port);
+            fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
-            assertTrue("Host not found".equals(ex.getMessage()));
+            assertEquals("Host not found", ex.getMessage());
         }
     }
 
@@ -72,13 +74,13 @@ public class ServerConnectionIT extends TestCase {
     
     public void testGetUser() {
         connection.open(host, port);
-        assertTrue(connection.getUser("inspector", "inspector".hashCode()) != null);
+        assertNotNull(connection.getUser("inspector", "inspector".hashCode()));
     }
 
     public void testGetCases_NoUser() {
         connection.open(host, port);
         List<Case> caseList = connection.getCases(null);
-        assertTrue(caseList != null);
+        assertNotNull(caseList);
     }
 
     public void testGetCases_User() {
@@ -86,12 +88,12 @@ public class ServerConnectionIT extends TestCase {
         Staff user = new Staff("inspector", "test", "inspector", "department", 
                 "position", Permission.EDITOR);
         List<Case> caseList = connection.getCases(user);
-        assertTrue(caseList != null);
+        assertNotNull(caseList);
     }
 
     public void testGetInspectors() {
         connection.open(host, port);
-        assertTrue(connection.getInspectors() != null);
+        assertNotNull(connection.getInspectors());
     }
     
     public void testGetLastCaseNumber() {

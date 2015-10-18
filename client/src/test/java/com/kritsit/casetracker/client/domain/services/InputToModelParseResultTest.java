@@ -19,16 +19,17 @@ public class InputToModelParseResultTest extends TestCase {
         InputToModelParseResult message = new InputToModelParseResult(false, "Test message");
         InputToModelParseResult<Boolean> result = new InputToModelParseResult(false, false);
         InputToModelParseResult<Boolean> complete = new InputToModelParseResult(false, "Test message", true);
-        assertTrue("Input failed to parse into model".equals(blank.getReason()));
-        assertTrue("Test message".equals(message.getReason()));
+
+        assertEquals("Input failed to parse into model", blank.getReason());
+        assertEquals("Test message", message.getReason());
         assertFalse(result.getResult());
         assertTrue(complete.getResult());
-        assertTrue("Test message".equals(complete.getReason()));
+        assertEquals("Test message", complete.getReason());
     }
 
     public void testGetMessage_ConstructorParameter() {
         InputToModelParseResult result = new InputToModelParseResult(false, "This is a test");
-        assertTrue("This is a test".equals(result.getReason()));
+        assertEquals("This is a test", result.getReason());
     }
 
     public void testAddFailedInput() {
@@ -45,20 +46,20 @@ public class InputToModelParseResultTest extends TestCase {
 
     public void testGetMessage_Successful() {
         InputToModelParseResult result = new InputToModelParseResult(true, "Case created successfully");
-        assertTrue("Case created successfully".equals(result.getReason()));
+        assertEquals("Case created successfully", result.getReason());
     }
 
     public void testGetMessage_OneFailure() {
         InputToModelParseResult result = new InputToModelParseResult(false);
         result.addFailedInput("Case name");
-        assertTrue("Case name required".equals(result.getReason()));
+        assertEquals("Case name required", result.getReason());
     }
 
     public void testGetMessage_TwoFailures() {
         InputToModelParseResult result = new InputToModelParseResult(false);
         result.addFailedInput("Case name");
         result.addFailedInput("Case type");
-        assertTrue("Case name and Case type required".equals(result.getReason()));
+        assertEquals("Case name and Case type required", result.getReason());
     }
 
     public void testGetMessage_MultipleFailures() {
@@ -66,17 +67,17 @@ public class InputToModelParseResultTest extends TestCase {
         result.addFailedInput("Case name");
         result.addFailedInput("Case type");
         result.addFailedInput("Incident date");
-        assertTrue("Case name, Case type and Incident date required".equals(result.getReason()));
+        assertEquals("Case name, Case type and Incident date required", result.getReason());
     }
 
     public void testGetResult() {
         InputToModelParseResult<Integer> result = new InputToModelParseResult<>(true, 1);
-        assertTrue(1 == result.getResult());
+        assertEquals((Object) 1, result.getResult());
     }
 
     public void testSetResult() {
         InputToModelParseResult<String> result = new InputToModelParseResult<>(true);
         result.setResult("This String");
-        assertTrue("This String".equals(result.getResult()));
+        assertEquals("This String", result.getResult());
     }
 }

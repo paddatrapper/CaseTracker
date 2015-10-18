@@ -107,7 +107,7 @@ public class ServerLoginTest extends TestCase {
 
         Staff user = loginService.getUser(username, password);
 
-        assertTrue(user != null);
+        assertNotNull(user);
         verify(connection).isOpen();
         verify(connection).getUser(username, password.hashCode());
     }

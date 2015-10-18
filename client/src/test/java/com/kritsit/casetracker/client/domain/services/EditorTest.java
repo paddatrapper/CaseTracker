@@ -37,7 +37,7 @@ public class EditorTest extends TestCase {
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
         Editor editor = new Editor(user, connection);
-        assertTrue(editor.getUser() != null);
+        assertNotNull(editor.getUser());
     }
 
     public void testGetCases() {
@@ -50,8 +50,8 @@ public class EditorTest extends TestCase {
        
         when(connection.getCases(null)).thenReturn(caseList);
 
-        assertTrue(caseList.equals(editor.getCases()));
-        assertTrue(caseList.equals(editor.getCases()));
+        assertEquals(caseList, editor.getCases());
+
         verify(connection).getCases(null);
     }
 
@@ -67,7 +67,7 @@ public class EditorTest extends TestCase {
             }
             blankMonth.add(week);
         }
-        assertTrue(blankMonth.equals(editor.getBlankMonth()));
+        assertEquals(blankMonth, editor.getBlankMonth());
     }
 
     public void testGetMonthAppointments() {
@@ -107,7 +107,7 @@ public class EditorTest extends TestCase {
         
         when(connection.getCases(null)).thenReturn(caseList);
 
-        assertTrue(monthAppointments.equals(editor.getMonthAppointments(2, 2015)));
+        assertEquals(monthAppointments, editor.getMonthAppointments(2, 2015));
 
         verify(connection).getCases(null);
     } 
@@ -138,7 +138,7 @@ public class EditorTest extends TestCase {
 
         editor.getCases();
 
-        assertTrue(caseTypes.equals(editor.getCaseTypes()));
+        assertEquals(caseTypes, editor.getCaseTypes());
         verify(connection).getCases(null);
         verify(c, times(3)).getType();
     }
@@ -159,7 +159,7 @@ public class EditorTest extends TestCase {
 
         editor.getCases();
 
-        assertTrue(defendants.equals(editor.getDefendants()));
+        assertEquals(defendants, editor.getDefendants());
         verify(connection).getCases(null);
         verify(c, times(3)).getDefendant();
     }
@@ -180,7 +180,7 @@ public class EditorTest extends TestCase {
 
         editor.getCases();
 
-        assertTrue(complainants.equals(editor.getComplainants()));
+        assertEquals(complainants, editor.getComplainants());
         verify(connection).getCases(null);
         verify(c, times(3)).getComplainant();
     }
@@ -195,7 +195,7 @@ public class EditorTest extends TestCase {
         
         when(connection.getLastCaseNumber()).thenReturn(lastCaseNumber);
 
-        assertTrue(nextCaseNumber.equals(editor.getNextCaseNumber()));
+        assertEquals(nextCaseNumber, editor.getNextCaseNumber());
         verify(connection).getLastCaseNumber();
     }
 
@@ -209,7 +209,7 @@ public class EditorTest extends TestCase {
         
         when(connection.getLastCaseNumber()).thenReturn(lastCaseNumber);
 
-        assertTrue(nextCaseNumber.equals(editor.getNextCaseNumber()));
+        assertEquals(nextCaseNumber, editor.getNextCaseNumber());
         verify(connection).getLastCaseNumber();
     }
 
@@ -221,7 +221,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(null); 
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
 
     public void testAddCase_NoData() {
@@ -233,7 +233,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
 
     public void testAddCase_OneBlankData() {
@@ -247,7 +247,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Case name required".equals(result.getReason()));
+        assertEquals("Case name required", result.getReason());
     }
 
     public void testAddCase_TwoBlankData() {
@@ -262,7 +262,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Case name and Case type required".equals(result.getReason()));
+        assertEquals("Case name and Case type required", result.getReason());
     }
 
     public void testAddCase_DateValidator() {
@@ -275,7 +275,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Incident date required".equals(result.getReason()));
+        assertEquals("Incident date required", result.getReason());
     }
 
     public void testAddCase_OjectValidatorStaff() {
@@ -288,7 +288,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Investigating officer required".equals(result.getReason()));
+        assertEquals("Investigating officer required", result.getReason());
     }
 
     public void testAddCase_OjectValidatorPerson() {
@@ -301,7 +301,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Complainant required".equals(result.getReason()));
+        assertEquals("Complainant required", result.getReason());
     }
 
     public void testAddCase_OjectValidatorDefendant() {
@@ -314,7 +314,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Defendant required".equals(result.getReason()));
+        assertEquals("Defendant required", result.getReason());
     }
 
     public void testAddCase_BooleanValidator() {
@@ -327,7 +327,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Is return visit required".equals(result.getReason()));
+        assertEquals("Is return visit required", result.getReason());
     }
 
     public void testAddCase_ReturnDateValidator() {
@@ -341,7 +341,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Return date required".equals(result.getReason()));
+        assertEquals("Return date required", result.getReason());
     }
 
     public void testAddCase_AddressValidator() {
@@ -356,7 +356,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Address required".equals(result.getReason()));
+        assertEquals("Address required", result.getReason());
     }
 
     public void testAddCase_DoubleValidator() {
@@ -371,7 +371,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.addCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Latitude and Longitude required".equals(result.getReason()));
+        assertEquals("Latitude and Longitude required", result.getReason());
     }
 
     public void testAddCase_SuccessCoordinates() {
@@ -476,7 +476,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.editCase(null); 
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
 
     public void testEditCase_NoData() {
@@ -488,7 +488,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.editCase(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
 
     public void testEditCase_SuccessCoordinates() {
@@ -593,7 +593,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.createPerson(null); 
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
 
     public void testCreatePerson_NoData() {
@@ -605,7 +605,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.createPerson(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
 
     public void testCreatePerson_OneBlankData() {
@@ -619,7 +619,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.createPerson(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Last name required".equals(result.getReason()));
+        assertEquals("Last name required", result.getReason());
     }
 
     public void testCreatePerson_IdValidator() {
@@ -632,7 +632,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.createPerson(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Id required".equals(result.getReason()));
+        assertEquals("Id required", result.getReason());
     }
 
     public void testCreatePerson_TelephoneValidator() {
@@ -645,7 +645,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.createPerson(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Telephone number required".equals(result.getReason()));
+        assertEquals("Telephone number required", result.getReason());
     }
 
     public void testCreatePerson_EmailValidator() {
@@ -658,7 +658,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.createPerson(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Email address required".equals(result.getReason()));
+        assertEquals("Email address required", result.getReason());
     }
 
     public void testCreatePerson_LastName() {
@@ -671,7 +671,7 @@ public class EditorTest extends TestCase {
         InputToModelParseResult result = editor.createPerson(inputMap);            
 
         assertFalse(result.isSuccessful());
-        assertTrue("Last name required".equals(result.getReason()));
+        assertEquals("Last name required", result.getReason());
     }
 
     public void testCreatePerson_Success() {
@@ -700,6 +700,6 @@ public class EditorTest extends TestCase {
         InputToModelParseResult<Person> result = editor.createPerson(inputMap);
         
         assertTrue(result.isSuccessful());
-        assertTrue(person.equals(result.getResult()));
+        assertEquals(person, result.getResult());
     }
 }

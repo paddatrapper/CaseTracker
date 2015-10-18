@@ -43,10 +43,10 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <configuration>
           <excludes>
+            <exclude>**/domain/services/Menu.*</exclude>
             <exclude>**/domain/ui/*</exclude>
             <exclude>**/domain/ui/controller/*</exclude>
             <exclude>**/client/CaseTrackerClient.*</exclude>
-            <exclude>**/client/services/Menu.*</exclude>
           </excludes>
         </configuration>
       </plugin>

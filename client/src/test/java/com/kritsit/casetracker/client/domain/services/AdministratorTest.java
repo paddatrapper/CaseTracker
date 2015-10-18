@@ -29,7 +29,7 @@ public class AdministratorTest extends TestCase {
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
         Administrator administrator = new Administrator(user, connection);
-        assertTrue(administrator.getUser() != null);
+        assertNotNull(administrator.getUser());
     }
     
     public void testAddUser_Null() {
@@ -40,7 +40,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.addUser(null); 
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
     
     public void testEditUser_Null() {
@@ -51,7 +51,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.editUser(null); 
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
     
     public void testAddUser_NoData() {
@@ -63,7 +63,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.addUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
     
     public void testEditUser_NoData() {
@@ -75,7 +75,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.editUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("Required information missing".equals(result.getReason()));
+        assertEquals("Required information missing", result.getReason());
     }
     
     public void testAddUser_usernameMissing() {
@@ -93,7 +93,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.addUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("username required".equals(result.getReason()));
+        assertEquals("username required", result.getReason());
     }
     
     public void testEditUser_usernameMissing() {
@@ -111,7 +111,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.editUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("username required".equals(result.getReason()));
+        assertEquals("username required", result.getReason());
     }
     
     public void testAddUser_lastnameMissing() {
@@ -129,7 +129,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.addUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("lastname required".equals(result.getReason()));
+        assertEquals("lastname required", result.getReason());
     }
     
     public void testEditUser_lastnameMissing() {
@@ -147,7 +147,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.editUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("lastname required".equals(result.getReason()));
+        assertEquals("lastname required", result.getReason());
     }
     
     public void testAddUser_permissionMissing() {
@@ -165,7 +165,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.addUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("permission required".equals(result.getReason()));
+        assertEquals("permission required", result.getReason());
     }
     
     public void testEituser_permissionMissing() {
@@ -183,7 +183,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.editUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("permission required".equals(result.getReason()));
+        assertEquals("permission required", result.getReason());
     }
     
     public void testAddUser_permissionAndLastnameMissing() {
@@ -201,7 +201,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.addUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("permission and lastname required".equals(result.getReason()));
+        assertEquals("permission and lastname required", result.getReason());
     }
     
     public void testEditUser_permissionAndLastnameMissing() {
@@ -219,7 +219,7 @@ public class AdministratorTest extends TestCase {
         InputToModelParseResult result = administrator.editUser(inputMap);          
 
         assertFalse(result.isSuccessful());
-        assertTrue("permission and lastname required".equals(result.getReason()));
+        assertEquals("permission and lastname required", result.getReason());
     }
     
     public void testAddUser_allFieldsFilled() {
@@ -288,26 +288,44 @@ public class AdministratorTest extends TestCase {
         verify(connection).getStaff();
     }
     
+    public void testDeletUser_Null(){
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IAdministratorService administrator = new Administrator(user, connection);
+
+        assertTrue(administrator.deleteUser(null) == 400);
+    }
+    
+    public void testDeletUser_NotFound(){
+        IConnectionService connection = mock(IConnectionService.class);
+        Staff user = mock(Staff.class);
+        IAdministratorService administrator = new Administrator(user, connection);
+        Map<String, Object> inputMap2 = new HashMap<>();
+        inputMap2.put("username", "other");
+
+        assertTrue(administrator.deleteUser(inputMap2) == 500);
+    }
+    
     public void testDeletUser(){
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
         IAdministratorService administrator = new Administrator(user, connection);
-        assertTrue(administrator.deleteUser(null)==400);
-        when(connection.deleteUser("johndoe")).thenReturn(true);
         Map<String, Object> inputMap = new HashMap<>();
         inputMap.put("username", "johndoe");
-        assertTrue(administrator.deleteUser(inputMap)==200);
-        Map<String, Object> inputMap2 = new HashMap<>();
-        inputMap.put("username", "other");
-        assertTrue(administrator.deleteUser(inputMap)==500);
+
+        when(connection.deleteUser("johndoe")).thenReturn(true);
+
+        assertTrue(administrator.deleteUser(inputMap) == 200);
     }
     
     public void testResetPassword(){
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
         IAdministratorService administrator = new Administrator(user, connection);
+
         when(connection.resetPassword("johndoe", 1234)).thenReturn(true);
-        assertTrue(administrator.resetPassword("johndoe", 1234)==200);
-        assertTrue(administrator.resetPassword("johndoe", 4321)==500);
+
+        assertTrue(administrator.resetPassword("johndoe", 1234) == 200);
+        assertTrue(administrator.resetPassword("johndoe", 4321) == 500);
     }
 }

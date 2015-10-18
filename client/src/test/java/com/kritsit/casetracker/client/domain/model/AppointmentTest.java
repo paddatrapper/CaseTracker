@@ -26,8 +26,8 @@ public class AppointmentTest extends TestCase {
     }
 
     public void testAccessors() {
-        assertTrue(appointment.getDate() != null);
-        assertTrue("Meet John".equals(appointment.getDetails()));
+        assertNotNull(appointment.getDate());
+        assertEquals("Meet John", appointment.getDetails());
     }
 
     public void testMutators() {
@@ -37,14 +37,14 @@ public class AppointmentTest extends TestCase {
         appointment.setDate(date);
         appointment.setDetails(details);
 
-        assertTrue(date.equals(appointment.getDate()));
-        assertTrue(details.equals(appointment.getDetails()));
+        assertEquals(date, appointment.getDate());
+        assertEquals(details, appointment.getDetails());
     }
 
     public void testToString() {
         LocalDate date = LocalDate.now();
         String toString = date.toString() + " - Meet John";
-        assertTrue(toString.equals(appointment.toString()));
+        assertEquals(toString, appointment.toString());
     }
 
     public void testEquals_Null() {

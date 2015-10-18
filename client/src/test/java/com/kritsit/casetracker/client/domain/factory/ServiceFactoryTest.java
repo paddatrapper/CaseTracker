@@ -22,27 +22,27 @@ public class ServiceFactoryTest extends TestCase {
 
     public void testGetServerConnection() {
         IConnectionService connection = ServiceFactory.getServerConnection();
-        assertTrue(connection != null);
-        assertTrue(connection.equals(ServiceFactory.getServerConnection()));
+        assertNotNull(connection);
+        assertEquals(connection, ServiceFactory.getServerConnection());
     }
 
     public void testGetLoginService() {
-        assertTrue(ServiceFactory.getLoginService() != null);
+        assertNotNull(ServiceFactory.getLoginService());
     }
 
     public void testGetEditorService() {
         Staff user = mock(Staff.class);
-        assertTrue(ServiceFactory.getEditorService(user) != null);
+        assertNotNull(ServiceFactory.getEditorService(user));
     }
     
     public void testGetAdministratorService() {
         Staff user = mock(Staff.class);
-        assertTrue(ServiceFactory.getAdministratorService(user) != null);
+        assertNotNull(ServiceFactory.getAdministratorService(user));
     }
     
     public void testGetMenuService() {
         Staff user = mock(Staff.class);
-        assertTrue(ServiceFactory.getMenuService(user) != null);
+        assertNotNull(ServiceFactory.getMenuService(user));
     }
 
     public void tearDown() {

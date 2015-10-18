@@ -24,9 +24,11 @@ public class MenuTest extends TestCase {
         IConnectionService connection = mock(IConnectionService.class);
         Staff user = mock(Staff.class);
         IMenuService menuService = new Menu(user, connection);
+
         when(connection.changePassword("johndoe", 1234, 4321)).thenReturn(true);
-        assertTrue(menuService.changePassword("johndoe", 1234, 4321)==200);
-        assertTrue(menuService.changePassword("johndoe", 1234, 1234)==500);
+
+        assertEquals(200, menuService.changePassword("johndoe", 1234, 4321));
+        assertEquals(500, menuService.changePassword("johndoe", 1234, 1234));
     }
 
     public void testCloseConnection() throws IOException {
