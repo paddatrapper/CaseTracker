@@ -1,6 +1,7 @@
 CaseTracker
 ===========
 [![Build Status](https://travis-ci.org/paddatrapper/CaseTracker.svg?branch=master)](https://travis-ci.org/paddatrapper/CaseTracker)
+[![Coverage Status](https://coveralls.io/repos/paddatrapper/CaseTracker/badge.svg?branch=master&service=github)](https://coveralls.io/github/paddatrapper/CaseTracker?branch=master)
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](LICENSE.md)
 
 CaseTracker is a software system designed to help manage cases opened by the
