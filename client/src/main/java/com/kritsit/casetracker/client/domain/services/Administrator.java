@@ -61,12 +61,12 @@ public class Administrator implements IAdministratorService {
         String department = (String) inputMap.get("department");
         String position = (String) inputMap.get("position");
         Permission permission;
-            try{
+        try{
             permission = Permission.valueOf((String) inputMap.get("permission"));
-            }
-            catch(IllegalArgumentException e){
+        }
+        catch(IllegalArgumentException e){
             permission = null;
-            }
+        }
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         return staff;
     }
