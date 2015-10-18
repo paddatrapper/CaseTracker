@@ -148,6 +148,7 @@ public class AdministratorController implements IController {
             alert.showAndWait();
         }
         resetAddUserTab();
+        initStaffTable();
     }
     
     private void editUser(){
@@ -218,6 +219,7 @@ public class AdministratorController implements IController {
           alert.showAndWait();
           break;
         }
+        initStaffTable();
     }
 
     public void setStage(Stage stage) {
@@ -225,7 +227,7 @@ public class AdministratorController implements IController {
     }
 
     @SuppressWarnings("unchecked")
-    private void initStaffTable(){
+    protected void initStaffTable(){
        
         logger.info("Initiating staff list table");
         staffList = FXCollections.observableArrayList(administratorService.getInspectors());
