@@ -233,9 +233,9 @@ public class AdministratorTest extends TestCase {
         String lastname = "Doe";
         String department = "IT";
         String position = "admin";
-        Permission permission = Permission.ADMIN;
+        String permission = "ADMIN";
         
-        Staff staff = new Staff(username, firstname, lastname, department, position, permission);
+        Staff staff = new Staff(username, firstname, lastname, department, position, Permission.valueOf(permission));
         
         inputMap.put("username", username);
         inputMap.put("firstname", firstname);
@@ -261,9 +261,9 @@ public class AdministratorTest extends TestCase {
         String lastname = "Doe";
         String department = "IT";
         String position = "admin";
-        Permission permission = Permission.ADMIN;
+        String permission = "ADMIN";
         
-        Staff staff = new Staff(username, firstname, lastname, department, position, permission);
+        Staff staff = new Staff(username, firstname, lastname, department, position, Permission.valueOf(permission));
         
         inputMap.put("username", username);
         inputMap.put("firstname", firstname);

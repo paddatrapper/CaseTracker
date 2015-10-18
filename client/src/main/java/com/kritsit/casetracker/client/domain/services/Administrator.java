@@ -60,7 +60,13 @@ public class Administrator implements IAdministratorService {
         String lastname = (String) inputMap.get("lastname");
         String department = (String) inputMap.get("department");
         String position = (String) inputMap.get("position");
-        Permission permission = (Permission) inputMap.get("permission");
+        Permission permission;
+        try{
+        permission = Permission.valueOf((String) inputMap.get("permission"));
+        }
+        catch(IllegalArgumentException e){
+        permission = null;
+        }
         Staff staff = new Staff(username, firstname, lastname, department, position, permission);
         return staff;
     }
@@ -111,8 +117,13 @@ public class Administrator implements IAdministratorService {
         for(Map.Entry<String, Object> entry : inputMap.entrySet()){
             if(entry.getKey().equals("firstname")) continue;
             if(entry.getKey().equals("position")) continue;
-            if(entry.getKey().equals("permission")&& entry.getValue() instanceof Permission) continue;
+            /*if(entry.getKey().equals("permission")&&entry.getValue()==null)
+            {
+                result.addFailedInput(entry.getKey());
+                continue;
+            }*/
             IValidator validator = new StringValidator();
+            
             if(validator.validate(entry.getValue())){
                 continue;
             } else{
