@@ -140,6 +140,7 @@ public class AdministratorController implements IController {
             alert.setHeaderText("New user added succesfully");
             alert.setContentText("Click OK to proceed");
             alert.showAndWait();
+            resetPassword(txfAddUsername.getText());
         } else{
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
@@ -149,6 +150,7 @@ public class AdministratorController implements IController {
         }
         resetAddUserTab();
         initStaffTable();
+        
     }
     
     private void editUser(){
@@ -280,7 +282,7 @@ public class AdministratorController implements IController {
     
     private void initPermissionCombobox(){
        ObservableList<String> permissions = 
-               FXCollections.observableArrayList("All", Permission.ADMIN.toString(),
+               FXCollections.observableArrayList(Permission.ADMIN.toString(),
                Permission.EDITOR.toString(), Permission.VIEWER.toString());
        cbxAddPermission.setItems(permissions);
     }
@@ -320,6 +322,31 @@ public class AdministratorController implements IController {
             alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Password reset");
             alert.setHeaderText("Password reset succesfully");
+            alert.setContentText("new password: "+randomPass);
+            alert.showAndWait();
+            break;
+        
+        case 500 :
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Password reset");
+            alert.setHeaderText("Error during password reset");
+            alert.setContentText("Error occured on the server side");
+            alert.showAndWait();
+            break;
+          }      
+    }
+    
+    private void resetPassword(String username){
+        Alert alert;
+        String randomPass = administratorService.randomPassword();
+        int hashedRandomPass = randomPass.hashCode();
+        int result = administratorService.resetPassword(
+                username, hashedRandomPass);
+        switch(result){
+        case 200 :
+            alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Password");
+            alert.setHeaderText("Password for user "+username+" set succesfully");
             alert.setContentText("new password: "+randomPass);
             alert.showAndWait();
             break;

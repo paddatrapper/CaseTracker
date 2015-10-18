@@ -59,7 +59,7 @@ public class EditUserController {
         inputMap.put("lastname", lastNameField.getText());
         inputMap.put("department", departmentCombobox.getValue());
         inputMap.put("position", positionField.getText());
-        inputMap.put("permission", permissionCombobox.getValue());
+        inputMap.put("permission", permissionCombobox.getValue().toString());
         
         InputToModelParseResult result = administratorService.editUser(inputMap);
         if(result.isSuccessful()){
