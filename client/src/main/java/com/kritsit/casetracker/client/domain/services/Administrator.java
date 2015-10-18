@@ -117,11 +117,7 @@ public class Administrator implements IAdministratorService {
         for(Map.Entry<String, Object> entry : inputMap.entrySet()){
             if(entry.getKey().equals("firstname")) continue;
             if(entry.getKey().equals("position")) continue;
-            /*if(entry.getKey().equals("permission")&&entry.getValue()==null)
-            {
-                result.addFailedInput(entry.getKey());
-                continue;
-            }*/
+            
             IValidator validator = new StringValidator();
             
             if(validator.validate(entry.getValue())){
