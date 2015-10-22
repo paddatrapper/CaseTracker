@@ -13,6 +13,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem fx:id="changePasswordItem" mnemonicParsing="false" text="Change password" />
+                  <MenuItem fx:id="exportItem" mnemonicParsing="false" text="Export to PDF" />
               <MenuItem fx:id="logoutItem" mnemonicParsing="false" text="Logout" />
               <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" />
             </items>

@@ -48,6 +48,7 @@ import java.util.Map;
 public class AdministratorController implements IController {
     
     private ObservableList<Staff> staffList;
+    private FilteredList<Staff> filteredStaff;
     private IAdministratorService administratorService;
     private IMenuService menuService;
     private Stage stage;
@@ -121,6 +122,10 @@ public class AdministratorController implements IController {
         
         btnEdit.setOnAction(event->{
            editUser();
+        });
+        
+        exportItem.setOnAction(event->{
+            exportToPDF();
         });
     }
 
@@ -234,7 +239,7 @@ public class AdministratorController implements IController {
         logger.info("Initiating staff list table");
         staffList = FXCollections.observableArrayList(administratorService.getStaff());
     
-        FilteredList<Staff> filteredStaff = new FilteredList<>(staffList, p -> true);
+        filteredStaff = new FilteredList<>(staffList, p -> true);
         txfFilterUsers.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredStaff.setPredicate(s -> {
                 if (newValue == null || newValue.isEmpty() || newValue.equals("All")) {
@@ -355,6 +360,12 @@ public class AdministratorController implements IController {
           }  
     }
     
+    private void exportToPDF(){
+        for(int i=0; i<filteredStaff.size(); i++){
+            System.out.println(filteredStaff.get(i).toString());
+        }        
+    }
+    
     @FXML private TextField txfFilterUsers;
     @FXML private ComboBox<String> cbxFilterPermissions;
     @FXML private Button btnResetPassword;
@@ -374,6 +385,7 @@ public class AdministratorController implements IController {
     @FXML private TableColumn<Staff, String> colDepartment;
     @FXML private TableColumn<Staff, String> colPermission;
     @FXML private MenuItem changePasswordItem;
+    @FXML private MenuItem exportItem;
     @FXML private MenuItem logoutItem;
     @FXML private MenuItem exitItem;
     @FXML private MenuItem newUserItem;
