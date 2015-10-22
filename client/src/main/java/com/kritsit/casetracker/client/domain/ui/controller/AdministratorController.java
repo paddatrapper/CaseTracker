@@ -1,5 +1,15 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +47,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -361,9 +374,56 @@ public class AdministratorController implements IController {
     }
     
     private void exportToPDF(){
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document,
+                new FileOutputStream("Users Report.pdf"));
+            document.open();
+            document.add(new Paragraph("Case Tracker users:"));
+            document.add(Chunk.NEWLINE);
+            document.add(createTable());
+            document.close();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+                
+    }
+    
+    private PdfPTable createTable(){
+        
+        PdfPTable table = new PdfPTable(5);
+        
+        Font boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+        PdfPCell cellFirstName = new PdfPCell(new Phrase("First name", boldFont));
+        PdfPCell cellLastName = new PdfPCell(new Phrase("Last name", boldFont));
+        PdfPCell cellUsername = new PdfPCell(new Phrase("Username", boldFont));
+        PdfPCell cellDepartment = new PdfPCell(new Phrase("Department", boldFont));
+        PdfPCell cellPermission = new PdfPCell(new Phrase("Permission", boldFont));
+        table.addCell(cellFirstName);
+        table.addCell(cellLastName);
+        table.addCell(cellUsername);
+        table.addCell(cellDepartment);
+        table.addCell(cellPermission);
+        
         for(int i=0; i<filteredStaff.size(); i++){
-            System.out.println(filteredStaff.get(i).toString());
-        }        
+            PdfPCell cell1 = new PdfPCell(new Phrase(filteredStaff.get(i).getFirstName()));
+            PdfPCell cell2 = new PdfPCell(new Phrase(filteredStaff.get(i).getLastName()));
+            PdfPCell cell3 = new PdfPCell(new Phrase(filteredStaff.get(i).getUsername()));
+            PdfPCell cell4 = new PdfPCell(new Phrase(filteredStaff.get(i).getDepartment()));
+            PdfPCell cell5 = new PdfPCell(new Phrase(filteredStaff.get(i).getPermission().toString()));
+            table.addCell(cell1);
+            table.addCell(cell2);
+            table.addCell(cell3);
+            table.addCell(cell4);
+            table.addCell(cell5);
+            
+ 
+        }
+             
+        return table;    
+        
     }
     
     @FXML private TextField txfFilterUsers;
