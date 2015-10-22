@@ -25,6 +25,24 @@ public class UserRepositoryTest extends TestCase {
         return new TestSuite(UserRepositoryTest.class);
     }
 
+    public void testGetUserDetails_Null() throws Exception {
+        String username = "inspector";
+        String sql = "SELECT firstName, lastName, department, position, " +
+            "permissions FROM staff WHERE username=?;";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+
+        when(db.executeQuery(sql, username)).thenReturn(null);    
+
+        try {
+            Staff response = repo.getUserDetails(username);
+            fail("AuthenticationException expected");
+        } catch(AuthenticationException ex) {
+            verify(db).executeQuery(sql, username);
+        }
+    }
+
     public void testGetUserDetails() throws Exception {
         String username = "inspector";
         String sql = "SELECT firstName, lastName, department, position, " +
@@ -235,7 +253,21 @@ public class UserRepositoryTest extends TestCase {
         verify(db).executeQuery(anotherInspectorDetailsSql, anotherUsername);
     }
 
-    public void testGetGetStaff() throws Exception {
+    public void testGetStaff_Null() throws Exception {
+        String usernameListSql = "SELECT username FROM staff WHERE username!=?;";
+
+        IPersistenceService db = mock(IPersistenceService.class);
+        IUserRepository repo = new UserRepository(db);
+        
+        when(db.executeQuery(usernameListSql, "root")).thenReturn(null);
+
+        List<Staff> response = repo.getStaff();
+
+        assertNull(response);
+        verify(db).executeQuery(usernameListSql, "root");
+    }
+
+    public void testGetStaff() throws Exception {
         String username = "inspector";
         String anotherUsername = "AnotherInspector";
         String usernameListSql = "SELECT username FROM staff WHERE username!=?;";
