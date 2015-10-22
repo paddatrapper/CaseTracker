@@ -23,7 +23,6 @@ public class CaseTrackerClient extends Application {
         }
         if (args[0].equals("-v") || args[0].equals("--version")) {
             logger.debug("Printing version information");
-            logger.info("CaseTracker Client (GPLv3)\nVersion: " + getVersion());
             System.out.println("CaseTracker Client (GPLv3)\nVersion: " + getVersion());
             System.exit(0);
         } else {
