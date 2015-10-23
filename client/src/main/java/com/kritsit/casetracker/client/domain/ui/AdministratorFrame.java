@@ -45,6 +45,7 @@ public final class AdministratorFrame implements IUserInterface {
         logger.debug("Setting up controller");
         IAdministratorService administratorService = ServiceFactory.getAdministratorService(user);
         IMenuService menuService = ServiceFactory.getMenuService(user);
+	IExportService exportService = ServiceFactory.getExportService(user);
         controller.setAdministratorService(administratorService);
         controller.setMenuService(menuService);
         controller.setStage(stage);

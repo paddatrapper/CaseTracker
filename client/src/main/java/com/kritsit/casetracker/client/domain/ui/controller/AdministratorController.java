@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
 import com.kritsit.casetracker.client.domain.services.IMenuService;
+import com.kritsit.casetracker.client.domain.services.IExportService;
 import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
@@ -64,6 +65,7 @@ public class AdministratorController implements IController {
     private FilteredList<Staff> filteredStaff;
     private IAdministratorService administratorService;
     private IMenuService menuService;
+    private IExportService exportService;
     private Stage stage;
     private final Logger logger = LoggerFactory.getLogger(AdministratorController.class);
     
@@ -73,6 +75,10 @@ public class AdministratorController implements IController {
     
     public void setMenuService(IMenuService menuService){
         this.menuService = menuService;
+    }
+
+    public void setExportService(IExportService exportService){
+	this.exportService = exportService;
     }
     
     public void initFrame(){
@@ -138,7 +144,7 @@ public class AdministratorController implements IController {
         });
         
         exportItem.setOnAction(event->{
-            exportToPDF();
+            //to be done
         });
     }
 
@@ -371,59 +377,6 @@ public class AdministratorController implements IController {
             alert.showAndWait();
             break;
           }  
-    }
-    
-    private void exportToPDF(){
-        Document document = new Document();
-        try {
-            PdfWriter.getInstance(document,
-                new FileOutputStream("Users Report.pdf"));
-            document.open();
-            document.add(new Paragraph("Case Tracker users:"));
-            document.add(Chunk.NEWLINE);
-            document.add(createTable());
-            document.close();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-                
-    }
-    
-    private PdfPTable createTable(){
-        
-        PdfPTable table = new PdfPTable(5);
-        
-        Font boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-        PdfPCell cellFirstName = new PdfPCell(new Phrase("First name", boldFont));
-        PdfPCell cellLastName = new PdfPCell(new Phrase("Last name", boldFont));
-        PdfPCell cellUsername = new PdfPCell(new Phrase("Username", boldFont));
-        PdfPCell cellDepartment = new PdfPCell(new Phrase("Department", boldFont));
-        PdfPCell cellPermission = new PdfPCell(new Phrase("Permission", boldFont));
-        table.addCell(cellFirstName);
-        table.addCell(cellLastName);
-        table.addCell(cellUsername);
-        table.addCell(cellDepartment);
-        table.addCell(cellPermission);
-        
-        for(int i=0; i<filteredStaff.size(); i++){
-            PdfPCell cell1 = new PdfPCell(new Phrase(filteredStaff.get(i).getFirstName()));
-            PdfPCell cell2 = new PdfPCell(new Phrase(filteredStaff.get(i).getLastName()));
-            PdfPCell cell3 = new PdfPCell(new Phrase(filteredStaff.get(i).getUsername()));
-            PdfPCell cell4 = new PdfPCell(new Phrase(filteredStaff.get(i).getDepartment()));
-            PdfPCell cell5 = new PdfPCell(new Phrase(filteredStaff.get(i).getPermission().toString()));
-            table.addCell(cell1);
-            table.addCell(cell2);
-            table.addCell(cell3);
-            table.addCell(cell4);
-            table.addCell(cell5);
-            
- 
-        }
-             
-        return table;    
-        
     }
     
     @FXML private TextField txfFilterUsers;
