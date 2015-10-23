@@ -147,34 +147,38 @@ public class AdministratorController implements IController {
         });
         
         exportItem.setOnAction(event->{
-            exportService = new Export();
-            
-            List<String> headers = new ArrayList<String>();
-            headers.add("First name");
-            headers.add("Last name");
-            headers.add("Username");
-            headers.add("Department");
-            headers.add("Position");
-            headers.add("Permissions");
-            
-            List<String[]> cells = new ArrayList<String[]>();
-            for(Staff s : filteredStaff){
-                String[] row = new String[6];
-                row[0] = s.getFirstName();
-                row[1] = s.getLastName();
-                row[2] = s.getUsername();
-                row[3] = s.getDepartment();
-                row[4] = s.getPosition();
-                row[5] = s.getPermission().toString();
-                cells.add(row);
-            }
-                       
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save report");
-            File file = fileChooser.showSaveDialog(stage);
-             
-            exportService.exportToPDF(headers, cells, file);
+            export();
         });
+    }
+
+    private void export() {
+        exportService = new Export();
+        
+        List<String> headers = new ArrayList<String>();
+        headers.add("First name");
+        headers.add("Last name");
+        headers.add("Username");
+        headers.add("Department");
+        headers.add("Position");
+        headers.add("Permissions");
+        
+        List<String[]> cells = new ArrayList<String[]>();
+        for(Staff s : filteredStaff){
+            String[] row = new String[6];
+            row[0] = s.getFirstName();
+            row[1] = s.getLastName();
+            row[2] = s.getUsername();
+            row[3] = s.getDepartment();
+            row[4] = s.getPosition();
+            row[5] = s.getPermission().toString();
+            cells.add(row);
+        }
+                   
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save report");
+        File file = fileChooser.showSaveDialog(stage);
+         
+        exportService.exportToPDF(headers, cells, file);
     }
 
     private void addUser() {

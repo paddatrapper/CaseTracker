@@ -30,8 +30,7 @@ public class Export implements IExportService{
 
         try {
 	    logger.info("Creating file output");
-            PdfWriter.getInstance(document,
-                new FileOutputStream(file));
+            PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             document.add(createTable(headers, cells));
             document.close();
