@@ -61,6 +61,7 @@
           <excludes>
             <exclude>**/domain/services/ClientConnectionThread.*</exclude>
             <exclude>**/domain/services/SocketListener.*</exclude>
+            <exclude>**/domain/services/Updater.*</exclude>
             <exclude>**/server/CaseTrackerServer.*</exclude>
           </excludes>
         </configuration>

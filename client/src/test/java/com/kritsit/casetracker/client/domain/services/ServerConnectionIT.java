@@ -212,6 +212,12 @@ public class ServerConnectionIT extends TestCase {
         assertTrue(connection.changePassword(username, currentHashedPass, newHashedPass));
     }
 
+    public void testCheckForUpdate() {
+        connection.open(host, port);
+        boolean updateRequired = connection.checkForUpdate("0.0.0-ALPHA");
+        assertTrue(updateRequired);
+    }
+
     private void setUpUser(String username, int passwordHash) {
         String firstname = "John";
         String lastname = "Doe";
