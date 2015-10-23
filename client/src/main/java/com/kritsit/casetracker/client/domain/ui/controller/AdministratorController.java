@@ -13,6 +13,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kritsit.casetracker.client.domain.services.Export;
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
 import com.kritsit.casetracker.client.domain.services.IMenuService;
 import com.kritsit.casetracker.client.domain.services.IExportService;
@@ -49,6 +50,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -144,7 +146,31 @@ public class AdministratorController implements IController {
         });
         
         exportItem.setOnAction(event->{
-            //to be done
+            exportService = new Export();
+            
+            List<String> headers = new ArrayList<String>();
+            headers.add("First name");
+            headers.add("Last name");
+            headers.add("Username");
+            headers.add("Department");
+            headers.add("Position");
+            headers.add("Permissions");
+            
+            List<String[]> cells = new ArrayList<String[]>();
+            for(Staff s : filteredStaff){
+                String[] row = new String[6];
+                row[0] = s.getFirstName();
+                row[1] = s.getLastName();
+                row[2] = s.getUsername();
+                row[3] = s.getDepartment();
+                row[4] = s.getPosition();
+                row[5] = s.getPermission().toString();
+                cells.add(row);
+            }
+            
+            File file = new File("Report"); 
+            
+            exportService.exportToPDF(headers, cells, file);
         });
     }
 

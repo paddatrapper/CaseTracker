@@ -1,6 +1,8 @@
 package com.kritsit.casetracker.client.domain.services;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class Export implements IExportService{
 
     private final Logger logger = LoggerFactory.getLogger(Export.class);
 
-    private void exportToPDF(List<String> headers, List<String[]> cells, File file){
+    public void exportToPDF(List<String> headers, List<String[]> cells, File file){
 
         Document document = new Document();
 
@@ -52,7 +54,7 @@ public class Export implements IExportService{
 	    table.addCell(cell);
 	}
        
-        for(int j=0; i<cells.size(); j++){
+        for(int j=0; j<cells.size(); j++){
 		for(int k=0; k < cells.get(j).length; k++){
 		    PdfPCell cell = new PdfPCell(new Phrase(cells.get(j)[k]));
 		    table.addCell(cell);
