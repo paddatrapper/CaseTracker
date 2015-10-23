@@ -44,6 +44,7 @@
         <configuration>
           <excludes>
             <exclude>**/domain/services/Menu.*</exclude>
+            <exclude>**/domain/services/Updater.*</exclude>
             <exclude>**/domain/ui/*</exclude>
             <exclude>**/domain/ui/controller/*</exclude>
             <exclude>**/client/CaseTrackerClient.*</exclude>

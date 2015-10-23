@@ -124,6 +124,10 @@ public class EditorController implements IController {
             menuService.closeConnection();
             stage.close();
         });
+
+        updateItem.setOnAction(event->{
+            menuService.updateFrame();
+        });
         //TODO
         reportItem.setDisable(true);
         helpItem.setDisable(true);
@@ -696,5 +700,6 @@ public class EditorController implements IController {
     @FXML private MenuItem addCaseItem;
     @FXML private MenuItem editCaseItem;
     @FXML private MenuItem aboutItem;
+    @FXML private MenuItem updateItem;
     @FXML private MenuItem helpItem;
 }

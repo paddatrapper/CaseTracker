@@ -156,6 +156,35 @@ public class ClientConnectionThread implements Runnable, IClientConnectionServic
                         writeResponse(dto);
                         break;
                     }
+                    case "checkForUpdate" : {
+                        try {
+                            String currentVersion = (String) request.getArguments().get(0);
+                            logger.debug("Checking for update to client version {}", currentVersion);
+                            IUpdateService updater = new Updater();
+                            boolean updateRequired = updater.isUpdateRequired(currentVersion);
+                            Response dto = new Response(200, updateRequired);
+                            writeResponse(dto);
+                        } catch (IOException ex) {
+                            logger.error("Error occurred checking for update to client", ex);
+                            Response dto = new Response(404, "Client archive not found");
+                            writeResponse(dto);
+                        }
+                        break;
+                    }
+                    case "getUpdate" : {
+                        try {
+                            IUpdateService updater = new Updater();
+                            byte[] update = updater.getUpdate();
+                            Response dto = new Response(200, update);
+                            writeResponse(dto);
+                        } catch (IOException ex) {
+                            logger.error("Error occurred getting update to client", ex);
+                            Response dto = new Response(500, 
+                                    "Client archive cannot be serialized");
+                            writeResponse(dto);
+                        }
+                        break;
+                    }
                     case "close" : {
                         close();
                         logger.info("{} has disconnected", connectedClient);

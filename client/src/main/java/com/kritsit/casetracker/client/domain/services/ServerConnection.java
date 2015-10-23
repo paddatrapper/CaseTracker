@@ -134,7 +134,8 @@ public class ServerConnection implements IConnectionService {
         }
     }
 
-    private Response getResponse(Request request) throws IOException, ClassNotFoundException {
+    private Response getResponse(Request request) throws IOException, 
+                                                  ClassNotFoundException {
         writeOut(request);
         Response response = (Response) in.readObject();
         return response;
@@ -298,7 +299,8 @@ public class ServerConnection implements IConnectionService {
          }
     }
 
-    public boolean changePassword(String username, int currentHashedPass, int newHashedPass) {
+    public boolean changePassword(String username, int currentHashedPass, 
+            int newHashedPass) {
         if (login(username, currentHashedPass)) {
             return resetPassword(username, newHashedPass);
         } else {
@@ -306,5 +308,34 @@ public class ServerConnection implements IConnectionService {
             return false;
         }
     }
+    
+    public boolean checkForUpdate(String currentVersion) {
+        try {
+            List<Object> arguments = new ArrayList<>();
+            arguments.add(currentVersion);
+            Request request = new Request("checkForUpdate", arguments);
+            Response response = getResponse(request);
+            if (response.isSuccessful()) {
+                return (boolean) response.getBody();
+            } else {
+                logger.warn("Unsuccessful request to check for update. {} - {}", 
+                        response.getStatus(), response.getBody().toString());
+                return false;
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to get latest version number", ex);
+            return false;
+        }
+    }
 
+    public byte[] getUpdate() {
+        try {
+            Request request = new Request("getUpdate");
+            Response response = getResponse(request);
+            return (byte[]) response.getBody();
+        } catch (IOException | ClassNotFoundException ex) {
+            logger.error("Unable to get latest version number", ex);
+            return new byte[0];
+        }
+    }
 }
