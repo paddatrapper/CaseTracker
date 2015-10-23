@@ -38,13 +38,14 @@ public class ExportTest extends TestCase {
         rows.add(secondRow);
         File file = new File("test.pdf");
         exportService.exportToPDF(headers, rows, file);
-        assertNotNull(file);
+        assertTrue(file.exists());
         try{
             file.delete();
         }
         catch(Exception e){
-            assertTrue(false);
-        }    
+            fail();
+        } 
+        assertFalse(file.exists());
     }  
     
 }
