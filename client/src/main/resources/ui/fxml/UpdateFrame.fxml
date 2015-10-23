@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TextArea fx:id="txaStatus" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button fx:id="btnUpdate" defaultButton="true" mnemonicParsing="false" onAction="#handleUpdateAction" text="Check for Update" />
+          <Button fx:id="btnCancel" cancelButton="true" mnemonicParsing="false" onAction="#handleCancelAction" text="Cancel" />
+        </buttons>
+         <padding>
+            <Insets right="5.0" />
+         </padding>
+      </ButtonBar>
+   </bottom>
+</BorderPane>

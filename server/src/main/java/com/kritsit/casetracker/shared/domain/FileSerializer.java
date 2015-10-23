@@ -30,15 +30,15 @@ public class FileSerializer {
 
     public void write(File f, byte[] bytes) throws IOException {
         logger.info("Writing to file {}", f.getAbsolutePath());
-        boolean dirExists = f.mkdirs();
-        boolean fileExists = f.delete();
-        if (dirExists && fileExists) {
+        boolean dirExists = f.getAbsoluteFile().getParentFile().mkdirs();
+        boolean fileExists = f.createNewFile();
+        if (fileExists) {
             try (FileOutputStream output = new FileOutputStream(f)) {
                 output.write(bytes);
                 output.flush();
             }
         } else {
-            throw new IOException("Unable to write evidence to disk");
+            throw new IOException("Unable to write to " + f.getAbsolutePath());
         }
     }
 }

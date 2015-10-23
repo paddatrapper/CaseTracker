@@ -14,6 +14,7 @@ import java.util.Map;
 public class Configuration {
     private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
     private static Map<String, String> database;
+    private static String clientVersion;
     
     public static String getDbHost() {
         return getDatabaseProperty("host");
@@ -33,6 +34,13 @@ public class Configuration {
 
     public static String getDbPassword() {
         return getDatabaseProperty("password");
+    }
+
+    public static String getClientVersion() {
+        if (clientVersion == null) {
+            readConfiguration();
+        }
+        return clientVersion;
     }
 
     private static String getDatabaseProperty(String key) {
@@ -56,6 +64,7 @@ public class Configuration {
             database.put("schema", config.getProperty("db-schema"));
             database.put("username", config.getProperty("db-user"));
             database.put("password", config.getProperty("db-password"));
+            clientVersion = config.getProperty("client-version");
         } catch (NullPointerException | IOException ex) {
             logger.error("Unable to read configuration", ex);
         }

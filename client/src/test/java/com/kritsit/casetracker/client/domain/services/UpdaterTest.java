@@ -2,6 +2,8 @@ package com.kritsit.casetracker.client.domain.services;
 
 import static org.mockito.Mockito.*;
 
+import com.kritsit.casetracker.client.domain.ui.controller.UpdateController;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -19,7 +21,8 @@ public class UpdaterTest extends TestCase {
     public void testCheckForUpdate() {
         String version = "0.1.2-ALPHA";
         IConnectionService connection = mock(IConnectionService.class);
-        IUpdateService updater = new Updater(connection);
+        UpdateController controller = mock(UpdateController.class);
+        IUpdateService updater = new Updater(connection, controller);
 
         when(connection.checkForUpdate(version)).thenReturn(true);
 

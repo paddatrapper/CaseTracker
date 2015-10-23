@@ -1,5 +1,6 @@
 package com.kritsit.casetracker.server.domain.services;
 
+import com.kritsit.casetracker.server.domain.Configuration;
 import com.kritsit.casetracker.shared.domain.FileSerializer;
 
 import org.slf4j.LoggerFactory;
@@ -16,13 +17,12 @@ public class Updater implements IUpdateService {
     private File root;
 
     public Updater() {
-        root = new File("");
+        root = new File(".");
     }
 
     public boolean isUpdateRequired(String currentVersion) throws IOException {
         logger.debug("Checking for update for client version {}", currentVersion);
-        File client = findClientArchive();
-        String requiredVersion = getLatestVersion(client);
+        String requiredVersion = Configuration.getClientVersion();
         return !currentVersion.equals(requiredVersion);
     }
 
@@ -37,7 +37,7 @@ public class Updater implements IUpdateService {
         File[] files = root.listFiles();
         for (File file : files) {
             String fileName = file.getName();
-            if (fileName.contains("client") && fileName.endsWith(".jar")) {
+            if (fileName.contains("client") && fileName.endsWith(".zip")) {
                 return file;
             }
         }
