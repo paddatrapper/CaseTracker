@@ -37,9 +37,11 @@ public class Export implements IExportService{
             document.close();
 	    logger.info("export to PDF: success");
         } catch (DocumentException e) {
-            e.printStackTrace();
+            logger.error("Error while exporting to PDF");
+            logger.error(e.toString());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error("Error while exporting to PDF");
+            logger.error(e.toString());
         }          
     }
   

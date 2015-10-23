@@ -48,6 +48,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -167,9 +168,11 @@ public class AdministratorController implements IController {
                 row[5] = s.getPermission().toString();
                 cells.add(row);
             }
-            
-            File file = new File("Report"); 
-            
+                       
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save report");
+            File file = fileChooser.showSaveDialog(stage);
+             
             exportService.exportToPDF(headers, cells, file);
         });
     }

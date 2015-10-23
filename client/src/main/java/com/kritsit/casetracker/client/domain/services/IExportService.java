@@ -6,5 +6,3 @@ import java.io.File;
 public interface IExportService {
     void exportToPDF(List<String> headers, List<String[]> cells, File file);
 }
-
-
