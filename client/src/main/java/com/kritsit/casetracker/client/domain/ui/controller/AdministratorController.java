@@ -1,10 +1,22 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kritsit.casetracker.client.domain.services.Export;
 import com.kritsit.casetracker.client.domain.services.IAdministratorService;
 import com.kritsit.casetracker.client.domain.services.IMenuService;
+import com.kritsit.casetracker.client.domain.services.IExportService;
 import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.shared.domain.model.Permission;
 import com.kritsit.casetracker.shared.domain.model.Staff;
@@ -36,7 +48,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -48,8 +65,10 @@ import java.util.Map;
 public class AdministratorController implements IController {
     
     private ObservableList<Staff> staffList;
+    private FilteredList<Staff> filteredStaff;
     private IAdministratorService administratorService;
     private IMenuService menuService;
+    private IExportService exportService;
     private Stage stage;
     private final Logger logger = LoggerFactory.getLogger(AdministratorController.class);
     
@@ -59,6 +78,10 @@ public class AdministratorController implements IController {
     
     public void setMenuService(IMenuService menuService){
         this.menuService = menuService;
+    }
+
+    public void setExportService(IExportService exportService){
+	this.exportService = exportService;
     }
     
     public void initFrame(){
@@ -122,6 +145,40 @@ public class AdministratorController implements IController {
         btnEdit.setOnAction(event->{
            editUser();
         });
+        
+        exportItem.setOnAction(event->{
+            export();
+        });
+    }
+
+    private void export() {
+        exportService = new Export();
+        
+        List<String> headers = new ArrayList<String>();
+        headers.add("First name");
+        headers.add("Last name");
+        headers.add("Username");
+        headers.add("Department");
+        headers.add("Position");
+        headers.add("Permissions");
+        
+        List<String[]> cells = new ArrayList<String[]>();
+        for(Staff s : filteredStaff){
+            String[] row = new String[6];
+            row[0] = s.getFirstName();
+            row[1] = s.getLastName();
+            row[2] = s.getUsername();
+            row[3] = s.getDepartment();
+            row[4] = s.getPosition();
+            row[5] = s.getPermission().toString();
+            cells.add(row);
+        }
+                   
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save report");
+        File file = fileChooser.showSaveDialog(stage);
+         
+        exportService.exportToPDF(headers, cells, file);
     }
 
     private void addUser() {
@@ -234,7 +291,7 @@ public class AdministratorController implements IController {
         logger.info("Initiating staff list table");
         staffList = FXCollections.observableArrayList(administratorService.getStaff());
     
-        FilteredList<Staff> filteredStaff = new FilteredList<>(staffList, p -> true);
+        filteredStaff = new FilteredList<>(staffList, p -> true);
         txfFilterUsers.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredStaff.setPredicate(s -> {
                 if (newValue == null || newValue.isEmpty() || newValue.equals("All")) {
@@ -374,6 +431,7 @@ public class AdministratorController implements IController {
     @FXML private TableColumn<Staff, String> colDepartment;
     @FXML private TableColumn<Staff, String> colPermission;
     @FXML private MenuItem changePasswordItem;
+    @FXML private MenuItem exportItem;
     @FXML private MenuItem logoutItem;
     @FXML private MenuItem exitItem;
     @FXML private MenuItem newUserItem;
