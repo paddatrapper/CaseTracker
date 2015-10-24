@@ -37,11 +37,9 @@ public class Export implements IExportService{
             document.close();
             logger.info("export to PDF: success");
         } catch (DocumentException e) {
-            logger.error("Error while exporting to PDF");
-            logger.error(e.toString());
+            logger.error("Error while exporting to PDF", e);
         } catch (FileNotFoundException e) {
-            logger.error("Error while exporting to PDF");
-            logger.error(e.toString());
+            logger.error("Error while exporting to PDF", e);
         }          
     }
   
@@ -76,8 +74,10 @@ public class Export implements IExportService{
 	        Font normalFont = new Font(Font.FontFamily.TIMES_ROMAN, 12);
 	        
 	        document.add(new Paragraph("Case no. "+c.getNumber(), titleFont));
-	        document.add(new Paragraph("Investigating officer:  "+c.getInvestigatingOfficer().getLastName()+" "+c.getInvestigatingOfficer().getFirstName(), normalFont));
+	        document.add(new Paragraph("Investigating officer: "+c.getInvestigatingOfficer().getName(), normalFont));
 	        document.add(new Paragraph("Incident date: "+c.getIncident().getDate(), normalFont));
+	        document.add(new Paragraph("Defendant: "+c.getDefendant().getName(), normalFont));
+	        document.add(new Paragraph("Complainant: "+c.getComplainant().getName(), normalFont));
 	        document.add(new Paragraph(c.getDescription(), normalFont));
 	        document.add(new Paragraph("Evidence: ", normalFont));
 	        com.itextpdf.text.List list = new com.itextpdf.text.List();
@@ -87,11 +87,9 @@ public class Export implements IExportService{
             document.close();
             logger.info("export to PDF: success");
         } catch (DocumentException e) {
-            logger.error("Error while exporting to PDF");
-            logger.error(e.toString());
+            logger.error("Error while exporting to PDF", e);
         } catch (FileNotFoundException e) {
-            logger.error("Error while exporting to PDF");
-            logger.error(e.toString());
+            logger.error("Error while exporting to PDF", e);
         }       
 	}
 }
