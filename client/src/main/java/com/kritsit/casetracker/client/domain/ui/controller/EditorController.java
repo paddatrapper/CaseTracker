@@ -420,6 +420,27 @@ public class EditorController implements IController {
         cbxFilterCaseType.setValue("All");
         txfFilterCases.setText("");
     }
+    
+    @FXML protected void handleExportCaseToPDF(ActionEvent e){
+    	TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
+        if(selection.getSelectedItem()==null){
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Exporting case");
+            alert.setHeaderText("Information");
+            alert.setContentText("Select the case you want to export");
+            alert.showAndWait();   
+            return;
+        }
+            
+        exportService = new Export();
+        
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export a case");
+        File file = fileChooser.showSaveDialog(stage);
+         
+        exportService.exportCaseToPDF(selection.getSelectedItem(), file);
+        
+    }
 
     @FXML protected void handleEditCaseAction(ActionEvent e) {
         TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
