@@ -1,6 +1,8 @@
 package com.kritsit.casetracker.client.domain.ui.controller;
 
+import com.kritsit.casetracker.client.domain.services.Export;
 import com.kritsit.casetracker.client.domain.services.IEditorService;
+import com.kritsit.casetracker.client.domain.services.IExportService;
 import com.kritsit.casetracker.client.domain.services.IMenuService;
 import com.kritsit.casetracker.client.domain.services.InputToModelParseResult;
 import com.kritsit.casetracker.client.domain.model.Appointment;
@@ -57,6 +59,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 import java.time.LocalDate;
 import java.io.File;
 import java.io.IOException;
@@ -71,10 +74,12 @@ public class EditorController implements IController {
     private final Logger logger = LoggerFactory.getLogger(EditorController.class);
     private IEditorService editorService;
     private IMenuService menuService;
+    private IExportService exportService;
     private Stage stage;
     private ObservableList<Case> cases;
     private int calendarCurrentYear;
     private int calendarCurrentMonth;
+    private FilteredList<Case> filteredCases;
 
     public void setEditorService(IEditorService editorService) {
         this.editorService = editorService;
@@ -129,9 +134,39 @@ public class EditorController implements IController {
             menuService.updateFrame();
         });
         //TODO
-        reportItem.setDisable(true);
+        reportItem.setOnAction(event->{
+            export(); 
+        });
         helpItem.setDisable(true);
         aboutItem.setDisable(true);
+    }
+   
+    private void export() {
+        exportService = new Export();
+        
+        List<String> headers = new ArrayList<String>();
+        headers.add("Number");
+        headers.add("Description");
+        headers.add("Investigating Officer");
+        headers.add("Incident Date");
+        headers.add("Type");
+        
+        List<String[]> cells = new ArrayList<String[]>();
+        for(Case c : filteredCases){
+            String[] row = new String[5];
+            row[0] = c.getNumber();
+            row[1] = c.getDescription();
+            row[2] = c.getInvestigatingOfficer().nameProperty().toString();
+            row[3] = c.getIncident().dateProperty().toString();
+            row[4] = c.getType();
+            cells.add(row);
+        }
+                   
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save cases");
+        File file = fileChooser.showSaveDialog(stage);
+         
+        exportService.exportToPDF(headers, cells, file);
     }
 
     @SuppressWarnings("unchecked")
@@ -143,7 +178,7 @@ public class EditorController implements IController {
         cbxFilterCaseType.setValue("All");
         ObservableList<String> caseTypes = FXCollections.observableArrayList(editorService.getCaseTypes());
         cbxFilterCaseType.getItems().addAll(caseTypes);
-        FilteredList<Case> filteredCases = new FilteredList<>(cases, p -> true);
+        filteredCases = new FilteredList<>(cases, p -> true);
         txfFilterCases.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredCases.setPredicate(c -> {
                 if (newValue == null || newValue.isEmpty()) {
