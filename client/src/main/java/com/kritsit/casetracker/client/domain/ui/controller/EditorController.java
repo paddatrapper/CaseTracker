@@ -156,8 +156,8 @@ public class EditorController implements IController {
             String[] row = new String[5];
             row[0] = c.getNumber();
             row[1] = c.getDescription();
-            row[2] = c.getInvestigatingOfficer().nameProperty().toString();
-            row[3] = c.getIncident().dateProperty().toString();
+            row[2] = c.getInvestigatingOfficer().getName().toString();
+            row[3] = c.getIncident().getDate().toString();
             row[4] = c.getType();
             cells.add(row);
         }
