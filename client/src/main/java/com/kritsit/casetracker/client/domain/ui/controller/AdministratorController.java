@@ -177,6 +177,10 @@ public class AdministratorController implements IController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save report");
         File file = fileChooser.showSaveDialog(stage);
+        if(file==null){
+        	logger.info("cancelling PDF export");
+        	return;
+        }
          
         exportService.exportToPDF(headers, cells, file);
     }
