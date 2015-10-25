@@ -35,7 +35,7 @@ public class IncidentRepository implements IIncidentRepository {
             String region = rs.get(0).get("region");
             LocalDate date = LocalDate.parse(rs.get(0).get("incidentDate"));
             LocalDate followUpDate = LocalDate.parse(rs.get(0).get("followUpDate"));
-            boolean isFollowedUp = Boolean.parseBoolean(rs.get(0).get("followedUp"));
+            boolean isFollowedUp = "1".equals(rs.get(0).get("followedUp"));
 
             if (rs.get(0).get("address") == null) {
                 float longitude = Float.parseFloat(rs.get(0).get("longitude"));

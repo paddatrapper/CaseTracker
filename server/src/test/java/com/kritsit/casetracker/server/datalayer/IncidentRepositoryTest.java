@@ -74,6 +74,31 @@ public class IncidentRepositoryTest extends TestCase {
         Incident incident = incidentRepo.getIncident(caseNumber);
         
         assertTrue(incident != null);
+        assertTrue(incident.isFollowedUp());
+        verify(db).executeQuery(sql, caseNumber);
+    }
+
+    public void testGetIncidents_FollowUp() throws SQLException, RowToModelParseException {
+        incidentList = new ArrayList<>();
+        Map<String, String> i = new HashMap<>();
+        i.put("id", "1");
+        i.put("longitude", "-25.001");
+        i.put("latitude", "10.221");
+        i.put("region", "Eastern Cape");
+        i.put("incidentDate", "2015-02-05");
+        i.put("followUpDate", "2015-02-12");
+        i.put("followedUp", "0");
+        incidentList.add(i);
+        String caseNumber = "3";
+        String sql = "SELECT incidents.* FROM incidents INNER JOIN(cases) " +
+            "WHERE incidents.id=cases.incidentId AND cases.caseNumber=?;";
+        IPersistenceService db = mock(IPersistenceService.class);
+        when(db.executeQuery(sql, caseNumber)).thenReturn(incidentList);
+        IIncidentRepository incidentRepo = new IncidentRepository(db);
+
+        Incident incident = incidentRepo.getIncident(caseNumber);
+        
+        assertFalse(incident.isFollowedUp());
         verify(db).executeQuery(sql, caseNumber);
     }
 
