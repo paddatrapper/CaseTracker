@@ -135,11 +135,11 @@ public class EditorController implements IController {
         });
         
         reportItem.setOnAction(event->{
-            export(null, null); 
+            export(null, true); 
         });
         
         reportMyCasesItem.setOnAction(event->{
-        	export(editorService.getUser(), null);
+        	export(editorService.getUser(), true);
         });
         
         pendingCasesItem.setOnAction(event->{
@@ -159,13 +159,13 @@ public class EditorController implements IController {
         headers.add("Investigating Officer");
         headers.add("Incident Date");
         headers.add("Type");
-        if(isFollowedUp!=null) headers.add("Follow up date");
+        if(!isFollowedUp) headers.add("Follow up date");
         
         List<String[]> cells = new ArrayList<String[]>();
         for(Case c : filteredCases){
         	int n = 5;
         	if(user!=null) if(!c.getInvestigatingOfficer().getUsername().equals(user.getUsername())) continue;
-            if(isFollowedUp!=null){
+            if(!isFollowedUp){
 	            n=6;
 	            if(c.getIncident().isFollowedUp()) continue;
 	        }
@@ -176,7 +176,7 @@ public class EditorController implements IController {
             row[2] = c.getInvestigatingOfficer().getName().toString();
             row[3] = c.getIncident().getDate().toString();
             row[4] = c.getType();
-            if(isFollowedUp!=null) row[5] = c.getIncident().getFollowUpDate().toString();
+            if(!isFollowedUp) row[5] = c.getIncident().getFollowUpDate().toString();
             cells.add(row);
         }
                    
