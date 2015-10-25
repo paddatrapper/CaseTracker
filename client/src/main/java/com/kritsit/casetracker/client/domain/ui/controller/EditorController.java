@@ -133,15 +133,20 @@ public class EditorController implements IController {
         updateItem.setOnAction(event->{
             menuService.updateFrame();
         });
-        //TODO
+        
         reportItem.setOnAction(event->{
-            export(); 
+            export(null); 
         });
+        
+        reportMyCasesItem.setOnAction(event->{
+        	export(editorService.getUser());
+        });
+        
         helpItem.setDisable(true);
         aboutItem.setDisable(true);
     }
    
-    private void export() {
+    private void export(Staff user) {
         exportService = new Export();
         
         List<String> headers = new ArrayList<String>();
@@ -153,6 +158,7 @@ public class EditorController implements IController {
         
         List<String[]> cells = new ArrayList<String[]>();
         for(Case c : filteredCases){
+        	if(user!=null) if(!c.getInvestigatingOfficer().getUsername().equals(user.getUsername())) continue;
             String[] row = new String[5];
             row[0] = c.getNumber();
             row[1] = c.getDescription();
@@ -758,4 +764,5 @@ public class EditorController implements IController {
     @FXML private MenuItem aboutItem;
     @FXML private MenuItem updateItem;
     @FXML private MenuItem helpItem;
+    @FXML private MenuItem reportMyCasesItem;
 }

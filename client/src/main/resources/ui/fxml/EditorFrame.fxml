@@ -16,7 +16,12 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem fx:id="reportItem" mnemonicParsing="false" text="Report" />
+            <Menu mnemonicParsing="false" text="Export">
+              <items>
+                <MenuItem fx:id="reportItem" mnemonicParsing="false" text="All cases" />
+                <MenuItem fx:id="reportMyCasesItem" mnemonicParsing="false" text="My cases" />
+               </items>
+            </Menu>
             <MenuItem fx:id="changePasswordItem" mnemonicParsing="false" text="Change password" />
             <MenuItem fx:id="logoutItem" mnemonicParsing="false" text="Logout" />
             <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" />
