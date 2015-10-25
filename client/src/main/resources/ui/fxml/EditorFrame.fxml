@@ -20,6 +20,7 @@
               <items>
                 <MenuItem fx:id="reportItem" mnemonicParsing="false" text="All cases" />
                 <MenuItem fx:id="reportMyCasesItem" mnemonicParsing="false" text="My cases" />
+                <MenuItem fx:id="pendingCasesItem" mnemonicParsing="false" text="Pending cases" />
                </items>
             </Menu>
             <MenuItem fx:id="changePasswordItem" mnemonicParsing="false" text="Change password" />
