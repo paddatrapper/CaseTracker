@@ -135,18 +135,22 @@ public class EditorController implements IController {
         });
         
         reportItem.setOnAction(event->{
-            export(null); 
+            export(null, true); 
         });
         
         reportMyCasesItem.setOnAction(event->{
-        	export(editorService.getUser());
+        	export(editorService.getUser(), true);
+        });
+        
+        pendingCasesItem.setOnAction(event->{
+        	export(null, false);
         });
         
         helpItem.setDisable(true);
         aboutItem.setDisable(true);
     }
    
-    private void export(Staff user) {
+    private void export(Staff user, Boolean isFollowedUp) {
         exportService = new Export();
         
         List<String> headers = new ArrayList<String>();
@@ -155,22 +159,34 @@ public class EditorController implements IController {
         headers.add("Investigating Officer");
         headers.add("Incident Date");
         headers.add("Type");
+        if(!isFollowedUp) headers.add("Follow up date");
         
         List<String[]> cells = new ArrayList<String[]>();
         for(Case c : filteredCases){
+        	int n = 5;
         	if(user!=null) if(!c.getInvestigatingOfficer().getUsername().equals(user.getUsername())) continue;
-            String[] row = new String[5];
+            if(!isFollowedUp){
+	            n=6;
+	            if(c.getIncident().isFollowedUp()) continue;
+	        }
+            
+            String[] row = new String[n];
             row[0] = c.getNumber();
             row[1] = c.getDescription();
             row[2] = c.getInvestigatingOfficer().getName().toString();
             row[3] = c.getIncident().getDate().toString();
             row[4] = c.getType();
+            if(!isFollowedUp) row[5] = c.getIncident().getFollowUpDate().toString();
             cells.add(row);
         }
                    
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save cases");
         File file = fileChooser.showSaveDialog(stage);
+        if(file==null){
+        	logger.info("cancelling PDF export");
+        	return;
+        }
          
         exportService.exportToPDF(headers, cells, file);
     }
@@ -765,4 +781,5 @@ public class EditorController implements IController {
     @FXML private MenuItem updateItem;
     @FXML private MenuItem helpItem;
     @FXML private MenuItem reportMyCasesItem;
+    @FXML private MenuItem pendingCasesItem;
 }
