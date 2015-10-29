@@ -35,29 +35,12 @@ Running can be done through [scripts/project.sh](https://github.com/paddatrapper
 
 The project documentation can be viewed on the [CaseTracker website](http://kritsit.ddns.net/casetracker).
 
-Development
+Contributing
 -----------
 
-New developers are welcome. The process to follow when contributing is:
+* Create an issue for a [feature](https://github/com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=enhancement,help%20wanted) 
+  you want to see in CaseTracker. 
+* File a [bug](https://github/com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=bug,help%20wanted) 
+  you have found.
 
-1. Fork CaseTracker using the button on the top right.
-1. Create an issue for the feature you are adding or bug you are fixing.
-1. Create a branch:
-
-    `git checkout -b <branch-name>`
-
-1. CaseTracker follows [Test Driven Development](http://en.wikipedia.org/wiki/Test-driven_development),
-   so ensure that all pull requests include test cases for all elements of the
-   feature or fix.
-1. Create a pull request to the CaseTracker master repository. The description
-   should include what implements and the reasons behind why you did it the way
-   you did. Do not include how you did it - your code should explain this for
-   you.
-
-Coding Style
-------------
-
-* Spaces, not tabs.
-* Indents are four spaces.
-* Everything else follows [Google Java Style](https://google-styleguide.googlecode.com/svn/trunk/javaguide.html).
-* If there are any grey areas create an issue for it and it can be discussed.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details about developing CaseTracker
