@@ -38,9 +38,9 @@ The project documentation can be viewed on the [CaseTracker website](http://krit
 Contributing
 -----------
 
-* Create an issue for a [feature](https://github/com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=enhancement,help%20wanted) 
+* Create an issue for a [feature](https://github.com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=enhancement) 
   you want to see in CaseTracker. 
-* File a [bug](https://github/com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=bug,help%20wanted) 
+* File a [bug](https://github.com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=bug) 
   you have found.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details about developing CaseTracker

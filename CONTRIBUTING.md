@@ -4,8 +4,8 @@ Development
 New developers are welcome. The process to follow when contributing is:
 
 1. Fork CaseTracker.
-1. Create an issue for the [feature](https://github/com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=enhancement,help%20wanted) 
-   you are adding or [bug](https://github/com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=bug,help%20wanted) you are fixing.
+1. Create an issue for the [feature](https://github.com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=enhancement) 
+   you are adding or [bug](https://github.com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=bug) you are fixing.
 1. Create a branch:
 
     `git checkout -b <branch-name>`
