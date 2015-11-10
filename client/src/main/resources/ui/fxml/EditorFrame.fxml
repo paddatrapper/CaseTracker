@@ -21,7 +21,7 @@
                 <MenuItem fx:id="reportItem" mnemonicParsing="false" text="All cases" />
                 <MenuItem fx:id="reportMyCasesItem" mnemonicParsing="false" text="My cases" />
                 <MenuItem fx:id="pendingCasesItem" mnemonicParsing="false" text="Pending cases" />
-                        <MenuItem fx:id="byRegionItem" mnemonicParsing="false" text="By region" />
+                <MenuItem fx:id="byRegionItem" mnemonicParsing="false" text="By region" />
                </items>
             </Menu>
             <MenuItem fx:id="changePasswordItem" mnemonicParsing="false" text="Change password" />
