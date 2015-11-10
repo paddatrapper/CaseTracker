@@ -86,7 +86,7 @@ public class EditorController implements IController {
         this.editorService = editorService;
     }
     
-    public void setMenuService(IMenuService menuService){
+    public void setMenuService(IMenuService menuService) {
         this.menuService = menuService;
     }
 
@@ -107,7 +107,7 @@ public class EditorController implements IController {
         } 
     }
     
-    public void initialize(){
+    public void initialize() {
         changePasswordItem.setOnAction(event->{
             menuService.changePasswordFrame();
         });
@@ -140,15 +140,15 @@ public class EditorController implements IController {
         });
         
         reportMyCasesItem.setOnAction(event->{
-        	export(editorService.getUser(), true);
+            export(editorService.getUser(), true);
         });
         
         pendingCasesItem.setOnAction(event->{
-        	export(null, false);
+            export(null, false);
         });
         
         byRegionItem.setOnAction(event->{
-        	exportByRegion();
+            exportByRegion();
         });
         
         helpItem.setDisable(true);
@@ -167,30 +167,30 @@ public class EditorController implements IController {
         headers.add("Region");
         
         Vector<String> uniqueRegions = new Vector<String>();
-        for(Case c : filteredCases){
+        for(Case c : filteredCases) {
             if(!(uniqueRegions.contains(c.getIncident().getRegion()))) 
-        	uniqueRegions.add(c.getIncident().getRegion()) ;
+            uniqueRegions.add(c.getIncident().getRegion());
         }
       
         List<String[]> cells = new ArrayList<String[]>();
-	for(String region : uniqueRegions){
-	    for(Case c : filteredCases){
-		if(!(c.getIncident().getRegion().equals(region))) continue;
-		String[] row = new String[6];
-		row[0] = c.getNumber();
-		row[1] = c.getDescription();
-		row[2] = c.getInvestigatingOfficer().getName().toString();
-		row[3] = c.getIncident().getDate().toString();
-		row[4] = c.getType();
-		row[5] = c.getIncident().getRegion();
-		cells.add(row);
-	    }
-	}   
+        for(String region : uniqueRegions) {
+            for(Case c : filteredCases) {
+            if(!(c.getIncident().getRegion().equals(region))) continue;
+            String[] row = new String[6];
+            row[0] = c.getNumber();
+            row[1] = c.getDescription();
+            row[2] = c.getInvestigatingOfficer().getName().toString();
+            row[3] = c.getIncident().getDate().toString();
+            row[4] = c.getType();
+            row[5] = c.getIncident().getRegion();
+            cells.add(row);
+        }
+    }   
                    
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save cases");
         File file = fileChooser.showSaveDialog(stage);
-        if(file==null){
+        if(file == null) {
             logger.info("cancelling PDF export");
             return;
         }
@@ -210,13 +210,13 @@ public class EditorController implements IController {
         if(!isFollowedUp) headers.add("Follow up date");
         
         List<String[]> cells = new ArrayList<String[]>();
-        for(Case c : filteredCases){
-        	int n = 5;
-        	if(user!=null) if(!c.getInvestigatingOfficer().getUsername().equals(user.getUsername())) continue;
-            if(!isFollowedUp){
-	            n=6;
-	            if(c.getIncident().isFollowedUp()) continue;
-	        }
+        for(Case c : filteredCases) {
+            int n = 5;
+            if(user!=null) if(!c.getInvestigatingOfficer().equals(user)) continue;
+            if(!isFollowedUp) {
+                n=6;
+                if(c.getIncident().isFollowedUp()) continue;
+            }
             
             String[] row = new String[n];
             row[0] = c.getNumber();
@@ -231,9 +231,9 @@ public class EditorController implements IController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save cases");
         File file = fileChooser.showSaveDialog(stage);
-        if(file==null){
-        	logger.info("cancelling PDF export");
-        	return;
+        if(file == null) {
+            logger.info("cancelling PDF export");
+            return;
         }
          
         exportService.exportToPDF(headers, cells, file);
@@ -491,9 +491,9 @@ public class EditorController implements IController {
         txfFilterCases.setText("");
     }
     
-    @FXML protected void handleExportCaseToPDF(ActionEvent e){
-    	TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
-        if(selection.getSelectedItem()==null){
+    @FXML protected void handleExportCaseToPDF(ActionEvent e) {
+        TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
+        if(selection.getSelectedItem() == null) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Exporting case");
             alert.setHeaderText("Information");
@@ -514,7 +514,7 @@ public class EditorController implements IController {
 
     @FXML protected void handleEditCaseAction(ActionEvent e) {
         TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
-        if(selection.getSelectedItem()==null){
+        if(selection.getSelectedItem() == null) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Editing case");
             alert.setHeaderText("Information");
@@ -534,7 +534,7 @@ public class EditorController implements IController {
         
         try{
             EditCasePane = (AnchorPane) fxmlLoader.load();
-        } catch(IOException ex){
+        } catch(IOException ex) {
             logger.error("Error loading frame to edit case.", ex);
             return;
         }
