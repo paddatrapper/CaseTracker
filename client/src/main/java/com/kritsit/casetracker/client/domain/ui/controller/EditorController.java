@@ -168,23 +168,24 @@ public class EditorController implements IController {
         
         Vector<String> uniqueRegions = new Vector<String>();
         for(Case c : filteredCases){
-        	if(!(uniqueRegions.contains(c.getIncident().getRegion()))) uniqueRegions.add(c.getIncident().getRegion()) ;
+        	if(!(uniqueRegions.contains(c.getIncident().getRegion()))) 
+        		uniqueRegions.add(c.getIncident().getRegion()) ;
         }
       
         List<String[]> cells = new ArrayList<String[]>();
-        for(String region : uniqueRegions){
-	        for(Case c : filteredCases){
-	        	if(!(c.getIncident().getRegion().equals(region))) continue;
-	        	String[] row = new String[6];
-	            row[0] = c.getNumber();
-	            row[1] = c.getDescription();
-	            row[2] = c.getInvestigatingOfficer().getName().toString();
-	            row[3] = c.getIncident().getDate().toString();
-	            row[4] = c.getType();
-	            row[5] = c.getIncident().getRegion();
-	            cells.add(row);
-	        }
-        }   
+		for(String region : uniqueRegions){
+			for(Case c : filteredCases){
+				if(!(c.getIncident().getRegion().equals(region))) continue;
+					String[] row = new String[6];
+					row[0] = c.getNumber();
+					row[1] = c.getDescription();
+					row[2] = c.getInvestigatingOfficer().getName().toString();
+					row[3] = c.getIncident().getDate().toString();
+					row[4] = c.getType();
+					row[5] = c.getIncident().getRegion();
+					cells.add(row);
+			}
+		}   
                    
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save cases");
@@ -196,8 +197,7 @@ public class EditorController implements IController {
          
         exportService.exportToPDF(headers, cells, file);
     }
-    
-   
+       
     private void export(Staff user, Boolean isFollowedUp) {
         exportService = new Export();
         
