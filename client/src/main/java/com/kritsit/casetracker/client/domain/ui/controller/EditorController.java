@@ -69,6 +69,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Vector;
 
 public class EditorController implements IController {
     private final Logger logger = LoggerFactory.getLogger(EditorController.class);
@@ -146,10 +147,57 @@ public class EditorController implements IController {
         	export(null, false);
         });
         
+        byRegionItem.setOnAction(event->{
+        	exportByRegion();
+        });
+        
         helpItem.setDisable(true);
         aboutItem.setDisable(true);
     }
-   
+    
+    private void exportByRegion() {
+        exportService = new Export();
+        
+        List<String> headers = new ArrayList<String>();
+        headers.add("Number");
+        headers.add("Description");
+        headers.add("Investigating Officer");
+        headers.add("Incident Date");
+        headers.add("Type");
+        headers.add("Region");
+        
+        Vector<String> uniqueRegions = new Vector<String>();
+        for(Case c : filteredCases){
+            if(!(uniqueRegions.contains(c.getIncident().getRegion()))) 
+        	uniqueRegions.add(c.getIncident().getRegion()) ;
+        }
+      
+        List<String[]> cells = new ArrayList<String[]>();
+	for(String region : uniqueRegions){
+	    for(Case c : filteredCases){
+		if(!(c.getIncident().getRegion().equals(region))) continue;
+		String[] row = new String[6];
+		row[0] = c.getNumber();
+		row[1] = c.getDescription();
+		row[2] = c.getInvestigatingOfficer().getName().toString();
+		row[3] = c.getIncident().getDate().toString();
+		row[4] = c.getType();
+		row[5] = c.getIncident().getRegion();
+		cells.add(row);
+	    }
+	}   
+                   
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save cases");
+        File file = fileChooser.showSaveDialog(stage);
+        if(file==null){
+            logger.info("cancelling PDF export");
+            return;
+        }
+         
+        exportService.exportToPDF(headers, cells, file);
+    }
+       
     private void export(Staff user, Boolean isFollowedUp) {
         exportService = new Export();
         
@@ -782,4 +830,5 @@ public class EditorController implements IController {
     @FXML private MenuItem helpItem;
     @FXML private MenuItem reportMyCasesItem;
     @FXML private MenuItem pendingCasesItem;
+    @FXML private MenuItem byRegionItem;
 }
