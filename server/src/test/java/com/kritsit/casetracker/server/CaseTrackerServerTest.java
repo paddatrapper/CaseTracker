@@ -21,7 +21,7 @@ public class CaseTrackerServerTest extends TestCase {
 
     public void testVersion() {
         String version = CaseTrackerServer.getVersion();
-        assertTrue("0.2.1-ALPHA".equals(version));
+        assertTrue("1.0.0-BETA".equals(version));
     }
 
     public void tearDown() {

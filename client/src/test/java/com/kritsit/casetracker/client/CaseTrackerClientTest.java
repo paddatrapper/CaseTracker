@@ -22,6 +22,6 @@ public class CaseTrackerClientTest extends TestCase {
 
     public void testGetVersion() {
         String version = CaseTrackerClient.getVersion();
-        assertEquals("0.2.1-ALPHA", version);
+        assertEquals("1.0.0-BETA", version);
     }
 }

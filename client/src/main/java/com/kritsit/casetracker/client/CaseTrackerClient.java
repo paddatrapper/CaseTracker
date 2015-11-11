@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class CaseTrackerClient extends Application {
-    private static final String VERSION = "0.2.1-ALPHA";
+    private static final String VERSION = "1.0.0-BETA";
     private static final Logger logger = LoggerFactory.getLogger(CaseTrackerClient.class);
 
     public static void main(String[] args) {

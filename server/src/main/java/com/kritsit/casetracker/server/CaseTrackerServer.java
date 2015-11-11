@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class CaseTrackerServer {
-    private static final String VERSION = "0.2.1-ALPHA";
+    private static final String VERSION = "1.0.0-BETA";
     private static final Logger logger = LoggerFactory.getLogger(CaseTrackerServer.class);
     private IListeningService listener;
 
