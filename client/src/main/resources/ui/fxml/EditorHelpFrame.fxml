@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="267.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text layoutX="60.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help - administrator view">
+      <Text layoutX="79.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help - editor view">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Text>
