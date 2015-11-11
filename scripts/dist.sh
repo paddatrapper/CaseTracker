@@ -2,15 +2,16 @@
 #
 # Creates a distributable .zip archive
 #
+VERSION=$1
 
 mvn clean package
-mkdir -p dist/{server,client}
-cp client/target/client-*-jar-with-dependencies.jar dist/client/CaseTrackerClient.java
-cp client/target/config.properties dist/client/config.properties
+mkdir -p CaseTracker/{server,client}
+cp client/target/client-$VERSION-jar-with-dependencies.jar CaseTracker/client/CaseTrackerClient.jar
+cp client/target/config.properties CaseTracker/client/config.properties
 
-cp server/target/server-*-jar-with-dependencies.jar dist/server/CaseTrackerServer.java
-cp server/target/config.properties dist/server/config.properties
+cp server/target/server-$VERSION-jar-with-dependencies.jar CaseTracker/server/CaseTrackerServer.jar
+cp server/target/config.properties CaseTracker/server/config.properties
 
-zip -r CaseTracker.zip dist/*
+zip -r CaseTracker.zip CaseTracker/*
 
-rm -r dist
+rm -r CaseTracker
