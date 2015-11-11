@@ -93,6 +93,27 @@ public class Menu implements IMenuService {
         stage.showAndWait();
     }
 
+    public void aboutFrame() {
+        BorderPane aboutFrame = null;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                .getResource("/ui/fxml/AboutFrame.fxml"));
+        fxmlLoader.setRoot(aboutFrame);
+
+        try {
+            aboutFrame = (BorderPane) fxmlLoader.load();
+        } catch(IOException e) {
+            logger.error("Error loading about frame.",  e);
+            return;
+        }
+
+        Scene scene = new Scene(aboutFrame);
+        Stage stage = new Stage();
+        stage.setTitle("About CaseTracker");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
     public void closeConnection() {
         try {
             connectionService.close();
