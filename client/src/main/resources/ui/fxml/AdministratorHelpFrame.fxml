@@ -11,11 +11,11 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Text>
-      <Text layoutX="19.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To locate given user, type his/her username in search field in the bottom. Use combobox on the right to browse through users with certain privileges." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
-      <Text layoutX="19.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Make sure a user is selected in the table before hitting &quot;Reset Password&quot;, &quot;Edit&quot; or &quot;Delete&quot; buttons." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
-      <Text layoutX="19.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To add a new user, switch to &quot;Add User&quot; tab. &quot;First Name&quot; and &quot;Position&quot; fields are optional." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
+      <Text layoutX="19.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To locate a given user, type his/her username in search field in the bottom. Use the drop-down menu ext to it to filter through users with a specific privilege level." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
+      <Text layoutX="19.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Reset Password&quot;, &quot;Edit&quot; or &quot;Delete&quot; buttons can be used to modify the currently selected user" textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
+      <Text layoutX="19.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To add a new user, switch to the &quot;Add User&quot; tab. &quot;First Name&quot; and &quot;Position&quot; fields are optional." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
       <Text layoutX="19.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All functionalities mentioned above are also accessible from Edit menu." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
-      <Text layoutX="19.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exporting list of users to PDF format is done by &quot;File&gt;Export to PDF&quot;. It exports users who are filtered out in the table at the moment. " textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
+      <Text layoutX="19.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exporting list of users to PDF format is done by &quot;File&gt;Export to PDF&quot;. It exports the currently shown users" textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
       <Text layoutX="179.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseTracker 2015" wrappingWidth="73.13671875">
          <font>
             <Font name="System Italic" size="9.0" />
