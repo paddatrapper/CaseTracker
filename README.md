@@ -9,13 +9,13 @@ National Society for the Prevention of Cruelty to Animals (NSPCA) in South
 Africa.
 
 This is a re-work of the initial development so as to follow [Domain Driven
-Design](http://en.wikipedia.org/wiki/Domain-driven_design) and [Clean Code](http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.2.pdf) 
+Design](http://en.wikipedia.org/wiki/Domain-driven_design) and [Clean Code (PDF)](http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.2.pdf)
 principles.
 
 Status
 ------
 
-Currently CaseTracker is under active development and is in alpha stage.
+Currently CaseTracker is under active development.
 
 Usage
 -----
