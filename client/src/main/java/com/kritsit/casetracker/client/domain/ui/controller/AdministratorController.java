@@ -152,6 +152,10 @@ public class AdministratorController implements IController {
         exportItem.setOnAction(event->{
             export();
         });
+
+        aboutItem.setOnAction(event->{
+            menuService.aboutFrame();
+        });
     }
 
     private void export() {

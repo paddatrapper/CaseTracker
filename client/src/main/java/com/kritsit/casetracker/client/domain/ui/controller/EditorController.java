@@ -155,7 +155,9 @@ public class EditorController implements IController {
             showHelpFrame();
         });
         
-        aboutItem.setDisable(true);
+        aboutItem.setOnAction(event->{
+            menuService.aboutFrame();
+        });
     }
     
 private void showHelpFrame(){
