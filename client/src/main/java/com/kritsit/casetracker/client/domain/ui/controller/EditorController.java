@@ -151,8 +151,34 @@ public class EditorController implements IController {
             exportByRegion();
         });
         
-        helpItem.setDisable(true);
+        helpItem.setOnAction(event->{
+            showHelpFrame();
+        });
+        
         aboutItem.setDisable(true);
+    }
+    
+private void showHelpFrame(){
+        
+        AnchorPane helpFrame = null;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                .getResource("/ui/fxml/EditorHelpFrame.fxml"));
+
+        fxmlLoader.setRoot(helpFrame);
+
+        try{
+            helpFrame = (AnchorPane) fxmlLoader.load();
+        } catch(IOException e){
+            logger.error("Error loading help frame.", e);
+            return;
+        }
+
+        Scene scene = new Scene(helpFrame);
+        Stage stage = new Stage();
+        stage.setTitle("Help");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
     }
     
     private void exportByRegion() {

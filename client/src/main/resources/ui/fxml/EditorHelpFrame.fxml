@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="267.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="79.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Help - editor view">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Text>
+      <Text layoutX="17.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This is the default view. It allows you to view, search and edit cases. The viewon the right is the Case summary. This provides an overview of the case and theoption to edit or export it. Searching is done using the drop-down menu and theinput field. Clear clears all filters." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
+      <Text layoutX="18.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The calendar displays all upcoming events for the logged in user such as returnvisits and court appearances." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
+      <Text layoutX="18.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Here cases can be added to the application. All fields are required except forevidence. There is the option to enter either an address or GPS coordinates ofwhere the incident took place. Defendants and Complainants can be added from theexisting lists or new ones can be created using the buttons. The Add, Edit andDelete buttons relate to pieces of evidence that can be added to the case. Onceall the data is entered the case can be added using the Add Case button." textAlignment="JUSTIFY" wrappingWidth="228.13671875" />
+      <Text layoutX="172.0" layoutY="477.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CaseTracker 2015" wrappingWidth="73.13671875">
+         <font>
+            <Font name="System Italic" size="9.0" />
+         </font>
+      </Text>
+      <Separator layoutX="18.0" layoutY="156.0" prefHeight="12.0" prefWidth="228.0" />
+      <Separator layoutX="18.0" layoutY="234.0" prefHeight="12.0" prefWidth="228.0" />
+      <Text layoutX="105.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Tab" wrappingWidth="50.13671875" />
+      <Text layoutX="94.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calendar Tab" wrappingWidth="73.13671875" />
+      <Text layoutX="91.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Case Tab" wrappingWidth="80.13671875" />
+   </children>
+</AnchorPane>
