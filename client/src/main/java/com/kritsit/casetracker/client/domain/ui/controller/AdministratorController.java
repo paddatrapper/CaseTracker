@@ -184,8 +184,8 @@ public class AdministratorController implements IController {
         	logger.info("cancelling PDF export");
         	return;
         }
-         
-        exportService.exportToPDF(headers, cells, file);
+        File fileWithExtension = new File(file.getAbsolutePath()+".pdf");
+         exportService.exportToPDF(headers, cells, fileWithExtension);
     }
 
     private void addUser() {

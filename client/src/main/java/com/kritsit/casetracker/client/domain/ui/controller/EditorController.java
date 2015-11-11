@@ -194,8 +194,8 @@ public class EditorController implements IController {
             logger.info("cancelling PDF export");
             return;
         }
-         
-        exportService.exportToPDF(headers, cells, file);
+        File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
+        exportService.exportToPDF(headers, cells, fileWithExtension);
     }
        
     private void export(Staff user, Boolean isFollowedUp) {
@@ -235,8 +235,8 @@ public class EditorController implements IController {
             logger.info("cancelling PDF export");
             return;
         }
-         
-        exportService.exportToPDF(headers, cells, file);
+        File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
+        exportService.exportToPDF(headers, cells, fileWithExtension);
     }
 
     @SuppressWarnings("unchecked")
@@ -507,8 +507,8 @@ public class EditorController implements IController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export a case");
         File file = fileChooser.showSaveDialog(stage);
-         
-        exportService.exportCaseToPDF(selection.getSelectedItem(), file);
+        File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
+        exportService.exportCaseToPDF(selection.getSelectedItem(), fileWithExtension);
         
     }
 
