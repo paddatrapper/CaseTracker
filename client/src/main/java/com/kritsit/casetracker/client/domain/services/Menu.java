@@ -102,43 +102,24 @@ public class Menu implements IMenuService {
     }
     
     public void restart() {
-        closeConnection();
+        String[] mainCommand = System.getProperty("sun.java.command").split(" ");
+        File f = new File(mainCommand[0]);
         try {
-            String java = System.getProperty("java.home") + "/bin/java";
-            List<String> vmArguments = ManagementFactory.getRuntimeMXBean()
-                .getInputArguments();
-            StringBuffer vmArgsOneLine = new StringBuffer();
-            for (String arg : vmArguments) {
-                if (!arg.contains("-agentlib")) {
-                    vmArgsOneLine.append(arg);
-                    vmArgsOneLine.append(" ");
-                }
-            }
-            final StringBuffer cmd = new StringBuffer(java + " " + vmArgsOneLine);
-            String[] mainCommand = System.getProperty("sun.java.command").split(" ");
-            if (mainCommand[0].endsWith(".jar")) {
-                cmd.append("-jar " + new File(mainCommand[0]).getPath());
-            } else {
-                cmd.append("-cp \"" + System.getProperty("java.class.path") 
-                        + "\"" + mainCommand[0]);
-            }
-            for (int i = 1; i < mainCommand.length; i++) {
-                cmd.append(" ");
-                cmd.append(mainCommand[i]);
-            }
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        Runtime.getRuntime().exec(cmd.toString());
-                    } catch (IOException e) {
-                        logger.error("Unable to start application", e);
-                    }
-                }
-            });
-            System.exit(0);
-        } catch (Exception e) {
-            logger.error("Unable to restart the application", e);
+            launch(f);
+            shutdown();
+        } catch (IOException e) {
+            logger.error("Unable to start application", e);
         }
+    }
+
+    public void launch(File jar) throws IOException {
+        String[] run = {"java", "-jar", jar.getAbsolutePath()};
+        Runtime.getRuntime().exec(run);
+    }
+
+    private void shutdown() throws IOException {
+        logger.info("Closing current instance");
+        closeConnection();
+        System.exit(0);
     }
 }
