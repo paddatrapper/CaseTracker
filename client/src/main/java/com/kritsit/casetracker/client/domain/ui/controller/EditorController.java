@@ -194,8 +194,13 @@ public class EditorController implements IController {
             logger.info("cancelling PDF export");
             return;
         }
-        File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
-        exportService.exportToPDF(headers, cells, fileWithExtension);
+        if(!(file.getName().endsWith(".pdf"))){
+            File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
+            exportService.exportToPDF(headers, cells, fileWithExtension);
+        }
+        else{
+        exportService.exportToPDF(headers, cells, file);
+        }
     }
        
     private void export(Staff user, Boolean isFollowedUp) {
@@ -235,8 +240,13 @@ public class EditorController implements IController {
             logger.info("cancelling PDF export");
             return;
         }
-        File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
-        exportService.exportToPDF(headers, cells, fileWithExtension);
+        if(!(file.getName().endsWith(".pdf"))){
+            File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
+            exportService.exportToPDF(headers, cells, fileWithExtension);
+        }
+        else{
+        exportService.exportToPDF(headers, cells, file);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -507,9 +517,14 @@ public class EditorController implements IController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export a case");
         File file = fileChooser.showSaveDialog(stage);
-        File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
-        exportService.exportCaseToPDF(selection.getSelectedItem(), fileWithExtension);
-        
+        if(!(file.getName().endsWith(".pdf"))){
+            File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
+            exportService.exportCaseToPDF(selection.getSelectedItem(), fileWithExtension);
+        }
+        else{
+        exportService.exportCaseToPDF(selection.getSelectedItem(), file);
+        }
+
     }
 
     @FXML protected void handleEditCaseAction(ActionEvent e) {
