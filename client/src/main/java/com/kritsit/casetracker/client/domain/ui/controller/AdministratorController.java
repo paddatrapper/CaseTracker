@@ -131,8 +131,6 @@ public class AdministratorController implements IController {
             showHelpFrame();
         });
         
-        aboutItem.setDisable(true);
-
         btnResetPassword.setOnAction(event->{
             resetPassword();
         });
