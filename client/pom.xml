@@ -130,5 +130,15 @@
         <artifactId>maven-failsafe-plugin</artifactId>
       </plugin>
 	  </plugins>
+	  
   </build>
+  
+  <dependencies>
+ 	<dependency>
+ 		<groupId>com.kritsit.casetracker</groupId>
+ 		<artifactId>shared</artifactId>
+ 		<version>1.0.0-BETA</version>
+    </dependency>
+  </dependencies>
+  
 </project>
