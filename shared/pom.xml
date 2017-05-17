@@ -10,7 +10,7 @@
   <groupId>com.kritsit.casetracker</groupId>
   <artifactId>shared</artifactId>
   <version>1.0.0-BETA</version>
-  <name>shared</name>
+  <name>CaseTracker Shared</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
