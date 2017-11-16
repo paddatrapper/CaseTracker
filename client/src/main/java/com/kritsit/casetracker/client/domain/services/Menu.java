@@ -59,6 +59,9 @@ public class Menu implements IMenuService {
                 currentHashedPass, newHashedPass);
         if (result){
             logger.info("Password changed succesfully");
+            if (changePasswordStage != null) {
+                changePasswordStage.close();
+            }
             return 200;
         } else {
             logger.error("Error changing user's password");
