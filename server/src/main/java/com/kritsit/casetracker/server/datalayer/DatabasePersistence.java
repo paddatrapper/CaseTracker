@@ -37,12 +37,11 @@ public class DatabasePersistence implements IPersistenceService {
 
         try {
             logger.info("Opening database connection: {}@{}:{}/{}", username, host, port, schema);
-            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + host 
-                    + ":" + port + "/" + schema, username, password);
+                    + ":" + port + "/" + schema + "?useSSL=false", username, password);
             connected = true;
             logger.debug("Connected to database");
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             logger.error("Unable to open database connection: {}", ex);
             connected = false;
         }
@@ -71,7 +70,7 @@ public class DatabasePersistence implements IPersistenceService {
                 logger.debug("ResultSet empty");
                 return null;
             }
-            List details = new ArrayList<>();
+            List<Map<String,String>> details = new ArrayList<>();
             rs.beforeFirst();
             while (rs.next()) {
                 logger.debug("Creating map of ResultSet row");
