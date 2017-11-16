@@ -85,7 +85,7 @@ public class EditorController implements IController {
     public void setEditorService(IEditorService editorService) {
         this.editorService = editorService;
     }
-    
+
     public void setMenuService(IMenuService menuService) {
         this.menuService = menuService;
     }
@@ -106,17 +106,17 @@ public class EditorController implements IController {
             addCaseItem.setDisable(true);
         } 
     }
-    
+
     public void initialize() {
         changePasswordItem.setOnAction(event->{
             menuService.changePasswordFrame();
         });
-        
+
         addCaseItem.setOnAction(event->{
             SingleSelectionModel<Tab> selection = tabPane.getSelectionModel();
             selection.select(tabAddCase);
         });
-        
+
         editCaseItem.setOnAction(event->{
             handleEditCaseAction(null);
         });
@@ -134,34 +134,34 @@ public class EditorController implements IController {
         updateItem.setOnAction(event->{
             menuService.updateFrame();
         });
-        
+
         reportItem.setOnAction(event->{
             export(null, true); 
         });
-        
+
         reportMyCasesItem.setOnAction(event->{
             export(editorService.getUser(), true);
         });
-        
+
         pendingCasesItem.setOnAction(event->{
             export(null, false);
         });
-        
+
         byRegionItem.setOnAction(event->{
             exportByRegion();
         });
-        
+
         helpItem.setOnAction(event->{
             showHelpFrame();
         });
-        
+
         aboutItem.setOnAction(event->{
             menuService.aboutFrame();
         });
     }
-    
-private void showHelpFrame(){
-        
+
+    private void showHelpFrame(){
+
         AnchorPane helpFrame = null;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/ui/fxml/EditorHelpFrame.fxml"));
@@ -182,10 +182,10 @@ private void showHelpFrame(){
         stage.setScene(scene);
         stage.show();
     }
-    
+
     private void exportByRegion() {
         exportService = new Export();
-        
+
         List<String> headers = new ArrayList<String>();
         headers.add("Number");
         headers.add("Description");
@@ -193,28 +193,28 @@ private void showHelpFrame(){
         headers.add("Incident Date");
         headers.add("Type");
         headers.add("Region");
-        
+
         Vector<String> uniqueRegions = new Vector<String>();
         for(Case c : filteredCases) {
             if(!(uniqueRegions.contains(c.getIncident().getRegion()))) 
-            uniqueRegions.add(c.getIncident().getRegion());
+                uniqueRegions.add(c.getIncident().getRegion());
         }
-      
+
         List<String[]> cells = new ArrayList<String[]>();
         for(String region : uniqueRegions) {
             for(Case c : filteredCases) {
-            if(!(c.getIncident().getRegion().equals(region))) continue;
-            String[] row = new String[6];
-            row[0] = c.getNumber();
-            row[1] = c.getDescription();
-            row[2] = c.getInvestigatingOfficer().getName().toString();
-            row[3] = c.getIncident().getDate().toString();
-            row[4] = c.getType();
-            row[5] = c.getIncident().getRegion();
-            cells.add(row);
-        }
-    }   
-                   
+                if(!(c.getIncident().getRegion().equals(region))) continue;
+                String[] row = new String[6];
+                row[0] = c.getNumber();
+                row[1] = c.getDescription();
+                row[2] = c.getInvestigatingOfficer().getName().toString();
+                row[3] = c.getIncident().getDate().toString();
+                row[4] = c.getType();
+                row[5] = c.getIncident().getRegion();
+                cells.add(row);
+            }
+        }   
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save cases");
         File file = fileChooser.showSaveDialog(stage);
@@ -227,13 +227,13 @@ private void showHelpFrame(){
             exportService.exportToPDF(headers, cells, fileWithExtension);
         }
         else{
-        exportService.exportToPDF(headers, cells, file);
+            exportService.exportToPDF(headers, cells, file);
         }
     }
-       
+
     private void export(Staff user, Boolean isFollowedUp) {
         exportService = new Export();
-        
+
         List<String> headers = new ArrayList<String>();
         headers.add("Number");
         headers.add("Description");
@@ -241,7 +241,7 @@ private void showHelpFrame(){
         headers.add("Incident Date");
         headers.add("Type");
         if(!isFollowedUp) headers.add("Follow up date");
-        
+
         List<String[]> cells = new ArrayList<String[]>();
         for(Case c : filteredCases) {
             int n = 5;
@@ -250,7 +250,7 @@ private void showHelpFrame(){
                 n=6;
                 if(c.getIncident().isFollowedUp()) continue;
             }
-            
+
             String[] row = new String[n];
             row[0] = c.getNumber();
             row[1] = c.getDescription();
@@ -260,7 +260,7 @@ private void showHelpFrame(){
             if(!isFollowedUp) row[5] = c.getIncident().getFollowUpDate().toString();
             cells.add(row);
         }
-                   
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save cases");
         File file = fileChooser.showSaveDialog(stage);
@@ -273,7 +273,7 @@ private void showHelpFrame(){
             exportService.exportToPDF(headers, cells, fileWithExtension);
         }
         else{
-        exportService.exportToPDF(headers, cells, file);
+            exportService.exportToPDF(headers, cells, file);
         }
     }
 
@@ -326,7 +326,7 @@ private void showHelpFrame(){
                 c.getValue().getInvestigatingOfficer().nameProperty());       
         colIncidentDate.setCellValueFactory((CellDataFeatures<Case, String> c) -> 
                 c.getValue().getIncident().dateProperty());
-        
+
         double numberWidthPercent = 0.15;
         double nameWidthPercent = 0.25;
         double officerWidthPercent = 0.25;
@@ -343,7 +343,7 @@ private void showHelpFrame(){
         });
         updateShownCase(null);
     }
-        
+
     private void initCalendarTable() {
         logger.info("Initiating calendar");
         tblCalendar.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -421,7 +421,7 @@ private void showHelpFrame(){
         });
 
         cbxAddIsReturnVisit.selectedProperty().addListener((obs, oldValue, newValue) -> {
-                dpkAddReturnDate.setDisable(!newValue);
+            dpkAddReturnDate.setDisable(!newValue);
         });
 
         txfAddAddress.textProperty().addListener((obs, oldValue, newValue) -> {
@@ -524,270 +524,270 @@ private void showHelpFrame(){
     }
 
     @FXML protected void handleFilterClearAction(ActionEvent e) {
-        logger.info("Clearing case filter");
-        cbxFilterCaseType.setValue("All");
-        txfFilterCases.setText("");
+    logger.info("Clearing case filter");
+    cbxFilterCaseType.setValue("All");
+    txfFilterCases.setText("");
     }
-    
+
     @FXML protected void handleExportCaseToPDF(ActionEvent e) {
-        TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
-        if(selection.getSelectedItem() == null) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Exporting case");
-            alert.setHeaderText("Information");
-            alert.setContentText("Select the case you want to export");
-            alert.showAndWait();   
-            return;
-        }
-            
-        exportService = new Export();
-        
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Export a case");
-        File file = fileChooser.showSaveDialog(stage);
-        if(!(file.getName().endsWith(".pdf"))){
-            File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
-            exportService.exportCaseToPDF(selection.getSelectedItem(), fileWithExtension);
-        }
-        else{
+    TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
+    if(selection.getSelectedItem() == null) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Exporting case");
+        alert.setHeaderText("Information");
+        alert.setContentText("Select the case you want to export");
+        alert.showAndWait();   
+        return;
+    }
+
+    exportService = new Export();
+
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Export a case");
+    File file = fileChooser.showSaveDialog(stage);
+    if(!(file.getName().endsWith(".pdf"))){
+        File fileWithExtension = new File(file.getAbsolutePath()+".pdf"); 
+        exportService.exportCaseToPDF(selection.getSelectedItem(), fileWithExtension);
+    }
+    else{
         exportService.exportCaseToPDF(selection.getSelectedItem(), file);
-        }
+    }
 
     }
 
     @FXML protected void handleEditCaseAction(ActionEvent e) {
-        TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
-        if(selection.getSelectedItem() == null) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Editing case");
-            alert.setHeaderText("Information");
-            alert.setContentText("Select a case to edit");
-            alert.showAndWait();   
-            return;
-        }
+    TableViewSelectionModel<Case> selection =  tblCases.getSelectionModel();
+    if(selection.getSelectedItem() == null) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Editing case");
+        alert.setHeaderText("Information");
+        alert.setContentText("Select a case to edit");
+        alert.showAndWait();   
+        return;
+    }
 
-        Case c = selection.getSelectedItem();
-        EditCaseController controller = new EditCaseController(c, editorService, this);
-        AnchorPane EditCasePane = null;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                .getResource("/ui/fxml/EditCase.fxml"));
-        
-        fxmlLoader.setController(controller);
-        fxmlLoader.setRoot(EditCasePane);
-        
-        try{
-            EditCasePane = (AnchorPane) fxmlLoader.load();
-        } catch(IOException ex) {
-            logger.error("Error loading frame to edit case.", ex);
-            return;
-        }
-        
-        Scene scene = new Scene(EditCasePane);
-        Stage stage = new Stage();
-        stage.setTitle("Editing case " + c.getNumber());
-        stage.setResizable(false);
-        stage.setScene(scene);
-        controller.setStage(stage);
-        stage.show();
+    Case c = selection.getSelectedItem();
+    EditCaseController controller = new EditCaseController(c, editorService, this);
+    AnchorPane EditCasePane = null;
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+            .getResource("/ui/fxml/EditCase.fxml"));
+
+    fxmlLoader.setController(controller);
+    fxmlLoader.setRoot(EditCasePane);
+
+    try{
+        EditCasePane = (AnchorPane) fxmlLoader.load();
+    } catch(IOException ex) {
+        logger.error("Error loading frame to edit case.", ex);
+        return;
+    }
+
+    Scene scene = new Scene(EditCasePane);
+    Stage stage = new Stage();
+    stage.setTitle("Editing case " + c.getNumber());
+    stage.setResizable(false);
+    stage.setScene(scene);
+    controller.setStage(stage);
+    stage.show();
     }
 
     @FXML protected void handleCalendarPreviousAction(ActionEvent e) {
-        logger.info("Displaying previous month in the calendar");
-        if (calendarCurrentMonth == 1) {
-            logger.debug("Year rolled over");
-            calendarCurrentMonth = 12;
-            calendarCurrentYear--;
-        } else {
-            calendarCurrentMonth--;
-        }
-        refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
+    logger.info("Displaying previous month in the calendar");
+    if (calendarCurrentMonth == 1) {
+        logger.debug("Year rolled over");
+        calendarCurrentMonth = 12;
+        calendarCurrentYear--;
+    } else {
+        calendarCurrentMonth--;
+    }
+    refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
     }
 
     @FXML protected void handleCalendarNextAction(ActionEvent e) {
-        logger.info("Displaying next month in the calendar");
-        if (calendarCurrentMonth == 12) {
-            logger.debug("Year rolled over");
-            calendarCurrentMonth = 1;
-            calendarCurrentYear++;
-        } else {
-            calendarCurrentMonth++;
-        }
-        refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
+    logger.info("Displaying next month in the calendar");
+    if (calendarCurrentMonth == 12) {
+        logger.debug("Year rolled over");
+        calendarCurrentMonth = 1;
+        calendarCurrentYear++;
+    } else {
+        calendarCurrentMonth++;
+    }
+    refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
     }
 
     @FXML protected void handleCalendarTodayAction(ActionEvent e) {
-        logger.info("Displaying today in the calendar");
-        LocalDate today = LocalDate.now();
-        calendarCurrentMonth = today.getMonthValue();
-        calendarCurrentYear = today.getYear();
-        refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
+    logger.info("Displaying today in the calendar");
+    LocalDate today = LocalDate.now();
+    calendarCurrentMonth = today.getMonthValue();
+    calendarCurrentYear = today.getYear();
+    refreshCalendarTable(calendarCurrentMonth, calendarCurrentYear);
     }
 
     @FXML protected void handleAddNewDefendantAction(ActionEvent e) {
-        AddPersonController c = new AddPersonController(editorService, true);
-        GridPane addPersonPane = null;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                .getResource("/ui/fxml/AddPersonFrame.fxml"));
-        
-        fxmlLoader.setController(c);
-        fxmlLoader.setRoot(addPersonPane);
-        
-        try {
-            addPersonPane = (GridPane) fxmlLoader.load();
-        } catch (IOException ex) {
-            logger.error("Error loading frame to add defendant", ex);
-            return;
-        }
-        
-        Scene scene = new Scene(addPersonPane);
-        Stage stage = new Stage();
-        stage.setTitle("Add Defendant");
-        stage.setResizable(false);
-        stage.setScene(scene);
-        c.setStage(stage);
-        stage.showAndWait();
-        Defendant defendant = c.getDefendant();
-        if (defendant != null) {
-            cmbAddDefendant.getItems().add(defendant);
-            cmbAddDefendant.setValue(defendant);
-        }
+    AddPersonController c = new AddPersonController(editorService, true);
+    GridPane addPersonPane = null;
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+            .getResource("/ui/fxml/AddPersonFrame.fxml"));
+
+    fxmlLoader.setController(c);
+    fxmlLoader.setRoot(addPersonPane);
+
+    try {
+        addPersonPane = (GridPane) fxmlLoader.load();
+    } catch (IOException ex) {
+        logger.error("Error loading frame to add defendant", ex);
+        return;
+    }
+
+    Scene scene = new Scene(addPersonPane);
+    Stage stage = new Stage();
+    stage.setTitle("Add Defendant");
+    stage.setResizable(false);
+    stage.setScene(scene);
+    c.setStage(stage);
+    stage.showAndWait();
+    Defendant defendant = c.getDefendant();
+    if (defendant != null) {
+        cmbAddDefendant.getItems().add(defendant);
+        cmbAddDefendant.setValue(defendant);
+    }
     }
 
     @FXML protected void handleAddNewComplainantAction(ActionEvent e) {
-        Stage stage = new Stage();
-        AddPersonController c = new AddPersonController(editorService, false);
-        GridPane addPersonPane = null;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                .getResource("/ui/fxml/AddPersonFrame.fxml"));
-        
-        fxmlLoader.setController(c);
-        fxmlLoader.setRoot(addPersonPane);
-        
-        try {
-            addPersonPane = (GridPane) fxmlLoader.load();
-        } catch (IOException ex) {
-            logger.error("Error loading frame to add defendant", ex);
-            return;
-        }
-        
-        Scene scene = new Scene(addPersonPane);
-        stage.setTitle("Add Complainant");
-        stage.setResizable(false);
-        stage.setScene(scene);
-        c.setStage(stage);
-        stage.showAndWait();
-        Person complainant = c.getComplainant();
-        if (complainant != null) {
-            cmbAddComplainant.getItems().add(complainant);
-            cmbAddComplainant.setValue(complainant);
-        }
+    Stage stage = new Stage();
+    AddPersonController c = new AddPersonController(editorService, false);
+    GridPane addPersonPane = null;
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+            .getResource("/ui/fxml/AddPersonFrame.fxml"));
+
+    fxmlLoader.setController(c);
+    fxmlLoader.setRoot(addPersonPane);
+
+    try {
+        addPersonPane = (GridPane) fxmlLoader.load();
+    } catch (IOException ex) {
+        logger.error("Error loading frame to add defendant", ex);
+        return;
+    }
+
+    Scene scene = new Scene(addPersonPane);
+    stage.setTitle("Add Complainant");
+    stage.setResizable(false);
+    stage.setScene(scene);
+    c.setStage(stage);
+    stage.showAndWait();
+    Person complainant = c.getComplainant();
+    if (complainant != null) {
+        cmbAddComplainant.getItems().add(complainant);
+        cmbAddComplainant.setValue(complainant);
+    }
     }
 
     @FXML protected void handleAddEvidenceAction(ActionEvent e) {
-        logger.info("Adding evidence to new case");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Add Evidence Files");
-        fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("Text Files", "*.txt", "*.docx", "*.xmlx", "*.doc", "*.xml", "*.pdf"),
-                new ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif", "*.jpeg"),
-                new ExtensionFilter("Video Files", "*.mp4", "*.avi", "*.mkv", "*.mts"),
-                new ExtensionFilter("All Files", "*.*"));
-        File evidenceFile = fileChooser.showOpenDialog(stage);
-        if (evidenceFile != null) {
-            logger.debug("Adding selected evidence to new case");
-            String name = evidenceFile.getName();
-            Evidence evidence = new Evidence(-1, name, null, evidenceFile);
-            lstAddEvidence.getItems().add(evidence);
-        }
+    logger.info("Adding evidence to new case");
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Add Evidence Files");
+    fileChooser.getExtensionFilters().addAll(
+            new ExtensionFilter("Text Files", "*.txt", "*.docx", "*.xmlx", "*.doc", "*.xml", "*.pdf"),
+            new ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif", "*.jpeg"),
+            new ExtensionFilter("Video Files", "*.mp4", "*.avi", "*.mkv", "*.mts"),
+            new ExtensionFilter("All Files", "*.*"));
+    File evidenceFile = fileChooser.showOpenDialog(stage);
+    if (evidenceFile != null) {
+        logger.debug("Adding selected evidence to new case");
+        String name = evidenceFile.getName();
+        Evidence evidence = new Evidence(-1, name, null, evidenceFile);
+        lstAddEvidence.getItems().add(evidence);
+    }
     }
 
     @FXML protected void handleEditEvidenceAction(ActionEvent e) {
-        logger.info("Editing evidence attached to new case");
-        Evidence evidence = lstAddEvidence.getSelectionModel().getSelectedItem();
-        Evidence oldEvidence = evidence;
-        if (evidence != null) {
-            TextInputDialog editDialog = new TextInputDialog(evidence.getDescription());
-            editDialog.setTitle("Edit Evidence");
-            editDialog.setContentText("Please enter the description:");
-            Optional<String> newDescription = editDialog.showAndWait();
-            if (newDescription.isPresent()) {
-                logger.debug("Setting new evidence description to {}", newDescription.get());
-                evidence.setDescription(newDescription.get());
-                int index = lstAddEvidence.getItems().indexOf(oldEvidence);
-                lstAddEvidence.getItems().set(index, evidence);
-            }
-        } else {
-            logger.debug("No evidence selected to edit");
-            Alert selectionWarning = new Alert(AlertType.WARNING);
-            selectionWarning.setTitle("No Evidence Selected");
-            selectionWarning.setContentText("No evidence selected to edit");
-            selectionWarning.showAndWait();
+    logger.info("Editing evidence attached to new case");
+    Evidence evidence = lstAddEvidence.getSelectionModel().getSelectedItem();
+    Evidence oldEvidence = evidence;
+    if (evidence != null) {
+        TextInputDialog editDialog = new TextInputDialog(evidence.getDescription());
+        editDialog.setTitle("Edit Evidence");
+        editDialog.setContentText("Please enter the description:");
+        Optional<String> newDescription = editDialog.showAndWait();
+        if (newDescription.isPresent()) {
+            logger.debug("Setting new evidence description to {}", newDescription.get());
+            evidence.setDescription(newDescription.get());
+            int index = lstAddEvidence.getItems().indexOf(oldEvidence);
+            lstAddEvidence.getItems().set(index, evidence);
         }
+    } else {
+        logger.debug("No evidence selected to edit");
+        Alert selectionWarning = new Alert(AlertType.WARNING);
+        selectionWarning.setTitle("No Evidence Selected");
+        selectionWarning.setContentText("No evidence selected to edit");
+        selectionWarning.showAndWait();
+    }
     }
 
     @FXML protected void handleDeleteEvidenceAction(ActionEvent e) {
-        logger.info("Deleting evidence from new case");
-        Evidence evidence = lstAddEvidence.getSelectionModel().getSelectedItem();
-        if (evidence != null) {
-            Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
-            confirmationAlert.setTitle("Confirm Deletion");
-            confirmationAlert.setContentText("Are you sure you want to remove this evidence?");
-            Optional<ButtonType> result = confirmationAlert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                logger.debug("Deleting evidence {} from new case", evidence);
-                lstAddEvidence.getItems().remove(evidence);
-            }
-        } else {
-            logger.debug("No evidence selected to delete");
-            Alert selectionWarning = new Alert(AlertType.WARNING);
-            selectionWarning.setTitle("No Evidence Selected");
-            selectionWarning.setContentText("No evidence selected to delete");
-            selectionWarning.showAndWait();
+    logger.info("Deleting evidence from new case");
+    Evidence evidence = lstAddEvidence.getSelectionModel().getSelectedItem();
+    if (evidence != null) {
+        Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm Deletion");
+        confirmationAlert.setContentText("Are you sure you want to remove this evidence?");
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            logger.debug("Deleting evidence {} from new case", evidence);
+            lstAddEvidence.getItems().remove(evidence);
         }
+    } else {
+        logger.debug("No evidence selected to delete");
+        Alert selectionWarning = new Alert(AlertType.WARNING);
+        selectionWarning.setTitle("No Evidence Selected");
+        selectionWarning.setContentText("No evidence selected to delete");
+        selectionWarning.showAndWait();
+    }
     }
 
     @FXML protected void handleAddCaseAction(ActionEvent e) {
-        logger.info("Creating new case");
-        LoadingDialog loadingDialog = new LoadingDialog();
-        loadingDialog.run();
-        Map<String, Object> inputMap = new HashMap<>();
-        inputMap.put("caseNumber", txfAddCaseNumber.getText());
-        inputMap.put("incidentDate", dpkAddIncidentDate.getValue());
-        inputMap.put("investigatingOfficer", cmbAddInvestigatingOfficer
-                .getSelectionModel().getSelectedItem());
-        inputMap.put("caseType", cmbAddCaseType.getSelectionModel().getSelectedItem()); 
-        inputMap.put("isReturnVisit", cbxAddIsReturnVisit.isSelected());
-        inputMap.put("returnDate", dpkAddReturnDate.getValue());
-        inputMap.put("caseName", txfAddCaseName.getText());
-        inputMap.put("defendant", cmbAddDefendant.getSelectionModel().getSelectedItem());
-        inputMap.put("complainant", cmbAddComplainant.getSelectionModel().getSelectedItem());
-        inputMap.put("address", txfAddAddress.getText());
-        inputMap.put("longitude", txfAddLongitude.getText());
-        inputMap.put("latitude", txfAddLatitude.getText());
-        inputMap.put("region", txfAddRegion.getText());
-        inputMap.put("details", txaAddDetails.getText());
-        inputMap.put("animalsInvolved", txaAddAnimalsInvolved.getText());
-        inputMap.put("evidence", lstAddEvidence.getItems());
+    logger.info("Creating new case");
+    LoadingDialog loadingDialog = new LoadingDialog();
+    loadingDialog.run();
+    Map<String, Object> inputMap = new HashMap<>();
+    inputMap.put("caseNumber", txfAddCaseNumber.getText());
+    inputMap.put("incidentDate", dpkAddIncidentDate.getValue());
+    inputMap.put("investigatingOfficer", cmbAddInvestigatingOfficer
+            .getSelectionModel().getSelectedItem());
+    inputMap.put("caseType", cmbAddCaseType.getSelectionModel().getSelectedItem()); 
+    inputMap.put("isReturnVisit", cbxAddIsReturnVisit.isSelected());
+    inputMap.put("returnDate", dpkAddReturnDate.getValue());
+    inputMap.put("caseName", txfAddCaseName.getText());
+    inputMap.put("defendant", cmbAddDefendant.getSelectionModel().getSelectedItem());
+    inputMap.put("complainant", cmbAddComplainant.getSelectionModel().getSelectedItem());
+    inputMap.put("address", txfAddAddress.getText());
+    inputMap.put("longitude", txfAddLongitude.getText());
+    inputMap.put("latitude", txfAddLatitude.getText());
+    inputMap.put("region", txfAddRegion.getText());
+    inputMap.put("details", txaAddDetails.getText());
+    inputMap.put("animalsInvolved", txaAddAnimalsInvolved.getText());
+    inputMap.put("evidence", lstAddEvidence.getItems());
 
-        InputToModelParseResult result = editorService.addCase(inputMap);
-        loadingDialog.exit();
+    InputToModelParseResult result = editorService.addCase(inputMap);
+    loadingDialog.exit();
 
-        if (result.isSuccessful()) {
-            logger.info("Case added successfully");
-            resetAddCaseTab();
-            refreshCaseList();
-            Alert info = new Alert(AlertType.INFORMATION);
-            info.setTitle("Case Added");
-            info.setContentText("Case added successfully");
-            info.showAndWait();
-        } else {
-            logger.error("Unable to add case. {}", result.getReason());
-            Alert error = new Alert(AlertType.ERROR);
-            error.setTitle("Error");
-            error.setHeaderText("Unable to add case");
-            error.setContentText(result.getReason());
-            error.showAndWait();
-        }
+    if (result.isSuccessful()) {
+        logger.info("Case added successfully");
+        resetAddCaseTab();
+        refreshCaseList();
+        Alert info = new Alert(AlertType.INFORMATION);
+        info.setTitle("Case Added");
+        info.setContentText("Case added successfully");
+        info.showAndWait();
+    } else {
+        logger.error("Unable to add case. {}", result.getReason());
+        Alert error = new Alert(AlertType.ERROR);
+        error.setTitle("Error");
+        error.setHeaderText("Unable to add case");
+        error.setContentText(result.getReason());
+        error.showAndWait();
+    }
     }
 
     private void resetAddCaseTab() {
@@ -874,4 +874,4 @@ private void showHelpFrame(){
     @FXML private MenuItem reportMyCasesItem;
     @FXML private MenuItem pendingCasesItem;
     @FXML private MenuItem byRegionItem;
-}
+    }

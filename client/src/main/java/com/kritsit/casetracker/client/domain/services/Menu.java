@@ -18,11 +18,11 @@ import java.lang.management.ManagementFactory;
 import java.util.List;
 
 public class Menu implements IMenuService {
-    
     private final Logger logger = LoggerFactory.getLogger(Menu.class);
     private Staff user;
     private IConnectionService connectionService;
-    
+    private Stage changePasswordStage;
+
     public Menu(Staff user, IConnectionService connectionService){
         this.user=user;
         this.connectionService=connectionService;
@@ -33,34 +33,34 @@ public class Menu implements IMenuService {
         AnchorPane ChangePasswordPane = null;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/ui/fxml/ChangePasswordFrame.fxml"));
-        
+
         fxmlLoader.setController(c);
         fxmlLoader.setRoot(ChangePasswordPane);
-        
+
         try {
             ChangePasswordPane= (AnchorPane) fxmlLoader.load();
-        } catch(IOException e) {
+        } catch (IOException e) {
             logger.error("Error loading frame to change password.",  e);
             return;
         }
-        
+
         Scene scene = new Scene(ChangePasswordPane);
-        Stage stage = new Stage();
-        stage.setTitle("Changing password for " + user.getUsername());
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
-        
+        changePasswordStage = new Stage();
+        changePasswordStage.setTitle("Changing password for " + user.getUsername());
+        changePasswordStage.setResizable(false);
+        changePasswordStage.setScene(scene);
+        changePasswordStage.show();
     }
 
-    public int changePassword(String username, int currentHashedPass, int newHashedPass) {
+    public int changePassword(String username, int currentHashedPass,
+            int newHashedPass) {
         logger.info("Changing password for user {}", username);
-        boolean result = connectionService.changePassword(username, currentHashedPass, newHashedPass);
-        if(result){
+        boolean result = connectionService.changePassword(username,
+                currentHashedPass, newHashedPass);
+        if (result){
             logger.info("Password changed succesfully");
             return 200;
-        }
-        else{
+        } else {
             logger.error("Error changing user's password");
             return 500;
         }
@@ -73,17 +73,17 @@ public class Menu implements IMenuService {
         BorderPane updateFrame = null;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/ui/fxml/UpdateFrame.fxml"));
-        
+
         fxmlLoader.setController(controller);
         fxmlLoader.setRoot(updateFrame);
-        
+
         try {
             updateFrame = (BorderPane) fxmlLoader.load();
-        } catch(IOException e) {
+        } catch (IOException e) {
             logger.error("Error loading updater frame.",  e);
             return;
         }
-        
+
         Scene scene = new Scene(updateFrame);
         Stage stage = new Stage();
         stage.setTitle("Update Checker");
@@ -121,7 +121,7 @@ public class Menu implements IMenuService {
             logger.error("Unable to close connection", e);
         }
     }
-    
+
     public void restart() {
         String[] mainCommand = System.getProperty("sun.java.command").split(" ");
         File f = new File(mainCommand[0]);
