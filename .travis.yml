@@ -8,6 +8,6 @@ addons:
         packages:
             - oracle-java8-installer
 script: 
-    - mvn clean verify
+    - mvn clean package
 after_success:
     - mvn jacoco:report jacoco:report-integration coveralls:report
