@@ -4,7 +4,7 @@ Development
 New developers are welcome. The process to follow when contributing is:
 
 1. Fork CaseTracker.
-1. Create an issue for the [feature](https://github.com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=enhancement) 
+1. Create an issue for the [feature](https://github.com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=enhancement)
    you are adding or [bug](https://github.com/paddatrapper/CaseTracker/issues/new?labels%5B%5D=bug) you are fixing.
 1. Create a branch:
 
@@ -18,7 +18,7 @@ New developers are welcome. The process to follow when contributing is:
    you did. Do not include how you did it - your code should explain this for
    you.
 
-Pull Requests should be made early in the development process, even before any 
+Pull Requests should be made early in the development process, even before any
 code has been committed if necessary. This can be done using:
 
     `git commit --allow-empty`

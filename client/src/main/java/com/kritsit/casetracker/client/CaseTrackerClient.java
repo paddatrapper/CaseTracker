@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class CaseTrackerClient extends Application {
-    private static final String VERSION = "1.0.0-BETA";
+    private static final String VERSION = "1.0.0-SNAPSHOT";
     private static final Logger logger = LoggerFactory.getLogger(CaseTrackerClient.class);
 
     public static void main(String[] args) {
@@ -55,12 +55,12 @@ public class CaseTrackerClient extends Application {
         IUserInterface ui = null;
         switch (user.getPermission()) {
             case ADMIN: logger.debug("User admin. Opening administrator frame");
-                        ui = UserInterfaceFactory.getAdministratorFrame(); 
+                        ui = UserInterfaceFactory.getAdministratorFrame();
                         break;
-            case EDITOR: 
+            case EDITOR:
             case VIEWER:
                         logger.debug("User editor/viewer. Opening editor frame");
-                        ui = UserInterfaceFactory.getEditorFrame(); 
+                        ui = UserInterfaceFactory.getEditorFrame();
                         break;
         }
         if(ui != null){

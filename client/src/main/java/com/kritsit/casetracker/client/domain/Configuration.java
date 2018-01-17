@@ -14,7 +14,7 @@ import java.util.Map;
 public class Configuration {
     private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
     private static Map<String, String> configuration;
-    
+
     public static String getServer() {
         return getProperty("server");
     }

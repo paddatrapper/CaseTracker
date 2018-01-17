@@ -2,5 +2,6 @@
 #
 # Stops the server
 #
+VERSION=$1
 
-pkill -f "java -jar target/server-1.0.0-BETA-jar-with-dependencies.jar"
+pkill -f "java -jar target/server-$VERSION-jar-with-dependencies.jar"

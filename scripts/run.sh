@@ -3,37 +3,41 @@
 # Controls testing and running the server and client
 #
 
-function test_server 
+VERSION=1.0.0-SNAPSHOT
+
+function test_server
 {
     cd ./server
     mvn test
     cd ..
 }
 
-function run_server 
+function run_server
 {
+    if [ ! -f ./server/target/server-$VERSION-jar-with-dependencies.jar ]; then
+        mvn -am -pl server verify
+    fi
     if [ "$JavaPID" == "" ]; then
         cd ./server
-        java -jar ./target/server-1.0.0-BETA-jar-with-dependencies.jar &
+        java -jar ./target/server-$VERSION-jar-with-dependencies.jar &
         JavaPID=$!
         cd ..
     fi
 }
 
-function test_client 
+function test_client
 {
-    cd ./client
-    mvn test
+    mvn -am -pl client test
     if [ $? -ne 0 ]; then
         kill -9 $JavaPID
         exit 1
     fi
-    cd ..
 }
 
-function run_client 
+function run_client
 {
-    cd ./client
+    mvn -am -pl shared test
+    cd client
     mvn jfx:run
     cd ..
 }
@@ -49,7 +53,7 @@ function usage
     echo "  run             Runs the client and server"
 }
 
-if [ "$1" == "" ]; then 
+if [ "$1" == "" ]; then
     mvn verify
     run_server
     run_client
@@ -57,7 +61,7 @@ else
     while [ "$1" != "" ]; do
         case $1 in
             -e | --error-halt ) set -e
-                        ;;  
+                        ;;
             test )      mvn test
                         ;;
             verify )    mvn verify

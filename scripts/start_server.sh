@@ -2,6 +2,7 @@
 #
 # Starts the server in the given directory
 #
+VERSION=$1
 
-cd $1/server
-java -jar target/server-1.0.0-BETA-jar-with-dependencies.jar > /dev/null 2>&1 &
+cd $2/server
+java -jar target/server-$VERSION-jar-with-dependencies.jar > /dev/null 2>&1 &
