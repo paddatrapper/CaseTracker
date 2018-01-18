@@ -7,7 +7,7 @@ addons:
     apt:
         packages:
             - oracle-java8-installer
-script: 
+script:
     - mvn clean package
 after_success:
     - mvn jacoco:report jacoco:report-integration coveralls:report

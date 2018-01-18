@@ -7,7 +7,7 @@ import junit.framework.TestSuite;
 public class CaseTrackerClientTest extends TestCase {
 
     private CaseTrackerClient client;
-    
+
     public CaseTrackerClientTest(String name) {
        super(name);
     }
@@ -22,6 +22,6 @@ public class CaseTrackerClientTest extends TestCase {
 
     public void testGetVersion() {
         String version = CaseTrackerClient.getVersion();
-        assertEquals("1.0.0-BETA", version);
+        assertEquals("1.0.0-SNAPSHOT", version);
     }
 }
