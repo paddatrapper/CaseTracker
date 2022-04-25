@@ -42,7 +42,7 @@ To set this database up, run the following commands:
     $ sudo apt install default-mysql-server
     $ sudo mysql_secure_installation
     $ sudo mysql < scripts/setup-database.sql
-    $ echo "CREATE USER 'CaseTracker'@'localhost' IDENITIFIED BY 'casetracker' | sudo mysql
+    $ echo "CREATE USER 'CaseTracker'@'localhost' IDENTIFIED BY 'casetracker'" | sudo mysql
     $ echo "GRANT ALL ON CaseTracker.* TO 'CaseTracker'@'localhost'" | sudo mysql
 
 Change username, password and table details according to the configuration you
