@@ -13,6 +13,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Case implements Externalizable {
@@ -234,7 +235,7 @@ public class Case implements Externalizable {
         out.writeObject(getComplainant());
         out.writeObject(getNextCourtDate());
         out.writeObject(getRuling());
-        out.writeObject((ArrayList<Evidence>) getEvidence());
+        out.writeObject(new ArrayList<>(getEvidence()));
         out.writeBoolean(isReturnVisit());
         out.writeObject(getReturnDate());
         out.writeObject(getType());
